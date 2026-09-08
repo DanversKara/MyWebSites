@@ -1,0 +1,222 @@
+/* ============================================================
+   Lindsay.City — Donor Recognition Areas
+   Non-commercial donor-appreciation placeholders.
+   These are NOT ad-for-sale units — see donor-program.pdf.
+   ============================================================ */
+
+/* ---------- Independence disclaimer banner (every page) ---------- */
+.alert-banner {
+    background: linear-gradient(90deg, #FFF3E0 0%, #FFE0B2 100%);
+    border-bottom: 2px solid var(--citrus-orange, #FF8C42);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--earth-brown, #8B4513);
+    position: relative;
+    z-index: 10;
+}
+
+.alert-banner a {
+    color: var(--citrus-dark, #E85D04);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.close-btn {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--citrus-dark, #E85D04);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.close-btn:hover {
+    background: rgba(232, 93, 4, 0.1);
+}
+
+/* ---------- Nav alignment fix (keeps Donate button level with other links) ---------- */
+.nav-links {
+    align-items: center !important;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+/* ---------- Glowing citrus Donate button (nav, every page) ---------- */
+.nav-donate-btn {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    gap: 0.35rem;
+    background: linear-gradient(135deg, var(--citrus-light, #FFB347) 0%, var(--citrus-orange, #FF8C42) 55%, var(--citrus-dark, #E85D04) 100%) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    padding: 0.4rem 0.9rem !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+    box-shadow: 0 0 10px rgba(255, 140, 66, 0.65), 0 0 22px rgba(255, 140, 66, 0.35);
+    animation: donate-glow 2.4s ease-in-out infinite;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-donate-btn:hover {
+    transform: translateY(-1px) scale(1.04);
+    box-shadow: 0 0 14px rgba(255, 140, 66, 0.9), 0 0 32px rgba(255, 140, 66, 0.55);
+}
+
+@keyframes donate-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(255, 140, 66, 0.55), 0 0 18px rgba(255, 140, 66, 0.3); }
+    50%      { box-shadow: 0 0 14px rgba(255, 140, 66, 0.9), 0 0 30px rgba(255, 140, 66, 0.55); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-donate-btn { animation: none; }
+}
+
+.donor-slot {
+    position: relative;
+    box-sizing: border-box;
+    z-index: 6;
+    border: 2px dashed var(--citrus-orange, #FF8C42);
+    background: rgba(255, 248, 240, 0.9);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--earth-brown, #8B4513);
+    overflow: hidden;
+}
+
+.donor-slot .donor-slot-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 0.35rem;
+}
+
+.donor-slot .donor-slot-sub {
+    font-size: 0.7rem;
+    opacity: 0.5;
+    max-width: 90%;
+}
+
+.donor-slot .donor-slot-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none; /* shown automatically once a real photo/video is dropped in */
+}
+
+/* ---------- Top strip (below nav) ---------- */
+.donor-slot-top {
+    max-width: 1200px;
+    margin: 1rem auto 0 auto;
+    min-height: 90px;
+    padding: 0.75rem 1rem;
+}
+
+/* ---------- Scrolling donor ticker (Twitch-style credits) ---------- */
+.donor-ticker {
+    max-width: 1200px;
+    margin: 0.5rem auto 0 auto;
+    height: 34px;
+    background: linear-gradient(90deg, var(--grove-green, #2D6A4F), var(--leaf-green, #52B788));
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.donor-ticker-track {
+    display: flex;
+    gap: 3rem;
+    white-space: nowrap;
+    position: absolute;
+    left: 0;
+    animation: donor-ticker-scroll 30s linear infinite;
+    padding-left: 100%;
+}
+
+.donor-ticker-track span,
+.donor-ticker-track a {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.donor-ticker-track a:hover {
+    text-decoration: underline;
+}
+
+.donor-ticker-track a b,
+.donor-ticker-track span b {
+    color: var(--sun-yellow, #FFD60A);
+}
+
+@keyframes donor-ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* ---------- Mid-content banner ---------- */
+.donor-slot-mid {
+    max-width: 900px;
+    margin: 2rem auto;
+    min-height: 120px;
+    padding: 1rem;
+}
+
+/* ---------- Footer strip (above footer) ---------- */
+.donor-slot-footer {
+    max-width: 1200px;
+    margin: 1.5rem auto 0 auto;
+    min-height: 80px;
+    padding: 0.75rem 1rem;
+}
+
+/* ---------- Left / right skyscraper slots ---------- */
+.donor-sidebar {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 140px;
+    height: 400px;
+    z-index: 6;
+    padding: 0.75rem 0.5rem;
+}
+
+.donor-sidebar-left { left: 12px; }
+.donor-sidebar-right { right: 12px; }
+
+/* Hide sidebars on narrower screens / small laptops so they never
+   overlap page content; top/mid/footer stay visible everywhere. */
+@media (max-width: 1400px) {
+    .donor-sidebar { display: none; }
+}
+
+@media (max-width: 640px) {
+    .donor-slot-top,
+    .donor-slot-mid,
+    .donor-slot-footer {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        min-height: 70px;
+    }
+}

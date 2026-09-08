@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Biking Adventures | Lindsay.City</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="assets/favicon/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --sky-top: #4A8FA6;
+    --sky-mid: #7FBFC7;
+    --sky-low: #F2C879;
+    --mtn-far: #7C9C8B;
+    --mtn-near: #4E7360;
+    --pine-dark: #1F3327;
+    --pine-mid: #2F4F3E;
+    --dirt: #6B4423;
+    --dirt-light: #8B5A2B;
+    --cream: #FBF6EE;
+    --bark: #4A2C16;
+    --citrus-light: #FFB347;
+    --ink: #24312A;
+    --moss: #35533F;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+  }
+
+  a { color: inherit; }
+
+  /* NAV */
+  .main-nav {
+    background: linear-gradient(135deg, var(--moss) 0%, #24392C 100%);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  }
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    letter-spacing: 0.01em;
+  }
+  .logo img { height: 34px; width: auto; }
+  .donate-icon {
+    height: 1em;
+    width: auto;
+    vertical-align: middle;
+    display: inline-block;
+    object-fit: contain;
+    margin-left: 0.15em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0.7rem;
+    list-style: none;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 0.45rem 1rem;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.1);
+    transition: background 0.25s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,0.22); }
+  .nav-links a.nav-cta {
+    background: var(--citrus-light);
+    color: #3a2400;
+  }
+  .nav-links a.nav-cta:hover { background: #ffc264; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 88vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,20,15,0.55) 0%, rgba(10,20,15,0.15) 220px, transparent 380px);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero svg.bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Supporter placement + ticker float over the hero scene instead of
+     sitting in their own white strip below the nav. */
+  body { position: relative; }
+  .donor-slot-top {
+    position: absolute !important;
+    top: 132px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 3rem);
+    max-width: 1200px;
+    margin: 0 !important;
+    background: rgba(20,28,20,0.32) !important;
+    border-color: rgba(251,246,238,0.5) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 15;
+  }
+  .donor-slot-top .donor-slot-label { color: #FFE9B0 !important; opacity: 0.95; }
+  .donor-slot-top .donor-slot-sub { color: rgba(251,246,238,0.85) !important; }
+  .donor-ticker {
+    position: absolute !important;
+    top: 230px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 3rem);
+    max-width: 1200px;
+    margin: 0 !important;
+    z-index: 15;
+  }
+  @media (max-width: 640px) {
+    .donor-slot-top { top: 208px; min-height: 76px; width: calc(100% - 2rem); }
+    .donor-ticker { top: 292px; width: calc(100% - 2rem); }
+  }
+  .hero-content {
+    position: relative;
+    z-index: 4;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4.5rem;
+  }
+  .hero-eyebrow {
+    color: var(--cream);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: var(--cream);
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.45);
+    max-width: 14ch;
+  }
+  .hero p.sub {
+    margin-top: 1.1rem;
+    color: rgba(251,246,238,0.92);
+    font-size: 1.1rem;
+    max-width: 46ch;
+    line-height: 1.55;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+  }
+  .hero .cta-row {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 0.85rem 1.6rem;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary {
+    background: var(--citrus-light);
+    color: #3a2400;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.3); }
+  .btn-ghost {
+    background: rgba(255,255,255,0.12);
+    color: var(--cream);
+    border: 1.5px solid rgba(251,246,238,0.55);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+
+  /* SECTIONS */
+  section.block {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem;
+  }
+  .block-head {
+    max-width: 60ch;
+    margin-bottom: 2.4rem;
+  }
+  .block-head h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--moss);
+    margin-bottom: 0.6rem;
+  }
+  .block-head p {
+    color: #4b5a52;
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  .trail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.4rem;
+  }
+  .trail-card {
+    background: white;
+    border: 1px solid #E4DFD3;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .trail-card .thumb {
+    height: 130px;
+    background: repeating-linear-gradient(135deg, #dfe7df, #dfe7df 10px, #d3ddd2 10px, #d3ddd2 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a9a90;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .trail-card .body { padding: 1.1rem 1.2rem 1.3rem; }
+  .trail-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .trail-meta {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+  .trail-meta span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.22rem 0.6rem;
+    border-radius: 20px;
+    background: #EEF3EC;
+    color: var(--moss);
+  }
+  .trail-card p { color: #5c6a62; font-size: 0.92rem; line-height: 1.5; }
+
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.4rem;
+    margin-top: 2.2rem;
+  }
+  .explore-card {
+    background: white;
+    border: 1px solid #E4DFD3;
+    border-radius: 12px;
+    padding: 1.8rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .explore-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+  .explore-card .ico {
+    width: 46px; height: 46px;
+    border-radius: 10px;
+    background: #EEF3EC;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .explore-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .explore-card p { color: #5c6a62; font-size: 0.94rem; line-height: 1.55; margin-bottom: 1rem; flex-grow: 1; }
+  .explore-card .go {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #E85D04;
+  }
+
+  .placeholder-note {
+    margin-top: 2rem;
+    padding: 1rem 1.3rem;
+    border: 1.5px dashed #c9bfa8;
+    border-radius: 10px;
+    background: #FBF6EE;
+    color: #7a6e57;
+    font-size: 0.88rem;
+    text-align: center;
+  }
+
+  .gear-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+  }
+  .gear-item {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    padding: 1.1rem;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #E4DFD3;
+  }
+  .gear-item .ico {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #EEF3EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gear-item h4 { font-size: 0.98rem; margin-bottom: 0.2rem; color: var(--ink); }
+  .gear-item p { font-size: 0.85rem; color: #5c6a62; line-height: 1.45; }
+
+  .band {
+    background: linear-gradient(135deg, var(--moss) 0%, #24392C 100%);
+    color: var(--cream);
+  }
+  .band .block-head h2 { color: var(--cream); }
+  .band .block-head p { color: rgba(251,246,238,0.8); }
+
+  footer {
+    background: linear-gradient(135deg, var(--moss) 0%, #1b2e22 100%);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-top: 0;
+  }
+  footer a { color: var(--citrus-light); text-decoration: none; }
+
+  @media (max-width: 620px) {
+    .hero { min-height: 78vh; align-items: center; }
+    .hero-content { padding-bottom: 2.5rem; }
+  }
+</style>
+<link rel="stylesheet" href="donations/donor-banners.css">
+<script src="donations/donor-banners.js" defer></script>
+</head>
+<body>
+
+<!-- Alert Banner -->
+<div class="alert-banner" style="position: relative;">
+    Lindsay.City is an independent website and is not affiliated with, sponsored by, or endorsed by the
+    <a href="https://www.lindsay.ca.us/" target="_blank">City of Lindsay</a>.
+    <button class="close-btn" onclick="this.parentElement.style.display='none'">×</button>
+</div>
+
+<nav class="main-nav">
+  <div class="nav-container">
+    <a href="index.html" class="logo"><img src="assets/LWT.png" alt=""> Lindsay.City</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="donations/index.html" class="nav-donate-btn">Donate <img src="assets/LWT.png" alt="" class="donate-icon"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <svg class="bg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="skyDay" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3E7E96"/>
+        <stop offset="55%" stop-color="#7FBFC7"/>
+        <stop offset="100%" stop-color="#F2C879"/>
+      </linearGradient>
+      <radialGradient id="sunGlow2" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FFF3D2" stop-opacity="0.95"/>
+        <stop offset="45%" stop-color="#FFE1A0" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#FFE1A0" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="mtnFarD" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#93AF9E"/>
+        <stop offset="100%" stop-color="#7C9C8B"/>
+      </linearGradient>
+      <linearGradient id="mtnNearD" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5C8069"/>
+        <stop offset="100%" stop-color="#4E7360"/>
+      </linearGradient>
+      <linearGradient id="trailGradD" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#96652F"/>
+        <stop offset="100%" stop-color="#6B4423"/>
+      </linearGradient>
+    </defs>
+
+    <rect x="0" y="0" width="1600" height="900" fill="url(#skyDay)"/>
+    <circle cx="1300" cy="180" r="220" fill="url(#sunGlow2)"/>
+    <circle cx="1300" cy="180" r="58" fill="#FFF3D2"/>
+
+    <g fill="#FFFFFF" opacity="0.75">
+      <ellipse cx="330" cy="140" rx="120" ry="30"/>
+      <ellipse cx="410" cy="152" rx="85" ry="24"/>
+      <ellipse cx="260" cy="150" rx="65" ry="20"/>
+    </g>
+    <g fill="#FFFFFF" opacity="0.6">
+      <ellipse cx="880" cy="100" rx="90" ry="22"/>
+      <ellipse cx="940" cy="112" rx="60" ry="18"/>
+    </g>
+
+    <path d="M0,470 L130,370 L250,450 L380,340 L500,460 L640,360 L780,450 L900,350 L1040,460 L1180,370 L1320,460 L1460,370 L1600,450 L1600,600 L0,600 Z" fill="url(#mtnFarD)" opacity="0.8"/>
+    <path d="M0,560 L160,430 L300,540 L440,410 L580,550 L740,440 L900,560 L1060,450 L1220,560 L1380,460 L1600,550 L1600,650 L0,650 Z" fill="url(#mtnNearD)"/>
+
+    <g fill="#213B2A">
+      <path d="M30,650 L65,570 L100,650 Z"/>
+      <path d="M80,660 L120,565 L160,660 Z"/>
+      <path d="M1440,655 L1475,570 L1510,655 Z"/>
+      <path d="M1500,662 L1540,568 L1580,662 Z"/>
+    </g>
+
+    <rect x="0" y="640" width="1600" height="260" fill="#2C4A36"/>
+    <rect x="0" y="640" width="1600" height="26" fill="#375B41"/>
+
+    <g fill="#17281F">
+      <path d="M-20,900 L45,715 L110,900 Z"/>
+      <path d="M40,900 L120,680 L200,900 Z"/>
+      <path d="M1400,900 L1460,715 L1520,900 Z"/>
+      <path d="M1460,900 L1540,680 L1620,900 Z"/>
+    </g>
+    <g fill="#23392B">
+      <path d="M0,900 L60,760 L120,900 Z"/>
+      <path d="M1490,900 L1550,760 L1610,900 Z"/>
+    </g>
+
+    <!-- winding trail into the distance -->
+    <path d="M1020,900 C1060,760 980,640 1120,540 C1220,470 1140,400 1220,340 C1270,305 1220,270 1250,240 L1285,240 C1265,270 1310,305 1270,340 C1210,400 1290,470 1200,540 C1080,640 1150,760 1120,900 Z" fill="url(#trailGradD)"/>
+    <g stroke="#4A2F16" stroke-width="3" fill="none" opacity="0.5" stroke-linecap="round">
+      <path d="M1048,895 C1080,760 1010,645 1135,548 C1228,478 1152,405 1230,345" stroke-dasharray="2 9"/>
+      <path d="M1092,895 C1110,760 1050,645 1175,548 C1258,478 1192,405 1260,345" stroke-dasharray="2 9"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Lindsay.City / Trail Network</p>
+    <h1>E-Biking Adventures</h1>
+    <p class="sub">Backroad climbs, citrus-grove singletrack, and foothill overlooks — logged one ride at a time. This corner of the site is just getting started.</p>
+    <div class="cta-row">
+      <a href="#trails" class="btn btn-primary">See the trails</a>
+      <a href="main.html" class="btn btn-ghost">Visit the Main Site</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="trails">
+  <div class="block-head">
+    <h2>Trail log</h2>
+    <p>A running list of routes worth riding. Details, distances, and photos go here as rides get logged.</p>
+  </div>
+  <div class="trail-grid">
+    <div class="trail-card">
+      <div class="thumb">Trail photo placeholder</div>
+      <div class="body">
+        <h3>Trail Name Placeholder</h3>
+        <div class="trail-meta"><span>Distance TBD</span><span>Difficulty TBD</span></div>
+        <p>Short description of the route, terrain, and what makes it worth riding goes here.</p>
+      </div>
+    </div>
+    <div class="trail-card">
+      <div class="thumb">Trail photo placeholder</div>
+      <div class="body">
+        <h3>Trail Name Placeholder</h3>
+        <div class="trail-meta"><span>Distance TBD</span><span>Difficulty TBD</span></div>
+        <p>Short description of the route, terrain, and what makes it worth riding goes here.</p>
+      </div>
+    </div>
+    <div class="trail-card">
+      <div class="thumb">Trail photo placeholder</div>
+      <div class="body">
+        <h3>Trail Name Placeholder</h3>
+        <div class="trail-meta"><span>Distance TBD</span><span>Difficulty TBD</span></div>
+        <p>Short description of the route, terrain, and what makes it worth riding goes here.</p>
+      </div>
+    </div>
+  </div>
+  <div class="placeholder-note">This section is a starting template — swap in real trails, photos, and ride logs whenever you're ready.</div>
+</section>
+
+<section class="block" id="explore">
+  <div class="block-head">
+    <h2>Get around town</h2>
+    <p>A couple of quick jumping-off points for the parts of the site that are live right now.</p>
+  </div>
+  <div class="explore-grid">
+    <a href="transit/index.html" class="explore-card">
+      <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#35533F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="14" rx="2"/><path d="M4 12h16M8 18v2M16 18v2"/><circle cx="8" cy="9" r="1"/><circle cx="16" cy="9" r="1"/></svg></div>
+      <h3>Transit</h3>
+      <p>Ride Transit on-demand rides, fares, and the future Lindsay Transit Center.</p>
+      <span class="go">Plan a ride →</span>
+    </a>
+    <a href="donations/index.html" class="explore-card">
+      <div class="ico"><img src="assets/LWT.png" alt="" style="width:24px;height:24px;object-fit:contain;"></div>
+      <h3>Support This Site</h3>
+      <p>This site is self-hosted and independent — donations keep it running and ad-free.</p>
+      <span class="go">See how to help →</span>
+    </a>
+  </div>
+</section>
+
+<section class="block band">
+  <div class="block-head">
+    <h2>Ride prepared</h2>
+    <p>A short checklist before heading out on foothill routes.</p>
+  </div>
+  <div class="gear-list">
+    <div class="gear-item">
+      <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#35533F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5L10 8h4l1.5 3M10 8L8 5"/><path d="M13 8l3 6.5-3.8 3"/></svg></div>
+      <div><h4>Charged battery</h4><p>Full charge before longer climbs — foothill routes have limited services.</p></div>
+    </div>
+    <div class="gear-item">
+      <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#35533F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.4 8.4-7 10-3.6-1.6-7-5-7-10V6l7-4z"/></svg></div>
+      <div><h4>Helmet & pads</h4><p>Non-negotiable on singletrack and loose dirt descents.</p></div>
+    </div>
+    <div class="gear-item">
+      <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#35533F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 12l4-4M4 12l4 4"/></svg></div>
+      <div><h4>Water & a route plan</h4><p>Tell someone your route — cell coverage thins out past the groves.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Reusable Footer -->
+<footer>
+    <p style="display:flex; align-items:center; justify-content:center; gap:0.5rem; flex-wrap:wrap;"><img src="assets/LWT-footer.png" alt="Lindsay.City logo" style="height:28px; width:auto; display:inline-block; vertical-align:middle;">2026 © LINDSAY CITY · All rights reserved.</p>
+    <p>Self-hosted with ♥ · 🌐 <a href="#">This Domain Is For Sale</a></p>
+    <p>Send inquiries to: PO BOX 1357, LINDSAY, CA 93247</p>
+    <div class="footer-social" style="display:flex; justify-content:center; gap:0.65rem; margin-top:1.1rem; flex-wrap:wrap;">
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="X (Twitter)" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Instagram" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7); color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://bsky.app/profile/lindsaycity.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#1185fe; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 8.5c-1.2-2.3-4.4-6.6-7.4-7.9C1.7-.5.5.2.5 1.7c0 .3.02 4.6.03 5.4.15 4.2.6 6.7 4.5 7.3-2.9.4-3.9 2.3-3.9 3.9 0 3.7 3.3 4.4 4.5 4.4 1.5 0 3.4-.9 4.4-3.1.9 2.2 2.9 3.1 4.4 3.1 1.2 0 4.5-.7 4.5-4.4 0-1.6-1-3.5-3.9-3.9 3.9-.6 4.35-3.1 4.5-7.3.01-.8.03-5.1.03-5.4 0-1.5-1.2-2.2-4.1-.1-3 2.3-6.2 6.6-7.4 7.9z"/></svg>
+            </a>
+            <a href="https://mastodon.social/@LindsayCity" target="_blank" rel="noopener noreferrer" aria-label="Mastodon" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#6364ff; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.3 6.5c-.3-2.4-2.4-4.3-4.9-4.7C15 1.5 12 1.5 12 1.5s-3 0-4.4.3c-2.5.4-4.6 2.3-4.9 4.7C2.4 8 2.4 9.6 2.4 11c0 1.5 0 3.2.4 4.7.4 2.2 2.2 3.9 4.4 4.2 1.9.3 2.5.3 4.8.3v-2.9c-1.6 0-3.2-.1-3.2-.1-1.6-.2-1.7-1.4-1.8-2 1.5.7 3.2 1 4.9 1 1.8 0 3.5-.3 4.9-1-.1.6-.2 1.8-1.8 2 0 0-1.6.1-3.2.1v2.9c2.3 0 2.9 0 4.8-.3 2.2-.3 4-2 4.4-4.2.4-1.5.4-3.2.4-4.7 0-1.4 0-3-.4-4.5zM17.9 13H15.7V8.6c0-1-.4-1.5-1.3-1.5-.9 0-1.4.6-1.4 1.7v2.5h-2.2V8.8c0-1.1-.5-1.7-1.4-1.7-.9 0-1.3.5-1.3 1.5V13H5.9V8.4c0-2 .8-3.2 2.6-3.2 1.4 0 2.3.7 2.7 1.6.4-.9 1.3-1.6 2.7-1.6 1.7 0 2.6 1.2 2.6 3.2z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Facebook" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#1877f2; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.07C24 5.69 18.63.5 12 .5S0 5.69 0 12.07c0 5.77 4.39 10.56 10.13 11.43v-8.09H7.08v-3.34h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.24 2.68.24v2.94h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.32l-.53 3.34h-2.79v8.09C19.61 22.63 24 17.84 24 12.07z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Threads" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7.5c-1.333 -3 -3.667 -4.5 -7 -4.5c-5 0 -8 2.5 -8 9s3.5 9 8 9s7 -3 7 -5s-1 -5 -7 -5c-2.5 0 -3 1.25 -3 2.5c0 1.5 1 2.5 2.5 2.5c2.5 0 3.5 -1.5 3.5 -5s-2 -4 -3 -4s-1.833 .333 -2.5 1"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@LindsayCity" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#ff0000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@lindsay_city" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/></svg>
+            </a>
+        </div>
+        <div style="margin-top: 1rem;">
+        <a href="legal/terms.html" style="margin: 0 0.5rem; color: var(--citrus-light); text-decoration: none;">Terms of Service</a>
+        <a href="legal/privacy.html" style="margin: 0 0.5rem; color: var(--citrus-light); text-decoration: none;">Privacy Policy</a>
+    </div>
+</footer>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"67fbfed3e1c04a82a51cb3160163880a","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

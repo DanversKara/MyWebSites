@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terms of Service — DOX BOX ⬡</title>
+<meta name="description" content="Terms of Service for DOX BOX ⬡ Home Lab Dashboard." />
+<meta name="theme-color" content="#0b0c12" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2338bdf8'/%3E%3Cstop offset='.5' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%23fb7185'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230b0c12'/%3E%3Cpath d='M50 22 L74 36 L74 64 L50 78 L26 64 L26 36 Z' fill='none' stroke='url(%23g)' stroke-width='6'/%3E%3Cpath d='M50 38 L50 62 M38 50 L62 50' stroke='url(%23g)' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#0b0c12;--bg-2:#11131c;--panel:rgba(255,255,255,.035);--line:rgba(255,255,255,.09);--ink:#eef0f7;--muted:#9aa1b8;--dim:#6b7288;--cyan:#38bdf8;--violet:#8b5cf6;--pink:#ec4899;--coral:#fb7185;--prism:linear-gradient(100deg,var(--cyan),var(--violet) 45%,var(--pink) 72%,var(--coral));--max:1180px;--r:18px;font-synthesis-weight:none}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:'Sora',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  #net{position:fixed;inset:0;z-index:0;opacity:.5}
+  .aura{position:fixed;z-index:0;border-radius:50%;filter:blur(120px);opacity:.22;pointer-events:none}
+  .aura.a{width:640px;height:640px;background:var(--violet);top:-240px;left:-160px}
+  .aura.b{width:560px;height:560px;background:var(--cyan);top:44%;right:-220px}
+  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.16;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+  .wrap{position:relative;z-index:2}.shell{max-width:var(--max);margin:0 auto;padding:0 24px}
+  h1,h2,h3{line-height:1.1;letter-spacing:-.03em;font-weight:800}h1{font-size:clamp(2.6rem,7vw,5.1rem)}h2{font-size:clamp(1.9rem,4.2vw,3.1rem);margin-bottom:14px}
+  .grad{background:var(--prism);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+  .lede{font-size:clamp(1.02rem,1.9vw,1.24rem);color:var(--muted);font-weight:300;max-width:60ch}
+  section{padding:clamp(76px,11vw,140px) 0;position:relative}.head{max-width:66ch;margin-bottom:52px}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:blur(16px);background:rgba(11,12,18,.62);border-bottom:1px solid transparent;transition:border-color .3s}
+  header.stuck{border-bottom-color:var(--line)}
+  nav.shell{max-width:var(--max);margin:0 auto;padding:15px 24px;display:flex;align-items:center;gap:28px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.02em;font-size:1.06rem}.brand svg{width:32px;height:32px;flex:none}
+  nav .links{margin-left:auto;display:flex;gap:26px;align-items:center}
+  nav a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s}nav a:hover{color:var(--ink)}
+  @media(max-width:820px){nav .links a:not(.btn){display:none}}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:100px;font-weight:600;font-size:.93rem;text-decoration:none;border:1px solid transparent;transition:transform .18s cubic-bezier(.3,1.4,.5,1),box-shadow .25s,background .25s;white-space:nowrap}
+  .btn-primary{background:var(--prism);color:#0b0c12;box-shadow:0 6px 30px -8px rgba(139,92,246,.75)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px -8px rgba(139,92,246,.95)}
+  .btn-ghost{border-color:var(--line);color:var(--ink);background:var(--panel)}.btn-ghost:hover{border-color:rgba(255,255,255,.24);transform:translateY(-2px)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:28px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,background .3s;margin-bottom:20px}
+  .card:hover{border-color:rgba(255,255,255,.2);transform:translateY(-3px);background:rgba(255,255,255,.05)}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:var(--prism);opacity:0;transition:opacity .3s}.card:hover::before{opacity:.85}
+  .card h3{margin-bottom:9px;color:var(--cyan)}.card p{color:var(--muted);font-size:.95rem;font-weight:300;line-height:1.6}
+  .contact-box{border:1px solid var(--line);border-radius:var(--r);padding:32px;background:rgba(255,255,255,.02);text-align:center;margin-top:24px}
+  .address{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--ink);margin:16px 0;line-height:1.6}
+  .copy-btn{background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:8px 16px;border-radius:100px;cursor:pointer;font-size:.85rem;font-family:'JetBrains Mono',monospace;transition:all .2s}.copy-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+  footer{border-top:1px solid var(--line);padding:44px 0 56px;color:var(--dim);font-size:.86rem}
+  .frow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--ink)}.flinks{display:flex;gap:22px;flex-wrap:wrap}
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.3,1)}.rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}#net{display:none}*{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="net"></canvas><div class="aura a"></div><div class="aura b"></div><div class="grain"></div>
+<div class="wrap">
+<header id="hdr">
+  <nav class="shell">
+    <a class="brand" href="index.html" style="color:inherit;text-decoration:none">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38bdf8"/><stop offset=".5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#fb7185"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="100" height="100" rx="24" fill="#11131c" stroke="rgba(255,255,255,.12)"/><path d="M50 22 L74 36 L74 64 L50 78 L26 64 L26 36 Z" fill="none" stroke="url(#logoGrad)" stroke-width="5" filter="url(#glow)"/><path d="M50 38 L50 62 M38 50 L62 50" stroke="url(#logoGrad)" stroke-width="4.5" stroke-linecap="round" filter="url(#glow)"/></svg>
+      DOX BOX ⬡
+    </a>
+    <div class="links">
+      <a href="index.html">Dashboard</a>
+      <a href="privacy.html">Privacy</a>
+      <a class="btn btn-primary" href="https://pay.dox.box" target="_blank" rel="noopener">Support the Lab</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" style="padding-top:clamp(56px,9vw,104px);padding-bottom:clamp(56px,8vw,96px)">
+  <div class="shell">
+    <div class="head rv" style="text-align:center;margin-inline:auto">
+      <p class="eyebrow">Legal</p>
+      <h1>Terms of <span class="grad">Service</span></h1>
+      <p class="lede" style="margin-inline:auto">Last Updated: 2026. By accessing or using our services, you agree to be bound by these Terms.</p>
+    </div>
+
+    <div class="rv" style="max-width:800px;margin:0 auto">
+      <div class="card"><h3>1. Introduction</h3><p>Welcome to DOX BOX ⬡. These Terms of Service ("Terms") govern your use of our home lab dashboard, self-hosted services, and related platforms. By accessing or using our services, you agree to be bound by these Terms.</p></div>
+      <div class="card"><h3>2. Use of Services</h3><p>Our services are provided for personal, educational, and non-commercial use unless otherwise agreed upon. You agree not to use the services for any unlawful purpose or in any way that could damage, disable, or impair the servers or networks connected to the lab.</p></div>
+      <div class="card"><h3>3. Intellectual Property</h3><p>All content, design, and code present on the DOX BOX ⬡ dashboard and its associated services are the property of DOX BOX ⬡ and are protected by applicable intellectual property laws.</p></div>
+      <div class="card"><h3>4. Limitation of Liability</h3><p>DOX BOX ⬡ is a personal home lab. Services are provided "as is" without warranties of any kind. We shall not be held liable for any data loss, downtime, or damages arising from the use of our self-hosted services.</p></div>
+      <div class="card"><h3>5. Changes to Terms</h3><p>We reserve the right to modify these Terms at any time. Continued use of the services after changes constitutes acceptance of the new Terms.</p></div>
+      
+      <div class="contact-box">
+        <p class="eyebrow">6. Contact Information</p>
+        <p class="lede" style="margin-bottom:16px">If you have any questions, concerns, or require official notice regarding these Terms of Service, please contact us at our physical mailing address:</p>
+        <div class="address" id="lab-address">PO BOX 1357<br>LINDSAY, CA 93247</div>
+        <button class="copy-btn" onclick="copyAddress()">📋 Copy Address</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell frow">
+    <div style="display:flex;align-items:center;gap:10px">
+      <svg viewBox="0 0 100 100" width="22" height="22" aria-hidden="true"><rect width="100" height="100" rx="24" fill="#11131c" stroke="rgba(255,255,255,.12)"/><path d="M50 22 L74 36 L74 64 L50 78 L26 64 L26 36 Z" fill="none" stroke="url(#logoGrad)" stroke-width="5"/><path d="M50 38 L50 62 M38 50 L62 50" stroke="url(#logoGrad)" stroke-width="4.5" stroke-linecap="round"/></svg>
+      <span>2026 © DOX BOX ⬡ · All rights reserved.</span>
+    </div>
+    <div class="flinks">
+      <a href="tos.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="https://pay.dox.box" target="_blank" rel="noopener">💎 Support the Lab ☕</a>
+    </div>
+  </div>
+  <div class="shell" style="margin-top:24px;text-align:center;font-size:.8rem;opacity:.7">· Self-hosted with ♥ ·</div>
+</footer>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hdr = document.getElementById('hdr');
+  var onScroll = function(){ hdr.classList.toggle('stuck', window.scrollY > 8); };
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  var io = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(!e.isIntersecting) return; e.target.classList.add('in'); io.unobserve(e.target); }); }, {threshold:0.12});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  if(!reduce){
+    var c = document.getElementById('net'), x = c.getContext('2d'), nodes = [], W, H, DPR = Math.min(devicePixelRatio || 1, 2), TINT = ['#38bdf8','#8b5cf6','#ec4899','#fb7185'];
+    function size(){ W = c.width = innerWidth * DPR; H = c.height = innerHeight * DPR; c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px'; var target = Math.min(78, Math.round(innerWidth * innerHeight / 17000)); nodes = []; for(var i = 0; i < target; i++){ nodes.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .16 * DPR, vy: (Math.random() - .5) * .16 * DPR, r: (Math.random() * 1.5 + .6) * DPR, t: TINT[(Math.random() * TINT.length) | 0] }); } }
+    var LINK = 132 * DPR;
+    function frame(){ x.clearRect(0, 0, W, H); for(var i = 0; i < nodes.length; i++){ var n = nodes[i]; n.x += n.vx; n.y += n.vy; if(n.x < 0 || n.x > W) n.vx *= -1; if(n.y < 0 || n.y > H) n.vy *= -1; x.beginPath(); x.arc(n.x, n.y, n.r, 0, 6.284); x.fillStyle = n.t; x.globalAlpha = .55; x.fill(); } for(var a = 0; a < nodes.length; a++){ for(var b = a + 1; b < nodes.length; b++){ var dx = nodes[a].x - nodes[b].x, dy = nodes[a].y - nodes[b].y, d2 = dx * dx + dy * dy; if(d2 < LINK * LINK){ x.beginPath(); x.moveTo(nodes[a].x, nodes[a].y); x.lineTo(nodes[b].x, nodes[b].y); x.strokeStyle = nodes[a].t; x.globalAlpha = (1 - Math.sqrt(d2) / LINK) * .16; x.lineWidth = DPR * .6; x.stroke(); } } } x.globalAlpha = 1; requestAnimationFrame(frame); }
+    size(); frame(); var rt; addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 200); });
+  }
+})();
+function copyAddress() { navigator.clipboard.writeText("PO BOX 1357\nLINDSAY, CA 93247").then(() => { const btn = document.querySelector('.copy-btn'); const original = btn.textContent; btn.textContent = "✅ Copied!"; setTimeout(() => { btn.textContent = original; }, 2000); }); }
+</script>
+</body>
+</html>

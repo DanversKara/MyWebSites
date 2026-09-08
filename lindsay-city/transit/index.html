@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transit | Lindsay.City - Getting Around Without a Car</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="assets/favicon/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dusk-deep: #142B36;
+    --dusk-mid: #3C6873;
+    --horizon: #F2A65A;
+    --sun-gold: #FFC857;
+    --mtn-far: #5C7A89;
+    --mtn-near: #33505D;
+    --pine-dark: #17281F;
+    --pine-mid: #23392B;
+    --dirt: #6B4423;
+    --dirt-light: #8B5A2B;
+    --cream: #F4EDE4;
+    --cream-dim: rgba(244,237,228,0.78);
+    --citrus-light: #FFB347;
+    --moss: #35533F;
+    --glass: rgba(20,38,34,0.46);
+    --glass-strong: rgba(15,28,26,0.62);
+    --glass-border: rgba(244,237,228,0.22);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  html, body {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    color: var(--cream);
+    background: transparent;
+  }
+
+  a { color: inherit; }
+
+  /* ============ FIXED FULL-PAGE WALLPAPER ============ */
+  .page-bg {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .page-bg svg { width: 100%; height: 100%; display: block; }
+
+  .alert-banner, .main-nav, .page-hero, section.block, .disclaimer, footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ============ NAV ============ */
+  .alert-banner {
+    background: rgba(15,28,26,0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--cream-dim);
+    text-align: center;
+    font-size: 0.82rem;
+    padding: 0.6rem 2.4rem 0.6rem 1rem;
+    position: relative;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .alert-banner a { color: var(--citrus-light); text-decoration: none; }
+  .alert-banner a:hover { text-decoration: underline; }
+  .alert-banner .close-btn {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--cream-dim);
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .main-nav {
+    background: rgba(20,38,34,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--cream);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    letter-spacing: 0.01em;
+  }
+  .logo img { height: 34px; width: auto; }
+  .donate-icon {
+    height: 1em;
+    width: auto;
+    vertical-align: middle;
+    display: inline-block;
+    object-fit: contain;
+    margin-left: 0.15em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0.7rem;
+    list-style: none;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--cream);
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 0.45rem 1rem;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.1);
+    transition: background 0.25s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,0.22); }
+  .nav-links a.nav-cta {
+    background: var(--citrus-light);
+    color: #3a2400;
+  }
+  .nav-links a.nav-cta:hover { background: #ffc264; }
+
+  /* ============ PAGE HERO (no separate scene, wallpaper shows through) ============ */
+  .page-hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3.4rem 1.5rem 1.5rem;
+  }
+  .hero-eyebrow {
+    color: var(--sun-gold);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.6rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .page-hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: var(--cream);
+    font-size: clamp(2.1rem, 5vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: 0.01em;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.5);
+    max-width: 18ch;
+  }
+  .page-hero p.sub {
+    margin-top: 1rem;
+    color: var(--cream-dim);
+    font-size: 1.08rem;
+    max-width: 60ch;
+    line-height: 1.55;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  }
+
+  /* ============ LAYOUT ============ */
+  section.block {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.6rem 1.5rem;
+  }
+  .block-head { max-width: 70ch; margin-bottom: 1.4rem; }
+  .block-head h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    color: var(--sun-gold);
+    margin-bottom: 0.4rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  }
+  .block-head > p {
+    color: var(--cream-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* ============ THEME "GLASS" BOXES ============ */
+  .panel {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 1.5rem 1.7rem;
+    margin-bottom: 1.3rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+  }
+  .panel h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    color: var(--cream);
+    margin-bottom: 0.25rem;
+  }
+  .panel .kicker {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--citrus-light);
+    letter-spacing: 0.03em;
+    margin-bottom: 0.6rem;
+  }
+  .panel p { color: var(--cream-dim); font-size: 0.96rem; line-height: 1.6; margin-bottom: 0.7rem; }
+  .panel p:last-child { margin-bottom: 0; }
+  .panel a.link { color: var(--sun-gold); font-weight: 600; text-decoration: none; }
+  .panel a.link:hover { text-decoration: underline; }
+
+  .panel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 1.3rem;
+  }
+  .panel-grid .panel { margin-bottom: 0; }
+
+  /* Callout / highlight box */
+  .callout {
+    background: linear-gradient(135deg, rgba(242,166,90,0.24), rgba(255,200,87,0.14));
+    border: 1px solid rgba(255,200,87,0.4);
+    border-radius: 14px;
+    padding: 1.5rem 1.7rem;
+    margin-bottom: 1.3rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+  }
+  .callout h3 { font-family: 'Oswald', sans-serif; color: var(--sun-gold); font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .callout p { color: var(--cream); font-size: 0.98rem; line-height: 1.6; margin-bottom: 0.6rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout a.link { color: var(--sun-gold); font-weight: 700; text-decoration: none; }
+  .callout a.link:hover { text-decoration: underline; }
+
+  /* Buttons */
+  .cta-row { margin-top: 1.1rem; display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .btn {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 0.9rem;
+    text-decoration: none;
+    padding: 0.72rem 1.4rem;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary {
+    background: var(--citrus-light);
+    color: #3a2400;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.35); }
+  .btn-ghost {
+    background: rgba(255,255,255,0.12);
+    color: var(--cream);
+    border: 1.5px solid rgba(251,246,238,0.5);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+
+  /* Tables inside panels */
+  .panel table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.92rem;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .panel table th, .panel table td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid rgba(244,237,228,0.18);
+    text-align: left;
+    color: var(--cream);
+  }
+  .panel table th {
+    background: rgba(255,200,87,0.16);
+    color: var(--sun-gold);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .panel table tr:nth-child(even) td { background: rgba(255,255,255,0.04); }
+  .panel .fineprint {
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+    font-style: italic;
+  }
+
+  /* Lists inside panels */
+  .panel ul { list-style: none; }
+  .panel ul li { margin-bottom: 0.7rem; }
+  .panel ul li:last-child { margin-bottom: 0; }
+  .panel ul li a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.94rem;
+    line-height: 1.5;
+    display: inline-block;
+    border-bottom: 1px dashed rgba(244,237,228,0.35);
+  }
+  .panel ul li a:hover { color: var(--sun-gold); border-bottom-color: var(--sun-gold); }
+
+  .disclaimer {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    padding: 0 1.5rem;
+  }
+  .disclaimer p {
+    background: var(--glass-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 1rem 1.3rem;
+    color: var(--cream-dim);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .disclaimer a { color: var(--sun-gold); text-decoration: none; }
+  .disclaimer a:hover { text-decoration: underline; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: rgba(15,28,26,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--cream);
+    padding: 2rem 1rem;
+    text-align: center;
+    border-top: 1px solid var(--glass-border);
+  }
+  footer p { margin-bottom: 0.4rem; color: var(--cream-dim); font-size: 0.88rem; }
+  footer a { color: var(--citrus-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 620px) {
+    .panel, .callout { padding: 1.2rem 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ FIXED WALLPAPER (from index.html) ============ -->
+<div class="page-bg">
+  <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#142B36"/>
+        <stop offset="45%" stop-color="#2E5560"/>
+        <stop offset="78%" stop-color="#4E7A7C"/>
+        <stop offset="100%" stop-color="#F2A65A"/>
+      </linearGradient>
+      <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FFE9B0" stop-opacity="0.9"/>
+        <stop offset="45%" stop-color="#FFC857" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#FFC857" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="mtnFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6E8B95"/>
+        <stop offset="100%" stop-color="#537480"/>
+      </linearGradient>
+      <linearGradient id="mtnNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3D5C68"/>
+        <stop offset="100%" stop-color="#2C4652"/>
+      </linearGradient>
+      <linearGradient id="trailGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8B5A2B"/>
+        <stop offset="100%" stop-color="#5A3A1C"/>
+      </linearGradient>
+    </defs>
+
+    <rect x="0" y="0" width="1600" height="900" fill="url(#sky)"/>
+    <circle cx="1150" cy="230" r="230" fill="url(#sunGlow)"/>
+    <circle cx="1150" cy="230" r="62" fill="#FFDD8A"/>
+
+    <g opacity="0.85">
+      <ellipse cx="270" cy="160" rx="140" ry="42" fill="#5C7078"/>
+      <ellipse cx="360" cy="175" rx="95" ry="34" fill="#516670"/>
+      <g stroke="#C7D2D4" stroke-width="3" stroke-linecap="round" opacity="0.45">
+        <line x1="230" y1="205" x2="205" y2="270"/>
+        <line x1="270" y1="210" x2="248" y2="278"/>
+        <line x1="312" y1="208" x2="290" y2="272"/>
+        <line x1="355" y1="212" x2="335" y2="268"/>
+      </g>
+    </g>
+
+    <g fill="#F4EDE4" opacity="0.55">
+      <ellipse cx="760" cy="120" rx="110" ry="28"/>
+      <ellipse cx="830" cy="132" rx="80" ry="24"/>
+      <ellipse cx="690" cy="135" rx="70" ry="20"/>
+    </g>
+    <g fill="#F4EDE4" opacity="0.4">
+      <ellipse cx="1350" cy="360" rx="90" ry="22"/>
+      <ellipse cx="1410" cy="370" rx="60" ry="18"/>
+    </g>
+
+    <path d="M0,480 L120,380 L230,450 L340,340 L470,470 L600,370 L740,460 L860,360 L1000,470 L1140,390 L1280,470 L1420,380 L1600,460 L1600,600 L0,600 Z" fill="url(#mtnFar)" opacity="0.75"/>
+    <path d="M0,560 L150,430 L280,540 L420,410 L560,550 L720,440 L880,560 L1040,450 L1200,560 L1360,460 L1600,550 L1600,650 L0,650 Z" fill="url(#mtnNear)"/>
+
+    <g fill="#1B2E22">
+      <path d="M40,650 L70,580 L100,650 Z"/>
+      <path d="M85,660 L120,570 L155,660 Z"/>
+      <path d="M140,655 L168,590 L196,655 Z"/>
+      <path d="M1420,655 L1450,575 L1480,655 Z"/>
+      <path d="M1465,660 L1500,570 L1535,660 Z"/>
+      <path d="M1510,650 L1538,585 L1566,650 Z"/>
+    </g>
+
+    <rect x="0" y="640" width="1600" height="260" fill="#233A2A"/>
+    <rect x="0" y="640" width="1600" height="30" fill="#2C4633"/>
+
+    <g fill="#17281F">
+      <path d="M-20,900 L40,700 L100,900 Z"/>
+      <path d="M30,900 L110,660 L190,900 Z"/>
+      <path d="M150,900 L210,720 L270,900 Z"/>
+      <path d="M1330,900 L1390,720 L1450,900 Z"/>
+      <path d="M1410,900 L1490,660 L1570,900 Z"/>
+      <path d="M1500,900 L1560,700 L1620,900 Z"/>
+    </g>
+    <g fill="#23392B">
+      <path d="M20,900 L75,740 L130,900 Z"/>
+      <path d="M1470,900 L1525,740 L1580,900 Z"/>
+    </g>
+
+    <path d="M700,900 C690,780 660,720 620,660 C590,610 610,560 660,540 L700,560 C660,590 650,630 680,670 C720,720 745,780 760,900 Z" fill="url(#trailGrad)"/>
+    <path d="M760,900 C775,780 800,720 840,660 C870,610 850,560 800,540 L760,560 C800,590 810,630 780,670 C740,720 715,780 700,900 Z" fill="url(#trailGrad)" opacity="0.92"/>
+
+    <g stroke="#3E2711" stroke-width="3" fill="none" opacity="0.55" stroke-linecap="round">
+      <path d="M712,895 C705,780 682,715 648,662 C625,624 636,585 668,556" stroke-dasharray="2 10"/>
+      <path d="M748,895 C752,780 772,715 802,662 C822,624 812,585 782,556" stroke-dasharray="2 10"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ============ ALERT BANNER ============ -->
+<div class="alert-banner">
+  Lindsay.City is an independent website and is not affiliated with, sponsored by, or endorsed by the
+  <a href="https://www.lindsay.ca.us/" target="_blank">City of Lindsay</a>.
+  <button class="close-btn" onclick="this.parentElement.style.display='none'">×</button>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="main-nav">
+  <div class="nav-container">
+    <a href="../main.html" class="logo"><img src="../assets/LWT.png" alt=""> Lindsay.City</a>
+    <ul class="nav-links">
+      <li><a href="../main.html">Home</a></li>
+      <li><a href="index.html">Transit</a></li>
+      <li><a href="../donations/index.html" class="nav-donate-btn">Donate <img src="../assets/LWT.png" alt="" class="donate-icon"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ PAGE HERO ============ -->
+<div class="page-hero">
+  <p class="hero-eyebrow">Lindsay.City / Transit</p>
+  <h1>Getting Around Without a Car</h1>
+  <p class="sub">Getting around Lindsay — and out to Visalia, Tulare, Porterville, and more — one stop away — without a car.</p>
+  <div class="cta-row">
+    <a href="https://ridetc.org/services-and-schedules/on-demand-microtransit-service/" target="_blank" rel="noopener" class="btn btn-primary">Book a Ride</a>
+    <a href="../main.html" class="btn btn-ghost">Visit the Main Site</a>
+  </div>
+</div>
+
+<!-- ============ RIDE TRANSIT ============ -->
+<section class="block">
+  <div class="block-head">
+    <h2>Ride Transit (RIDE Tulare County)</h2>
+    <p>Lindsay is served by RIDE Tulare County, the county's on-demand microtransit service. Instead of fixed bus routes and set stop times, you request a shared ride through an app and a driver picks you up nearby — similar to a rideshare, but priced like a bus ticket. Trips within Lindsay, to nearby transit centers, and even out to Porterville can cost as little as $4–$5 each way.</p>
+  </div>
+
+  <div class="panel">
+    <span class="kicker">Book a Ride On-Demand</span>
+    <h3>Shared-ride microtransit, request &amp; go</h3>
+    <p>Serving Lindsay &amp; Tulare County. Track the bus live using their website or app — stay in the loop.</p>
+    <div class="cta-row">
+      <a href="https://play.google.com/store/apps/details?id=ridewithvia.tcrtf.tcrtavisalia&hl=en_US&gl=US" target="_blank" rel="noopener" class="btn btn-ghost">Google Play</a>
+      <a href="https://apps.apple.com/tr/app/ride-tulare-county/id6471396357" target="_blank" rel="noopener" class="btn btn-ghost">App Store</a>
+      <a href="https://ridetc.org/services-and-schedules/on-demand-microtransit-service/" target="_blank" rel="noopener" class="btn btn-ghost">Visit ridetc.org</a>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>Lindsay ↔ Porterville, for $4–$5</h3>
+    <p>No car? No problem. You can book an on-demand ride in the app to get across town in Lindsay, or out to a connecting transit center — with fares in the $4–$5 range each way. It's one of the cheapest ways to get to Porterville and back without driving yourself.</p>
+    <p><a href="https://ridetc.org/services-and-schedules/transfers-regional-connections/" target="_blank" rel="noopener" class="link">Regional Connections →</a></p>
+  </div>
+
+  <div class="panel-grid">
+    <div class="panel">
+      <span class="kicker">Routes &amp; Service Info</span>
+      <h3>Fixed route, paratransit &amp; more</h3>
+      <p>Ride Tulare County also runs fixed bus routes, ADA paratransit, and the free LOOP youth shuttle across the county.</p>
+      <p><a href="https://ridetc.org/services-and-schedules/" target="_blank" rel="noopener" class="link">Services &amp; Schedules →</a></p>
+    </div>
+    <div class="panel">
+      <span class="kicker">Bringing Your Bike?</span>
+      <h3>Plan ahead — rack space is limited</h3>
+      <p>Buses have a front-mounted bike rack that holds up to 2 bikes (it's rare to find one that fits more). Getting your bike there doesn't guarantee a spot on the way back — the rack may already be full when you're ready to return.</p>
+      <p>Have a backup plan for getting your bike home, like a rideshare app or local taxi service, just in case. Tip: leave a few hours early and try to be first in line at the stop to improve your odds of a rack spot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FARES & PASSES ============ -->
+<section class="block">
+  <div class="block-head">
+    <h2>Fares &amp; Passes</h2>
+    <p>RIDE Tulare County runs a few different kinds of service, and each one prices differently — on-demand microtransit is pay-per-ride, fixed routes have day/week/month passes, and paratransit &amp; senior fares are reduced. Here's a breakdown of each.</p>
+  </div>
+
+  <div class="panel">
+    <span class="kicker">On-Demand / Microtransit</span>
+    <h3>Pay in the app or as you board</h3>
+    <table>
+      <tr><th>Fare type</th><th>One-way</th></tr>
+      <tr><td>To/from a transit center</td><td>$4.00</td></tr>
+      <tr><td>General public</td><td>$5.00</td></tr>
+      <tr><td>Senior / disabled / Medicare*</td><td>$3.00</td></tr>
+    </table>
+    <p><a href="https://ridetc.org/fares-passes/on-demand-microtransit-fares/" target="_blank" rel="noopener" class="link">Full Fare Details →</a></p>
+    <p class="fineprint">Prices, links, and information are subject to change without notice. If you spot an error, please contact us.</p>
+  </div>
+
+  <div class="panel">
+    <span class="kicker">Fixed Route</span>
+    <h3>Board and pay, or use a Day/7-Day/T-Pass</h3>
+    <table>
+      <tr><th>Fare type</th><th>One-way</th></tr>
+      <tr><td>Local — general</td><td>$1.50</td></tr>
+      <tr><td>Local — senior/disabled/vet</td><td>$0.75</td></tr>
+      <tr><td>Commuter — general</td><td>$2.00</td></tr>
+      <tr><td>Commuter — senior/disabled/vet</td><td>$1.00</td></tr>
+      <tr><td>Youth (12 &amp; under)</td><td>Free</td></tr>
+    </table>
+    <p><a href="https://ridetc.org/fares-passes/fixed-route-fares/" target="_blank" rel="noopener" class="link">Full Fare Details →</a></p>
+    <p class="fineprint">Prices, links, and information are subject to change without notice. If you spot an error, please contact us.</p>
+  </div>
+
+  <div class="panel">
+    <span class="kicker">Day, 7-Day &amp; T-Passes</span>
+    <h3>Good for riders taking multiple fixed-route trips</h3>
+    <table>
+      <tr><th>Pass</th><th>General</th><th>Reduced*</th></tr>
+      <tr><td>Local Day Pass</td><td>$3.00</td><td>$1.50</td></tr>
+      <tr><td>Local 7-Day Pass</td><td>$10.00</td><td>$5.00</td></tr>
+      <tr><td>T-Pass Day (all TC)</td><td>$6.00</td><td>$3.00</td></tr>
+      <tr><td>T-Pass 7-Day</td><td>$16.00</td><td>$8.00</td></tr>
+      <tr><td>T-Pass 31-Day</td><td>$55.00</td><td>$35.00</td></tr>
+    </table>
+    <p><a href="https://ridetc.org/fares-passes/passes/" target="_blank" rel="noopener" class="link">Full Pass Details →</a></p>
+    <p class="fineprint">Prices, links, and information are subject to change without notice. If you spot an error, please contact us.</p>
+  </div>
+
+  <div class="panel">
+    <span class="kicker">Paratransit</span>
+    <h3>Reserve ahead, pay as you board or in-app</h3>
+    <table>
+      <tr><th>Fare type</th><th>One-way</th></tr>
+      <tr><td>Senior / disabled / Medicare</td><td>$3.00</td></tr>
+      <tr><td>Personal care attendant (1 max)</td><td>Free</td></tr>
+    </table>
+    <p><a href="https://ridetc.org/fares-passes/paratransit-fares/" target="_blank" rel="noopener" class="link">Full Fare Details →</a></p>
+    <p class="fineprint">Prices, links, and information are subject to change without notice. If you spot an error, please contact us.</p>
+  </div>
+</section>
+
+<!-- ============ FUTURE TRANSIT CENTER ============ -->
+<section class="block">
+  <div class="block-head">
+    <h2>Future: Lindsay Transit Center</h2>
+    <p>Lindsay has a full-size transit center in the planning pipeline — originally tied to the future California High-Speed Rail / Cross Valley Rail corridor, with Lindsay slated as one of the stops.</p>
+  </div>
+
+  <div class="panel">
+    <p>In June 2026, the City Council approved an expanded design: the building grew from roughly 3,700 to about 5,500 square feet, with a large multipurpose room, commercial kitchen, solar carports, and street/sidewalk upgrades along Mount Vernon Avenue. It's funded through TCAG Measure R transit dollars, and a construction bid package is targeted for late 2026. Until high-speed rail service actually arrives, the city plans to use the building as a community gathering space.</p>
+  </div>
+
+  <div class="panel-grid">
+    <div class="panel">
+      <span class="kicker">Latest Coverage</span>
+      <ul>
+        <li><a href="https://thesungazette.com/article/news/2026/06/10/lindsay-switches-lanes-on-transit-center-design/" target="_blank" rel="noopener">Sun-Gazette: Lindsay switches lanes on transit center design (June 2026)</a></li>
+        <li><a href="https://www.andrewgoodwin.us/project/lindsay-transit-center-and-mixed-use" target="_blank" rel="noopener">Project overview: Lindsay Transit Center &amp; Mixed-Use</a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <span class="kicker">City &amp; County Planning Docs</span>
+      <ul>
+        <li><a href="https://www.lindsay.ca.us/city-services/page/design-services-project-1-transit-center-project-2-community-facility-building" target="_blank" rel="noopener">City of Lindsay: Transit Center project page</a></li>
+        <li><a href="https://www.lindsay.ca.us/city-services/page/lindsay-transit-center-rfq-engineering-and-architectural-services" target="_blank" rel="noopener">Transit Center RFQ — engineering &amp; architectural services</a></li>
+        <li><a href="https://ceqanet.lci.ca.gov/2024120748" target="_blank" rel="noopener">CEQAnet environmental review record</a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <span class="kicker">Regional Transit Planning</span>
+      <ul>
+        <li><a href="https://tularecog.org/tcag/planning/transit-planning/transit-plans" target="_blank" rel="noopener">TCAG: Tulare County transit plans</a></li>
+        <li><a href="https://sjvcogs.org/wp-content/uploads/2025/05/Tulare-County-Vision-Handout-May-2025.pdf" target="_blank" rel="noopener">SJV COGs: Tulare County Vision handout (PDF)</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DISCLAIMER ============ -->
+<div class="disclaimer">
+  <p>Lindsay.City is an independent community site. Fare, schedule, and project details above are drawn from RIDE Tulare County and public city/county sources as of publishing — always confirm current fares and project status at <a href="https://ridetc.org/" target="_blank" rel="noopener">ridetc.org</a> or the City of Lindsay before you rely on them. *Reduced fares require verification and aren't available in every zone.</p>
+</div>
+
+<!-- Reusable Footer -->
+<footer>
+    <p style="display:flex; align-items:center; justify-content:center; gap:0.5rem; flex-wrap:wrap;"><img src="../assets/LWT-footer.png" alt="Lindsay.City logo" style="height:28px; width:auto; display:inline-block; vertical-align:middle;">2026 © LINDSAY CITY · All rights reserved.</p>
+    <p>Self-hosted with ♥ · 🌐 <a href="#">This Domain Is For Sale</a></p>
+    <p>Send inquiries to: PO BOX 1357, LINDSAY, CA 93247</p>
+    <div class="footer-social" style="display:flex; justify-content:center; gap:0.65rem; margin-top:1.1rem; flex-wrap:wrap;">
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="X (Twitter)" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Instagram" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7); color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://bsky.app/profile/lindsaycity.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#1185fe; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 8.5c-1.2-2.3-4.4-6.6-7.4-7.9C1.7-.5.5.2.5 1.7c0 .3.02 4.6.03 5.4.15 4.2.6 6.7 4.5 7.3-2.9.4-3.9 2.3-3.9 3.9 0 3.7 3.3 4.4 4.5 4.4 1.5 0 3.4-.9 4.4-3.1.9 2.2 2.9 3.1 4.4 3.1 1.2 0 4.5-.7 4.5-4.4 0-1.6-1-3.5-3.9-3.9 3.9-.6 4.35-3.1 4.5-7.3.01-.8.03-5.1.03-5.4 0-1.5-1.2-2.2-4.1-.1-3 2.3-6.2 6.6-7.4 7.9z"/></svg>
+            </a>
+            <a href="https://mastodon.social/@LindsayCity" target="_blank" rel="noopener noreferrer" aria-label="Mastodon" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#6364ff; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.3 6.5c-.3-2.4-2.4-4.3-4.9-4.7C15 1.5 12 1.5 12 1.5s-3 0-4.4.3c-2.5.4-4.6 2.3-4.9 4.7C2.4 8 2.4 9.6 2.4 11c0 1.5 0 3.2.4 4.7.4 2.2 2.2 3.9 4.4 4.2 1.9.3 2.5.3 4.8.3v-2.9c-1.6 0-3.2-.1-3.2-.1-1.6-.2-1.7-1.4-1.8-2 1.5.7 3.2 1 4.9 1 1.8 0 3.5-.3 4.9-1-.1.6-.2 1.8-1.8 2 0 0-1.6.1-3.2.1v2.9c2.3 0 2.9 0 4.8-.3 2.2-.3 4-2 4.4-4.2.4-1.5.4-3.2.4-4.7 0-1.4 0-3-.4-4.5zM17.9 13H15.7V8.6c0-1-.4-1.5-1.3-1.5-.9 0-1.4.6-1.4 1.7v2.5h-2.2V8.8c0-1.1-.5-1.7-1.4-1.7-.9 0-1.3.5-1.3 1.5V13H5.9V8.4c0-2 .8-3.2 2.6-3.2 1.4 0 2.3.7 2.7 1.6.4-.9 1.3-1.6 2.7-1.6 1.7 0 2.6 1.2 2.6 3.2z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Facebook" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#1877f2; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.07C24 5.69 18.63.5 12 .5S0 5.69 0 12.07c0 5.77 4.39 10.56 10.13 11.43v-8.09H7.08v-3.34h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.24 2.68.24v2.94h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.32l-.53 3.34h-2.79v8.09C19.61 22.63 24 17.84 24 12.07z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Threads" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7.5c-1.333 -3 -3.667 -4.5 -7 -4.5c-5 0 -8 2.5 -8 9s3.5 9 8 9s7 -3 7 -5s-1 -5 -7 -5c-2.5 0 -3 1.25 -3 2.5c0 1.5 1 2.5 2.5 2.5c2.5 0 3.5 -1.5 3.5 -5s-2 -4 -3 -4s-1.833 .333 -2.5 1"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@LindsayCity" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#ff0000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@lindsay_city" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/></svg>
+            </a>
+        </div>
+        <div style="margin-top: 1rem;">
+        <a href="../legal/terms.html" style="margin: 0 0.5rem; color: var(--citrus-light); text-decoration: none;">Terms of Service</a>
+        <a href="../legal/privacy.html" style="margin: 0 0.5rem; color: var(--citrus-light); text-decoration: none;">Privacy Policy</a>
+    </div>
+</footer>
+
+</body>
+</html>

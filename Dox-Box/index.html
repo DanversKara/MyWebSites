@@ -1,0 +1,1723 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>DOX BOX ⬡ — Home Lab Dashboard</title>
+
+  <meta
+    name="description"
+    content="DOX BOX ⬡ Home Lab Dashboard. Self-hosted services including Proxmox VE, YunoHost, Docker, Home Assistant, and more. Self-hosted with ♥."
+  >
+
+  <meta property="og:title" content="DOX BOX ⬡ — Home Lab Dashboard">
+  <meta
+    property="og:description"
+    content="Personal home lab dashboard for self-hosted services, infrastructure, experimentation, and learning."
+  >
+  <meta property="og:type" content="website">
+
+  <meta name="theme-color" content="#0b0c12">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0c12'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='42' fill='%232dd4bf'%3E%E2%AC%A1%3C/text%3E%3C/svg%3E"
+  >
+
+  <style>
+    :root {
+      --bg: #0b0c12;
+      --bg-2: #11131c;
+      --panel: rgba(255, 255, 255, .03);
+      --line: rgba(255, 255, 255, .08);
+
+      --ink: #eef0f7;
+      --muted: #9aa1b8;
+      --dim: #6b7288;
+
+      --teal: #2dd4bf;
+      --blue: #60a5fa;
+
+      --prism: linear-gradient(100deg, var(--teal), var(--blue));
+
+      --max: 1180px;
+      --r: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    #net {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: .4;
+      z-index: -4;
+    }
+
+    .aura {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .08;
+      pointer-events: none;
+      z-index: -3;
+    }
+
+    .aura.a {
+      top: -220px;
+      left: -180px;
+      background: var(--teal);
+    }
+
+    .aura.b {
+      right: -220px;
+      bottom: -250px;
+      background: var(--blue);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .025;
+      z-index: 100;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* =========================
+       NAVIGATION
+       ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid transparent;
+      background: rgba(11, 12, 18, .72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: border-color .25s ease;
+    }
+
+    header.scrolled {
+      border-color: var(--line);
+    }
+
+    nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      background: var(--prism);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: .86rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .support-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .support-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 12px rgba(45, 212, 191, .7);
+    }
+
+    /* =========================
+       HERO
+       ========================= */
+
+    .hero {
+      padding: 110px 0 80px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 70px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 20px;
+      color: var(--teal);
+      font-family: "Fira Code", monospace;
+      font-size: .78rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: ">";
+      color: var(--blue);
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 720px;
+      font-size: clamp(3rem, 7vw, 5.6rem);
+      line-height: .98;
+      letter-spacing: -.065em;
+    }
+
+    h1 span {
+      background: var(--prism);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lede {
+      max-width: 650px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .fineprint {
+      margin-top: 22px;
+      color: var(--dim);
+      font-family: "Fira Code", monospace;
+      font-size: .78rem;
+    }
+
+    .fineprint::before {
+      content: "●";
+      color: var(--teal);
+      margin-right: 9px;
+    }
+
+    /* =========================
+       TERMINAL
+       ========================= */
+
+    .terminal {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 14px;
+      background: rgba(11, 12, 18, .85);
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, .45),
+        inset 0 1px 0 rgba(255, 255, 255, .04);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      font-family: "Fira Code", monospace;
+      font-size: .9rem;
+    }
+
+    .terminal-header {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 0 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 7px;
+    }
+
+    .dot-red {
+      background: #ff5f56;
+    }
+
+    .dot-yellow {
+      background: #ffbd2e;
+    }
+
+    .dot-green {
+      background: #27c93f;
+    }
+
+    .terminal-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--dim);
+      font-size: .74rem;
+      white-space: nowrap;
+    }
+
+    .terminal-body {
+      padding: 28px 32px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+    }
+
+    .line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+      line-height: 1.8;
+    }
+
+    /* Terminal prompt colors */
+
+    .prompt-bracket {
+      color: var(--ink);
+    }
+
+    .prompt-kara {
+      color: #ff5f56;
+    }
+
+    .prompt-at {
+      color: #ffbd2e;
+    }
+
+    .prompt-doxbox {
+      color: #60a5fa;
+    }
+
+    .prompt-home {
+      color: #27c93f;
+    }
+
+    .prompt-symbol {
+      color: var(--teal);
+    }
+
+    .cmd {
+      color: var(--ink);
+      margin-left: 9px;
+    }
+
+    .cursor {
+      width: 8px;
+      height: 18px;
+      display: inline-block;
+      margin-left: 6px;
+      background: var(--teal);
+      animation: blink 1s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* =========================
+       SECTION
+       ========================= */
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-heading {
+      margin-bottom: 32px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      letter-spacing: -.04em;
+    }
+
+    .section-heading p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    /* =========================
+       STATS
+       ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat {
+      padding: 25px 22px;
+      text-align: center;
+      border-right: 1px solid var(--line);
+    }
+
+    .stat:last-child {
+      border-right: 0;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--dim);
+      font-size: .8rem;
+    }
+
+    /* =========================
+       SERVICE CARDS
+       ========================= */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 190px;
+      padding: 26px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      background: var(--panel);
+      text-decoration: none;
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -70px;
+      bottom: -70px;
+      border-radius: 50%;
+      background: var(--teal);
+      opacity: 0;
+      filter: blur(35px);
+      transition: opacity .3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(45, 212, 191, .3);
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .card:hover::after {
+      opacity: .08;
+    }
+
+    .card:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+    }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .025);
+      color: var(--teal);
+      font-family: "Fira Code", monospace;
+      font-size: .9rem;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.65;
+    }
+
+    .card-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: var(--teal);
+      font-family: "Fira Code", monospace;
+      font-size: .72rem;
+      opacity: .75;
+    }
+
+    /* =========================
+       MANIFESTO
+       ========================= */
+
+    .manifesto {
+      padding: 65px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .manifesto blockquote {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      line-height: 1.35;
+      letter-spacing: -.03em;
+    }
+
+    .manifesto cite {
+      display: block;
+      margin-top: 22px;
+      color: var(--dim);
+      font-family: "Fira Code", monospace;
+      font-size: .75rem;
+      font-style: normal;
+    }
+
+    .disclaimer {
+      max-width: 760px;
+      margin: 24px auto 0;
+      color: var(--dim);
+      font-size: .78rem;
+      line-height: 1.7;
+    }
+
+    /* =========================
+       CONTACT
+       ========================= */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr .9fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      letter-spacing: -.04em;
+    }
+
+    .contact p {
+      max-width: 600px;
+      color: var(--muted);
+    }
+
+    .mailbox {
+      margin-top: 28px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      background: var(--panel);
+      font-family: "Fira Code", monospace;
+    }
+
+    .mailbox-label {
+      margin-bottom: 10px;
+      color: var(--dim);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .mailbox-address {
+      line-height: 1.8;
+    }
+
+    .copy-btn {
+      margin-top: 16px;
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .04);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .78rem;
+      transition: .2s ease;
+    }
+
+    .copy-btn:hover {
+      color: var(--ink);
+      border-color: rgba(45, 212, 191, .35);
+    }
+
+    /* =========================
+       SUPPORT
+       ========================= */
+
+    .support {
+      padding: 70px 0;
+    }
+
+    .support-box {
+      position: relative;
+      overflow: hidden;
+      padding: 48px;
+      border: 1px solid rgba(45, 212, 191, .18);
+      border-radius: 16px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(45, 212, 191, .06),
+          rgba(96, 165, 250, .04)
+        ),
+        var(--panel);
+    }
+
+    .support-box h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -.05em;
+    }
+
+    .support-box p {
+      max-width: 680px;
+      color: var(--muted);
+    }
+
+    .support-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 13px 18px;
+      border-radius: 9px;
+      background: var(--prism);
+      color: #071014;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: .88rem;
+      box-shadow: 0 10px 35px rgba(45, 212, 191, .12);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .support-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 45px rgba(45, 212, 191, .18);
+    }
+
+    .support-note {
+      margin-top: 16px;
+      color: var(--dim);
+      font-size: .75rem;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+      padding: 34px 0 45px;
+      border-top: 1px solid var(--line);
+      color: var(--dim);
+      font-size: .78rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--dim);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--ink);
+    }
+
+    /* =========================
+       REVEAL ANIMATION
+       ========================= */
+
+    .rv {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity .7s ease,
+        transform .7s ease;
+    }
+
+    .rv.show {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 80px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat:nth-child(2) {
+        border-right: 0;
+      }
+
+      .stat:nth-child(-n + 2) {
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .wrap {
+        width: min(var(--max), calc(100% - 28px));
+      }
+
+      nav {
+        min-height: 60px;
+      }
+
+      .nav-links {
+        gap: 13px;
+        font-size: .74rem;
+      }
+
+      .nav-links a:nth-child(1) {
+        display: none;
+      }
+
+      .hero {
+        padding: 65px 0 55px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat {
+        padding: 20px 10px;
+      }
+
+      .terminal-body {
+        padding: 22px 18px;
+      }
+
+      .line {
+        font-size: .76rem;
+      }
+
+      .cmd {
+        margin-left: 7px;
+      }
+
+      .support-box {
+        padding: 30px 24px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .rv {
+        opacity: 1;
+        transform: none;
+      }
+
+      #net {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="net" aria-hidden="true"></canvas>
+
+  <div class="aura a"></div>
+  <div class="aura b"></div>
+
+  <!-- =========================
+       NAVIGATION
+       ========================= -->
+
+  <header id="header">
+    <div class="wrap">
+      <nav>
+
+        <a class="brand" href="#">
+          DOX BOX <span>⬡</span>
+        </a>
+
+        <div class="nav-links">
+		
+		<a
+            class="support-link"
+            href="https://pay.dox.box"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="support-dot"></span>
+            Support the Lab
+          </a>
+
+          <a
+            href="https://karas.page"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            karas.page
+          </a>
+
+          <a
+            href="https://myref.info/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            myref.info
+          </a>
+
+          <a href="#contact">
+            Contact
+          </a>
+        </div>
+
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- =========================
+         HERO
+         ========================= -->
+
+    <section class="hero">
+
+      <div class="wrap">
+
+        <div class="hero-grid">
+
+          <div class="rv">
+
+            <div class="eyebrow">
+              Self-hosted · Private · Always On
+            </div>
+
+            <h1>
+              Home Lab<br>
+              <span>Dashboard.</span>
+            </h1>
+
+            <p class="lede">
+              DOX BOX ⬡ is a personal home lab dashboard for
+              self-hosted infrastructure, experimentation, learning,
+              and running services under my own control.
+            </p>
+
+            <div class="fineprint">
+              All systems nominal
+            </div>
+
+          </div>
+
+
+          <!-- TERMINAL WINDOW -->
+
+          <div class="terminal rv">
+
+            <div class="terminal-header">
+
+              <span class="terminal-dot dot-red"></span>
+              <span class="terminal-dot dot-yellow"></span>
+              <span class="terminal-dot dot-green"></span>
+
+              <span class="terminal-title">
+                kara@doxbox: ~
+              </span>
+
+            </div>
+
+            <div class="terminal-body">
+
+              <div class="line">
+
+                <span class="prompt-bracket">[</span>
+                <span class="prompt-kara">kara</span>
+                <span class="prompt-at">@</span>
+                <span class="prompt-doxbox">doxbox</span>
+                <span class="prompt-bracket">]-[</span>
+                <span class="prompt-home">~</span>
+                <span class="prompt-bracket">]</span>
+                <span class="prompt-symbol">└$</span>
+
+                <span class="cmd">
+                  sudo rm -rf /bad_decisions
+                </span>
+
+                <span class="cursor"></span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         SERVICES
+         ========================= -->
+
+    <section id="services">
+
+      <div class="wrap">
+
+        <div class="section-heading rv">
+
+          <h2>
+            What's running?
+          </h2>
+
+          <p>
+            A collection of services powering the DOX BOX ⬡ home lab.
+          </p>
+
+        </div>
+
+
+        <div class="cards">
+
+          <!-- Replace href="#" with your real service URL later -->
+
+          <a
+            class="card rv"
+            href="https://192.168.8.196:8006/#v1:0:18:4:::::::"
+            aria-label="Open Proxmox VE"
+          >
+            <div class="card-icon">01</div>
+
+            <h3>
+              Proxmox VE
+            </h3>
+
+            <p>
+              Server virtualization, virtual machines,
+              containers, and infrastructure management.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="https://192.168.8.197/yunohost/admin/#/update"
+            aria-label="Open YunoHost"
+          >
+            <div class="card-icon">02</div>
+
+            <h3>
+              YunoHost
+            </h3>
+
+            <p>
+              Self-hosting platform for applications,
+              accounts, SSL/TLS, and server management.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="http://192.168.8.100:9000/#!/3/docker/containers"
+            aria-label="Open Docker and Portainer"
+          >
+            <div class="card-icon">03</div>
+
+            <h3>
+              Docker / Portainer
+            </h3>
+
+            <p>
+              Containerized applications and a convenient
+              management dashboard.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="http://192.168.8.147:81"
+            aria-label="Open Nginx Proxy Manager"
+          >
+            <div class="card-icon">04</div>
+
+            <h3>
+              Nginx Proxy Manager
+            </h3>
+
+            <p>
+              Reverse proxy, SSL certificates, routing,
+              and access management.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="https://192.168.8.162:8123/dashboard-test/0"
+            aria-label="Open Home Assistant"
+          >
+            <div class="card-icon">05</div>
+
+            <h3>
+              Home Assistant
+            </h3>
+
+            <p>
+              Smart home automation with local control
+              and self-hosted integrations.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="http://192.168.8.220"
+            aria-label="IncrediblePBX"
+          >
+            <div class="card-icon">06</div>
+
+            <h3>
+              IncrediblePBX
+            </h3>
+
+            <p>
+              Self-hosted VoIP and telephony infrastructure
+              for communications.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="https://drive.dox.box/apps/files/files"
+            aria-label="Open Drive Storage"
+          >
+            <div class="card-icon">07</div>
+
+            <h3>
+              Drive Storage
+            </h3>
+
+            <p>
+              Personal cloud storage and file management,
+              including services such as Nextcloud.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="http://192.168.8.100:8080"
+            aria-label="Open FediCross"
+          >
+            <div class="card-icon">08</div>
+
+            <h3>
+              FediCross
+            </h3>
+
+            <p>
+              Federated networking and bridge tools
+              for connecting decentralized services.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+
+          <a
+            class="card rv"
+            href="https://myref.info/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open myref.info"
+          >
+            <div class="card-icon">09</div>
+
+            <h3>
+              myref.info
+            </h3>
+
+            <p>
+              Custom reference, linking, and utility
+              services connected to the DOX BOX ecosystem.
+            </p>
+
+            <span class="card-link">
+              Open service →
+            </span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         MANIFESTO
+         ========================= -->
+
+    <section class="manifesto">
+
+      <div class="wrap rv">
+
+        <blockquote>
+          “Self-hosting is not just about running software.
+          It is about reclaiming your digital sovereignty.”
+        </blockquote>
+
+        <cite>
+          DOX BOX ⬡ Lab Manifesto
+        </cite>
+
+        <p class="disclaimer">
+          Services are provided as-is for personal and educational use.
+          No warranties are made regarding availability, data integrity,
+          uptime, data loss, or damages. Continued use of the services
+          constitutes acceptance of the applicable Terms.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT
+         ========================= -->
+
+    <section id="contact" class="contact">
+
+      <div class="wrap">
+
+        <div class="contact-grid">
+
+          <div class="rv">
+
+            <h2>
+              Official Notices &amp; Inquiries.
+            </h2>
+
+            <p>
+              For formal Terms, Privacy, or other official notices,
+              physical mail may be sent to the following mailing address.
+            </p>
+
+            <div class="mailbox">
+
+              <div class="mailbox-label">
+                Mailing Address
+              </div>
+
+              <div
+                class="mailbox-address"
+                id="address"
+              >
+                PO BOX 1357<br>
+                LINDSAY, CA 93247
+              </div>
+
+              <button
+                class="copy-btn"
+                type="button"
+                onclick="copyAddress()"
+              >
+                Copy Address
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="rv">
+
+            <div class="section-heading">
+
+              <h2>
+                Built for the lab.
+              </h2>
+
+              <p>
+                Experiment. Learn. Break things. Fix them.
+                Build something better.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUPPORT
+         ========================= -->
+
+    <section class="support">
+
+      <div class="wrap">
+
+        <div class="support-box rv">
+
+          <h2>
+            Keep the lab running.
+          </h2>
+
+          <p>
+            Support the Home Lab and help keep the infrastructure,
+            experiments, services, and projects online.
+          </p>
+
+          <a
+            class="support-button"
+            href="https://pay.dox.box"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Support DOX BOX ⬡ →
+          </a>
+
+          <div class="support-note">
+            Secure payment portal · Relocated for enhanced security
+          </div>
+
+          <div class="support-note">
+            DOX BOX ⬡ is intended for personal, educational,
+            and non-commercial use unless otherwise agreed.
+            No unlawful use or activity intended to impair,
+            disrupt, or damage servers or networks is permitted.
+            Content, design, and code remain the property of
+            DOX BOX ⬡ unless otherwise stated.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
+
+  <footer>
+
+    <div class="wrap">
+
+      <div class="footer-inner">
+
+        <div>
+
+          <span class="footer-brand">
+            DOX BOX ⬡
+          </span>
+
+          <br>
+
+          2026 © DOX BOX ⬡ · All rights reserved.
+
+        </div>
+
+
+        <div class="footer-links">
+
+          <a href="tos.html">
+            Terms
+          </a>
+
+          <a href="privacy.html">
+            Privacy
+          </a>
+
+          <a
+            href="https://pay.dox.box"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Support
+          </a>
+
+          <span>
+            · Self-hosted with ♥ ·
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    /* =========================
+       HEADER SCROLL
+       ========================= */
+
+    const header = document.getElementById("header");
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        header.classList.toggle(
+          "scrolled",
+          window.scrollY > 8
+        );
+      },
+      { passive: true }
+    );
+
+
+    /* =========================
+       REVEAL ANIMATIONS
+       ========================= */
+
+    const revealItems =
+      document.querySelectorAll(".rv");
+
+    if ("IntersectionObserver" in window) {
+
+      const observer =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(entry => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add("show");
+
+                observer.unobserve(entry.target);
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.08
+          }
+        );
+
+      revealItems.forEach(
+        item => observer.observe(item)
+      );
+
+    } else {
+
+      revealItems.forEach(
+        item => item.classList.add("show")
+      );
+
+    }
+
+
+    /* =========================
+       COPY ADDRESS
+       ========================= */
+
+    async function copyAddress() {
+
+      const address =
+        "PO BOX 1357\nLINDSAY, CA 93247";
+
+      const button =
+        document.querySelector(".copy-btn");
+
+      try {
+
+        await navigator.clipboard.writeText(address);
+
+        button.textContent =
+          "✅ Copied!";
+
+        setTimeout(() => {
+
+          button.textContent =
+            "Copy Address";
+
+        }, 2000);
+
+      } catch (error) {
+
+        button.textContent =
+          "Copy failed";
+
+        setTimeout(() => {
+
+          button.textContent =
+            "Copy Address";
+
+        }, 2000);
+
+      }
+
+    }
+
+
+    /* =========================
+       NETWORK CONSTELLATION
+       ========================= */
+
+    const canvas =
+      document.getElementById("net");
+
+    const ctx =
+      canvas.getContext("2d");
+
+    const reduceMotion =
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+    if (!reduceMotion) {
+
+      let width;
+      let height;
+      let nodes = [];
+
+      function resizeCanvas() {
+
+        width =
+          canvas.width =
+          window.innerWidth;
+
+        height =
+          canvas.height =
+          window.innerHeight;
+
+        const count =
+          Math.min(
+            75,
+            Math.max(
+              25,
+              Math.floor(
+                (width * height) / 18000
+              )
+            )
+          );
+
+        nodes =
+          Array.from(
+            { length: count },
+            () => ({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - .5) * .18,
+              vy: (Math.random() - .5) * .18,
+              r: Math.random() * 1.4 + .4
+            })
+          );
+
+      }
+
+
+      function drawNetwork() {
+
+        ctx.clearRect(
+          0,
+          0,
+          width,
+          height
+        );
+
+        for (const node of nodes) {
+
+          node.x += node.vx;
+          node.y += node.vy;
+
+          if (
+            node.x < 0 ||
+            node.x > width
+          ) {
+            node.vx *= -1;
+          }
+
+          if (
+            node.y < 0 ||
+            node.y > height
+          ) {
+            node.vy *= -1;
+          }
+
+        }
+
+
+        for (
+          let i = 0;
+          i < nodes.length;
+          i++
+        ) {
+
+          const a = nodes[i];
+
+          ctx.beginPath();
+
+          ctx.arc(
+            a.x,
+            a.y,
+            a.r,
+            0,
+            Math.PI * 2
+          );
+
+          ctx.fillStyle =
+            i % 3 === 0
+              ? "rgba(45,212,191,.55)"
+              : i % 3 === 1
+                ? "rgba(96,165,250,.45)"
+                : "rgba(129,140,248,.32)";
+
+          ctx.fill();
+
+
+          for (
+            let j = i + 1;
+            j < nodes.length;
+            j++
+          ) {
+
+            const b = nodes[j];
+
+            const dx =
+              a.x - b.x;
+
+            const dy =
+              a.y - b.y;
+
+            const distance =
+              Math.sqrt(
+                dx * dx +
+                dy * dy
+              );
+
+            if (distance < 135) {
+
+              const opacity =
+                (1 - distance / 135) * .12;
+
+              ctx.beginPath();
+
+              ctx.moveTo(
+                a.x,
+                a.y
+              );
+
+              ctx.lineTo(
+                b.x,
+                b.y
+              );
+
+              ctx.strokeStyle =
+                `rgba(96,165,250,${opacity})`;
+
+              ctx.lineWidth = .6;
+
+              ctx.stroke();
+
+            }
+
+          }
+
+        }
+
+        requestAnimationFrame(
+          drawNetwork
+        );
+
+      }
+
+
+      resizeCanvas();
+      drawNetwork();
+
+      window.addEventListener(
+        "resize",
+        resizeCanvas
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>

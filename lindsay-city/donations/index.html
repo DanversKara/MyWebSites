@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Lindsay.City — Donor Recognition Program</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/favicon/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --citrus-orange:#FF8C42;
+    --citrus-light:#FFB347;
+    --citrus-dark:#E85D04;
+    --grove-green:#35533F;
+    --grove-deep:#1b2e22;
+    --leaf-green:#4E7360;
+    --blossom-white:#FBF6EE;
+    --sun-yellow:#FFD60A;
+    --earth-brown:#8B4513;
+    --ink:#24312A;
+    --cream:#FBF6EE;
+    --moss:#35533F;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--blossom-white);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+  }
+  h1,h2,h3,h4{
+    font-family:'Oswald',sans-serif;
+    margin:0 0 0.4em 0;
+    color:var(--grove-deep);
+  }
+  p{margin:0 0 1em 0;}
+  a{color:var(--citrus-dark);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 1.5rem;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(160deg,var(--grove-green) 0%,var(--grove-deep) 100%);
+    color:var(--blossom-white);
+    padding:4.5rem 1.5rem 5.5rem 1.5rem;
+    text-align:center;
+  }
+  .grove-field{
+    position:absolute;inset:0;
+    pointer-events:none;
+  }
+  .dot{
+    position:absolute;
+    border-radius:50%;
+    background:var(--citrus-orange);
+    box-shadow:inset -4px -4px 0 rgba(0,0,0,0.12);
+    opacity:0.85;
+    animation:drift 9s ease-in-out infinite;
+  }
+  @keyframes drift{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-10px) rotate(6deg);}
+  }
+  .hero-eyebrow{
+    font-family:'Oswald',sans-serif;
+    font-size:0.95rem;
+    letter-spacing:0.02em;
+    color:var(--sun-yellow);
+    margin-bottom:0.75rem;
+  }
+  .hero h1{
+    color:#fff;
+    font-size:2.6rem;
+    line-height:1.15;
+    margin-bottom:0.6rem;
+  }
+  .hero p.lede{
+    font-size:1.1rem;
+    color:#EAF4EE;
+    max-width:520px;
+    margin:0 auto;
+  }
+  .hero-badge{
+    display:inline-block;
+    margin-top:1.75rem;
+    background:rgba(255,255,255,0.12);
+    border:1.5px solid rgba(255,255,255,0.35);
+    border-radius:999px;
+    padding:0.5rem 1.15rem;
+    font-size:0.85rem;
+    color:#fff;
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:3rem 0;}
+  section.tint{background:#FFF1E0;}
+  .eyebrow{
+    font-family:'Oswald',sans-serif;
+    color:var(--citrus-dark);
+    font-size:0.85rem;
+    margin-bottom:0.3rem;
+  }
+  section h2{font-size:1.7rem;}
+
+  /* ---------- WHY / MOTIVE ---------- */
+  .motive-quote{
+    border-left:4px solid var(--citrus-orange);
+    padding-left:1.1rem;
+    font-size:1.08rem;
+    color:var(--grove-deep);
+  }
+
+  /* ---------- ICON LISTS ---------- */
+  .icon-list{list-style:none;padding:0;margin:1.25rem 0;}
+  .icon-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:0.7rem;
+    padding:0.5rem 0;
+    border-bottom:1px dashed rgba(139,69,19,0.2);
+  }
+  .icon-list li:last-child{border-bottom:none;}
+  .icon-list .ico{
+    flex:0 0 auto;
+    width:1.6rem;
+    text-align:center;
+  }
+
+  /* ---------- TIMELINE / 28-DAY STRIP ---------- */
+  .cycle{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    margin:1.75rem 0;
+    padding:1.1rem 1.3rem;
+    background:var(--grove-green);
+    color:#fff;
+    border-radius:16px;
+    flex-wrap:wrap;
+  }
+  .cycle .step{
+    font-family:'Oswald',sans-serif;
+    font-size:0.95rem;
+  }
+  .cycle .arrow{opacity:0.7;}
+
+  /* ---------- DONATION LEVELS ---------- */
+  .levels{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1.25rem;
+    margin-top:1.75rem;
+  }
+  @media(min-width:640px){
+    .levels{grid-template-columns:1fr 1fr;}
+  }
+  .level{
+    position:relative;
+    background:#fff;
+    border-radius:20px;
+    padding:1.6rem 1.5rem 1.5rem 1.5rem;
+    border:2px solid var(--citrus-light);
+  }
+  .level.featured{
+    border-color:var(--citrus-orange);
+    background:linear-gradient(180deg,#fff 0%, #FFF3E4 100%);
+  }
+  .level .price{
+    font-family:'Oswald',sans-serif;
+    font-size:2.1rem;
+    color:var(--citrus-dark);
+  }
+  .level .tier-name{
+    font-family:'Oswald',sans-serif;
+    font-size:1.05rem;
+    color:var(--grove-deep);
+    margin-bottom:0.6rem;
+  }
+  .level ul{
+    padding-left:1.1rem;
+    margin:0.75rem 0 0 0;
+    font-size:0.95rem;
+  }
+  .level ul li{margin-bottom:0.4rem;}
+  .ribbon{
+    position:absolute;
+    top:-11px;right:18px;
+    background:var(--sun-yellow);
+    color:var(--earth-brown);
+    font-family:'Oswald',sans-serif;
+    font-size:0.75rem;
+    padding:0.25rem 0.7rem;
+    border-radius:999px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.15);
+  }
+
+  /* ---------- VIDEO QUOTE ---------- */
+  .video-card{
+    background:var(--grove-deep);
+    color:#fff;
+    border-radius:18px;
+    padding:1.6rem 1.7rem;
+    margin-top:1.5rem;
+  }
+  .video-card .tag{
+    font-family:'Oswald',sans-serif;
+    color:var(--citrus-light);
+    font-size:0.85rem;
+    margin-bottom:0.5rem;
+  }
+  .video-card blockquote{
+    margin:0;
+    font-size:1.05rem;
+    font-style:italic;
+    color:#EAF4EE;
+  }
+
+  /* ---------- FINE PRINT, SIMPLIFIED ---------- */
+  .fine-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0.9rem;
+    margin-top:1.25rem;
+  }
+  @media(min-width:640px){
+    .fine-grid{grid-template-columns:1fr 1fr;}
+  }
+  .fine-item{
+    background:#fff;
+    border:1.5px solid rgba(139,69,19,0.18);
+    border-radius:14px;
+    padding:0.95rem 1.1rem;
+  }
+  .fine-item .h{
+    font-family:'Oswald',sans-serif;
+    color:var(--earth-brown);
+    font-size:0.95rem;
+    margin-bottom:0.25rem;
+  }
+  .fine-item p{margin:0;font-size:0.9rem;color:#4a3a2a;}
+
+  /* ---------- HOW TO DONATE ---------- */
+  .contact-card{
+    background:linear-gradient(135deg,var(--citrus-light) 0%,var(--citrus-orange) 100%);
+    color:#3a1c00;
+    border-radius:18px;
+    padding:1.75rem;
+    margin-top:1.5rem;
+  }
+  .contact-card h3{color:#3a1c00;}
+  .contact-card address{font-style:normal;font-weight:600;margin:0.5rem 0 1rem 0;}
+  .contact-card ul{margin:0;padding-left:1.2rem;}
+  .contact-card li{margin-bottom:0.4rem;}
+
+  /* ---------- SIMPLE TERMS ---------- */
+  .simple-box{
+    background:var(--blossom-white);
+    border:2px dashed var(--leaf-green);
+    border-radius:18px;
+    padding:1.5rem 1.6rem;
+    margin-top:1rem;
+  }
+  .simple-box p:last-child{margin-bottom:0;}
+
+  footer{
+    background: linear-gradient(135deg, var(--grove-green) 0%, #1b2e22 100%);
+    color:white;
+    padding:2rem 1rem;
+    text-align:center;
+    margin-top:3rem;
+  }
+  footer p{margin-bottom:0.75rem;}
+  footer a{color:var(--citrus-light);text-decoration:none;font-weight:600;}
+  footer a:hover{text-decoration:underline;color:var(--sun-yellow);}
+
+  ::selection{background:var(--sun-yellow);color:var(--ink);}
+
+  /* ---------- NAV (matches rest of site) ---------- */
+  .main-nav {
+            background: linear-gradient(135deg, var(--moss) 0%, #24392C 100%);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+        }
+  .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+  .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            letter-spacing: 0.01em;
+        }
+  .nav-links {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+  .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.45rem 1rem;
+            font-size: 0.88rem;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            transition: background 0.25s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                justify-content: center;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .nav-links a {
+                padding: 0.35rem 0.6rem;
+                font-size: 0.8rem;
+            }
+        }
+    
+        .logo-icon {
+            height: 34px;
+            width: auto;
+            vertical-align: middle;
+            display: inline-block;
+            object-fit: contain;
+        }
+
+        .donate-icon {
+            height: 1em;
+            width: auto;
+            vertical-align: middle;
+            display: inline-block;
+            object-fit: contain;
+            margin-left: 0.15em;
+        }
+    </style>
+<link rel="stylesheet" href="donor-banners.css">
+</head>
+<body>
+
+<!-- Alert Banner -->
+<div class="alert-banner" style="position: relative;">
+    Lindsay.City is an independent website and is not affiliated with, sponsored by, or endorsed by the 
+    <a href="https://www.lindsay.ca.us/" target="_blank">City of Lindsay</a>.
+    <button class="close-btn" onclick="this.parentElement.style.display='none'">×</button>
+</div>
+
+<!-- Navigation -->
+<nav class="main-nav">
+    <div class="nav-container">
+        <a href="../main.html" class="logo"><img src="../assets/LWT.png" alt="" class="logo-icon"> Lindsay.City</a>
+        <ul class="nav-links">
+				<li><a href="../transit/index.html">Transit</a></li>
+            <li><a href="index.html" class="nav-donate-btn">Donate <img src="../assets/LWT.png" alt="" class="donate-icon"></a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="hero">
+  <div class="grove-field" id="groveField"></div>
+  <div class="hero-eyebrow">🍊 Lindsay.City</div>
+  <h1>Keep the groves growing.</h1>
+  <p class="lede">Lindsay.City is a resident-run site built on evenings, weekends, and a genuine love for this town — not a company, not a nonprofit, just one person and a hosting bill. Here's how a small donation helps, and what you get in return.</p>
+  <div class="hero-badge">Voluntary support · No purchase necessary · Not tax-deductible</div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Why this exists</div>
+    <h2>This is a passion project, run out of pocket.</h2>
+    <p class="motive-quote">Lindsay.City started because Lindsay deserved a place online that felt like it — the groves, the events, the everyday life of the city — kept up by someone who actually lives here. It isn't a business and it isn't affiliated with the City of Lindsay. It's maintained with personal time, personal equipment, and money out of my own pocket for hosting and software.</p>
+    <p>If the site has ever been useful or fun for you, a donation helps keep it online. It's completely optional — nothing on Lindsay.City is ever locked behind a donation.</p>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="eyebrow">Where it goes</div>
+    <h2>What your donation actually supports</h2>
+    <ul class="icon-list">
+      <li><span class="ico">🌐</span><span>Website hosting, domain, and infrastructure</span></li>
+      <li><span class="ico">🎥</span><span>Equipment for photos and video</span></li>
+      <li><span class="ico">🧰</span><span>Software and services that keep the site running</span></li>
+      <li><span class="ico">👷</span><span>Ongoing development and maintenance</span></li>
+      <li><span class="ico">✍️</span><span>New content — pages, photos, videos, event coverage</span></li>
+      <li><span class="ico">⏱️</span><span>The time it takes to run the whole thing</span></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">The thank-you</div>
+    <h2>What donors get in return</h2>
+    <p>Every donation is voluntary, and any recognition is Lindsay.City's way of saying thanks — not something you're buying. Depending on the level and what's available, a thank-you placement might include:</p>
+    <ul class="icon-list">
+      <li><span class="ico">🏳️</span><span>A website banner in an available spot</span></li>
+      <li><span class="ico">🔗</span><span>A linked logo, brand, or website</span></li>
+      <li><span class="ico">🏷️</span><span>Your name, channel, or username on the page</span></li>
+      <li><span class="ico">📣</span><span>A social-media link</span></li>
+      <li><span class="ico">🎬</span><span>A mention or thank-you in a Lindsay.City video</span></li>
+    </ul>
+
+    <div class="cycle">
+      <span class="step">🎁 Donate</span>
+      <span class="arrow">→</span>
+      <span class="step">📅 28 days of recognition</span>
+      <span class="arrow">→</span>
+      <span class="step">🔄 Placement ends</span>
+      <span class="arrow">→</span>
+      <span class="step">🍊 Donate again for another 28 days</span>
+    </div>
+    <p style="font-size:0.92rem;color:#4a3a2a;">There's no auto-renewal and no obligation to come back — every recognition period simply runs its course after 28 days.</p>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="eyebrow">Pick a level</div>
+    <h2>Donation recognition levels</h2>
+    <div class="levels">
+      <div class="level">
+        <div class="tier-name">🍋 Supporter</div>
+        <div class="price">$2</div>
+        <ul>
+          <li>One website recognition placement</li>
+          <li>One banner or recognition spot</li>
+          <li>One selected or available page</li>
+          <li>A linked brand, channel, or profile</li>
+          <li>Up to 28 days of recognition</li>
+        </ul>
+      </div>
+      <div class="level featured">
+        <div class="ribbon">Most visibility</div>
+        <div class="tier-name">🍊 Featured Supporter</div>
+        <div class="price">$5</div>
+        <ul>
+          <li>Website banner recognition</li>
+          <li>Placement across multiple eligible pages</li>
+          <li>Available banner locations</li>
+          <li>A linked brand, channel, or profile</li>
+          <li>A video thank-you or shout-out</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:0.88rem;color:#4a3a2a;margin-top:1rem;">All placements depend on available space at the time of donation — think of it as first-come, first-served rather than a guaranteed slot.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">On camera</div>
+    <h2>Video thank-you</h2>
+    <p>When there's an available video and it fits your donation level, you might hear something like this:</p>
+    <div class="video-card">
+      <div class="tag">▶ Sample shout-out</div>
+      <blockquote>"I would like to thank Example for their donation to Lindsay.City."</blockquote>
+    </div>
+    <p style="margin-top:1rem;font-size:0.92rem;color:#4a3a2a;">It's a genuine thank-you, not an endorsement — a mention doesn't mean Lindsay.City is vouching for your business, product, or opinions.</p>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="eyebrow">The honest fine print</div>
+    <h2>A few things worth knowing</h2>
+    <div class="fine-grid">
+      <div class="fine-item">
+        <div class="h">Not a purchase</div>
+        <p>You're not buying an ad package — no guaranteed views, clicks, or followers come with a donation.</p>
+      </div>
+      <div class="fine-item">
+        <div class="h">Not tax-deductible</div>
+        <p>Lindsay.City isn't a 501(c)(3). Talk to a tax professional if you have questions about a payment.</p>
+      </div>
+      <div class="fine-item">
+        <div class="h">Independent of the City</div>
+        <p>Lindsay.City is not the official City of Lindsay website and isn't run or endorsed by the City government.</p>
+      </div>
+      <div class="fine-item">
+        <div class="h">No business required</div>
+        <p>Individuals, creators, streamers, and organizations are all welcome to donate — a business isn't necessary.</p>
+      </div>
+      <div class="fine-item">
+        <div class="h">Your call on your name</div>
+        <p>Your brand, channel, or handle is used by default. Your personal name is only used if you ask for it.</p>
+      </div>
+      <div class="fine-item">
+        <div class="h">Everything's subject to change</div>
+        <p>If a placement isn't available, or the site gets redesigned, Lindsay.City will find a comparable spot instead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Get involved</div>
+    <h2>Option A: How to donate & request recognition</h2>
+    <div class="contact-card">
+      <h3>Write in with the details</h3>
+      <address>
+        Lindsay.City<br>
+        P.O. Box 1357<br>
+        Lindsay, CA 93247
+      </address>
+      <p>Include:</p>
+      <ul>
+        <li>The name, brand, channel, or username to display</li>
+        <li>The website or profile you'd like linked</li>
+        <li>Your donation level</li>
+        <li>A preferred placement, if you have one</li>
+        <li>Any logo, photo, graphic, or video clip to consider</li>
+      </ul>
+    </div>
+	<p style="margin-top:1rem;font-size:0.9rem;">
+        <strong>Media specs:</strong> please keep images to 2000px max on the longest side and under 2MB.
+        Placements are cropped to fit their spot, so a logo shaped to roughly match your chosen placement
+        (wide banner vs. tall sidebar vs. square icon) will look best — sending something like 6000×6000
+        just gets downscaled and slows down your upload for no benefit.
+      </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Option B: Prefer to donate without recognition?</h2>
+    <div class="contact-card">
+      <p>You can also make a donation without requesting any website banner, page placement, linked logo, or video mention. If you choose this option, your donation will be treated as <strong>support-only</strong>, and you voluntarily <strong>waive any request for donor recognition</strong> associated with the donation.</p>
+      <p>There is no advertising, placement, or video mention included with a support-only donation.</p>
+      <p><a href="https://pay.dox.box" style="color: red;">Donate Online — No Recognition</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="eyebrow">In simple terms</div>
+    <div class="simple-box">
+      <p>You donate because you want to help keep Lindsay.City running.</p>
+      <p>As a thank-you, you might get a banner, link, page placement, or video shout-out for up to 28 days — depending on your donation level and what's available.</p>
+      <p>After 28 days, the recognition comes down. Want another round? Just donate again — there's no obligation to.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+    <p style="display:flex; align-items:center; justify-content:center; gap:0.5rem; flex-wrap:wrap;"><img src="../assets/LWT-footer.png" alt="Lindsay.City logo" style="height:28px; width:auto; display:inline-block; vertical-align:middle;">2026 © LINDSAY CITY · All rights reserved.</p>
+    <p>Self-hosted with ♥ · 🌐 <a href="#">This Domain Is For Sale</a></p>
+    <p>Send inquiries to: PO BOX 1357, LINDSAY, CA 93247</p>
+    <div class="footer-social" style="display:flex; justify-content:center; gap:0.65rem; margin-top:1.1rem; flex-wrap:wrap;">
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="X (Twitter)" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Instagram" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7); color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://bsky.app/profile/lindsaycity.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#1185fe; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 8.5c-1.2-2.3-4.4-6.6-7.4-7.9C1.7-.5.5.2.5 1.7c0 .3.02 4.6.03 5.4.15 4.2.6 6.7 4.5 7.3-2.9.4-3.9 2.3-3.9 3.9 0 3.7 3.3 4.4 4.5 4.4 1.5 0 3.4-.9 4.4-3.1.9 2.2 2.9 3.1 4.4 3.1 1.2 0 4.5-.7 4.5-4.4 0-1.6-1-3.5-3.9-3.9 3.9-.6 4.35-3.1 4.5-7.3.01-.8.03-5.1.03-5.4 0-1.5-1.2-2.2-4.1-.1-3 2.3-6.2 6.6-7.4 7.9z"/></svg>
+            </a>
+            <a href="https://mastodon.social/@LindsayCity" target="_blank" rel="noopener noreferrer" aria-label="Mastodon" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#6364ff; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.3 6.5c-.3-2.4-2.4-4.3-4.9-4.7C15 1.5 12 1.5 12 1.5s-3 0-4.4.3c-2.5.4-4.6 2.3-4.9 4.7C2.4 8 2.4 9.6 2.4 11c0 1.5 0 3.2.4 4.7.4 2.2 2.2 3.9 4.4 4.2 1.9.3 2.5.3 4.8.3v-2.9c-1.6 0-3.2-.1-3.2-.1-1.6-.2-1.7-1.4-1.8-2 1.5.7 3.2 1 4.9 1 1.8 0 3.5-.3 4.9-1-.1.6-.2 1.8-1.8 2 0 0-1.6.1-3.2.1v2.9c2.3 0 2.9 0 4.8-.3 2.2-.3 4-2 4.4-4.2.4-1.5.4-3.2.4-4.7 0-1.4 0-3-.4-4.5zM17.9 13H15.7V8.6c0-1-.4-1.5-1.3-1.5-.9 0-1.4.6-1.4 1.7v2.5h-2.2V8.8c0-1.1-.5-1.7-1.4-1.7-.9 0-1.3.5-1.3 1.5V13H5.9V8.4c0-2 .8-3.2 2.6-3.2 1.4 0 2.3.7 2.7 1.6.4-.9 1.3-1.6 2.7-1.6 1.7 0 2.6 1.2 2.6 3.2z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Facebook" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#1877f2; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.07C24 5.69 18.63.5 12 .5S0 5.69 0 12.07c0 5.77 4.39 10.56 10.13 11.43v-8.09H7.08v-3.34h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.24 2.68.24v2.94h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.32l-.53 3.34h-2.79v8.09C19.61 22.63 24 17.84 24 12.07z"/></svg>
+            </a>
+            <a href="https://lindsay.city/legal/platforms.html" aria-label="Threads" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7.5c-1.333 -3 -3.667 -4.5 -7 -4.5c-5 0 -8 2.5 -8 9s3.5 9 8 9s7 -3 7 -5s-1 -5 -7 -5c-2.5 0 -3 1.25 -3 2.5c0 1.5 1 2.5 2.5 2.5c2.5 0 3.5 -1.5 3.5 -5s-2 -4 -3 -4s-1.833 .333 -2.5 1"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@LindsayCity" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#ff0000; color:#fff;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@lindsay_city" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#000000; color:#fff;">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/></svg>
+            </a>
+        </div>
+        <div style="margin-top: 1rem;">
+        <a href="../legal/terms.html" style="margin: 0 0.5rem; color: var(--citrus-light); text-decoration: none;">Terms of Service</a>
+        <a href="../legal/privacy.html" style="margin: 0 0.5rem; color: var(--citrus-light); text-decoration: none;">Privacy Policy</a>
+    </div>
+</footer>
+
+<script>
+  // Scatter a handful of soft citrus dots across the hero, once, on load.
+  const field = document.getElementById('groveField');
+  const count = 10;
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    const size = 10 + Math.random() * 22;
+    dot.style.width = size + 'px';
+    dot.style.height = size + 'px';
+    dot.style.left = Math.random() * 100 + '%';
+    dot.style.top = Math.random() * 100 + '%';
+    dot.style.animationDelay = (Math.random() * 4) + 's';
+    dot.style.opacity = 0.25 + Math.random() * 0.4;
+    field.appendChild(dot);
+  }
+</script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"67fbfed3e1c04a82a51cb3160163880a","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
