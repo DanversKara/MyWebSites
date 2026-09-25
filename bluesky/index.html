@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A personal statement: why I no longer use Meta (Facebook, Instagram, WhatsApp, Threads, Quest), X, or Bluesky — and why Mastodon is where I stay.">
+<title>I No Longer Use Meta, X, or Bluesky</title>
+<style>
+  /* ============ BASE ============ */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --text: #eef4ff;
+    --muted: #a8bcd8;
+    --accent: #ffd479;
+    --danger: #ff8f8f;
+    --card-bg: rgba(9, 17, 32, 0.60);
+    --card-border: rgba(255, 255, 255, 0.14);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: #0a1424;
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* ============ SCENE ============ */
+  .scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* --- Sky --- */
+  .sky {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      #071127 0%,
+      #12294e 18%,
+      #2a5486 38%,
+      #5b86b4 56%,
+      #9fb4c9 70%,
+      #d9c7ab 84%,
+      #f3dcb6 94%,
+      #ffe9c4 100%
+    );
+    animation: skyShift 45s ease-in-out infinite alternate;
+  }
+
+  @keyframes skyShift {
+    0%   { filter: hue-rotate(0deg) saturate(1) brightness(1); }
+    100% { filter: hue-rotate(-8deg) saturate(1.08) brightness(1.05); }
+  }
+
+  /* --- Sun --- */
+  .sun-wrap {
+    position: absolute;
+    top: 11%;
+    left: 66%;
+    width: 140px;
+    height: 140px;
+  }
+
+  .sun-rays {
+    position: absolute;
+    inset: -130px;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+      from 0deg,
+      rgba(255, 236, 184, 0.30) 0deg 3deg,
+      rgba(255, 236, 184, 0) 3deg 19deg
+    );
+    -webkit-mask-image: radial-gradient(circle, transparent 14%, #000 32%, transparent 74%);
+    mask-image: radial-gradient(circle, transparent 14%, #000 32%, transparent 74%);
+    animation: spin 140s linear infinite;
+    opacity: 0.55;
+    filter: blur(1.5px);
+  }
+
+  .sun-glow {
+    position: absolute;
+    inset: -280px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 232, 168, 0.60) 0%,
+      rgba(255, 206, 118, 0.30) 30%,
+      rgba(255, 182, 92, 0.10) 52%,
+      rgba(255, 180, 90, 0) 70%
+    );
+    animation: glowPulse 9s ease-in-out infinite;
+  }
+
+  .sun {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 40% 38%,
+      #fffdf1 0%,
+      #ffeaa6 32%,
+      #ffce5c 66%,
+      #ffb03a 100%
+    );
+    box-shadow:
+      0 0 40px 12px rgba(255, 240, 190, 0.95),
+      0 0 110px 48px rgba(255, 212, 122, 0.55),
+      0 0 230px 110px rgba(255, 182, 92, 0.26);
+    animation: sunPulse 9s ease-in-out infinite;
+  }
+
+  @keyframes sunPulse {
+    0%, 100% { transform: scale(1);    filter: brightness(1); }
+    50%      { transform: scale(1.05); filter: brightness(1.14); }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.07); }
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* --- Clouds --- */
+  .clouds { position: absolute; inset: 0; }
+
+  .cloud {
+    position: absolute;
+    width: 220px;
+    height: 64px;
+    background: #ffffff;
+    border-radius: 100px;
+    opacity: 0.85;
+    filter: blur(1.2px);
+    animation: drift linear infinite;
+    will-change: transform;
+  }
+
+  .cloud::before,
+  .cloud::after {
+    content: "";
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+  }
+
+  .cloud::before { width: 104px; height: 104px; top: -52px; left: 26px; }
+  .cloud::after  { width: 72px;  height: 72px;  top: -38px; left: 118px; }
+
+  @keyframes drift {
+    from { transform: translateX(-45vw) scale(var(--s, 1)); }
+    to   { transform: translateX(125vw) scale(var(--s, 1)); }
+  }
+
+  .c1 { top: 6%;  --s: 0.95; opacity: 0.80; animation-duration: 78s; animation-delay: -8s; }
+  .c2 { top: 20%; --s: 0.65; opacity: 0.62; animation-duration: 62s; animation-delay: -34s; }
+  .c3 { top: 34%; --s: 1.15; opacity: 0.55; animation-duration: 96s; animation-delay: -60s; }
+  .c4 { top: 45%; --s: 0.50; opacity: 0.45; animation-duration: 54s; animation-delay: -20s; }
+  .c5 { top: 13%; --s: 0.78; opacity: 0.70; animation-duration: 88s; animation-delay: -70s; }
+
+  /* The cloud that hides the sun */
+  .cover-cloud {
+    top: calc(11% + 104px);
+    left: calc(66% - 46px);
+    --s: 1.25;
+    width: 240px;
+    height: 70px;
+    opacity: 0.96;
+    background: linear-gradient(180deg, #fffaf0 0%, #e6edf7 100%);
+    filter: blur(1px) drop-shadow(0 0 26px rgba(255, 214, 130, 0.55));
+    animation: coverBob 16s ease-in-out infinite;
+  }
+
+  .cover-cloud::before { width: 112px; height: 112px; top: -56px; left: 22px; background: #fff8ea; }
+  .cover-cloud::after  { width: 80px;  height: 80px;  top: -40px; left: 128px; background: #fdf4e4; }
+
+  @keyframes coverBob {
+    0%, 100% { transform: translate(-14px, 0) scale(var(--s)); }
+    50%      { transform: translate(20px, -9px) scale(var(--s)); }
+  }
+
+  /* --- Wind streaks --- */
+  .wind { position: absolute; inset: 0; }
+
+  .wind span {
+    position: absolute;
+    height: 1.5px;
+    border-radius: 3px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.75) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    filter: blur(0.4px);
+    opacity: 0;
+    animation: streak linear infinite;
+  }
+
+  @keyframes streak {
+    0%   { transform: translateX(-45vw); opacity: 0; }
+    10%  { opacity: 0.9; }
+    85%  { opacity: 0.9; }
+    100% { transform: translateX(115vw); opacity: 0; }
+  }
+
+  .wind span:nth-child(1) { top: 26%; width: 190px; animation-duration: 7s;   animation-delay: -1s; }
+  .wind span:nth-child(2) { top: 41%; width: 120px; animation-duration: 5.5s; animation-delay: -3s; }
+  .wind span:nth-child(3) { top: 55%; width: 240px; animation-duration: 9s;   animation-delay: -5s; }
+  .wind span:nth-child(4) { top: 18%; width: 90px;  animation-duration: 4.5s; animation-delay: -2s; }
+  .wind span:nth-child(5) { top: 63%; width: 160px; animation-duration: 7.5s; animation-delay: -6s; }
+
+  /* --- Mountains --- */
+  .mountains {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 56vh;
+    min-height: 240px;
+    display: block;
+  }
+
+  /* --- Snowfall --- */
+  .snow { position: absolute; inset: 0; overflow: hidden; }
+
+  .flake {
+    position: absolute;
+    top: -10vh;
+    background: #ffffff;
+    border-radius: 50%;
+    filter: blur(0.4px);
+    animation: fall linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes fall {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(var(--drift, 0px), 122vh, 0); }
+  }
+
+  /* ============ CONTENT ============ */
+  main {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    padding: clamp(48px, 9vh, 110px) 20px clamp(80px, 14vh, 160px);
+  }
+
+  .card {
+    width: min(780px, 100%);
+    background: var(--card-bg);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid var(--card-border);
+    border-radius: 28px;
+    padding: clamp(26px, 5.5vw, 58px);
+    box-shadow:
+      0 40px 100px rgba(2, 7, 18, 0.60),
+      0 4px 18px rgba(2, 7, 18, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    animation: rise 1s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px) scale(0.99); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .eyebrow {
+    margin: 0 0 18px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.95;
+  }
+
+  h1 {
+    margin: 0 0 20px;
+    font-size: clamp(28px, 5.2vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    font-weight: 750;
+    background: linear-gradient(180deg, #ffffff 30%, #c8d8ef 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+    margin: 0 0 30px;
+    font-size: clamp(15px, 2.2vw, 17.5px);
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
+  /* Platform pills */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 40px;
+    padding: 0 0 34px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 550;
+    color: #c3d2e6;
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255, 130, 130, 0.85);
+    text-decoration-thickness: 1.5px;
+  }
+
+  .pill::before {
+    content: "✕";
+    font-size: 10px;
+    text-decoration: none;
+    color: var(--danger);
+    opacity: 0.9;
+  }
+
+  .pill.keep {
+    text-decoration: none;
+    color: #0d1524;
+    background: linear-gradient(180deg, #ffe6a8, #ffcf6b);
+    border-color: rgba(255, 220, 150, 0.7);
+    box-shadow: 0 6px 22px rgba(255, 200, 100, 0.28);
+  }
+
+  .pill.keep::before {
+    content: "✓";
+    color: #1d2a12;
+  }
+
+  /* Sections */
+  section { margin-top: 38px; }
+  section:first-of-type { margin-top: 0; }
+
+  h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 11px;
+    margin: 0 0 14px;
+    font-size: clamp(16px, 2.6vw, 19px);
+    font-weight: 680;
+    letter-spacing: -0.012em;
+    line-height: 1.35;
+    color: #ffffff;
+  }
+
+  h2 .badge {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffdede;
+    background: rgba(255, 100, 100, 0.16);
+    border: 1px solid rgba(255, 120, 120, 0.42);
+    transform: translateY(-2px);
+  }
+
+  h2 .badge.ok {
+    color: #141d0d;
+    background: linear-gradient(180deg, #ffe6a8, #ffcf6b);
+    border-color: rgba(255, 220, 150, 0.7);
+  }
+
+  p {
+    margin: 0 0 16px;
+    font-size: clamp(14.5px, 2.1vw, 16.2px);
+    line-height: 1.72;
+    color: #c7d6ea;
+    max-width: 66ch;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  strong { color: #ffffff; font-weight: 640; }
+
+  em {
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 560;
+  }
+
+  /* Quote block */
+  .quote {
+    margin: 20px 0 22px;
+    padding: 18px 22px;
+    border-left: 3px solid rgba(255, 212, 121, 0.75);
+    border-radius: 0 14px 14px 0;
+    background: rgba(255, 212, 121, 0.07);
+    font-size: clamp(14px, 2.1vw, 15.6px);
+    line-height: 1.6;
+    letter-spacing: 0.035em;
+    font-weight: 600;
+    color: #ffeec4;
+  }
+
+  /* List */
+  ul.clean {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 14px;
+  }
+
+  ul.clean li {
+    position: relative;
+    padding-left: 26px;
+    font-size: clamp(14.5px, 2.1vw, 16.2px);
+    line-height: 1.7;
+    color: #c7d6ea;
+  }
+
+  ul.clean li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0.72em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 212, 121, 0.85);
+    box-shadow: 0 0 12px rgba(255, 200, 110, 0.55);
+  }
+
+  /* Callout */
+  .callout {
+    margin-top: 42px;
+    padding: 24px 26px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(255, 212, 121, 0.13), rgba(255, 212, 121, 0.04));
+    border: 1px solid rgba(255, 212, 121, 0.26);
+  }
+
+  .callout h2 { margin-bottom: 10px; }
+
+  .callout p { color: #e3d8bd; margin-bottom: 0; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    margin-top: 34px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: rgba(168, 188, 216, 0.72);
+  }
+
+  /* --- Website CTA --- */
+  .site-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .site-cta-text {
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    color: #c7d6ea;
+  }
+
+  .site-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: #141d0d;
+    background: linear-gradient(180deg, #ffe6a8, #ffcf6b);
+    border: 1px solid rgba(255, 220, 150, 0.75);
+    box-shadow:
+      0 8px 26px rgba(255, 200, 100, 0.30),
+      inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+
+  .site-btn:hover,
+  .site-btn:focus-visible {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow:
+      0 14px 34px rgba(255, 200, 100, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    outline: none;
+  }
+
+  .site-btn:active {
+    transform: translateY(0);
+  }
+
+  .site-btn-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .site-btn:hover .site-btn-arrow,
+  .site-btn:focus-visible .site-btn-arrow {
+    transform: translateX(3px);
+  }
+
+  .footer-note {
+    margin: 0;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 720px) {
+    .sun-wrap { top: 8%; left: 58%; width: 108px; height: 108px; }
+    .cover-cloud {
+      top: calc(8% + 82px);
+      left: calc(58% - 42px);
+      width: 190px;
+      height: 56px;
+    }
+    .cover-cloud::before { width: 88px; height: 88px; top: -44px; left: 18px; }
+    .cover-cloud::after  { width: 62px; height: 62px; top: -32px; left: 100px; }
+    .mountains { height: 44vh; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    .snow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= ANIMATED SCENE ================= -->
+<div class="scene" aria-hidden="true">
+
+  <div class="sky"></div>
+
+  <!-- Sun -->
+  <div class="sun-wrap">
+    <div class="sun-rays"></div>
+    <div class="sun-glow"></div>
+    <div class="sun"></div>
+  </div>
+
+  <!-- Clouds -->
+  <div class="clouds">
+    <span class="cloud c1"></span>
+    <span class="cloud c2"></span>
+    <span class="cloud c3"></span>
+    <span class="cloud c4"></span>
+    <span class="cloud c5"></span>
+    <span class="cloud cover-cloud"></span>
+  </div>
+
+  <!-- Wind -->
+  <div class="wind">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Mountains -->
+  <svg class="mountains" viewBox="0 0 1440 620" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="gFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#c6d8ed"/>
+        <stop offset="55%"  stop-color="#95afd0"/>
+        <stop offset="100%" stop-color="#7d9ac0"/>
+      </linearGradient>
+
+      <linearGradient id="gMid" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#eaf3ff"/>
+        <stop offset="28%"  stop-color="#a9c1de"/>
+        <stop offset="100%" stop-color="#5f7ea6"/>
+      </linearGradient>
+
+      <linearGradient id="gNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#9fb8d6"/>
+        <stop offset="55%"  stop-color="#4c6a90"/>
+        <stop offset="100%" stop-color="#1e2d45"/>
+      </linearGradient>
+
+      <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#dfeaf8" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#dfeaf8" stop-opacity="0.55"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Far range -->
+    <path fill="url(#gFar)"
+      d="M0,620 L0,540 L200,470 L380,530 L560,450 L760,540 L940,470
+         L1140,540 L1320,480 L1440,530 L1440,620 Z"/>
+
+    <!-- Mist between ranges -->
+    <rect x="0" y="470" width="1440" height="150" fill="url(#mist)"/>
+
+    <!-- Mid range -->
+    <path fill="url(#gMid)" opacity="0.97"
+      d="M0,620 L0,510 L170,400 L320,500 L480,360 L640,510 L800,410
+         L960,520 L1120,420 L1300,510 L1440,440 L1440,620 Z"/>
+
+    <!-- Mid snow caps -->
+    <g fill="#ffffff" opacity="0.92">
+      <path d="M170,400 L245,450 L220,432 L196,454 L172,432 L93,450 Z"/>
+      <path d="M480,360 L544,420 L518,400 L492,424 L466,400 L411,420 Z"/>
+      <path d="M800,410 L865,455 L840,436 L816,458 L792,436 L728,455 Z"/>
+      <path d="M1120,420 L1210,465 L1180,446 L1154,468 L1128,446 L1048,465 Z"/>
+    </g>
+
+    <!-- Near range -->
+    <path fill="url(#gNear)"
+      d="M0,620 L0,470 L150,330 L280,440 L430,250 L600,450 L740,360
+         L900,480 L1060,340 L1210,460 L1340,390 L1440,470 L1440,620 Z"/>
+
+    <!-- Near snow caps -->
+    <g fill="#ffffff" opacity="0.97">
+      <path d="M150,330 L221,390 L196,368 L172,396 L148,368 L86,390 Z"/>
+      <path d="M430,250 L494,325 L466,302 L438,330 L412,302 L371,325 Z"/>
+      <path d="M1060,340 L1135,400 L1108,378 L1080,404 L1054,378 L991,400 Z"/>
+      <path d="M1340,390 L1390,430 L1368,416 L1346,434 L1324,416 L1266,430 Z"/>
+    </g>
+
+    <!-- Foreground fog -->
+    <rect x="0" y="540" width="1440" height="80" fill="#0f1c30" opacity="0.28"/>
+  </svg>
+
+  <!-- Snowfall -->
+  <div class="snow" id="snow"></div>
+</div>
+
+<!-- ================= CONTENT ================= -->
+<main>
+  <article class="card">
+
+    <p class="eyebrow">A Personal Statement</p>
+
+    <h1>I no longer use Meta, X, or Bluesky.</h1>
+
+    <p class="lede">
+      This isn't a protest for attention — it's simply where I've landed after years of
+      watching platforms punish ordinary people while bots and bad-faith actors run free.
+      Here's exactly why, and where you can still find me.
+    </p>
+
+    <div class="pills">
+      <span class="pill">Facebook</span>
+      <span class="pill">Instagram</span>
+      <span class="pill">WhatsApp</span>
+      <span class="pill">Threads</span>
+      <span class="pill">Meta Quest</span>
+      <span class="pill">X / Twitter</span>
+      <span class="pill">Bluesky</span>
+      <span class="pill keep">Mastodon</span>
+    </div>
+
+    <section>
+      <h2><span class="badge">✕</span> Meta — Facebook, Instagram, WhatsApp, Threads &amp; Quest</h2>
+      <p>
+        I stopped using Meta's products and services in <strong>2021</strong>, and I haven't gone back.
+        The moderation is heavy-handed and far too easy to weaponize. Bots and members of private
+        stalker groups can pile on with mass reports and get an ordinary user silenced, restricted,
+        or removed — often without a single human ever reviewing the case.
+      </p>
+      <p>
+        When reporting is that easy to abuse, it stops being a safety tool and becomes a tool for
+        harassment. I'm not interested in participating in that.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="badge">✕</span> X (formerly Twitter)</h2>
+      <p>
+        Not used — for obvious reasons.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="badge">✕</span> Bluesky</h2>
+      <p>
+        I genuinely hoped Bluesky would be different. It isn't. Its moderation system behaves much
+        the same way I described above, and I've now been suspended <strong>twice this year</strong>.
+      </p>
+
+      <ul class="clean">
+        <li>
+          The first suspension came over a single photo that read:
+        </li>
+      </ul>
+
+      <div class="quote">
+        “THE EPSTEIN FILES AREN'T GOING AWAY. WE'RE NOT DONE TALKING ABOUT THE EPSTEIN.”
+      </div>
+
+      <ul class="clean">
+        <li>
+          The second suspension came with <strong>no explanation at all</strong>. I still don't know
+          which post triggered it — or whether someone simply reported me for their own reasons.
+        </li>
+        <li>
+          Neither suspension came with an email. <strong>No notice, no reason, no appeal link.</strong>
+          You only find out when you open the app: you're logged out, you re-enter your username,
+          password, and 2FA — and only then are you told the account is suspended and cannot be found.
+        </li>
+        <li>
+          Even when I'm <em>not</em> suspended, the app signs me out every few days — sometimes every
+          week. It's exhausting, and it makes the platform feel unstable by design.
+        </li>
+      </ul>
+
+      <p style="margin-top:22px;">
+        So even if my account is ever restored, I'm still done with Bluesky.
+      </p>
+    </section>
+
+    <div class="callout">
+      <h2><span class="badge ok">✓</span> Where you can find me</h2>
+      <p>
+        <strong>Mastodon.</strong> That's it. Decentralized, community-moderated, and it doesn't
+        lock me out of my own account without a word.
+      </p>
+    </div>
+
+    <footer>
+      <div class="site-cta">
+        <span class="site-cta-text">Visit my website at</span>
+        <a class="site-btn" href="https://karas.page" target="_blank" rel="noopener noreferrer">
+          karas.page
+          <span class="site-btn-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <p class="footer-note">
+        This page is a static statement. No trackers, no analytics, no cookies — just a
+        snow-covered mountain and a point of view.
+      </p>
+    </footer>
+
+  </article>
+</main>
+
+<script>
+  /* ---------- Snowfall generator ---------- */
+  (function () {
+    var layer = document.getElementById('snow');
+    if (!layer) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    var count = window.innerWidth < 640 ? 45 : 90;
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < count; i++) {
+      var flake = document.createElement('span');
+      flake.className = 'flake';
+
+      var size = (Math.random() * 3.6 + 1.4).toFixed(2);
+      flake.style.width = size + 'px';
+      flake.style.height = size + 'px';
+      flake.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+      flake.style.opacity = (Math.random() * 0.6 + 0.3).toFixed(2);
+      flake.style.animationDuration = (Math.random() * 9 + 9).toFixed(2) + 's';
+      flake.style.animationDelay = (-Math.random() * 18).toFixed(2) + 's';
+      flake.style.setProperty('--drift', (Math.random() * 140 - 70).toFixed(0) + 'px');
+
+      frag.appendChild(flake);
+    }
+
+    layer.appendChild(frag);
+  })();
+</script>
+
+</body>
+</html>
