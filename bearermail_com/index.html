@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bearer Mail — Official Email Provider Portal</title>
+<style>
+/* ============ RESET / TOKENS ============ */
+*,*::before,*::after{box-sizing:border-box;}
+:root{
+  --navy:#0b2545;
+  --navy-2:#13315c;
+  --blue:#005ea2;
+  --blue-dark:#1a4480;
+  --blue-light:#d9e8f5;
+  --gold:#ffbe2e;
+  --red:#d83933;
+  --green:#2e8540;
+  --ink:#1b1b1b;
+  --gray:#5c5c5c;
+  --line:#dfe3e8;
+  --bg:#f7f9fb;
+  --white:#fff;
+  --shadow-sm:0 1px 3px rgba(11,37,69,.10),0 1px 2px rgba(11,37,69,.06);
+  --shadow-md:0 6px 18px rgba(11,37,69,.12);
+  --shadow-lg:0 18px 40px rgba(11,37,69,.20);
+  --radius:6px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:"Public Sans","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+img,svg{display:block;max-width:100%;}
+.wrap{width:min(1180px,92vw);margin-inline:auto;}
+
+/* ============ TOP GOVERNMENT BANNER ============ */
+.gov-banner{
+  background:var(--navy);
+  color:#e8eef6;
+  font-size:.78rem;
+  position:relative;
+  z-index:60;
+  animation:slideDown .6s var(--ease) both;
+}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.gov-banner .wrap{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;flex-wrap:wrap;}
+.gov-banner .dot{
+  width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff,var(--gold) 60%,#b8860b);
+  box-shadow:0 0 0 0 rgba(255,190,46,.7);
+  animation:pulseDot 2.4s infinite;
+  flex:none;
+}
+@keyframes pulseDot{
+  0%{box-shadow:0 0 0 0 rgba(255,190,46,.7);}
+  70%{box-shadow:0 0 0 9px rgba(255,190,46,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,190,46,0);}
+}
+.gov-banner strong{font-weight:700;letter-spacing:.02em;}
+.gov-banner button{
+  background:none;border:0;color:var(--gold);cursor:pointer;
+  font:inherit;font-weight:600;padding:0;margin-left:auto;
+  display:flex;align-items:center;gap:.35rem;
+}
+.gov-banner button .chev{transition:transform .35s var(--ease);display:inline-block;}
+.gov-banner.open button .chev{transform:rotate(180deg);}
+.banner-detail{
+  max-height:0;overflow:hidden;
+  transition:max-height .45s var(--ease),opacity .3s ease;
+  opacity:0;background:#081a30;
+}
+.gov-banner.open .banner-detail{max-height:200px;opacity:1;}
+.banner-detail .wrap{padding:1rem 0 1.2rem;gap:2rem;}
+.banner-detail p{margin:0;max-width:60ch;color:#b9c9dc;font-size:.8rem;}
+
+/* ============ HEADER ============ */
+.site-header{
+  background:var(--white);
+  border-bottom:1px solid var(--line);
+  position:relative;
+  z-index:50;
+  animation:fadeDown .7s .1s var(--ease) both;
+}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+.site-header .wrap{
+  display:flex;align-items:center;gap:1.4rem;
+  padding:1rem 0;
+  flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:.9rem;text-decoration:none;color:var(--navy);}
+.brand:hover{text-decoration:none;}
+.seal{width:62px;height:62px;color:var(--blue-dark);flex:none;filter:drop-shadow(0 2px 4px rgba(11,37,69,.18));}
+.seal .spin{transform-origin:60px 60px;animation:spin 40s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.brand-text{display:flex;flex-direction:column;line-height:1.1;}
+.brand-name{
+  font-size:1.65rem;font-weight:800;letter-spacing:.04em;
+  background:linear-gradient(90deg,var(--navy),var(--blue),var(--navy));
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer{to{background-position:200% center;}}
+.brand-sub{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);font-weight:600;}
+
+.search{
+  margin-left:auto;display:flex;align-items:center;
+  border:2px solid var(--blue);border-radius:var(--radius);
+  overflow:hidden;background:#fff;
+  transition:box-shadow .3s var(--ease),transform .3s var(--ease);
+}
+.search:focus-within{box-shadow:0 0 0 4px rgba(0,94,162,.18);transform:translateY(-1px);}
+.search input{
+  border:0;outline:0;padding:.62rem .9rem;font:inherit;font-size:.9rem;width:250px;color:var(--ink);
+}
+.search button{
+  border:0;background:var(--blue);color:#fff;padding:.65rem 1rem;
+  cursor:pointer;font:inherit;font-weight:600;font-size:.85rem;
+  transition:background .25s ease;
+  display:flex;align-items:center;gap:.4rem;
+}
+.search button:hover{background:var(--blue-dark);}
+
+/* ============ NAV ============ */
+.main-nav{
+  background:var(--blue-dark);
+  position:sticky;top:0;z-index:45;
+  box-shadow:0 2px 10px rgba(11,37,69,.25);
+}
+.main-nav .wrap{display:flex;flex-wrap:wrap;}
+.main-nav a{
+  color:#fff;font-size:.86rem;font-weight:600;letter-spacing:.01em;
+  padding:.95rem 1.15rem;position:relative;text-decoration:none;
+  transition:background .25s ease,color .25s ease;
+}
+.main-nav a::after{
+  content:"";position:absolute;left:1.15rem;right:1.15rem;bottom:.55rem;height:2px;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s var(--ease);
+}
+.main-nav a:hover,.main-nav a.active{background:rgba(255,255,255,.09);text-decoration:none;}
+.main-nav a:hover::after,.main-nav a.active::after{transform:scaleX(1);}
+
+/* ============ TICKER ============ */
+.ticker{
+  background:linear-gradient(90deg,#8c1d18,var(--red),#8c1d18);
+  background-size:200% 100%;
+  animation:tickerGlow 8s ease infinite;
+  color:#fff;display:flex;align-items:center;overflow:hidden;
+  font-size:.83rem;font-weight:600;
+}
+@keyframes tickerGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.ticker .label{
+  background:rgba(0,0,0,.28);padding:.5rem .9rem;flex:none;
+  letter-spacing:.12em;text-transform:uppercase;font-size:.7rem;
+  display:flex;align-items:center;gap:.45rem;
+}
+.ticker .label i{
+  width:8px;height:8px;border-radius:50%;background:var(--gold);
+  animation:blink 1.1s steps(2,start) infinite;
+}
+@keyframes blink{50%{opacity:.25;}}
+.ticker-viewport{overflow:hidden;flex:1;}
+.ticker-track{
+  display:flex;gap:4rem;white-space:nowrap;
+  animation:marquee 34s linear infinite;
+  padding:.5rem 0;
+  will-change:transform;
+}
+.ticker:hover .ticker-track{animation-play-state:paused;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-track span{display:inline-flex;align-items:center;gap:.6rem;}
+.ticker-track span::before{content:"◆";color:var(--gold);font-size:.6rem;}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(120deg,#071a33,#0b2545,#13315c,#005ea2,#0b2545);
+  background-size:320% 320%;
+  animation:gradientShift 22s ease infinite;
+}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 78%);
+  animation:gridDrift 26s linear infinite;
+}
+@keyframes gridDrift{to{background-position:52px 52px,52px 52px;}}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;pointer-events:none;
+}
+.orb.a{width:420px;height:420px;background:#0076d6;top:-140px;right:-90px;animation:float1 16s ease-in-out infinite;}
+.orb.b{width:320px;height:320px;background:#ffbe2e;bottom:-150px;left:-80px;opacity:.25;animation:float2 20s ease-in-out infinite;}
+.orb.c{width:260px;height:260px;background:#4ba3e3;top:40%;left:45%;opacity:.22;animation:float3 24s ease-in-out infinite;}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,50px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-40px)}}
+@keyframes float3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,-30px) scale(1.15)}}
+
+.hero .wrap{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1.35fr .65fr;gap:3rem;align-items:center;
+  padding:5rem 0 5.5rem;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  padding:.4rem .9rem;border-radius:100px;
+  font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#cfe4f7;margin-bottom:1.4rem;
+  animation:fadeUp .8s .15s var(--ease) both;
+}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80;animation:blink 2s infinite;}
+.hero h1{
+  font-size:clamp(2.1rem,4.6vw,3.5rem);
+  line-height:1.1;margin:0 0 1.1rem;font-weight:800;letter-spacing:-.02em;
+  animation:fadeUp .8s .25s var(--ease) both;
+}
+.hero h1 .typed{
+  display:block;
+  background:linear-gradient(90deg,var(--gold),#ffe9a8,var(--gold));
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 4s linear infinite;
+  min-height:1.15em;
+}
+.cursor{
+  display:inline-block;width:3px;height:.95em;background:var(--gold);
+  vertical-align:-.1em;margin-left:4px;
+  animation:caret .9s steps(2,start) infinite;
+}
+@keyframes caret{50%{opacity:0;}}
+.hero p.lede{
+  font-size:1.06rem;color:#c9dcef;max-width:56ch;margin:0 0 2rem;
+  animation:fadeUp .8s .35s var(--ease) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none;}}
+
+.hero-actions{display:flex;gap:.85rem;flex-wrap:wrap;animation:fadeUp .8s .45s var(--ease) both;}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 1.5rem;border-radius:var(--radius);
+  font-weight:700;font-size:.92rem;cursor:pointer;border:2px solid transparent;
+  text-decoration:none;position:relative;overflow:hidden;
+  font-family:inherit;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s ease,color .25s ease;
+}
+.btn:hover{text-decoration:none;transform:translateY(-3px);}
+.btn-primary{background:var(--gold);color:#3b2a00;box-shadow:0 8px 22px rgba(255,190,46,.32);}
+.btn-primary:hover{background:#ffd166;box-shadow:0 14px 30px rgba(255,190,46,.45);}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.45);}
+.btn-ghost:hover{background:rgba(255,255,255,.18);border-color:#fff;}
+.btn-ghost-dark{background:#eef3f8;color:var(--navy);border-color:#d7e2ee;}
+.btn-ghost-dark:hover{background:#e0eaf5;color:var(--navy);}
+.btn::after{
+  content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:skewX(-20deg);
+}
+.btn:hover::after{animation:shine .8s ease;}
+@keyframes shine{to{left:130%;}}
+
+/* Hero seal visual */
+.hero-visual{position:relative;display:grid;place-items:center;animation:fadeUp .9s .4s var(--ease) both;}
+.hero-seal{width:min(300px,80%);color:#fff;position:relative;z-index:2;}
+.hero-seal .ring{transform-origin:60px 60px;animation:spin 34s linear infinite;}
+.hero-seal .ring-rev{transform-origin:60px 60px;animation:spin 24s linear infinite reverse;}
+.hero-seal .core{animation:breathe 4.5s ease-in-out infinite;transform-origin:60px 60px;}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.pulse-ring{
+  position:absolute;border:1.5px solid rgba(255,190,46,.5);border-radius:50%;
+  width:300px;height:300px;animation:pulseOut 3.4s ease-out infinite;
+}
+.pulse-ring:nth-child(2){animation-delay:1.1s;}
+.pulse-ring:nth-child(3){animation-delay:2.2s;}
+@keyframes pulseOut{
+  0%{transform:scale(.72);opacity:.85;}
+  100%{transform:scale(1.35);opacity:0;}
+}
+.seal-badge{
+  position:absolute;bottom:8%;right:2%;
+  background:rgba(255,255,255,.95);color:var(--navy);
+  border-radius:var(--radius);padding:.7rem 1rem;box-shadow:var(--shadow-lg);
+  font-size:.72rem;font-weight:700;line-height:1.3;z-index:3;
+  animation:floatBadge 5s ease-in-out infinite;
+}
+.seal-badge b{display:block;font-size:1.15rem;color:var(--blue);}
+@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ============ STATS ============ */
+.stats{
+  background:#fff;border-bottom:1px solid var(--line);
+  position:relative;z-index:5;margin-top:-1px;
+}
+.stats .wrap{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;
+  padding:2.4rem 0;
+}
+.stat{
+  text-align:center;padding:.6rem 1rem;border-right:1px solid var(--line);
+}
+.stat:last-child{border-right:0;}
+.stat .num{
+  font-size:2.1rem;font-weight:800;color:var(--blue-dark);letter-spacing:-.02em;
+  display:block;line-height:1.1;
+}
+.stat .lbl{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);font-weight:700;}
+
+/* ============ SECTIONS ============ */
+section.block{padding:4.5rem 0;}
+.section-head{margin-bottom:2.4rem;max-width:70ch;}
+.section-head .kicker{
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--blue);font-weight:800;margin-bottom:.5rem;display:block;
+}
+.section-head h2{
+  font-size:clamp(1.6rem,3vw,2.15rem);margin:0 0 .6rem;color:var(--navy);
+  font-weight:800;letter-spacing:-.015em;
+}
+.section-head p{margin:0;color:var(--gray);}
+.section-head .rule{
+  width:64px;height:4px;background:var(--gold);border-radius:2px;margin-top:1rem;
+  transform-origin:left;animation:growRule 1s var(--ease) both;
+}
+@keyframes growRule{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* ============ SERVICE CARDS ============ */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem;}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.7rem 1.5rem 1.5rem;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s ease;
+}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .45s var(--ease);
+}
+.card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:#c7d7e8;}
+.card:hover::before{transform:scaleX(1);}
+.card .icon{
+  width:48px;height:48px;border-radius:10px;
+  background:var(--blue-light);color:var(--blue-dark);
+  display:grid;place-items:center;margin-bottom:1.1rem;
+  transition:transform .4s var(--ease),background .3s ease,color .3s ease;
+}
+.card:hover .icon{transform:rotate(-6deg) scale(1.08);background:var(--blue);color:#fff;}
+.card h3{margin:0 0 .5rem;font-size:1.08rem;color:var(--navy);font-weight:800;}
+.card p{margin:0 0 1rem;font-size:.92rem;color:var(--gray);}
+.card .more{
+  font-size:.83rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--blue);display:inline-flex;align-items:center;gap:.4rem;
+}
+.card .more span{transition:transform .3s var(--ease);}
+.card:hover .more span{transform:translateX(6px);}
+
+/* ============ NEWS ============ */
+.news{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.news-card{
+  display:flex;flex-direction:column;gap:.7rem;
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.4rem;background:#fff;position:relative;
+  transition:box-shadow .35s var(--ease),transform .35s var(--ease);
+}
+.news-card:hover{box-shadow:var(--shadow-md);transform:translateY(-5px);}
+.date-badge{
+  align-self:flex-start;
+  background:var(--navy);color:#fff;border-radius:4px;
+  padding:.35rem .6rem;font-size:.7rem;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.news-card h3{margin:0;font-size:1.02rem;color:var(--navy);line-height:1.35;}
+.news-card p{margin:0;font-size:.9rem;color:var(--gray);}
+.news-card .more{
+  font-size:.83rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--blue);display:inline-flex;align-items:center;gap:.4rem;
+}
+.news-card .more span{transition:transform .3s var(--ease);}
+.news-card:hover .more span{transform:translateX(6px);}
+.tag{
+  font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--blue-dark);background:var(--blue-light);
+  padding:.25rem .55rem;border-radius:100px;
+  align-self:flex-start;
+}
+
+/* ============ CTA STRIP ============ */
+.cta{
+  background:linear-gradient(120deg,var(--navy),var(--blue-dark),var(--navy));
+  background-size:220% 220%;animation:gradientShift 16s ease infinite;
+  color:#fff;position:relative;overflow:hidden;
+}
+.cta .wrap{
+  padding:3.5rem 0;display:flex;align-items:center;gap:2rem;
+  justify-content:space-between;flex-wrap:wrap;position:relative;z-index:2;
+}
+.cta h2{margin:0 0 .4rem;font-size:1.75rem;font-weight:800;}
+.cta p{margin:0;color:#c3d8ee;max-width:52ch;}
+
+/* ============ FOOTER ============ */
+footer{background:#08192e;color:#a9bdd4;font-size:.88rem;}
+.foot-top{
+  display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:2rem;
+  padding:3.2rem 0 2.5rem;
+}
+.foot-brand{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;}
+.foot-brand .seal{width:46px;height:46px;color:#8fb8dd;}
+.foot-brand b{color:#fff;font-size:1.15rem;letter-spacing:.08em;}
+.foot-top h4{
+  color:#fff;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;
+  margin:0 0 1rem;font-weight:800;
+}
+.foot-top ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;}
+.foot-top a{color:#a9bdd4;font-size:.86rem;transition:color .2s ease,padding-left .25s var(--ease);}
+.foot-top a:hover{color:var(--gold);padding-left:4px;text-decoration:none;}
+.foot-bottom{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding:1.2rem 0;display:flex;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;font-size:.78rem;color:#7f96b0;
+}
+.foot-bottom .clock{font-variant-numeric:tabular-nums;color:#c3d8ee;}
+
+/* ============ REVEAL ANIMATION ============ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ============ MODAL ============ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(8,25,46,.62);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  display:grid;place-items:center;padding:1.4rem;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:auto;}
+.modal{
+  background:#fff;border-radius:10px;width:min(440px,100%);
+  box-shadow:0 30px 70px rgba(8,25,46,.45);
+  position:relative;overflow:hidden;
+  transform:translateY(24px) scale(.95);opacity:0;
+  transition:transform .4s var(--ease),opacity .3s ease;
+}
+.modal-overlay.open .modal{transform:translateY(0) scale(1);opacity:1;}
+.modal-bar{height:6px;background:linear-gradient(90deg,var(--blue),var(--gold));}
+.modal-close{
+  position:absolute;top:.75rem;right:.75rem;z-index:2;
+  width:34px;height:34px;border-radius:50%;border:0;cursor:pointer;
+  background:#eef3f8;color:var(--navy);
+  display:grid;place-items:center;
+  transition:background .22s ease,transform .3s var(--ease);
+}
+.modal-close:hover{background:var(--blue-light);transform:rotate(90deg);}
+.modal-body{padding:1.9rem 1.7rem 1.7rem;text-align:center;}
+.modal-icon{
+  width:64px;height:64px;margin:0 auto 1.1rem;border-radius:50%;
+  display:grid;place-items:center;
+  animation:popIn .5s .08s var(--ease) both;
+}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-icon.warn{background:#fdecea;color:var(--red);}
+.modal-icon.mail{background:var(--blue-light);color:var(--blue-dark);}
+.modal-body h3{margin:0 0 .6rem;font-size:1.28rem;color:var(--navy);font-weight:800;}
+.modal-body p{margin:0 0 1.2rem;color:var(--gray);font-size:.94rem;}
+.modal-actions{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;}
+.modal-actions .btn{padding:.68rem 1.4rem;font-size:.86rem;}
+
+/* click-to-copy email chip */
+.copy-email{
+  width:100%;border:2px dashed #b9d3ea;background:#f4f9fe;
+  border-radius:var(--radius);padding:.95rem 1rem;cursor:pointer;
+  display:flex;flex-direction:column;gap:.25rem;align-items:center;
+  font:inherit;margin-bottom:1.2rem;
+  transition:border-color .25s ease,background .25s ease,transform .25s var(--ease),box-shadow .25s ease;
+}
+.copy-email:hover{border-color:var(--blue);background:#e8f2fb;transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,94,162,.14);}
+.copy-email:active{transform:translateY(0) scale(.99);}
+.copy-email .ce-address{
+  font-weight:800;color:var(--blue-dark);font-size:1rem;letter-spacing:.01em;
+  word-break:break-all;
+}
+.copy-email .ce-hint{
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--gray);font-weight:800;
+}
+.copy-email.copied{border-color:var(--green);background:#eaf7ee;}
+.copy-email.copied .ce-address{color:#1f6b31;}
+.copy-email.copied .ce-hint{color:var(--green);}
+
+/* ============ BACK TO TOP ============ */
+#top-btn{
+  position:fixed;right:22px;bottom:22px;z-index:70;
+  width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--blue-dark);color:#fff;display:grid;place-items:center;
+  box-shadow:var(--shadow-md);
+  opacity:0;pointer-events:none;transform:translateY(16px);
+  transition:opacity .35s ease,transform .35s var(--ease),background .25s ease;
+}
+#top-btn.show{opacity:1;pointer-events:auto;transform:none;}
+#top-btn:hover{background:var(--blue);}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:920px){
+  .hero .wrap{grid-template-columns:1fr;padding:3.4rem 0 3.8rem;gap:2.4rem;}
+  .hero-visual{order:-1;}
+  .hero-seal{width:210px;}
+  .pulse-ring{width:220px;height:220px;}
+  .seal-badge{right:50%;transform:translateX(50%);bottom:-6%;}
+  .stats .wrap{grid-template-columns:repeat(2,1fr);gap:1.6rem;}
+  .stat:nth-child(2){border-right:0;}
+  .foot-top{grid-template-columns:1fr 1fr;gap:2rem;}
+  .search{width:100%;margin-left:0;}
+  .search input{width:100%;flex:1;}
+}
+@media (max-width:560px){
+  .brand-name{font-size:1.35rem;}
+  .main-nav a{padding:.8rem .8rem;font-size:.79rem;}
+  .stats .wrap{grid-template-columns:1fr;}
+  .stat{border-right:0;border-bottom:1px solid var(--line);}
+  .foot-top{grid-template-columns:1fr;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== OFFICIAL BANNER ===== -->
+<div class="gov-banner" id="govBanner">
+  <div class="wrap">
+    <span class="dot"></span>
+    <span>An official website of <strong>Bearer Mail</strong></span>
+    <button id="bannerToggle" aria-expanded="false">
+      Here's how you know <span class="chev">▾</span>
+    </button>
+  </div>
+  <div class="banner-detail">
+    <div class="wrap">
+      <p>Official Bearer Mail websites use <strong style="color:#fff">bearermail.com</strong> domains. A lock icon or <strong style="color:#fff">https://</strong> means you've safely connected to the Bearer Mail network. Share sensitive information only on official, secure websites.</p>
+    <b> Notice: Bearer Mail is a fictional public-facing site. We don’t offer public email services, but private personal email services do exist for ourselves. This site is simply a fun personal project.</b></div> 
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="wrap">
+    <a href="#" class="brand">
+      <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <path id="cp" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0"/>
+        </defs>
+        <circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+        <circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+        <g class="spin">
+          <text font-size="9" font-weight="700" letter-spacing="2" fill="currentColor">
+            <textPath href="#cp" startOffset="0">★ BEARER MAIL ★ OFFICIAL EMAIL PROVIDER </textPath>
+          </text>
+        </g>
+        <text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="currentColor" letter-spacing="1">BEARER</text>
+        <text x="60" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" letter-spacing="1.6">MAIL</text>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">Bearer Mail</span>
+        <span class="brand-sub">Secure Email Provider · bearermail.com</span>
+      </span>
+    </a>
+    <form class="search" id="searchForm" role="search">
+      <input type="search" placeholder="Search Bearer Mail services, settings, and notices…" aria-label="Search">
+      <button type="submit">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        Search
+      </button>
+    </form>
+  </div>
+</header>
+
+<!-- ===== NAV ===== -->
+<nav class="main-nav">
+  <div class="wrap">
+    <a href="#" class="active">Home</a>
+	<a href="https://mail.bearermail.com/webmail/" data-action="active">Login</a>
+    <a href="#" data-action="disabled">Services</a>
+    <a href="#" data-action="disabled">Newsroom</a>
+    <a href="#" data-action="disabled">About Bearer Mail</a>
+    <a href="#" data-action="disabled">Forms &amp; Publications</a>
+    <a href="#" data-action="disabled">Security &amp; Compliance</a>
+    <a href="#" data-action="copy-email">Contact</a>
+	<a href="#" data-action="disabled">Signup</a>
+  </div>
+</nav>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker">
+  <div class="label"><i></i> Live Notices</div>
+  <div class="ticker-viewport">
+    <div class="ticker-track">
+      <span>New encrypted email standard published for all Bearer Mail accounts</span>
+      <span>Service desk hours extended to 19:00 through the end of the quarter</span>
+      <span>Two-factor authentication now mandatory for all admin accounts</span>
+      <span>Scheduled maintenance: Saturday 02:00–05:00 UTC</span>
+      <span>New encrypted email standard published for all Bearer Mail accounts</span>
+      <span>Service desk hours extended to 19:00 through the end of the quarter</span>
+      <span>Two-factor authentication now mandatory for all admin accounts</span>
+      <span>Scheduled maintenance: Saturday 02:00–05:00 UTC</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><i></i> Official Portal · Secure Connection</div>
+      <h1>
+        Bearer Mail is here for you.
+        <span class="typed" id="typed"></span>
+      </h1>
+      <p class="lede">
+        Access your Bearer Mail account, manage security settings, review official
+        notices, and explore open data — all from a single, secure email platform.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary" data-action="disabled">
+          Explore Services
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#" class="btn btn-ghost" data-action="disabled">Read Latest Notices</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div>
+      <svg class="hero-seal" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <path id="cp2" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/>
+        </defs>
+        <circle cx="60" cy="60" r="57" fill="rgba(255,255,255,.05)" stroke="currentColor" stroke-width="1.5" opacity=".85"/>
+        <g class="ring">
+          <circle cx="60" cy="60" r="49" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 6" opacity=".7"/>
+        </g>
+        <g class="ring-rev">
+          <circle cx="60" cy="60" r="41" fill="none" stroke="#ffbe2e" stroke-width="1" stroke-dasharray="18 10" opacity=".8"/>
+        </g>
+        <circle cx="60" cy="60" r="31" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+        <g class="core">
+          <circle cx="60" cy="60" r="24" fill="rgba(255,190,46,.12)" stroke="#ffbe2e" stroke-width="1.4"/>
+          <text x="60" y="57" text-anchor="middle" font-size="15" font-weight="800" fill="#fff" letter-spacing="0.5">BEARER</text>
+          <text x="60" y="70" text-anchor="middle" font-size="9" font-weight="700" fill="#ffbe2e" letter-spacing="1.2">MAIL</text>
+        </g>
+        <text font-size="8.5" font-weight="700" letter-spacing="2.2" fill="currentColor" opacity=".9">
+          <textPath href="#cp2" startOffset="0">★ SECURE ★ PRIVATE ★ RELIABLE ★ EMAIL </textPath>
+        </text>
+      </svg>
+      <div class="seal-badge">
+        System Status
+        <b>Operational</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<div class="stats">
+  <div class="wrap">
+    <div class="stat reveal"><span class="num" data-count="2480000" data-suffix="+">0</span><span class="lbl">Mailboxes Protected</span></div>
+    <div class="stat reveal"><span class="num" data-count="124000000" data-suffix="">0</span><span class="lbl">Messages Delivered</span></div>
+    <div class="stat reveal"><span class="num" data-count="99" data-suffix=".9%">0</span><span class="lbl">Portal Uptime</span></div>
+    <div class="stat reveal"><span class="num" data-count="37" data-suffix="">0</span><span class="lbl">Regional Data Centres</span></div>
+  </div>
+</div>
+
+<!-- ===== SERVICES ===== -->
+<section class="block" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="kicker">Popular Services</span>
+      <h2>What do you need to do today?</h2>
+      <p>Fast, direct access to the most requested Bearer Mail services and public resources.</p>
+      <div class="rule"></div>
+    </div>
+
+    <div class="grid-3">
+      <article class="card reveal">
+        <div class="icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6M9 11h3"/></svg>
+        </div>
+        <h3>Create an Account</h3>
+        <p>Register a new Bearer Mail mailbox with verified identity and secure recovery options.</p>
+        <a href="#" class="more" data-action="disabled">Get started <span>→</span></a>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/></svg>
+        </div>
+        <h3>Webmail Login</h3>
+        <p>Access your inbox, calendar, and contacts from any browser with end-to-end encryption.</p>
+        <a href="https://mail.bearermail.com/webmail/" class="more" target="_blank" rel="noopener">Sign in <span>→</span></a>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.4 9.2-8 10-4.6-.8-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Email Security</h3>
+        <p>Manage spam filters, encryption keys, two-factor authentication, and login alerts.</p>
+        <a href="#" class="more" data-action="disabled">Review settings <span>→</span></a>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        </div>
+        <h3>Admin Console</h3>
+        <p>Manage domains, users, retention policies, and compliance settings for your organisation.</p>
+        <a href="https://mail.bearermail.com/" class="more" target="_blank" rel="noopener">Open console <span>→</span></a>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <h3>Find a Data Centre</h3>
+        <p>Locate the nearest Bearer Mail regional data centre, hours, and accessibility details.</p>
+        <a href="#" class="more" data-action="disabled">Search locations <span>→</span></a>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Help &amp; Support</h3>
+        <p>Guides, FAQs, and live assistance for individuals, businesses, and agencies.</p>
+        <a href="#" class="more" data-action="copy-email">Get help <span>→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWS ===== -->
+<section class="block news" id="news">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="kicker">Newsroom</span>
+      <h2>Latest announcements</h2>
+      <p>Official statements, policy updates, and public notices from Bearer Mail leadership.</p>
+      <div class="rule"></div>
+    </div>
+
+    <div class="grid-3">
+      <article class="news-card reveal">
+        <span class="date-badge">12 Mar 2026</span>
+        <span class="tag">Policy</span>
+        <h3>Bearer Mail publishes the 2026 Encrypted Email Standard</h3>
+        <p>The updated standard sets clear retention and security requirements for public email across all agencies.</p>
+        <a href="#" class="more" data-action="disabled">Read notice <span>→</span></a>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="date-badge">08 Mar 2026</span>
+        <span class="tag">Services</span>
+        <h3>Two-factor authentication now mandatory for admin accounts</h3>
+        <p>Administrators can enable TOTP, hardware keys, and recovery codes from the security console.</p>
+        <a href="#" class="more" data-action="disabled">Read notice <span>→</span></a>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="date-badge">01 Mar 2026</span>
+        <span class="tag">Transparency</span>
+        <h3>Quarterly performance report released</h3>
+        <p>Message delivery times improved by 18% year over year, according to the latest published metrics.</p>
+        <a href="#" class="more" data-action="disabled">Read notice <span>→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta">
+  <div class="wrap">
+    <div>
+      <h2>Stay informed with official updates</h2>
+      <p>Subscribe to receive verified Bearer Mail notices, service changes, and public consultations directly.</p>
+    </div>
+    <a href="#" class="btn btn-primary" data-action="disabled">Subscribe to Alerts →</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">
+          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+            <text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="currentColor">BEARER</text>
+            <text x="60" y="73" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor" letter-spacing="1.5">MAIL</text>
+          </svg>
+          <b>Bearer Mail</b>
+        </div>
+        <p style="margin:0;max-width:38ch;">Secure email for public service — serving the public with integrity, transparency, and accountability.</p>
+      </div>
+
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#" data-action="disabled">Create an Account</a></li>
+          <li><a href="https://mail.bearermail.com/webmail/" target="_blank" rel="noopener">Webmail Login</a></li>
+          <li><a href="#" data-action="disabled">Email Security</a></li>
+          <li><a href="https://mail.bearermail.com/" target="_blank" rel="noopener">Admin Console</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>About</h4>
+        <ul>
+          <li><a href="#" data-action="disabled">Our Mission</a></li>
+          <li><a href="#" data-action="disabled">Leadership</a></li>
+          <li><a href="#" data-action="disabled">Careers</a></li>
+          <li><a href="#" data-action="disabled">Budget &amp; Reports</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#" data-action="disabled">Help Centre</a></li>
+          <li><a href="#" data-action="disabled">Accessibility</a></li>
+          <li><a href="#" data-action="disabled">Privacy Policy</a></li>
+          <li><a href="#" data-action="copy-email">Contact Bearer Mail</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026 Bearer Mail. All rights reserved.</span> 
+	  <span><b> Notice: Bearer Mail is a fictional public-facing site. We don’t offer public email services, but private personal email services do exist for ourselves. This site is simply a fun personal project.</b> </span>
+      <span class="clock" id="clock">—</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-bar"></div>
+    <button class="modal-close" id="modalClose" aria-label="Close dialog" type="button">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<button id="top-btn" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script>
+/* =========================================================
+   1. EXPANDABLE OFFICIAL BANNER
+   ========================================================= */
+const banner = document.getElementById('govBanner');
+const bannerToggle = document.getElementById('bannerToggle');
+bannerToggle.addEventListener('click', () => {
+  const open = banner.classList.toggle('open');
+  bannerToggle.setAttribute('aria-expanded', open);
+});
+
+/* =========================================================
+   2. MODAL SYSTEM
+   ========================================================= */
+const overlay    = document.getElementById('modalOverlay');
+const modalBody  = document.getElementById('modalBody');
+const modalClose = document.getElementById('modalClose');
+const SUPPORT_EMAIL = 'bmcfwp@bearermail.com';
+let lastFocused = null;
+
+const ICONS = {
+  alert: '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><path d="M12 16.6h.01"/></svg>',
+  mail:  '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3.2 7.2 12 13l8.8-5.8"/></svg>'
+};
+
+function openModal(html){
+  lastFocused = document.activeElement;
+  modalBody.innerHTML = html;
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  modalClose.focus({ preventScroll: true });
+}
+
+function closeModal(){
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  if (lastFocused && typeof lastFocused.focus === 'function') {
+    lastFocused.focus({ preventScroll: true });
+  }
+}
+
+/* ---- "Currently disabled" popup ---- */
+function showDisabled(){
+  openModal(`
+    <div class="modal-icon warn">${ICONS.alert}</div>
+    <h3 id="modalTitle">Currently Disabled</h3>
+    <p>This feature is temporarily disabled while Bearer Mail performs scheduled
+       maintenance. Please check back later or contact support for assistance.</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" type="button" data-close>Understood</button>
+    </div>
+  `);
+}
+
+/* ---- "Contact" popup with click-to-copy email ---- */
+function showCopyEmail(){
+  openModal(`
+    <div class="modal-icon mail">${ICONS.mail}</div>
+    <h3 id="modalTitle">Contact Bearer Mail</h3>
+    <p>For support, email us at:</p>
+    <button class="copy-email" id="copyEmailBtn" type="button" aria-label="Copy support email address">
+      <span class="ce-address">${SUPPORT_EMAIL}</span>
+      <span class="ce-hint">Click to copy</span>
+    </button>
+    <div class="modal-actions">
+      <button class="btn btn-ghost-dark" type="button" data-close>Close</button>
+    </div>
+  `);
+
+  const btn = document.getElementById('copyEmailBtn');
+  if (btn) btn.addEventListener('click', () => copyEmail(btn));
+}
+
+/* ---- Clipboard copy with fallback ---- */
+function copyEmail(btn){
+  const hint = btn.querySelector('.ce-hint');
+
+  function success(){
+    btn.classList.add('copied');
+    hint.textContent = '✓ Copied to clipboard';
+    clearTimeout(btn._copyTimer);
+    btn._copyTimer = setTimeout(() => {
+      btn.classList.remove('copied');
+      hint.textContent = 'Click to copy';
+    }, 2400);
+  }
+
+  function fallback(){
+    const ta = document.createElement('textarea');
+    ta.value = SUPPORT_EMAIL;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    try { document.execCommand('copy'); success(); } catch(e){ /* ignore */ }
+    document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(SUPPORT_EMAIL).then(success).catch(fallback);
+  } else {
+    fallback();
+  }
+}
+
+/* ---- Global click delegation for actions ---- */
+document.addEventListener('click', (e) => {
+  const actionEl = e.target.closest('[data-action]');
+  if (actionEl){
+    const action = actionEl.dataset.action;
+    if (action === 'disabled'){
+      e.preventDefault();
+      showDisabled();
+      return;
+    }
+    if (action === 'copy-email'){
+      e.preventDefault();
+      showCopyEmail();
+      return;
+    }
+  }
+  if (e.target.closest('[data-close]')){
+    closeModal();
+  }
+});
+
+/* ---- Close behaviours ---- */
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+});
+
+/* =========================================================
+   3. SEARCH — disabled popup
+   ========================================================= */
+const searchForm = document.getElementById('searchForm');
+searchForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  showDisabled();
+});
+/* Also intercept the search input's Enter key (in case form submit is bypassed) */
+searchForm.querySelector('input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    showDisabled();
+  }
+});
+
+/* =========================================================
+   4. TYPEWRITER
+   ========================================================= */
+const phrases = [
+  'Securely delivering your mail.',
+  'Protecting your inbox.',
+  'Encrypting every message.',
+  'Connecting public servants.'
+];
+const typedEl = document.getElementById('typed');
+let pIndex = 0, cIndex = 0, deleting = false;
+
+function typeLoop() {
+  const current = phrases[pIndex];
+  if (!deleting) {
+    cIndex++;
+    typedEl.textContent = current.slice(0, cIndex);
+    if (cIndex === current.length) {
+      deleting = true;
+      setTimeout(typeLoop, 1700);
+      return;
+    }
+    setTimeout(typeLoop, 78);
+  } else {
+    cIndex--;
+    typedEl.textContent = current.slice(0, cIndex);
+    if (cIndex === 0) {
+      deleting = false;
+      pIndex = (pIndex + 1) % phrases.length;
+    }
+    setTimeout(typeLoop, 38);
+  }
+}
+typeLoop();
+
+/* =========================================================
+   5. SCROLL REVEAL
+   ========================================================= */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const siblings = [...entry.target.parentElement.children].filter(el => el.classList.contains('reveal'));
+      const idx = siblings.indexOf(entry.target);
+      entry.target.style.transitionDelay = (idx % 3) * 90 + 'ms';
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* =========================================================
+   6. ANIMATED COUNTERS
+   ========================================================= */
+const counters = document.querySelectorAll('[data-count]');
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1600;
+  const start = performance.now();
+
+  function frame(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const value = Math.floor(easeOut(progress) * target);
+    el.textContent = value.toLocaleString() + suffix;
+    if (progress < 1) requestAnimationFrame(frame);
+    else el.textContent = target.toLocaleString() + suffix;
+  }
+  requestAnimationFrame(frame);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+
+/* =========================================================
+   7. LIVE CLOCK
+   ========================================================= */
+const clockEl = document.getElementById('clock');
+function updateClock() {
+  const now = new Date();
+  const date = now.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
+  const time = now.toLocaleTimeString(undefined, { hour12: false });
+  clockEl.textContent = `Last updated: ${date} · ${time} local`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* =========================================================
+   8. BACK TO TOP
+   ========================================================= */
+const topBtn = document.getElementById('top-btn');
+window.addEventListener('scroll', () => {
+  topBtn.classList.toggle('show', window.scrollY > 480);
+}, { passive: true });
+topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+</body>
+</html>
