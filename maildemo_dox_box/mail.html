@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inbox · BearerMail</title>
+<link href="assets/icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/app.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- faux browser bar -->
+<div class="demo-chrome">
+  <div class="demo-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <div class="demo-url"><i class="bi bi-lock-fill lock"></i><span class="u-path"><b>maildemo.dox.box</b>/mail</span></div>
+  <span class="demo-tag">DEMO</span>
+</div>
+
+<!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html"><i class="bi bi-envelope-heart"></i>BearerMail</a>
+    <div class="nav-tabs-group">
+      <a class="nav-tab active" href="mail.html"><i class="bi bi-inbox"></i><span>Inbox</span></a>
+      <a class="nav-tab" href="drive.html"><i class="bi bi-hdd-stack"></i><span>Drive</span></a>
+      <a class="nav-tab" href="calendar.html"><i class="bi bi-calendar3"></i><span>Calendar</span></a>
+      <a class="nav-tab" href="security.html"><i class="bi bi-shield-check"></i><span>Security</span></a>
+      <a class="nav-tab" href="index.html#setup"><i class="bi bi-gear"></i><span>Setup</span></a>
+    </div>
+    <div class="nav-right">
+      <button class="btn btn-primary btn-sm" data-demo-noop="Compose is disabled in this demo"><i class="bi bi-pencil-square"></i> Compose</button>
+      <span class="whoami"><span class="avatar">PS</span> you@maildemo.dox.box</span>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="demo-note"><i class="bi bi-info-circle"></i> This is a demonstration inbox at <b>maildemo.dox.box</b>. All messages, codes and senders are fictional and nothing here is saved or sent.</div>
+
+  <div class="mail-layout">
+    <!-- sidebar -->
+    <div>
+      <div class="card">
+        <div class="card-header"><i class="bi bi-person-circle"></i> you@maildemo.dox.box</div>
+        <div class="mailbox-list">
+          <a class="folder-row active"><i class="bi bi-inbox"></i> Inbox <span class="count">4 new</span></a>
+          <a class="folder-row"><i class="bi bi-send"></i> Sent</a>
+          <a class="folder-row"><i class="bi bi-star"></i> Starred</a>
+          <a class="folder-row"><i class="bi bi-trash"></i> Trash</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><i class="bi bi-incognito"></i> Aliases</div>
+        <div class="mailbox-list">
+          <a class="folder-row"><i class="bi bi-tag"></i> shop-x7k2@maildemo.dox.box <span class="count">1</span></a>
+          <a class="folder-row"><i class="bi bi-tag"></i> news@maildemo.dox.box <span class="count">1</span></a>
+          <a class="folder-row"><i class="bi bi-tag"></i> signup-9f3@maildemo.dox.box</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><i class="bi bi-people"></i> Mailboxes</div>
+        <div class="mailbox-list">
+          <a class="folder-row"><i class="bi bi-person"></i> alex@maildemo.dox.box</a>
+          <a class="folder-row"><i class="bi bi-person"></i> jordan@maildemo.dox.box</a>
+          <a class="folder-row"><i class="bi bi-person"></i> billing@maildemo.dox.box</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- list + reader -->
+    <div class="mail-layout" style="grid-template-columns: 360px 1fr;">
+      <div class="card">
+        <div class="card-header" style="justify-content:space-between;">
+          <span><i class="bi bi-inbox"></i> Inbox</span>
+          <span class="small text-muted" title="Auto-refresh (demo)"><i class="bi bi-arrow-repeat"></i></span>
+        </div>
+        <div class="mail-list" id="mailList"></div>
+      </div>
+
+      <div class="card reader">
+        <div class="card-body" id="reader"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="_t"></div>
+
+<script src="assets/demo.js"></script>
+<script>
+/* Fictional demo messages. "auth" drives the SPF/DKIM/DMARC chips exactly like the real app. */
+const MESSAGES = [
+  {
+    id: 'otp', unread: true, from: {name: 'GitHub', address: 'noreply@github.com'},
+    subject: 'Your GitHub verification code', time: '10:42', date: 'Today, 10:42 AM',
+    snippet: 'Continue signing in with the code below',
+    tags: [['success','SPF·DKIM·DMARC pass']],
+    auth: {spf:'pass', dkim:'pass', dmarc:'pass'},
+    code: '481 902',
+    body: `<p>Hi there,</p>
+      <p>Enter this code to finish signing in to <b>GitHub</b>. It expires in 10 minutes.</p>
+      <p>If you didn't try to sign in, you can ignore this email — your password still works and nobody has access to your account.</p>
+      <p>Thanks,<br>The GitHub Team</p>`
+  },
+  {
+    id: 'bank', unread: true, from: {name: 'Northwind Bank', address: 'alerts@northwindbank.com'},
+    subject: 'Northwind Bank — one-time security code', time: '09:15', date: 'Today, 9:15 AM',
+    snippet: 'Use this code to approve your transfer',
+    tags: [['success','verified']],
+    auth: {spf:'pass', dkim:'pass', dmarc:'pass'},
+    code: '772 041',
+    body: `<p>You asked to approve a transfer of <b>$240.00</b> to a saved payee.</p>
+      <p>Enter the one-time code below in the Northwind app to confirm. Northwind will <b>never</b> call and ask you to read this code aloud.</p>
+      <p>— Northwind Security</p>`
+  },
+  {
+    id: 'doctor', unread: true, from: {name: 'Riverside Family Health', address: 'appointments@riversidehealth.example'},
+    subject: 'Appointment confirmed — Dr. Patel, Tue Oct 6', time: 'Yesterday', date: 'Sep 29, 4:20 PM',
+    snippet: 'Your appointment is confirmed. Add it to your calendar.',
+    tags: [['info','invitation']],
+    auth: {spf:'pass', dkim:'pass', dmarc:'pass'},
+    invite: {
+      title: 'Dr. Patel — annual check-up',
+      when: 'Tuesday, October 6, 2026 · 2:30 – 3:00 PM',
+      where: 'Riverside Family Health, 210 River St, Suite 4',
+      color: 'green'
+    },
+    body: `<p>Dear Paul,</p>
+      <p>This confirms your appointment with <b>Dr. Anita Patel</b> for an annual check-up.</p>
+      <ul>
+        <li><b>When:</b> Tuesday, October 6, 2026, 2:30 PM</li>
+        <li><b>Where:</b> Riverside Family Health, 210 River St, Suite 4</li>
+        <li><b>Bring:</b> your insurance card and a list of current medications</li>
+      </ul>
+      <p>Please arrive 10 minutes early. To reschedule, reply to this email.</p>
+      <p>Riverside Family Health</p>`
+  },
+  {
+    id: 'meeting', unread: true, from: {name: 'Jordan Lee', address: 'jordan@maildemo.dox.box'},
+    subject: 'Invitation: Q4 Product Sync', time: 'Yesterday', date: 'Sep 29, 11:05 AM',
+    snippet: 'Invitation to Q4 Product Sync on Thursday',
+    tags: [['info','invitation']],
+    auth: {spf:'pass', dkim:'pass', dmarc:'pass'},
+    invite: {
+      title: 'Q4 Product Sync',
+      when: 'Thursday, October 8, 2026 · 10:00 – 11:00 AM',
+      where: 'Video call · meet.maildemo.dox.box/q4-sync',
+      color: 'blue'
+    },
+    body: `<p>Hi team,</p>
+      <p>Sending the invite for our <b>Q4 Product Sync</b>. Agenda:</p>
+      <ol><li>Roadmap review</li><li>Launch checklist</li><li>Open questions</li></ol>
+      <p>Add it to your calendar and let me know if the time doesn't work.</p>
+      <p>— Jordan</p>`
+  },
+  {
+    id: 'phish', unread: false, from: {name: 'PayPal Service <secure@paypa1-support.com>', address: 'secure@paypa1-support.com'},
+    subject: 'Action required: your account is limited', time: 'Mon', date: 'Sep 28, 8:31 PM',
+    snippet: 'Verify your account within 24 hours to avoid suspension',
+    tags: [['danger','failed check']],
+    auth: {spf:'fail', dkim:'none', dmarc:'fail'},
+    replyTo: 'billing-desk@mail-recovery.top',
+    displayTrick: 'secure@paypa1-support.com',
+    authDomain: 'paypal.com',
+    body: `<p>Dear Customer,</p>
+      <p>We noticed unusual activity. Your account has been <b>limited</b>. Confirm your details within 24 hours or your account will be permanently suspended.</p>
+      <p><a href="#" data-demo-noop="Demo: BearerMail would show where this link really goes before opening it">Verify my account now »</a></p>
+      <p>PayPal Service Team</p>`
+  },
+  {
+    id: 'news', unread: false, from: {name: 'The Weekly Byte', address: 'hello@weeklybyte.example'},
+    subject: 'This week: 7 tools we actually liked', time: 'Sun', date: 'Sep 27, 7:00 AM',
+    snippet: 'Delivered to your alias news@maildemo.dox.box',
+    tags: [['secondary','via alias news@']],
+    auth: {spf:'pass', dkim:'pass', dmarc:'pass'},
+    body: `<p>Happy Sunday! Here are the seven tools that earned a spot on our desks this week…</p>
+      <p style="color:#6b7a76;font-size:.85rem">You're getting this at the disposable alias <b>news@maildemo.dox.box</b>. Disable the alias any time from Setup and this stops — your real mailbox stays private.</p>`
+  }
+];
+
+const RESULT_TEXT = { pass:'passed', fail:'failed', softfail:'soft fail', neutral:'neutral', none:'not set up' };
+function chip(name, v) {
+  v = v || 'none';
+  const kind = v === 'pass' ? 'success' : (v === 'fail' || v === 'softfail') ? 'danger' : 'secondary';
+  return `<span class="badge ${kind}">${name} ${RESULT_TEXT[v] || v}</span>`;
+}
+function authChips(a) { return chip('SPF', a.spf) + ' ' + chip('DKIM', a.dkim) + ' ' + chip('DMARC', a.dmarc); }
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function renderList() {
+  document.getElementById('mailList').innerHTML = MESSAGES.map((m,i) => `
+    <div class="mail-item ${m.unread ? 'unread' : ''} ${i===0?'active':''}" data-i="${i}">
+      <div class="mi-main">
+        <div class="mi-top">
+          <span class="mi-from">${esc(m.from.name)}</span>
+          <span class="mi-time">${esc(m.time)}</span>
+        </div>
+        <div class="mi-subject">${esc(m.subject)}</div>
+        <div class="mi-snippet">${esc(m.snippet)}</div>
+        <div class="mi-tags">${(m.tags||[]).map(([k,t])=>`<span class="badge ${k}">${esc(t)}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderReader(m) {
+  const banners = [];
+  const verdict = m.auth.dmarc === 'fail' ? 'fail' : (m.auth.dmarc==='pass'||m.auth.dkim==='pass'||m.auth.spf==='pass') ? 'pass' : 'warn';
+  if (verdict === 'fail') {
+    banners.push(`<div class="bm-banner bm-danger"><i class="bi bi-shield-exclamation"></i><div>
+      <b>This sender could not be verified.</b> The message says it is from <b>${esc(m.authDomain||'')}</b>, but it was not sent by that domain's mail servers.
+      Treat links, attachments and requests for passwords or payment as fake.
+      <div class="bm-chips" style="margin-top:6px">${authChips(m.auth)}</div></div></div>`);
+  }
+  if (m.displayTrick) {
+    banners.push(`<div class="bm-banner bm-danger"><i class="bi bi-person-exclamation"></i><div>
+      The sender's <b>name</b> shows a familiar brand, but the real address is <b>${esc(m.from.address)}</b>.</div></div>`);
+  }
+  if (m.replyTo) {
+    banners.push(`<div class="bm-banner bm-info"><i class="bi bi-reply"></i><div>
+      Replies would go to <b>${esc(m.replyTo)}</b>, not to the sender's own domain.</div></div>`);
+  }
+
+  const otp = m.code ? `
+    <div class="otp-banner" role="group" aria-label="Verification code">
+      <div class="otp-banner-text">
+        <div class="otp-banner-label"><i class="bi bi-shield-lock"></i> Verification code</div>
+        <div class="otp-banner-code">${esc(m.code)}</div>
+      </div>
+      <button type="button" class="btn btn-success otp-copy-btn" onclick="demoCopy('${esc(m.code).replace(/\s/g,'')}', this, 'code')">
+        <i class="bi bi-clipboard"></i> Copy code
+      </button>
+    </div>` : '';
+
+  const invite = m.invite ? `
+    <div class="invite-card">
+      <i class="bi bi-calendar-event ic-icon"></i>
+      <div style="flex:1">
+        <div class="ic-title">${esc(m.invite.title)}</div>
+        <div class="ic-when"><i class="bi bi-clock"></i> ${esc(m.invite.when)}</div>
+        <div class="ic-when"><i class="bi bi-geo-alt"></i> ${esc(m.invite.where)}</div>
+        <div class="ic-actions">
+          <button class="btn btn-primary btn-sm" onclick="demoAddToCalendar('${esc(m.invite.title)}')"><i class="bi bi-calendar-plus"></i> Add to calendar</button>
+          <a class="btn btn-outline btn-sm" href="calendar.html"><i class="bi bi-calendar3"></i> Open calendar</a>
+          <button class="btn btn-outline btn-sm" data-demo-noop="Demo: this would download an .ics file"><i class="bi bi-download"></i> .ics</button>
+        </div>
+      </div>
+    </div>` : '';
+
+  document.getElementById('reader').innerHTML = `
+    <div class="reader-subject">${esc(m.subject)}</div>
+    <div class="reader-meta">
+      <span class="avatar" style="background:${verdict==='fail'?'#c76b6b':'var(--primary-color)'}">${esc(m.from.name[0])}</span>
+      <div>
+        <div class="reader-from-name">${esc(m.from.name)}</div>
+        <div class="reader-addr">${esc(m.from.address)}</div>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:6px;">
+        <button class="btn btn-outline btn-sm" data-demo-noop="Reply is disabled in this demo"><i class="bi bi-reply"></i> Reply</button>
+        <button class="btn btn-outline btn-sm" data-demo-noop="Demo only"><i class="bi bi-forward"></i></button>
+        <button class="btn btn-outline-danger btn-sm" data-demo-noop="Demo only"><i class="bi bi-trash"></i></button>
+      </div>
+    </div>
+    <div class="reader-details">
+      <div class="row"><span class="k">To</span><span>you@maildemo.dox.box</span></div>
+      <div class="row"><span class="k">Date</span><span>${esc(m.date)}</span></div>
+      <div class="row"><span class="k">Sender check</span><span class="bm-chips">${authChips(m.auth)}</span></div>
+    </div>
+    ${banners.join('')}
+    ${otp}
+    ${invite}
+    <div class="mail-body">${m.body}</div>
+  `;
+}
+
+renderList();
+renderReader(MESSAGES[0]);
+document.getElementById('mailList').addEventListener('click', (e) => {
+  const item = e.target.closest('.mail-item'); if (!item) return;
+  document.querySelectorAll('.mail-item').forEach(x => x.classList.remove('active'));
+  item.classList.add('active'); item.classList.remove('unread');
+  renderReader(MESSAGES[+item.dataset.i]);
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+</script>
+</body>
+</html>

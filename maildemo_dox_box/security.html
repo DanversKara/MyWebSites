@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security · BearerMail</title>
+<link href="assets/icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/app.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="demo-chrome">
+  <div class="demo-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <div class="demo-url"><i class="bi bi-lock-fill lock"></i><span class="u-path"><b>maildemo.dox.box</b>/security</span></div>
+  <span class="demo-tag">DEMO</span>
+</div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html"><i class="bi bi-envelope-heart"></i>BearerMail</a>
+    <div class="nav-tabs-group">
+      <a class="nav-tab" href="mail.html"><i class="bi bi-inbox"></i><span>Inbox</span></a>
+      <a class="nav-tab" href="drive.html"><i class="bi bi-hdd-stack"></i><span>Drive</span></a>
+      <a class="nav-tab" href="calendar.html"><i class="bi bi-calendar3"></i><span>Calendar</span></a>
+      <a class="nav-tab active" href="security.html"><i class="bi bi-shield-check"></i><span>Security</span></a>
+      <a class="nav-tab" href="index.html#setup"><i class="bi bi-gear"></i><span>Setup</span></a>
+    </div>
+    <div class="nav-right">
+      <span class="whoami"><span class="avatar">PS</span> you@maildemo.dox.box</span>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="demo-note"><i class="bi bi-info-circle"></i> Demo security dashboard at <b>maildemo.dox.box</b>. Every session, IP and event below is fictional; buttons don't change anything.</div>
+
+  <div class="sec-nav">
+    <button class="sec-nav-btn active" data-v="overview"><i class="bi bi-speedometer2"></i> Overview</button>
+    <button class="sec-nav-btn" data-v="activity"><i class="bi bi-list-ul"></i> Activity</button>
+    <button class="sec-nav-btn" data-v="signin"><i class="bi bi-key"></i> Sign-in</button>
+    <button class="sec-nav-btn" data-v="privacy"><i class="bi bi-eye-slash"></i> Privacy</button>
+    <button class="sec-nav-btn" data-v="alerts"><i class="bi bi-bell"></i> Alerts</button>
+  </div>
+
+  <div id="secBody"></div>
+</div>
+
+<div class="toast" id="_t"></div>
+
+<script src="assets/demo.js"></script>
+<script>
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function tile(icon, title, sub, lines) {
+  return `<div class="sec-tile">
+    <div class="sec-tile-head"><i class="bi ${icon}"></i><div><div class="fw-semibold" style="font-weight:600">${title}</div><div class="small text-muted">${sub}</div></div></div>
+    <ul class="sec-tile-list">${lines.map(([n,l,bad])=>`<li class="${bad&&n?'is-bad':''}"><b>${n}</b> ${l}</li>`).join('')}</ul>
+  </div>`;
+}
+
+const VIEWS = {
+  overview() {
+    const tiles = [
+      tile('bi-envelope-arrow-down','Incoming mail','port 25',[[318,'connections'],[142,'messages delivered'],[3,'messages with a fake sender',true],[27,'blocked connections']]),
+      tile('bi-phone','Mail apps (IMAP)','port 993',[[2,'devices connected'],[46,'sign-ins'],[5,'wrong passwords',true],[1,'address throttled',true]]),
+      tile('bi-send','Sending keys (relay)','ports 587/465',[[89,'messages sent with keys'],[12,'key sign-ins'],[2,'wrong keys',true],[0,'revoked keys tried']]),
+      tile('bi-globe2','Web app','maildemo.dox.box',[[31,'sign-ins'],[4,'wrong passwords',true],[1,'wrong two-factor code',true],[0,'times rate limited']])
+    ].join('');
+
+    const imap = [
+      ['Thunderbird (macOS)', 'alex@maildemo.dox.box · 73.19.44.2 · Portland, US', 'signed in 2 hours ago'],
+      ['iPhone Mail', 'you@maildemo.dox.box · 73.19.44.2 · Portland, US · waiting for new mail', 'signed in yesterday']
+    ].map(([a,b,c])=>`<div class="sec-row"><div class="sec-row-main"><div class="fw">${esc(a)}</div><div class="sub">${esc(b)}</div><div class="sub">${esc(c)}</div></div><button class="btn btn-outline-danger btn-sm" data-demo-noop="Demo: session cannot be ended here">End</button></div>`).join('');
+
+    const web = [
+      ['Chrome · this device', 'you@maildemo.dox.box · 73.19.44.2 · password + 2FA · active now', true],
+      ['Safari · iPhone', 'you@maildemo.dox.box · 73.19.44.9 · password + 2FA · active 3h ago', false],
+      ['Firefox · Windows', 'alex@maildemo.dox.box · 98.14.221.7 · password · active yesterday', false]
+    ].map(([a,b,cur])=>`<div class="sec-row"><div class="sec-row-main"><div class="fw">${esc(a)} ${cur?'<span class="badge success">this device</span>':''}</div><div class="sub">${esc(b)}</div></div>${cur?'':'<button class="btn btn-outline-danger btn-sm" data-demo-noop="Demo: sign-out is off">Sign out</button>'}</div>`).join('');
+
+    const sus = [
+      ['185.243.115.84', 'Amsterdam, NL', 'IMAP', '212× wrong passwords · tried admin, info, sales', false],
+      ['45.155.205.233', 'unknown', 'SMTP relay', '38× wrong keys', true],
+      ['103.97.4.18', 'Singapore', 'Web app', '16× wrong passwords', false]
+    ].map(([ip,loc,src,k,blocked])=>`<div class="sec-row"><div class="sec-row-main"><div class="fw">${esc(ip)} <span class="small text-muted">${esc(loc)}</span></div><div class="sub"><span class="badge secondary">${esc(src)}</span> ${esc(k)}</div></div>${blocked?'<span class="badge secondary">blocked</span>':'<button class="btn btn-outline-danger btn-sm" data-demo-noop="Demo: blocking is off">Block</button>'}</div>`).join('');
+
+    return `
+      <div class="small text-muted" style="margin-bottom:12px">What reached BearerMail's ports in the last 24 hours. Your address right now: <b>73.19.44.2</b></div>
+      <div class="sec-tiles" style="margin-bottom:20px">${tiles}</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" class="sec-cols">
+        <div class="card"><div class="card-header"><i class="bi bi-phone"></i> Mail apps connected now</div><div class="card-body">${imap}</div></div>
+        <div class="card"><div class="card-header"><i class="bi bi-globe2"></i> Web app sessions</div><div class="card-body">${web}</div></div>
+        <div class="card" style="grid-column:1/-1"><div class="card-header"><i class="bi bi-exclamation-triangle"></i> Suspicious addresses</div><div class="card-body">${sus}</div></div>
+      </div>`;
+  },
+
+  activity() {
+    const log = [
+      ['Today 10:42', 'bi-shield-lock', 'text-success', 'Verification code delivered to you@ from github.com'],
+      ['Today 10:31', 'bi-box-arrow-in-right', '', 'Web sign-in — Chrome, 73.19.44.2 (password + 2FA)'],
+      ['Today 09:15', 'bi-shield-lock', 'text-success', 'One-time code delivered from northwindbank.com'],
+      ['Today 08:02', 'bi-shield-exclamation', 'text-danger', 'Message with a fake sender blocked (claimed paypal.com, failed DMARC)'],
+      ['Today 07:48', 'bi-phone', '', 'iPhone Mail connected over IMAP'],
+      ['Yesterday 21:12', 'bi-x-octagon', 'text-danger', '185.243.115.84 throttled after 40 wrong passwords (IMAP)'],
+      ['Yesterday 16:20', 'bi-calendar-plus', '', 'Calendar invitation imported — “Dr. Patel — check-up”'],
+      ['Yesterday 11:05', 'bi-calendar-plus', '', 'Calendar invitation imported — “Q4 Product Sync”'],
+      ['Yesterday 09:33', 'bi-link-45deg', '', 'Share link created for “Lease agreement 2026.pdf” (password set)'],
+      ['Sep 28 20:31', 'bi-shield-exclamation', 'text-danger', 'Phishing message flagged in inbox (display-name trick)'],
+      ['Sep 28 14:07', 'bi-send', 'text-success', '12 messages sent with SMTP key “newsletter-key”'],
+      ['Sep 27 07:00', 'bi-envelope', '', 'Newsletter delivered to alias news@maildemo.dox.box']
+    ].map(([t,ic,cls,txt])=>`<div class="al-item"><span class="al-time">${esc(t)}</span><span class="al-icon"><i class="bi ${ic} ${cls}"></i></span><span>${esc(txt)}</span></div>`).join('');
+    return `<div class="card"><div class="card-header"><i class="bi bi-list-ul"></i> Recent activity (last 30 days)</div><div class="card-body activity-log">${log}</div></div>`;
+  },
+
+  signin() {
+    const rows = [
+      ['Today 10:31', 'Chrome · macOS', '73.19.44.2 · Portland, US', 'Success', 'success'],
+      ['Today 06:58', 'iPhone Mail (IMAP)', '73.19.44.2 · Portland, US', 'Success', 'success'],
+      ['Yesterday 22:14', 'Unknown client', '185.243.115.84 · Amsterdam, NL', 'Wrong password', 'danger'],
+      ['Yesterday 22:13', 'Unknown client', '185.243.115.84 · Amsterdam, NL', 'Wrong password', 'danger'],
+      ['Yesterday 19:40', 'Safari · iPhone', '73.19.44.9 · Portland, US', 'Success (2FA)', 'success'],
+      ['Sep 28 03:11', 'Unknown client', '103.97.4.18 · Singapore', 'Wrong 2FA code', 'danger']
+    ].map(([t,d,ip,r,k])=>`<div class="sec-row"><div class="sec-row-main"><div class="fw">${esc(d)}</div><div class="sub">${esc(t)} · ${esc(ip)}</div></div><span class="badge ${k}">${esc(r)}</span></div>`).join('');
+    return `<div class="card"><div class="card-header"><i class="bi bi-key"></i> Sign-in history</div><div class="card-body">${rows}</div></div>
+      <div class="card"><div class="card-header"><i class="bi bi-shield-lock"></i> Two-factor authentication</div><div class="card-body">
+        <div class="sec-row"><div class="sec-row-main"><div class="fw">Authenticator app <span class="badge success">on</span></div><div class="sub">Added Aug 2, 2026 · last used today</div></div><button class="btn btn-outline btn-sm" data-demo-noop="Demo only">Manage</button></div>
+        <div class="sec-row"><div class="sec-row-main"><div class="fw">Recovery codes</div><div class="sub">8 of 10 unused</div></div><button class="btn btn-outline btn-sm" data-demo-noop="Demo only">View</button></div>
+      </div></div>`;
+  },
+
+  privacy() {
+    const row = (t,s,on)=>`<div class="sec-row"><div class="sec-row-main"><div class="fw">${esc(t)}</div><div class="sub">${esc(s)}</div></div><label class="small"><input type="checkbox" ${on?'checked':''} disabled> ${on?'On':'Off'}</label></div>`;
+    return `<div class="card"><div class="card-header"><i class="bi bi-eye-slash"></i> Privacy &amp; safety</div><div class="card-body">
+      ${row('Block remote images','Images load only when you choose to, so senders can’t track opens.',true)}
+      ${row('Warn on suspicious links','Show where a link really goes and ask before opening.',true)}
+      ${row('Strip tracking from links','Remove tracking tags added to links in incoming mail.',true)}
+      ${row('Never send read receipts','Senders are never told when you open a message.',true)}
+      ${row('Check sender (SPF/DKIM/DMARC)','Flag forged senders with an on-screen banner.',true)}
+    </div></div>
+    <div class="card"><div class="card-header"><i class="bi bi-diagram-3"></i> External accounts</div><div class="card-body">
+      <div class="sec-row"><div class="sec-row-main"><div class="fw">personal@gmail.com</div><div class="sub">imap.gmail.com:993 · <span class="text-success">connected</span> · last used 1h ago</div></div></div>
+      <div class="sec-row"><div class="sec-row-main"><div class="fw">work@outlook.com</div><div class="sub">outlook.office365.com:993 · <span class="text-danger">not connected</span></div></div></div>
+    </div></div>`;
+  },
+
+  alerts() {
+    const a = [
+      ['bi-exclamation-triangle-fill','text-danger','Repeated wrong passwords','185.243.115.84 tried 212 times overnight. The address was throttled automatically.','2 hours ago'],
+      ['bi-shield-exclamation','text-danger','Fake sender blocked','A message claiming to be from paypal.com failed DMARC and was blocked.','Today 08:02'],
+      ['bi-key','text-warning','New device signed in','Safari on iPhone signed in from a new device with your 2FA code.','Yesterday'],
+      ['bi-envelope-check','text-success','DMARC report received','Weekly aggregate report from Google shows all your mail passing.','Sep 28']
+    ].map(([ic,cls,t,s,w])=>`<div class="sec-row"><div style="width:26px;flex:0 0 auto"><i class="bi ${ic} ${cls}" style="font-size:1.2rem"></i></div><div class="sec-row-main"><div class="fw">${esc(t)}</div><div class="sub">${esc(s)}</div></div><span class="small text-muted">${esc(w)}</span></div>`).join('');
+    return `<div class="card"><div class="card-header"><i class="bi bi-bell"></i> Alerts</div><div class="card-body">${a}</div></div>`;
+  }
+};
+
+function show(v) {
+  document.querySelectorAll('.sec-nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.v===v));
+  document.getElementById('secBody').innerHTML = VIEWS[v]();
+}
+document.querySelector('.sec-nav').addEventListener('click',(e)=>{
+  const b = e.target.closest('.sec-nav-btn'); if(!b) return; show(b.dataset.v);
+});
+show('overview');
+</script>
+<style>
+@media (max-width: 820px){ .sec-cols{ grid-template-columns:1fr !important; } }
+</style>
+</body>
+</html>

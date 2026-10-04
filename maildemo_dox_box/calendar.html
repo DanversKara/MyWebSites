@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendar · BearerMail</title>
+<link href="assets/icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/app.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="demo-chrome">
+  <div class="demo-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <div class="demo-url"><i class="bi bi-lock-fill lock"></i><span class="u-path"><b>maildemo.dox.box</b>/calendar</span></div>
+  <span class="demo-tag">DEMO</span>
+</div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html"><i class="bi bi-envelope-heart"></i>BearerMail</a>
+    <div class="nav-tabs-group">
+      <a class="nav-tab" href="mail.html"><i class="bi bi-inbox"></i><span>Inbox</span></a>
+      <a class="nav-tab" href="drive.html"><i class="bi bi-hdd-stack"></i><span>Drive</span></a>
+      <a class="nav-tab active" href="calendar.html"><i class="bi bi-calendar3"></i><span>Calendar</span></a>
+      <a class="nav-tab" href="security.html"><i class="bi bi-shield-check"></i><span>Security</span></a>
+      <a class="nav-tab" href="index.html#setup"><i class="bi bi-gear"></i><span>Setup</span></a>
+    </div>
+    <div class="nav-right">
+      <button class="btn btn-primary btn-sm" data-demo-noop="New event is disabled in this demo"><i class="bi bi-plus-lg"></i> New event</button>
+      <span class="whoami"><span class="avatar">PS</span> you@maildemo.dox.box</span>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="demo-note"><i class="bi bi-info-circle"></i> Demo calendar at <b>maildemo.dox.box</b>. The doctor appointment and product sync below were imported from the invitations in the demo inbox.</div>
+
+  <div class="cal-toolbar">
+    <button class="btn btn-outline btn-sm" data-demo-noop="Demo: month navigation is off"><i class="bi bi-chevron-left"></i></button>
+    <span class="cal-month">October 2026</span>
+    <button class="btn btn-outline btn-sm" data-demo-noop="Demo: month navigation is off"><i class="bi bi-chevron-right"></i></button>
+    <button class="btn btn-outline btn-sm" data-demo-noop="Demo only">Today</button>
+    <div style="margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; align-items:center;" class="small text-muted">
+      <span><span class="badge green">&nbsp;</span> Health</span>
+      <span><span class="badge info">&nbsp;</span> Work</span>
+      <span><span class="badge warn">&nbsp;</span> Personal</span>
+    </div>
+  </div>
+
+  <div class="card"><div class="card-body" style="padding:0">
+    <div class="cal-grid" id="calGrid"></div>
+  </div></div>
+
+  <div class="card cal-agenda">
+    <div class="card-header"><i class="bi bi-list-ul"></i> Upcoming</div>
+    <div class="card-body" id="agenda"></div>
+  </div>
+</div>
+
+<!-- event modal -->
+<div class="modal-backdrop" id="evModal">
+  <div class="modal-box">
+    <div class="modal-head"><i class="bi bi-calendar-event"></i> <span id="evTitle">Event</span><button class="x" data-close>&times;</button></div>
+    <div class="modal-body" id="evBody"></div>
+    <div class="modal-foot">
+      <button class="btn btn-outline btn-sm" data-demo-noop="Demo: this would download an .ics file"><i class="bi bi-download"></i> Download .ics</button>
+      <button class="btn btn-outline btn-sm" data-demo-noop="Demo: sharing is off"><i class="bi bi-share"></i> Share</button>
+      <button class="btn btn-primary btn-sm" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="_t"></div>
+
+<script src="assets/demo.js"></script>
+<script>
+/* October 2026: Oct 1 is a Thursday. Grid starts Sunday Sep 27. */
+const EVENTS = {
+  6:  [{t:'Dr. Patel — check-up', time:'2:30 PM', color:'green', where:'Riverside Family Health, Suite 4', from:'Imported from email invitation', desc:'Annual check-up. Bring insurance card and medication list. Arrive 10 min early.'}],
+  8:  [{t:'Q4 Product Sync', time:'10:00 AM', color:'blue', where:'meet.maildemo.dox.box/q4-sync', from:'Imported from Jordan Lee', desc:'Roadmap review, launch checklist, open questions.'}],
+  2:  [{t:'Dentist reminder', time:'All day', color:'amber', where:'', from:'Personal', desc:'Call to book a cleaning.'}],
+  13: [{t:'Team lunch', time:'12:30 PM', color:'blue', where:'Café Verde', from:'Work', desc:'Monthly team lunch.'}],
+  20: [{t:'Pay rent', time:'All day', color:'amber', where:'', from:'Personal', desc:'Auto-transfer scheduled.'}],
+  27: [{t:'Flu shot', time:'9:15 AM', color:'green', where:'Riverside Family Health', from:'Health', desc:'Walk-in clinic.'}]
+};
+const TODAY = 6; // highlight Oct 6 as "today" for the demo
+
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+// Sep 27(Sun)..Oct 31; October 1 = Thursday (col 4)
+const cells = [];
+for (let d=27; d<=30; d++) cells.push({day:d, other:true});      // trailing September
+for (let d=1; d<=31; d++) cells.push({day:d, other:false});      // October
+let tail=1; while (cells.length % 7 !== 0) cells.push({day:tail++, other:true}); // early November
+
+let html = DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+html += cells.map((c,idx) => {
+  const evs = (!c.other && EVENTS[c.day]) ? EVENTS[c.day] : [];
+  const evHtml = evs.map((e,i)=>`<span class="cal-ev ${e.color}" data-day="${c.day}" data-i="${i}">${esc(e.time!=='All day'?e.time.replace(' ','')+' ':'')}${esc(e.t)}</span>`).join('');
+  return `<div class="cal-cell ${c.other?'other':''} ${(!c.other&&c.day===TODAY)?'today':''}">
+    <span class="cal-num">${c.day}</span>${evHtml}</div>`;
+}).join('');
+document.getElementById('calGrid').innerHTML = html;
+
+// agenda
+const order = Object.keys(EVENTS).map(Number).sort((a,b)=>a-b);
+document.getElementById('agenda').innerHTML = order.map(day => EVENTS[day].map(e=>{
+  const dot = {green:'#5b9a8b',blue:'#4a7c9b',amber:'#c4a35a',purple:'#8267ab',red:'#c76b6b'}[e.color];
+  return `<div class="agenda-item">
+    <div class="agenda-when">Oct ${day} · ${esc(e.time)}</div>
+    <span class="agenda-dot" style="background:${dot}"></span>
+    <div style="flex:1">
+      <div style="font-weight:600">${esc(e.t)}</div>
+      <div class="small text-muted">${e.where?('<i class="bi bi-geo-alt"></i> '+esc(e.where)+' · '):''}${esc(e.from)}</div>
+    </div>
+    <button class="btn btn-outline btn-sm" data-day="${day}" data-i="0">Open</button>
+  </div>`;
+}).join('')).join('');
+
+function openEvent(day, i) {
+  const e = EVENTS[day][i];
+  document.getElementById('evTitle').textContent = e.t;
+  document.getElementById('evBody').innerHTML = `
+    <p style="margin-top:0"><i class="bi bi-clock"></i> <b>Oct ${day}, 2026</b> · ${esc(e.time)}</p>
+    ${e.where?`<p><i class="bi bi-geo-alt"></i> ${esc(e.where)}</p>`:''}
+    <p class="small text-muted">${esc(e.desc)}</p>
+    <div class="bm-banner bm-info" style="margin-bottom:0"><i class="bi bi-envelope"></i><div>${esc(e.from)}</div></div>`;
+  demoModal('evModal', true);
+}
+document.addEventListener('click', (e)=>{
+  const t = e.target.closest('[data-day]'); if(!t) return;
+  openEvent(+t.dataset.day, +(t.dataset.i||0));
+});
+</script>
+</body>
+</html>

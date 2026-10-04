@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Lease agreement 2026.pdf · BearerMail</title>
+<link href="assets/icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/app.css" rel="stylesheet">
+<style>
+  body { display:flex; align-items:center; justify-content:center; padding:16px; }
+  .share-card { width:100%; max-width:460px; background:var(--card-bg); border-radius:18px; padding:32px;
+                box-shadow:0 6px 28px rgba(0,0,0,.10); border:1px solid var(--border-color); }
+  .brand { font-family:'Satisfy', cursive; color:var(--brand-color); font-size:1.8rem; text-align:center; margin-bottom:1rem; }
+  .file-icon { font-size:3rem; color:var(--primary-color); }
+  .seg { display:flex; gap:8px; justify-content:center; margin-bottom:18px; }
+  .seg button { border:1px solid var(--border-color); background:#fff; border-radius:999px; padding:6px 14px; font-size:.82rem; font-weight:600; cursor:pointer; color:var(--muted-text); }
+  .seg button.active { background:var(--primary-color); border-color:var(--primary-color); color:#fff; }
+</style>
+</head>
+<body>
+<div style="position:fixed; top:0; left:0; right:0;">
+  <div class="demo-chrome">
+    <div class="demo-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="demo-url"><i class="bi bi-lock-fill lock"></i><span class="u-path"><b>maildemo.dox.box</b>/s/a7Kd92</span></div>
+    <span class="demo-tag">DEMO · public share link</span>
+  </div>
+</div>
+
+<main class="share-card" style="margin-top:40px">
+  <div class="brand"><i class="bi bi-envelope-heart"></i> BearerMail</div>
+
+  <div class="seg">
+    <button class="active" data-share="password">Password prompt</button>
+    <button data-share="file">File</button>
+    <button data-share="event">Event</button>
+  </div>
+
+  <div id="shareView"></div>
+  <p class="small text-muted" style="text-align:center; margin-top:18px; margin-bottom:0;">This is how a recipient sees a link shared from BearerMail. Demo only — nothing downloads.</p>
+</main>
+
+<div class="toast" id="_t"></div>
+<script src="assets/demo.js"></script>
+<script>
+const VIEWS = {
+  password: `
+    <div style="text-align:center; margin-bottom:14px;">
+      <i class="bi bi-lock file-icon"></i>
+      <h1 class="h5" style="margin:.6rem 0 .2rem; font-size:1.15rem;">This link is protected</h1>
+      <p class="small text-muted mb-0">Shared by you@maildemo.dox.box. Enter the password you were given.</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <input class="input" type="password" placeholder="Password" value="········">
+      <button class="btn btn-primary" data-share="file">Open</button>
+    </div>`,
+  file: `
+    <div style="text-align:center;">
+      <i class="bi bi-file-earmark-pdf file-icon"></i>
+      <h1 class="h5" style="margin:.6rem 0 .2rem; font-size:1.15rem; word-break:break-word;">Lease agreement 2026.pdf</h1>
+      <p class="small text-muted" style="margin-bottom:16px;">1.2 MB · Shared by you@maildemo.dox.box</p>
+      <button class="btn btn-primary btn-lg btn-block" data-demo-noop="Demo: download is off"><i class="bi bi-download"></i> Download</button>
+      <p class="small text-muted" style="margin-top:14px; margin-bottom:0;">This link works until Oct 7, 2026, 5:00 PM.</p>
+    </div>`,
+  event: `
+    <div>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+        <i class="bi bi-calendar-event file-icon" style="font-size:2rem"></i>
+        <h1 class="h5" style="margin:0; font-size:1.1rem;">Dr. Patel — annual check-up</h1>
+      </div>
+      <p style="margin:.2rem 0;"><i class="bi bi-clock"></i> Tuesday, October 6, 2026 · 2:30 – 3:00 PM</p>
+      <p style="margin:.2rem 0;"><i class="bi bi-geo-alt"></i> Riverside Family Health, 210 River St, Suite 4</p>
+      <p class="small text-muted">Shared by you@maildemo.dox.box</p>
+      <button class="btn btn-primary btn-block" data-demo-noop="Demo: .ics download is off"><i class="bi bi-calendar-plus"></i> Add to my calendar (.ics)</button>
+    </div>`
+};
+function show(v){
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('active', b.dataset.share===v));
+  document.getElementById('shareView').innerHTML = VIEWS[v];
+}
+document.addEventListener('click',(e)=>{ const b=e.target.closest('[data-share]'); if(b) show(b.dataset.share); });
+show('password');
+</script>
+</body>
+</html>

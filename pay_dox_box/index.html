@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support the Lab — $KarasPage on Cash App</title>
+<meta name="description" content="Support the lab. Donate quickly and securely through Cash App to $KarasPage. Every contribution keeps the work going.">
+<meta name="theme-color" content="#070a07">
+
+<!-- Social preview -->
+<meta property="og:title" content="Support the Lab — $KarasPage">
+<meta property="og:description" content="Every contribution keeps the lab running. Donate via Cash App.">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+
+<style>
+  :root{
+    --green:#00D632;
+    --green-dim:#00b32a;
+    --bg:#070a07;
+    --panel:#0e1310;
+    --panel-2:#121a14;
+    --line:rgba(0,214,50,.18);
+    --text:#e9f2ea;
+    --muted:#8ba18d;
+    --radius:16px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+
+  html{scroll-behavior:smooth}
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ambient background glow */
+  .glow{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(620px 420px at 12% -5%, rgba(0,214,50,.16), transparent 70%),
+      radial-gradient(720px 520px at 88% 8%, rgba(0,214,50,.09), transparent 70%),
+      radial-gradient(900px 640px at 50% 110%, rgba(0,214,50,.07), transparent 70%);
+  }
+
+  .wrap{position:relative;z-index:1}
+
+  .container{
+    width:100%;
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 22px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    background:rgba(7,10,7,.72);
+    border-bottom:1px solid rgba(0,214,50,.12);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;height:70px;
+  }
+  .brand{
+    display:flex;align-items:center;gap:11px;
+    font-weight:800;letter-spacing:-.02em;font-size:1.05rem;
+    color:var(--text);text-decoration:none;
+  }
+  .brand .logo{
+    width:38px;height:38px;flex:0 0 auto;
+    border-radius:11px;
+    object-fit:cover;
+    display:block;
+    background:rgba(0,214,50,.1);
+    border:1px solid var(--line);
+    box-shadow:0 4px 16px rgba(0,214,50,.18);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .brand:hover .logo{
+    transform:translateY(-1px) scale(1.04);
+    box-shadow:0 8px 22px rgba(0,214,50,.32);
+  }
+  .brand .name{
+    background:linear-gradient(100deg,#ffffff 10%, #cfe9d4 55%, var(--green) 130%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-weight:900;
+    letter-spacing:-.03em;
+    font-size:1.15rem;
+  }
+  .brand .name em{
+    font-style:normal;
+    color:var(--green);
+    -webkit-text-fill-color:var(--green);
+  }
+  .brand .name .apost{
+    color:rgba(0,214,50,.75);
+    -webkit-text-fill-color:rgba(0,214,50,.75);
+  }
+
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--green);color:#04140a;
+    font-weight:800;font-size:.9rem;
+    padding:10px 18px;border-radius:999px;
+    text-decoration:none;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    box-shadow:0 0 0 rgba(0,214,50,0);
+    white-space:nowrap;
+  }
+  .nav-cta:hover{
+    background:#25e04f;
+    transform:translateY(-1px);
+    box-shadow:0 8px 26px rgba(0,214,50,.35);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:96px 0 76px;text-align:center}
+
+  h1{
+    font-size:clamp(2.2rem,6.2vw,4rem);
+    line-height:1.06;
+    letter-spacing:-.035em;
+    font-weight:800;
+    margin:0 0 22px;
+  }
+  h1 .accent{
+    color:var(--green);
+    text-shadow:0 0 42px rgba(0,214,50,.35);
+  }
+
+  .lede{
+    font-size:clamp(1rem,2.1vw,1.18rem);
+    color:var(--muted);
+    max-width:620px;
+    margin:0 auto;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:0 0 84px}
+
+  .sec-head{text-align:center;margin-bottom:38px}
+  h2{
+    font-size:clamp(1.55rem,3.6vw,2.3rem);
+    letter-spacing:-.03em;
+    font-weight:800;
+    margin:0 0 12px;
+  }
+  .sec-head p{color:var(--muted);margin:0;max-width:560px;margin-inline:auto}
+
+  /* ---------- CASHTAG CARD ---------- */
+  .tag-card{
+    background:linear-gradient(165deg,rgba(0,214,50,.09),rgba(0,214,50,.02) 45%,transparent);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:clamp(28px,5vw,52px);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .tag-card::after{
+    content:"";
+    position:absolute;
+    width:420px;height:420px;
+    top:-260px;left:50%;transform:translateX(-50%);
+    background:radial-gradient(circle,rgba(0,214,50,.28),transparent 65%);
+    pointer-events:none;
+  }
+  .tag-card > *{position:relative;z-index:1}
+
+  .copy-box{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px;
+    max-width:430px;
+    margin:0 auto;
+    background:rgba(0,0,0,.35);
+    border:1px dashed rgba(0,214,50,.35);
+    border-radius:14px;
+    padding:14px 14px 14px 20px;
+  }
+  .copy-box code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:1.25rem;font-weight:700;color:var(--green);
+    letter-spacing:.01em;
+  }
+  .copy-btn{
+    font-family:inherit;font-weight:800;font-size:.85rem;
+    background:var(--green);color:#04140a;
+    border:0;border-radius:10px;
+    padding:10px 16px;cursor:pointer;
+    transition:all .18s ease;
+    white-space:nowrap;
+  }
+  .copy-btn:hover{background:#25e04f}
+  .copy-btn.done{background:#fff;color:#04140a}
+
+  .open-link{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:24px;
+    color:var(--green);
+    font-weight:800;font-size:.95rem;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,214,50,.35);
+    padding-bottom:2px;
+    transition:border-color .18s ease, color .18s ease;
+  }
+  .open-link:hover{border-color:var(--green);color:#25e04f}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:720px;margin:0 auto;display:grid;gap:12px}
+  details{
+    background:var(--panel);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:14px;
+    padding:18px 22px;
+    transition:border-color .2s ease;
+  }
+  details[open]{border-color:var(--line)}
+  summary{
+    cursor:pointer;font-weight:700;font-size:.98rem;
+    list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{
+    content:"+";
+    color:var(--green);font-size:1.35rem;font-weight:800;line-height:1;
+    transition:transform .2s ease;
+  }
+  details[open] summary::after{content:"−"}
+  details p{margin:12px 0 0;color:var(--muted);font-size:.93rem}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid rgba(0,214,50,.12);
+    padding:38px 0 46px;
+    text-align:center;
+    color:var(--muted);
+    font-size:.85rem;
+  }
+  footer a{color:var(--green);text-decoration:none;font-weight:700}
+  footer a:hover{text-decoration:underline}
+  footer p{margin:0 0 8px}
+  footer .fine{font-size:.76rem;opacity:.7;max-width:560px;margin:14px auto 0}
+
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed;
+    left:50%;bottom:32px;
+    transform:translate(-50%,140%);
+    background:var(--green);color:#04140a;
+    font-weight:800;font-size:.9rem;
+    padding:13px 24px;border-radius:999px;
+    box-shadow:0 14px 40px rgba(0,214,50,.4);
+    z-index:99;
+    transition:transform .3s cubic-bezier(.2,.9,.3,1.3);
+    pointer-events:none;
+  }
+  .toast.show{transform:translate(-50%,0)}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:640px){
+    .hero{padding:66px 0 56px}
+    section{padding-bottom:62px}
+    .nav-cta{padding:9px 15px;font-size:.84rem}
+    .brand .logo{width:32px;height:32px;border-radius:9px}
+    .brand .name{font-size:1.02rem}
+    .copy-box{flex-direction:column;align-items:stretch;padding:18px}
+    .copy-box code{text-align:center;font-size:1.15rem}
+    .copy-btn{width:100%;padding:13px 16px;font-size:.95rem}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Kara's Lab — home">
+        <img class="logo"
+             src="header_icon.jpeg"
+             alt="Kara's Lab logo"
+             width="38" height="38"
+             loading="eager" decoding="async">
+        <span class="name">ꓘara<span class="apost">'</span>s&nbsp;<em>Donation Page</em></span>
+      </a>
+      <a class="nav-cta" href="https://cash.app/$KarasPage" target="_blank" rel="noopener noreferrer">
+        Donate
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero container">
+      <h1>Keep the lab<br><span class="accent">running strong.</span></h1>
+
+      <p class="lede">
+        Every experiment, build, and late-night breakthrough takes resources.
+        If the work here has been useful to you, you can fuel the next round in
+        about ten seconds with Cash App.
+      </p>
+    </section>
+
+    <!-- ============ CASHTAG ============ -->
+    <section class="container">
+      <div class="tag-card">
+        <div class="sec-head" style="margin-bottom:28px">
+          <h2>Here's my Cash App tag</h2>
+          <p>Copy it and send whatever you'd like — it goes straight to the lab.</p>
+        </div>
+
+        <div class="copy-box">
+          <code id="cashtag">$KarasPage</code>
+          <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+        </div>
+
+        <a class="open-link"
+           href="https://cash.app/$KarasPage"
+           target="_blank" rel="noopener noreferrer">
+          Open $KarasPage in Cash App →
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="container">
+      <div class="sec-head">
+        <h2>Quick answers</h2>
+      </div>
+
+      <div class="faq">
+        <details open>
+          <summary>How do I send a donation?</summary>
+          <p>Copy the cashtag <strong>$KarasPage</strong>, open Cash App, paste it into the search bar, and enter whatever amount you'd like. You can also tap the link above — it opens Cash App with the tag already filled in.</p>
+        </details>
+
+        <details>
+          <summary>Do I need a Cash App account?</summary>
+          <p>Yes. Cash App is free to download for iOS and Android, and sending money to a cashtag costs you nothing.</p>
+        </details>
+
+        <details>
+          <summary>Can I choose my own amount?</summary>
+          <p>Absolutely. There are no fixed tiers — just send whatever number feels right to you.</p>
+        </details>
+
+        <details>
+          <summary>Is my payment information safe?</summary>
+          <p>This page never sees or stores any payment details. Every transaction happens inside Cash App's own secure flow.</p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="container">
+      <p>Thanks for supporting the lab. 🧪</p>
+      <p><a href="https://cash.app/$KarasPage" target="_blank" rel="noopener noreferrer">$KarasPage on Cash App</a></p>
+      <p class="fine">
+        This is an independent page and is not affiliated with, endorsed by, or sponsored by
+        Cash App or Block, Inc. Cash App is a trademark of Block, Inc.
+      </p>
+    </div>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">Copied!</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var CASHTAG   = "$KarasPage";
+  var copyBtn   = document.getElementById("copyBtn");
+  var toast     = document.getElementById("toast");
+  var toastTimer = null;
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove("show");
+    }, 1900);
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.top = "-1000px";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch (err) { /* noop */ }
+    document.body.removeChild(ta);
+  }
+
+  copyBtn.addEventListener("click", function () {
+    var done = function () {
+      copyBtn.textContent = "Copied!";
+      copyBtn.classList.add("done");
+      showToast("$KarasPage copied to clipboard");
+      setTimeout(function () {
+        copyBtn.textContent = "Copy";
+        copyBtn.classList.remove("done");
+      }, 1800);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(CASHTAG).then(done).catch(function () {
+        fallbackCopy(CASHTAG);
+        done();
+      });
+    } else {
+      fallbackCopy(CASHTAG);
+      done();
+    }
+  });
+})();
+</script>
+</body>
+</html>

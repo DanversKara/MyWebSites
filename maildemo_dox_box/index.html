@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BearerMail · Demo</title>
+<link href="assets/icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/app.css" rel="stylesheet">
+<style>
+  .hero { text-align:center; padding:48px 18px 24px; max-width:760px; margin:0 auto; }
+  .hero .brand { font-family:'Satisfy', cursive; color:var(--brand-color); font-size:3rem; line-height:1; }
+  .hero h1 { font-size:1.6rem; margin:14px 0 8px; }
+  .hero p { color:var(--muted-text); font-size:1.02rem; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:16px; max-width:1100px; margin:8px auto 0; padding:0 18px 60px; }
+  .tile { display:block; text-decoration:none; color:inherit; }
+  .tile .card { height:100%; transition:.15s; }
+  .tile:hover .card { border-color:var(--primary-color); transform:translateY(-2px); box-shadow:0 8px 20px rgba(var(--primary-rgb),.18); }
+  .tile .ic { font-size:2rem; color:var(--primary-color); }
+  .tile h3 { margin:10px 0 4px; font-size:1.1rem; }
+  .tile p { margin:0; color:var(--muted-text); font-size:.9rem; }
+  .feat { display:flex; gap:8px; align-items:baseline; margin:6px 0; font-size:.92rem; }
+  .feat i { color:var(--primary-color); }
+</style>
+</head>
+<body>
+
+<div class="demo-chrome">
+  <div class="demo-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <div class="demo-url"><i class="bi bi-lock-fill lock"></i><span class="u-path"><b>maildemo.dox.box</b>/</span></div>
+  <span class="demo-tag">DEMO</span>
+</div>
+
+<div class="hero">
+  <div class="brand"><i class="bi bi-envelope-heart"></i> BearerMail</div>
+  <h1>Self-hosted email, Drive &amp; Calendar for your own domain</h1>
+  <p>An interactive demo at <b>maildemo.dox.box</b>. Explore the inbox, a shared Drive, the calendar and the security dashboard — all with fictional data. Nothing here is saved, sent, or editable.</p>
+  <div style="margin-top:18px;">
+    <a class="btn btn-primary btn-lg" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Enter the demo</a>
+    <a class="btn btn-outline btn-lg" href="https://github.com/DanversKara/BearerMailServer" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> Skip the demo — read the source</a>
+  </div>
+</div>
+
+<div class="tiles">
+  <a class="tile" href="mail.html"><div class="card"><div class="card-body">
+    <i class="bi bi-inbox ic"></i>
+    <h3>Inbox</h3>
+    <p>Read fictional mail, including one-time codes and meeting invitations.</p>
+    <div style="margin-top:12px">
+      <div class="feat"><i class="bi bi-shield-lock"></i> OTP / 2FA codes with a copy button &amp; banner</div>
+      <div class="feat"><i class="bi bi-calendar-plus"></i> Doctor &amp; meeting invites with “Add to calendar”</div>
+      <div class="feat"><i class="bi bi-shield-exclamation"></i> Forged-sender warning (SPF/DKIM/DMARC)</div>
+    </div>
+  </div></div></a>
+
+  <a class="tile" href="calendar.html"><div class="card"><div class="card-body">
+    <i class="bi bi-calendar3 ic"></i>
+    <h3>Calendar</h3>
+    <p>A month view with the appointment and meeting imported from the inbox.</p>
+    <div style="margin-top:12px">
+      <div class="feat"><i class="bi bi-hospital"></i> Dr. Patel — check-up, Oct 6</div>
+      <div class="feat"><i class="bi bi-people"></i> Q4 Product Sync, Oct 8</div>
+    </div>
+  </div></div></a>
+
+  <a class="tile" href="drive.html"><div class="card"><div class="card-body">
+    <i class="bi bi-hdd-stack ic"></i>
+    <h3>Drive</h3>
+    <p>Folders, files and a storage quota, with password-protected share links.</p>
+    <div style="margin-top:12px">
+      <div class="feat"><i class="bi bi-link-45deg"></i> maildemo.dox.box/s/ share links</div>
+      <div class="feat"><i class="bi bi-key"></i> Optional password &amp; expiry</div>
+    </div>
+  </div></div></a>
+
+  <a class="tile" href="security.html"><div class="card"><div class="card-body">
+    <i class="bi bi-shield-check ic"></i>
+    <h3>Security</h3>
+    <p>Live-looking activity: sessions, sign-ins, suspicious IPs and alerts.</p>
+    <div style="margin-top:12px">
+      <div class="feat"><i class="bi bi-activity"></i> Activity log &amp; sign-in history</div>
+      <div class="feat"><i class="bi bi-x-octagon"></i> Blocked &amp; throttled addresses</div>
+    </div>
+  </div></div></a>
+
+  <a class="tile" href="share.html"><div class="card"><div class="card-body">
+    <i class="bi bi-share ic"></i>
+    <h3>Public share link</h3>
+    <p>What a recipient sees when you share a file or event — with the password gate.</p>
+  </div></div></a>
+
+  <a class="tile" href="login.html"><div class="card"><div class="card-body">
+    <i class="bi bi-box-arrow-in-right ic"></i>
+    <h3>Sign-in screen</h3>
+    <p>The BearerMail login page for the demo domain.</p>
+  </div></div></a>
+</div>
+
+<p style="text-align:center; color:var(--muted-text); font-size:.82rem; padding:0 18px 40px;">BearerMail demo · maildemo.dox.box · fictional data only</p>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drive · BearerMail</title>
+<link href="assets/icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/app.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="demo-chrome">
+  <div class="demo-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <div class="demo-url"><i class="bi bi-lock-fill lock"></i><span class="u-path"><b>maildemo.dox.box</b>/drive</span></div>
+  <span class="demo-tag">DEMO</span>
+</div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html"><i class="bi bi-envelope-heart"></i>BearerMail</a>
+    <div class="nav-tabs-group">
+      <a class="nav-tab" href="mail.html"><i class="bi bi-inbox"></i><span>Inbox</span></a>
+      <a class="nav-tab active" href="drive.html"><i class="bi bi-hdd-stack"></i><span>Drive</span></a>
+      <a class="nav-tab" href="calendar.html"><i class="bi bi-calendar3"></i><span>Calendar</span></a>
+      <a class="nav-tab" href="security.html"><i class="bi bi-shield-check"></i><span>Security</span></a>
+      <a class="nav-tab" href="index.html#setup"><i class="bi bi-gear"></i><span>Setup</span></a>
+    </div>
+    <div class="nav-right">
+      <button class="btn btn-primary btn-sm" data-demo-noop="Upload is disabled in this demo"><i class="bi bi-upload"></i> Upload</button>
+      <span class="whoami"><span class="avatar">PS</span> you@maildemo.dox.box</span>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="demo-note"><i class="bi bi-info-circle"></i> Demo Drive at <b>maildemo.dox.box</b>. Files are fictional; “Share” shows how a password-protected link looks but creates nothing real.</div>
+
+  <div class="drive-toolbar">
+    <div class="drive-crumbs">
+      <a href="#"><i class="bi bi-hdd-stack"></i> My Drive</a>
+    </div>
+    <div class="quota-wrap">
+      <div class="small text-muted" style="display:flex; justify-content:space-between; margin-bottom:4px;">
+        <span>Storage used</span><span><b>3.1 GB</b> of 5 GB</span>
+      </div>
+      <div class="quota-bar"><div class="quota-fill" style="width:62%"></div></div>
+    </div>
+  </div>
+
+  <div class="card"><div class="card-body">
+    <div class="small text-muted" style="margin-bottom:8px; font-weight:600;">Folders</div>
+    <div class="drive-grid">
+      <div class="drive-folder" data-demo-noop="Demo: folders are not browsable"><i class="bi bi-folder-fill"></i><div><div style="font-weight:600">Documents</div><div class="small text-muted">12 items</div></div></div>
+      <div class="drive-folder" data-demo-noop="Demo: folders are not browsable"><i class="bi bi-folder-fill"></i><div><div style="font-weight:600">Invoices</div><div class="small text-muted">28 items</div></div></div>
+      <div class="drive-folder" data-demo-noop="Demo: folders are not browsable"><i class="bi bi-folder-fill"></i><div><div style="font-weight:600">Photos</div><div class="small text-muted">140 items</div></div></div>
+      <div class="drive-folder" data-demo-noop="Demo: folders are not browsable"><i class="bi bi-folder-fill"></i><div><div style="font-weight:600">Saved emails</div><div class="small text-muted">9 items</div></div></div>
+    </div>
+
+    <div class="small text-muted" style="margin:14px 0 8px; font-weight:600;">Files</div>
+    <div id="fileList"></div>
+  </div></div>
+</div>
+
+<!-- share modal -->
+<div class="modal-backdrop" id="shareModal">
+  <div class="modal-box">
+    <div class="modal-head"><i class="bi bi-share"></i> Share “<span id="shareName">file</span>”<button class="x" data-close>&times;</button></div>
+    <div class="modal-body">
+      <p class="small text-muted mt-0">Anyone with this link can download the file. In the real app you can set a password and an expiry date.</p>
+      <label class="small" style="font-weight:600">Share link</label>
+      <div class="copy-field" style="margin:6px 0 14px;">
+        <input class="input mono" id="shareLink" readonly value="">
+        <button class="btn btn-primary" onclick="demoCopy(document.getElementById('shareLink').value, this, 'link')"><i class="bi bi-clipboard"></i> Copy</button>
+      </div>
+      <div style="display:flex; gap:18px; flex-wrap:wrap;">
+        <label class="small"><input type="checkbox" checked disabled> Require password <span class="mono" style="background:#f0f4f2;padding:2px 6px;border-radius:5px;">snow-otter-42</span></label>
+        <label class="small"><input type="checkbox" checked disabled> Expires in 7 days</label>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline-danger btn-sm" data-demo-noop="Demo: link cannot be revoked here"><i class="bi bi-slash-circle"></i> Revoke</button>
+      <button class="btn btn-primary btn-sm" data-close>Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="_t"></div>
+
+<script src="assets/demo.js"></script>
+<script>
+const FILES = [
+  {name:'Lease agreement 2026.pdf', icon:'bi-file-earmark-pdf', meta:'PDF · 1.2 MB · Sep 24', shared:true, code:'a7Kd92'},
+  {name:'Passport scan.jpg', icon:'bi-file-earmark-image', meta:'Image · 3.4 MB · Sep 20', shared:false},
+  {name:'Q3 report.docx', icon:'bi-file-earmark-word', meta:'Word · 820 KB · Sep 18', shared:true, code:'mB3x71'},
+  {name:'Family budget.xlsx', icon:'bi-file-earmark-spreadsheet', meta:'Spreadsheet · 240 KB · Sep 15', shared:false},
+  {name:'Invoice #10482.pdf', icon:'bi-file-earmark-pdf', meta:'PDF · 96 KB · Sep 12', shared:true, code:'Qn5w08'},
+  {name:'Vacation photos.zip', icon:'bi-file-earmark-zip', meta:'Archive · 512 MB · Aug 30', shared:false},
+  {name:'Re: Contract (saved email).eml', icon:'bi-envelope-paper', meta:'Email · 48 KB · Aug 28', shared:false}
+];
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+document.getElementById('fileList').innerHTML = FILES.map((f,i)=>`
+  <div class="drive-file">
+    <i class="bi ${f.icon} file-icon"></i>
+    <div class="file-main">
+      <div class="file-name">${esc(f.name)}</div>
+      <div class="file-meta">${esc(f.meta)}${f.shared?' · <span class="text-success"><i class="bi bi-link-45deg"></i> shared</span>':''}</div>
+    </div>
+    <div class="file-actions">
+      <button class="btn btn-outline btn-sm" data-demo-noop="Demo: download is off"><i class="bi bi-download"></i></button>
+      <button class="btn btn-outline btn-sm share-btn" data-i="${i}"><i class="bi bi-share"></i> Share</button>
+      <button class="btn btn-outline btn-sm" data-demo-noop="Demo only"><i class="bi bi-three-dots"></i></button>
+    </div>
+  </div>`).join('');
+
+document.getElementById('fileList').addEventListener('click',(e)=>{
+  const b = e.target.closest('.share-btn'); if(!b) return;
+  const f = FILES[+b.dataset.i];
+  document.getElementById('shareName').textContent = f.name;
+  document.getElementById('shareLink').value = 'https://maildemo.dox.box/s/' + (f.code || 'x'+Math.random().toString(36).slice(2,8));
+  demoModal('shareModal', true);
+});
+</script>
+</body>
+</html>
