@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -568,6 +567,34 @@
             color: var(--badge-green-text);
             border-color: rgba(46, 204, 113, 0.15);
         }
+        /* FYI — informational only, not a referral */
+        .ref-badge.fyi {
+            background: var(--badge-blue-bg);
+            color: var(--badge-blue-text);
+            border-color: rgba(52, 152, 219, 0.15);
+        }
+        /* Not Sponsored — no affiliation, no compensation */
+        .ref-badge.notsponsored {
+            background: rgba(120, 130, 150, 0.12);
+            color: var(--color-text-secondary);
+            border-color: rgba(120, 130, 150, 0.25);
+        }
+        [data-theme="dark"] .ref-badge.notsponsored {
+            background: rgba(170, 180, 200, 0.16);
+            color: #c8cdda;
+            border-color: rgba(170, 180, 200, 0.28);
+        }
+        /* Shameless Plug — the site owner's own work/projects */
+        .ref-badge.plug {
+            background: rgba(230, 126, 34, 0.14);
+            color: #b35c00;
+            border-color: rgba(230, 126, 34, 0.25);
+        }
+        [data-theme="dark"] .ref-badge.plug {
+            background: rgba(230, 126, 34, 0.2);
+            color: #ffb066;
+            border-color: rgba(230, 126, 34, 0.3);
+        }
 
         /* ─── Tab Header ─── */
         .tab-header {
@@ -600,6 +627,26 @@
             background: var(--accent-btn);
             color: #fff;
             box-shadow: 0 2px 12px rgba(46, 204, 113, 0.25);
+        }
+
+        /* ─── Category Legend ─── */
+        .cat-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 20px;
+            margin: 0 0 18px;
+            padding: 12px 16px;
+            background: var(--color-card-alt-bg);
+            border: 1px solid var(--color-border-soft);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+        .cat-legend .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
         }
 
         .search-wrap {
@@ -1414,10 +1461,18 @@
                     <button class="cat-pill active" data-cat="finance" aria-pressed="true">Finance</button>
                     <button class="cat-pill" data-cat="mobile" aria-pressed="false">Mobile</button>
                     <button class="cat-pill" data-cat="privacy" aria-pressed="false">Privacy</button>
-                    <button class="cat-pill" data-cat="not_sponsored" aria-pressed="false">Not sponsored</button>
+                    <button class="cat-pill" data-cat="not_sponsored" aria-pressed="false">Not Sponsored</button>
                     <button class="cat-pill" data-cat="shameless_plug" aria-pressed="false">Shameless Plug</button>
                     <button class="cat-pill" data-cat="referral_link" aria-pressed="false">Referral Link</button>
                     <button class="cat-pill" data-cat="fyi" aria-pressed="false">FYI</button>
+                </div>
+
+                <!-- LABEL KEY -->
+                <div class="cat-legend" aria-label="What the labels mean">
+                    <span class="legend-item"><span class="ref-badge free">Referral Link</span> I may earn a reward — you may get a bonus.</span>
+                    <span class="legend-item"><span class="ref-badge fyi">FYI</span> Informational only — no referral, no payout.</span>
+                    <span class="legend-item"><span class="ref-badge notsponsored">Not Sponsored</span> No affiliation &amp; no compensation.</span>
+                    <span class="legend-item"><span class="ref-badge plug">Shameless Plug</span> My own work / projects.</span>
                 </div>
 
                 <div class="ref-grid" id="refCards">
@@ -1427,41 +1482,41 @@
                         <div class="ref-info"><span class="name">AirTalk Wireless</span><span class="desc">Free phone &amp; service via Lifeline</span></div>
                         <span class="ref-badge free"><i class="fas fa-gift" aria-hidden="true"></i> Referral Link</span>
                     </a>
-                    <!-- Nginx Proxy Manager -->
-                    <a href="https://nginxproxymanager.com" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="fyi, not_sponsored" data-search="nginx proxy manager reverse proxy">
-                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#704cb6"><i class="fas fa-plus" aria-hidden="true"></i></div>
-                        <div class="ref-info"><span class="name">Nginx Proxy Manager</span><span class="desc">IP address · domains without ports</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-user" aria-hidden="true"></i> FYI</span>
+                    <!-- Vela (NOT SPONSORED — community project) -->
+                    <a href="https://github.com/PimpinPumpkin/Vela/releases" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="not_sponsored" data-search="vela pimpinpumpkin github releases open source self-hosted">
+                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#8e44ad"><i class="fas fa-cube" aria-hidden="true"></i></div>
+                        <div class="ref-info"><span class="name">Vela</span><span class="desc">Maps and turn-by-turn navigation for Android without Google Play Services:</span></div>
+                        <span class="ref-badge notsponsored"><i class="fas fa-ban" aria-hidden="true"></i> Not Sponsored</span>
                     </a>
-                    <!-- vvveb -->
-                    <a href="https://demo.vvveb.com/vadmin/index.php" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="fyi, not_sponsored" data-search="vvveb website builder drag drop cms">
-                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#00bcb6"><i class="fas fa-plus" aria-hidden="true"></i></div>
-                        <div class="ref-info"><span class="name">vvveb</span><span class="desc">Build a website</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-user" aria-hidden="true"></i> FYI</span>
+                    <!-- Nginx Proxy Manager -->
+                    <a href="https://nginxproxymanager.com" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="not_sponsored" data-search="nginx proxy manager reverse proxy">
+                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#704cb6"><i class="fas fa-network-wired" aria-hidden="true"></i></div>
+                        <div class="ref-info"><span class="name">Nginx Proxy Manager</span><span class="desc">IP address · domains without ports</span></div>
+                        <span class="ref-badge notsponsored"><i class="fas fa-ban" aria-hidden="true"></i> Not Sponsored</span>
                     </a>
                     <!-- zoraxy -->
-                    <a href="https://github.com/tobychui/zoraxy/releases/" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="fyi, not_sponsored" data-search="zoraxy reverse proxy github">
-                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#00bcb6"><i class="fas fa-plus" aria-hidden="true"></i></div>
+                    <a href="https://github.com/tobychui/zoraxy/releases/" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="not_sponsored" data-search="zoraxy reverse proxy github">
+                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#00bcb6"><i class="fas fa-diagram-project" aria-hidden="true"></i></div>
                         <div class="ref-info"><span class="name">zoraxy</span><span class="desc">Multiple domains · no port numbers</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-user" aria-hidden="true"></i> FYI</span>
+                        <span class="ref-badge notsponsored"><i class="fas fa-ban" aria-hidden="true"></i> Not Sponsored</span>
                     </a>
                     <!-- Google Take Out -->
                     <a href="https://takeout.google.com" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="fyi, privacy" data-search="google takeout export your data">
-                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#7F4cb7"><i class="fas fa-plus" aria-hidden="true"></i></div>
-                        <div class="ref-info"><span class="name">Google Take Out</span><span class="desc">All Your Personal Google Data</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-user" aria-hidden="true"></i> FYI</span>
+                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#7F4cb7"><i class="fas fa-download" aria-hidden="true"></i></div>
+                        <div class="ref-info"><span class="name">Google Take Out</span><span class="desc">Export all your personal Google data</span></div>
+                        <span class="ref-badge fyi"><i class="fas fa-circle-info" aria-hidden="true"></i> FYI</span>
                     </a>
                     <!-- Google Contacts -->
                     <a href="https://contacts.google.com" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="fyi" data-search="google contacts android address book">
-                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#704bb6"><i class="fas fa-plus" aria-hidden="true"></i></div>
-                        <div class="ref-info"><span class="name">Google Contacts</span><span class="desc">Google Android Contacts</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-user" aria-hidden="true"></i> FYI</span>
+                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#704bb6"><i class="fas fa-address-book" aria-hidden="true"></i></div>
+                        <div class="ref-info"><span class="name">Google Contacts</span><span class="desc">Google Android contacts manager</span></div>
+                        <span class="ref-badge fyi"><i class="fas fa-circle-info" aria-hidden="true"></i> FYI</span>
                     </a>
                     <!-- Google Passwords -->
                     <a href="https://passwords.google.com" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="fyi" data-search="google passwords chrome android credentials">
-                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#764cb6"><i class="fas fa-plus" aria-hidden="true"></i></div>
-                        <div class="ref-info"><span class="name">Google Passwords</span><span class="desc">Google Android/Chrome Passwords</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-user" aria-hidden="true"></i> FYI</span>
+                        <div class="ref-icon" style="background:var(--color-hover-bg);color:#764cb6"><i class="fas fa-key" aria-hidden="true"></i></div>
+                        <div class="ref-info"><span class="name">Google Passwords</span><span class="desc">Google Android / Chrome passwords</span></div>
+                        <span class="ref-badge fyi"><i class="fas fa-circle-info" aria-hidden="true"></i> FYI</span>
                     </a>
                     <!-- Privacy.com -->
                     <a href="https://privacy.com" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="privacy, referral_link, finance" data-search="privacy virtual cards burner">
@@ -1497,13 +1552,13 @@
                     <a href="https://www.amazon.com/dp/B0GT2NDXP3/?coliid=I1MO6VT17R24AD&colid=ILIK40MLBUKX&psc=0" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="shameless_plug" data-search="throneclass vessel exodus">
                         <div class="ref-icon" style="background:rgba(255,180,0,0.14);color:#cc7a00"><i class="fas fa-tablet" aria-hidden="true"></i></div>
                         <div class="ref-info"><span class="name">Throneclass Vessel Exodus <span style="font-weight:400;color:var(--color-text-muted);font-size:11px;">(Paid Book)</span></span><span class="desc">Support Kara, Amazon eBook $3.99</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-book" aria-hidden="true"></i> Shameless Plug</span>
+                        <span class="ref-badge plug"><i class="fas fa-book" aria-hidden="true"></i> Shameless Plug</span>
                     </a>
                     <!-- Throneclass Free -->
                     <a href="https://www.wattpad.com/story/397179590-throneclass-vessel-exodus" target="_blank" rel="noopener noreferrer" class="ref-card" data-cat="shameless_plug" data-search="throneclass vessel exodus free wattpad">
                         <div class="ref-icon" style="background:rgba(255,180,0,0.14);color:#cc7a00"><i class="fas fa-book" aria-hidden="true"></i></div>
-                        <div class="ref-info"><span class="name">Throneclass Vessel Exodus <span style="font-weight:400;color:var(--color-text-muted);font-size:11px;">(Free Book)</span></span><span class="desc">Read Kara's Book for Free</span></div>
-                        <span class="ref-badge bonus"><i class="fas fa-book" aria-hidden="true"></i> Shameless Plug</span>
+                        <div class="ref-info"><span class="name">Throneclass Vessel Exodus <span style="font-weight:400;color:var(--color-text-muted);font-size:11px;">(Free Book)</span></span><span class="desc">Read Kara's book for free</span></div>
+                        <span class="ref-badge plug"><i class="fas fa-book" aria-hidden="true"></i> Shameless Plug</span>
                     </a>
                 </div>
 
@@ -1586,7 +1641,7 @@
             <div class="sidebar-widget">
                 <h3><i class="fas fa-info-circle" aria-hidden="true"></i> Disclaimer</h3>
                 <p style="font-size:12px;color:var(--color-text-muted);line-height:1.7;">
-                    Bottom of the page is our Referral, Affiliate & Disclosure Terms
+                    Bottom of the page is our Referral, Affiliate &amp; Disclosure Terms
                 </p>
             </div>
         </aside>
@@ -1600,6 +1655,16 @@
             <p style="margin-bottom:12px;font-size:13px;">
                 <strong>General Disclosure:</strong> This page contains referral, affiliate, and promotional links. When you click a referral link and complete a qualifying action (such as signing up, making a purchase, or activating a service), the site owner (<em>Kara Danvers / myref.info</em>) may receive a referral reward, commission, or promotional incentive. This comes at <strong style="color:var(--accent-text);">no additional cost to you</strong> — you pay the same price (or less) as going direct. All links are clearly labeled and personally vetted.
             </p>
+
+            <details>
+                <summary><i class="fas fa-tags" aria-hidden="true"></i> What the Category Labels Mean (FYI · Not Sponsored · Shameless Plug)</summary>
+                <div>
+                    <p style="margin-bottom:8px;"><strong>Referral Link</strong> — Signing up through this link may earn the site owner a reward, and often gets you a welcome bonus or discount too. These are the only links on this page that compensate the site owner.</p>
+                    <p style="margin-bottom:8px;"><strong>FYI</strong> — Purely informational links to tools and services (e.g., Google Take Out, Contacts, Passwords). No referral program is involved and the site owner receives <strong>nothing</strong> if you click.</p>
+                    <p style="margin-bottom:8px;"><strong>Not Sponsored</strong> — Third-party, independent projects (e.g., Nginx Proxy Manager, vvveb, zoraxy, and <a href="https://github.com/PimpinPumpkin/Vela/releases" target="_blank" rel="noopener noreferrer">Vela</a>). There is <strong>no affiliation, sponsorship, endorsement, or compensation</strong> of any kind — I just think they're useful.</p>
+                    <p><strong>Shameless Plug</strong> — My own creative work (e.g., <em>Throneclass Vessel Exodus</em>). Buying or reading directly supports me.</p>
+                </div>
+            </details>
 
             <details>
                 <summary><i class="fas fa-mobile-alt" aria-hidden="true"></i> AirTalk Wireless — Referral Program</summary>
@@ -1624,6 +1689,10 @@
             <details>
                 <summary><i class="fas fa-credit-card" aria-hidden="true"></i> Capital One — Referral Program</summary>
                 <div>Capital One credit card products are financial products subject to credit approval. Using the referral link may result in a referral bonus for the site owner. Credit card rewards, cashback rates, and terms are set by Capital One and may change. Applying for a credit card may affect your credit score.<div style="margin-top:6px;"><a href="https://www.capitalone.com/digital/terms-conditions/" target="_blank" rel="noopener noreferrer">Capital One Legal &amp; TOS</a></div></div>
+            </details>
+            <details>
+                <summary><i class="fas fa-ban" aria-hidden="true"></i> FYI &amp; Not Sponsored Links</summary>
+                <div>The "FYI" and "Not Sponsored" links on this page — including Google Take Out, Google Contacts, Google Passwords, Nginx Proxy Manager, vvveb, zoraxy, and <a href="https://github.com/PimpinPumpkin/Vela/releases" target="_blank" rel="noopener noreferrer">Vela</a> — are provided purely for your convenience. They are <strong>not</strong> referral or affiliate links, and the site owner receives <strong>no compensation</strong> of any kind if you visit or use them. No sponsorship, endorsement, or affiliation exists between myref.info and these projects.</div>
             </details>
             <details>
                 <summary><i class="fas fa-tablet" aria-hidden="true"></i> Throneclass Vessel Exodus (Amazon KDP) — Paid Book</summary>

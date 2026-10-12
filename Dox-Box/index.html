@@ -207,12 +207,24 @@ const CONFIG = {
     {
       title: "AI",
       links: [
-        { name: "Claude",    desc: "Anthropic chat",      url: "https://claude.ai/new" },
-        { name: "DeepSeek",  desc: "Chat & reasoning",    url: "https://chat.deepseek.com/sign_in" },
-        { name: "Qwen",      desc: "Alibaba chat",        url: "https://chat.qwen.ai/" },
-        { name: "Abacus.AI", desc: "ChatLLM platform",    url: "https://apps.abacus.ai/chatllm/signin/?need=1" },
-        { name: "Gemini",    desc: "Google AI assistant", url: "https://gemini.google.com/app" },
-        { name: "Muse.ai",   desc: "AI video search",     url: "https://muse.ai/" },
+        // Custom protocol ext+container:// tells the helper extension to open the URL inside the "GOOGLE" container.
+        // The universal script below handles the fallback if the extension isn't installed.
+        { name: "ChatGPT",   desc: "OpenAI chat",         url: "ext+container://GOOGLE/https://chatgpt.com/" },
+        { name: "Claude",    desc: "Anthropic chat",      url: "ext+container://GOOGLE/https://claude.ai/new" },
+        { name: "DeepSeek",  desc: "Chat & reasoning",    url: "ext+container://GOOGLE/https://chat.deepseek.com/sign_in" },
+        { name: "Qwen",      desc: "Alibaba chat",        url: "ext+container://GOOGLE/https://chat.qwen.ai/" },
+        { name: "Abacus.AI", desc: "ChatLLM platform",    url: "ext+container://GOOGLE/https://apps.abacus.ai/chatllm/signin/?need=1" },
+        { name: "Gemini",    desc: "Google AI assistant", url: "ext+container://GOOGLE/https://gemini.google.com/app" },
+        { name: "Muse.ai",   desc: "AI video search",     url: "ext+container://GOOGLE/https://muse.ai/" },
+      ]
+    },
+    {
+      title: "Shopping",
+      links: [
+        // Opens in your "SHOPPING" container
+        { name: "Amazon",   desc: "Online shopping & retail",   url: "ext+container://SHOPPING/https://www.amazon.com/" },
+        { name: "eBay",     desc: "Auctions & marketplace",    url: "ext+container://SHOPPING/https://www.ebay.com/" },
+        { name: "Walmart",  desc: "Retail & groceries",        url: "ext+container://SHOPPING/https://www.walmart.com/" },
       ]
     },
     {
@@ -245,7 +257,15 @@ function hashHue(str){
 }
 function faviconFor(url){
   try {
-    const h = new URL(url).hostname;
+    let targetUrl = url;
+    // If using the custom container protocol, extract the real URL to fetch the favicon
+    if (url.startsWith('ext+container://')) {
+        const match = url.match(/ext\+container:\/\/[^\/]+\/(.*)/);
+        if (match && match[1]) {
+            targetUrl = match[1];
+        }
+    }
+    const h = new URL(targetUrl).hostname;
     if (/^(\d{1,3}\.){3}\d{1,3}$/.test(h) || h === 'localhost' || !h.includes('.')) return null;
     return `https://www.google.com/s2/favicons?domain=${h}&sz=64`;
   } catch (e) { return null; }
@@ -311,6 +331,58 @@ for (const group of CONFIG.groups) {
   g.appendChild(grid);
   groupsEl.appendChild(g);
 }
+
+/* ---------- universal container link handler ---------- */
+/*  This version only attempts to use the custom protocol if the browser is Brave.
+    Otherwise, it opens the link normally, avoiding the OS protocol prompt.
+*/
+function setupContainerLinks() {
+    const isBrave = navigator.brave && navigator.brave.isBrave ? true : false; // Simple check, see notes below
+
+    const links = document.querySelectorAll('a[href^="ext+container://"]');
+    links.forEach(link => {
+        const customUrl = link.getAttribute('href');
+        const match = customUrl.match(/ext\+container:\/\/[^\/]+\/(.*)/);
+        if (!match || !match[1]) return;
+
+        const realUrl = match[1];
+
+        link.addEventListener('click', function(e) {
+            // If we are not in Brave, just open the normal URL and do nothing else.
+            if (!isBrave) {
+                // Let the default action happen (open href), which is the normal URL.
+                // We do nothing, so the browser follows the href naturally.
+                return;
+            }
+
+            // --- Brave-specific logic below ---
+            // Prevent the default so we can try the custom protocol first.
+            e.preventDefault();
+
+            let didLeavePage = false;
+            const markAsLeft = () => { didLeavePage = true; };
+
+            window.addEventListener('blur', markAsLeft, { once: true });
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) markAsLeft();
+            }, { once: true });
+
+            // Attempt to open the custom protocol.
+            window.location.href = customUrl;
+
+            // Fallback: if nothing happened, open the real URL.
+            setTimeout(() => {
+                if (!didLeavePage) {
+                    window.removeEventListener('blur', markAsLeft);
+                    window.location.href = realUrl;
+                }
+            }, 800);
+        });
+    });
+}
+
+// Run the setup after rendering.
+setupContainerLinks();
 
 /* ---------- filter / search ---------- */
 function applyFilter(){
