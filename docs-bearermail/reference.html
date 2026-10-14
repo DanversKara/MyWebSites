@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Config reference — BearerMail docs</title>
+<meta name="description" content="Every BearerMail environment variable, port, and volume.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html" class="active">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Config reference</h1>
+<p class="lead">Every BearerMail-specific environment variable, port, and volume. For upstream plMail's own variables, see the <a href="https://karatektus.github.io/pl_mail/docs/">upstream configuration reference</a>.</p>
+
+<h2>Environment variables (mail server)</h2>
+<table>
+  <tr><th>Variable</th><th>Default</th><th>What it does</th></tr>
+  <tr><td><code>MAIL_DOMAIN</code></td><td><code>example.com</code></td><td>Your mail domain. Used for the Postfix hostname, DKIM selector domain, and default aliases.</td></tr>
+  <tr><td><code>MAIL_HELO</code></td><td><em>(empty → mail.$MAIL_DOMAIN)</em></td><td>Hostname Postfix announces. Override if your PTR record uses a different name.</td></tr>
+  <tr><td><code>MAIL_ACCOUNTS</code></td><td><em>(empty)</em></td><td><code>localpart:password</code> pairs, comma-separated. The mailbox list — this <em>is</em> user management.</td></tr>
+  <tr><td><code>MAIL_RELAYHOST</code></td><td><em>(empty = direct)</em></td><td>Outbound relay, e.g. <code>[in-v3.mailjet.com]:587</code>. Settable from Admin → Mail server instead.</td></tr>
+  <tr><td><code>MAIL_RELAY_USER</code></td><td><em>(empty)</em></td><td>Relay login (e.g. Mailjet API key).</td></tr>
+  <tr><td><code>MAIL_RELAY_PASS</code></td><td><em>(empty)</em></td><td>Relay secret (e.g. Mailjet secret key). Never paste into chat or tickets.</td></tr>
+  <tr><td><code>MAIL_CERTS_PATH</code></td><td><em>(empty = self-signed)</em></td><td>Host path containing <code>fullchain.pem</code> + <code>privkey.pem</code> for Dovecot's port 993.</td></tr>
+  <tr><td><code>CF_API_TOKEN</code></td><td><em>(empty = DDNS off)</em></td><td>Cloudflare API token (DNS:Edit) for the dynamic-DNS updater.</td></tr>
+  <tr><td><code>CF_ZONE</code></td><td><em>(empty)</em></td><td>DNS zone for the updater, e.g. <code>yourdomain.com</code>.</td></tr>
+  <tr><td><code>CF_RECORD</code></td><td><code>mail</code></td><td>Hostname the updater keeps pointed at your IP.</td></tr>
+  <tr><td><code>MAIL_LOGIN_GUARD</code></td><td><code>on</code></td><td>Failed-login blocking for IMAP (port 993). <code>off</code> disables it; settings live in Admin → Security.</td></tr>
+</table>
+
+<h2>Environment variables (app)</h2>
+<table>
+  <tr><th>Variable</th><th>Default</th><th>What it does</th></tr>
+  <tr><td><code>DRIVE_QUOTA_MB</code></td><td><code>5120</code></td><td>Drive storage per person when Admin → Drive has no setting (0 = no limit).</td></tr>
+  <tr><td><code>OIDC_ISSUER</code>, <code>OIDC_CLIENT_ID</code>, <code>OIDC_CLIENT_SECRET</code></td><td><em>(empty = off)</em></td><td>Single sign-on from the environment. Only used when Admin → SSO holds no complete provider; what's saved there wins. See <a href="sso.html">Single sign-on</a>.</td></tr>
+  <tr><td><code>OIDC_BUTTON_LABEL</code>, <code>OIDC_SCOPES</code>, <code>OIDC_AUTO_CREATE</code>, <code>OIDC_REQUIRE_VERIFIED_EMAIL</code></td><td><em>see upstream</em></td><td>The rest of the environment single sign-on settings, as in the <a href="https://karatektus.github.io/pl_mail/docs/providers/oidc.html">upstream OIDC page</a>.</td></tr>
+</table>
+<p>When both are set, the <code>MAIL_RELAY*</code> <strong>env vars win</strong> over the Admin → Mail server relay settings. To manage the relay purely from the UI, leave the env vars empty.</p>
+
+<h2>Ports</h2>
+<table>
+  <tr><th>Port</th><th>Service</th><th>Exposed to</th><th>Notes</th></tr>
+  <tr><td><code>25</code></td><td>mta (Postfix)</td><td>Internet</td><td>Inbound mail. Must be reachable for receiving.</td></tr>
+  <tr><td><code>587</code></td><td>mta (Postfix)</td><td>Compose network only</td><td>Deliberately <strong>not</strong> published — plMail submits here internally.</td></tr>
+  <tr><td><code>143</code></td><td>mailstore (Dovecot)</td><td>Compose network only</td><td>plMail reads mail here, like any IMAP account.</td></tr>
+  <tr><td><code>993</code></td><td>mailstore (Dovecot)</td><td>Internet (TLS)</td><td>Direct IMAP for Thunderbird/phone apps. Self-signed cert unless <code>MAIL_CERTS_PATH</code> is set.</td></tr>
+</table>
+
+<h2>Volumes &amp; files</h2>
+<table>
+  <tr><th>Volume / path</th><th>What lives there</th></tr>
+  <tr><td><code>mail_data</code></td><td>Maildir mailboxes. Back this up.</td></tr>
+  <tr><td><code>mail_dkim</code></td><td>DKIM private key. Back this up — losing it means rotating DNS.</td></tr>
+  <tr><td><code>app_drive</code> → <code>/app/var/drive</code></td><td>Drive files, plus <code>_settings.json</code> with the Admin → Drive limits. Included in <code>app:backup</code>.</td></tr>
+  <tr><td><code>mail_config</code> → <code>/etc/plmail-mail-config</code></td><td>Shared between the app and the mail containers: relay settings, aliases, SMTP keys, <code>login_guard.json</code> (mail login blocking settings) and <code>auth_policy_key</code> (the secret the mail server uses to ask the app about logins; made on first start).</td></tr>
+</table>
+
+<h2>Applying changes</h2>
+<pre><code># Update to the latest version (backup, download, rebuild):
+./update.sh
+
+# Re-read old mail for plan and code cards after an update:
+docker compose exec php php bin/console app:backfill insights --since=2026-10-01
+
+# After editing MAIL_ACCOUNTS or relay env vars:
+docker compose --profile mail up -d --force-recreate mta mailstore
+
+# After editing anything else:
+docker compose --profile mail up -d --build</code></pre>
+<p>Migrations run automatically on container boot — you don't run them by hand. If a container is restart-looping on a migration error, check <code>docker compose logs &lt;service&gt;</code> before anything else.</p>
+
+<div class="pagenav">
+  <a href="android.html"><span class="label">← Prev</span>Android app</a>
+  <a href="troubleshooting.html" class="next"><span class="label">Next</span>Troubleshooting →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMS &amp; MMS — own-pbx docs</title>
+<meta name="description" content="Two-way SMS/MMS with the outside world through voip.ms: webhook, poller, DID routing, and setup.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">own-pbx <span style="color:#fb923c">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="install.html">Installation</a>
+  </div>
+  <div class="nav-section"><h4>Using it</h4>
+    <a href="phones.html">Phones &amp; feature codes</a>
+    <a href="admin.html">Admin panel</a>
+    <a href="myphone.html">My Phone</a>
+    <a href="android.html">Android app <span class="badge new">new</span></a>
+    <a href="sms.html" class="active">SMS &amp; MMS</a>
+  </div>
+  <div class="nav-section"><h4>Running it</h4>
+    <a href="security.html">Security</a>
+    <a href="advanced.html">911 · Recording · Billing</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
+    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>SMS &amp; MMS</h1>
+<p class="lead">Your voip.ms DIDs send and receive real texts. Each DID routes to an extension: inbound texts land in Zoiper, My Phone and ESP/HA devices; replies go back out from the same DID.</p>
+
+<div class="callout">
+  <strong>Need a VoIP provider?</strong>
+  <p><a href="https://voip.ms/en/invite/MjM2MjQ4">voip.ms referral link ↗</a> — reasonable plans that work with this project.</p>
+</div>
+
+<h2>How it works</h2>
+<h3>Inbound — two paths, no lost messages</h3>
+<ul>
+  <li><strong>URL callback (instant):</strong> voip.ms fires a GET/POST to <code>https://&lt;your-panel&gt;/hooks/voipms-sms</code> with <code>to, from, message, id, date</code>. The PBX checks the token, dedupes by message ID, looks up the DID route, stores the message, and pushes it to Zoiper via SIP MESSAGE.</li>
+  <li><strong>Poller (safety net, every 60s):</strong> callbacks can misfire (tunnel hiccup, timeout). A background thread polls voip.ms <code>getSMS</code>/<code>getMMS</code> per routed DID and ingests anything the webhook missed. Same dedupe table — nothing is ever delivered twice. Webhook = instant, poll = source of truth.</li>
+</ul>
+<h3>Outbound</h3>
+<ul>
+  <li><strong>Zoiper:</strong> text <code>+15551234567</code> as a SIP MESSAGE destination. The AGI detects the external number and sends it via the voip.ms API from the DID mapped to your extension — in a background thread, so Zoiper gets its reply immediately even if voip.ms is slow.</li>
+  <li><strong>My Phone → Messages:</strong> type an external number, same path.</li>
+  <li><strong>ESP/HA:</strong> <code>POST http://&lt;pbx&gt;:8099/messages/send</code> with <code>{"to": "+1555…", "from": "8801", "body": "…"}</code> — external numbers route out through voip.ms automatically.</li>
+</ul>
+<h3>MMS</h3>
+<p>voip.ms callbacks carry no media, so inbound MMS is enriched via the <code>getMMS</code> API. Pictures arrive as <code>[MMS: &lt;link&gt;]</code> entries — tappable in Zoiper, My Phone and ESP.</p>
+<h3>Sender DID selection</h3>
+<p>Replies go out from the DID the conversation is already on (each message records its DID), so a thread stays on one number even when several DIDs route to the same extension. For a brand-new conversation: the DID whose route points at your extension, else the configured default DID, else the first route.</p>
+
+<h2>Setup</h2>
+<h3>1. voip.ms portal</h3>
+<ol>
+  <li><strong>Main Menu → SOAP and REST/JSON API:</strong> enable the API and set an <strong>API password</strong> (separate from your portal login; shown once, save it). The API username is your <strong>portal login email</strong> — not the account number.</li>
+  <li><strong>DID Numbers → Manage DIDs → edit each DID → Message Service (SMS/MMS):</strong> enable it, paste the webhook URL from the PBX's SMS page, choose <strong>E.164</strong> number format, turn on callback retry, Apply.
+    <pre><code>https://&lt;panel&gt;/hooks/voipms-sms?token=...&amp;to={TO}&amp;from={FROM}&amp;message={MESSAGE}&amp;id={ID}&amp;date={TIMESTAMP}</code></pre>
+  </li>
+</ol>
+<div class="callout warn">
+  <strong>Verify after save</strong>
+  <p>The voip.ms portal sometimes mangles pasted URLs. Re-open the DID after saving and confirm the webhook URL — especially the token — survived intact.</p>
+</div>
+<h3>2. PBX → SMS routes</h3>
+<ol>
+  <li>Admin panel → <strong>SMS routes</strong> (or <code>/sms-routes</code>): fill in the API username/password, webhook token (auto-generated if blank), default DID.</li>
+  <li>Add one route per DID: DID (digits, e.g. <code>15551234567</code>) → destination extension (e.g. <code>8801</code>). The page shows the exact webhook URL to paste into voip.ms.</li>
+  <li>Make the webhook reachable from the internet — via Cloudflare Tunnel / Nginx Proxy Manager to <code>http://&lt;pbx-ip&gt;:8001</code>. <code>/hooks/voipms-sms</code> is allow-listed for remote access, so it works through the tunnel even when admin pages are LAN-only.</li>
+</ol>
+<h3>3. Test</h3>
+<p>Text the DID from your mobile → Zoiper should pop within seconds. Reply from Zoiper → your mobile gets it from the DID. Then check the logs:</p>
+<pre><code>journalctl -u pbx-api -f    # webhook hits
+journalctl -u pbx-brain -f  # "msg external:" lines
+journalctl -u pbx-agi -f    # "msg-route external:" lines</code></pre>
+
+<h2>Security notes</h2>
+<ul>
+  <li>The webhook token in the URL query prevents random POSTs from storing messages.</li>
+  <li>The voip.ms API password is stored in the database settings, not in code.</li>
+  <li>Outbound still respects per-extension send switches, monthly quotas and message limits.</li>
+</ul>
+
+<div class="pagenav">
+  <a href="android.html"><span class="label">← Prev</span>Android app</a>
+  <a href="security.html" class="next"><span class="label">Next</span>Security →</a>
+</div>
+
+<div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

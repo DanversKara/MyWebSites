@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Updating &amp; maintenance — own-pbx docs</title>
+<meta name="description" content="Update own-pbx, back it up, and know where everything lives.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">own-pbx <span style="color:#fb923c">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="install.html">Installation</a>
+  </div>
+  <div class="nav-section"><h4>Using it</h4>
+    <a href="phones.html">Phones &amp; feature codes</a>
+    <a href="admin.html">Admin panel</a>
+    <a href="myphone.html">My Phone</a>
+    <a href="android.html">Android app <span class="badge new">new</span></a>
+    <a href="sms.html">SMS &amp; MMS</a>
+  </div>
+  <div class="nav-section"><h4>Running it</h4>
+    <a href="security.html">Security</a>
+    <a href="advanced.html">911 · Recording · Billing</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html" class="active">Updating &amp; maintenance</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
+    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Updating &amp; maintenance</h1>
+<p class="lead">One command updates everything. Your data and settings survive.</p>
+
+<h2>Updating</h2>
+<p>As root on the PBX:</p>
+<pre><code>pbx-update</code></pre>
+<p>It downloads the latest code (the project folder must be a <code>git clone</code>), re-deploys the PBX, and — only if the edge files changed — copies <code>kamailio/</code> to the edge box and runs <code>update-edge.sh</code> there. The first time the edge needs updating it asks for the edge's address and remembers it. <code>pbx-update --edge</code> updates the edge even when nothing in it changed.</p>
+<p>When you log in to the PBX as root it checks GitHub (at most hourly) and tells you if an update is available. It <strong>never installs anything by itself</strong> — an update restarts the phone services and would drop calls in progress, so you choose when to run it.</p>
+<p>Edge-only manual path: copy the new <code>kamailio/</code> folder over and run <code>./update-edge.sh</code>. It keeps your IPs and domain, and rolls back by itself if the new config doesn't start.</p>
+
+<h2>Backups</h2>
+<p>Back up these three:</p>
+<ul>
+  <li><code>/var/lib/pbx/</code> — database (<code>pbx.db</code>), greetings</li>
+  <li><code>/var/spool/pbx/</code> — voicemail, recordings</li>
+  <li><code>/etc/pbx/</code> — config (including the ARI password)</li>
+</ul>
+
+<h2>Data retention</h2>
+<table>
+  <tr><th>Data</th><th>Kept for</th></tr>
+  <tr><td>Sign-in log</td><td>24 hours</td></tr>
+  <tr><td>Security events in the Activity feed</td><td>24 hours (the change log itself is kept, including recording-consent records)</td></tr>
+  <tr><td>Call history</td><td>90 days (users can't delete it)</td></tr>
+  <tr><td>Voicemail, recordings, texts</td><td>until deleted</td></tr>
+</table>
+
+<h2>Logs</h2>
+<pre><code>journalctl -u pbx-brain -u pbx-api -u pbx-agi
+asterisk -rvvv
+# On the edge:
+journalctl -u kamailio -u rtpengine -u fail2ban</code></pre>
+
+<h2>Files and folders</h2>
+<h3>In the repo</h3>
+<pre><code>pbx-api/        web panel + REST API (FastAPI)
+  app.py          admin pages, auth, sessions, dashboard, v1 API,
+                  voip.ms SMS webhook + inbound poller, /sms-routes admin UI
+  voipms_sms.py   voip.ms helper: sendSMS/sendMMS, getSMS/getMMS polling,
+                  DID normalization, route lookups
+  ucp.py          My Phone
+  ring_groups_ui.py, ivr_ui.py, billing.py, e911_ui.py, email_ui.py,
+  network_ui.py, safety_ui.py, security.py, ddns.py, entitlements.py, mailer.py
+pbx-brain/      call engine (ARI) - app.py, e911.py, agi_server.py (texts,
+                incl. external SMS/MMS via voip.ms API), voipms_sms.py (shared helper)
+config-gen/     renders Asterisk pjsip.conf from the database; static Asterisk configs
+db/             schema.sql (applied on every deploy), prod-seed.sql (example)
+scripts/        install.sh, deploy.sh, create-admin.py, security-check.sh,
+                systemd units, privileged helper scripts
+kamailio/       edge server: install.sh, update-edge.sh, kamailio.cfg.template,
+                rtpengine.conf.template, fail2ban/, certificate + IP scripts,
+                verify-edge.sh, pbx-edge-notify
+dev/            developer and test tools (not needed to run own-pbx)
+docs/           API.md (REST API), SCREENSHOTS.md (all screenshots), screenshots/,
+                VOIPMS_SMS_SETUP.md (voip.ms SMS/MMS setup and troubleshooting)</code></pre>
+<h3>On the PBX</h3>
+<ul>
+  <li>Code: <code>/opt/pbx</code></li>
+  <li>Data: <code>/var/lib/pbx</code> (database <code>pbx.db</code>, greetings)</li>
+  <li>Voicemail and recordings: <code>/var/spool/pbx</code></li>
+  <li>ARI password: <code>/etc/pbx/ari.pass</code></li>
+</ul>
+<h3>On the edge</h3>
+<ul>
+  <li><code>/etc/kamailio</code>, <code>/etc/rtpengine</code>, <code>/etc/fail2ban/jail.d</code>, <code>/etc/pbx-edge/notify.env</code></li>
+</ul>
+
+<div class="pagenav">
+  <a href="advanced.html"><span class="label">← Prev</span>911 · Recording · Billing</a>
+  <a href="troubleshooting.html" class="next"><span class="label">Next</span>Troubleshooting →</a>
+</div>
+
+<div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

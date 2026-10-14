@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting — BearerMail docs</title>
+<meta name="description" content="Fix the failures that actually happen: mail not arriving, relay rejections, container restart loops.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html" class="active">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Troubleshooting</h1>
+<p class="lead">The failures that have actually happened, and the smallest thing that fixes each one.</p>
+
+<h2>Mail isn't arriving</h2>
+<ol>
+  <li><strong>Is port 25 reachable?</strong> From outside your network: <code>telnet mail.yourdomain.com 25</code> should show the Postfix banner. If it hangs, your ISP or host is blocking inbound port 25 — you can't receive directly.</li>
+  <li><strong>Is the MX right?</strong> <code>dig MX yourdomain.com</code> should point at your <code>mail</code> hostname, and that A record must be DNS-only (grey cloud), not proxied.</li>
+  <li><strong>Watch the conversation:</strong> <code>docker compose logs -f mta</code> shows every SMTP session live.</li>
+</ol>
+<p>Log lines worth knowing:</p>
+<ul>
+  <li><code>NOQUEUE: reject: RCPT ... Relay access denied</code> — the recipient isn't in <code>MAIL_ACCOUNTS</code>.</li>
+  <li><code>status=bounced</code> with a DNS error — the container can't resolve; check the host's DNS.</li>
+</ul>
+
+<h2>Mail goes to spam / gets rejected</h2>
+<ul>
+  <li><strong>Check the triad:</strong> SPF, DKIM and DMARC all published and valid? Use the admin DNS checker or an external validator (e.g. mail-tester.com).</li>
+  <li><strong>PTR record:</strong> no reverse DNS on your IP is the most common reason Gmail distrusts a new server.</li>
+  <li><strong>Home IP?</strong> Stop delivering directly and relay through Mailjet — <a href="mail-server.html#sending-direct-or-relayed">Sending: direct or relayed</a>.</li>
+  <li><strong>New domain?</strong> Fresh domains have no reputation. Warm up with real correspondence before any volume.</li>
+</ul>
+
+<h2>A container is restart-looping</h2>
+<p>The app containers run database migrations on every boot. A failing migration restart-loops the container:</p>
+<pre><code>docker compose logs php | tail -40   # or worker / scheduler / imap-supervisor</code></pre>
+<p>Look for the migration error at the top of the loop. Common cause: a non-idempotent migration replayed against a partially-migrated database. Fix the migration to be idempotent (<code>CREATE TABLE IF NOT EXISTS</code>, guarded ALTERs), then rebuild <strong>all four app services</strong> — they share one image:</p>
+<pre><code>docker compose --profile mail up -d --build</code></pre>
+<div class="callout warn">
+  <strong>Rebuild everything, not one service</strong>
+  <p>All app services share the <code>plmail-fork:latest</code> image. Rebuilding only <code>php</code> leaves the others on the old image with the old bug.</p>
+</div>
+
+<h2>Relay stopped working</h2>
+<ul>
+  <li>Check Admin → Mail server: is the relay still configured, or did someone clear the host field (which reverts to direct delivery)?</li>
+  <li>Remember: <code>MAIL_RELAY*</code> env vars <strong>override</strong> the UI. If you set them in the shell and forgot, the UI can't change them.</li>
+  <li>Mailjet secret rotated? Update it in the same place you set it.</li>
+</ul>
+
+<h2>Android app won't pair / sync</h2>
+<ul>
+  <li><strong>Auth proxy in front?</strong> The app needs a direct path to the server — bypass forward-auth (Authentik etc.) for the mail hostname.</li>
+  <li><strong>"Scan the code" closes the app or says the camera could not be started:</strong> update to 0.0.33 or later (the scanner uses ZXing instead of ML Kit). Meanwhile use <strong>Enter the address instead</strong>. Check that Android's <em>Camera access</em> quick-settings toggle is on.</li>
+  <li><strong>No update offered:</strong> the app checks at most once an hour. Use <strong>Drawer → Check for updates</strong>, or fully close and reopen the app.</li>
+  <li><strong>Signed out after reinstalling:</strong> expected. Updates keep the login; uninstalling or <em>Clear storage</em> removes it. Pair again.</li>
+  <li><strong>App closed unexpectedly:</strong> reopen it, tap <strong>Copy</strong> on the crash report and include it in a GitHub issue.</li>
+  <li><strong>Release workflow fails with <code>No key with alias … found in keystore</code>:</strong> the <code>KEY_ALIAS</code> secret must contain only the alias word (check with <code>keytool -list</code>), then re-run the Release workflow.</li>
+  <li><strong>Updates failing to install:</strong> every APK must be signed with the same key. If you installed a debug build or a differently-signed APK, uninstall first — Android won't let a mismatched signature update in place.</li>
+</ul>
+
+<h2>Share links don't work</h2>
+<ul>
+  <li>Check the link hasn't expired — expiries are enforced server-side.</li>
+  <li>If the share page loads but download fails, check the php container's logs and that the <code>app_drive</code> volume (<code>/app/var/drive</code>) is writable and has disk space.</li>
+  <li>"Drive is switched off": an admin turned Drive off for the owner (Admin → Drive or Admin → Users), which also stops their links.</li>
+  <li>Report emails not arriving: they are sent from an administrator's own mailbox, so at least one admin needs a working mail account. The report still shows in Admin → Drive either way.</li>
+</ul>
+
+<h2>A mail app suddenly can't log in</h2>
+<ul>
+  <li>Its address was probably blocked after too many wrong passwords. Open <strong>Admin → Security → Mail login blocking</strong>, find the address under <strong>Blocked now</strong>, and click <strong>Unblock</strong> (or <strong>Unblock and always allow</strong>). Then fix the password in that app, or it will be blocked again.</li>
+  <li>The badge says <strong>Waiting for mail server</strong>: restart the mail containers once (<code>./update.sh</code> does it) so the mail server starts asking.</li>
+  <li>The web app and the BearerMail phone app are never blocked — they don't sign in on port 993.</li>
+</ul>
+
+<h2>A code or plan card is wrong</h2>
+<ul>
+  <li>Cards are made when mail arrives, by the version you were running then. After an update, re-read recent mail:
+<pre><code>docker compose exec php php bin/console app:backfill insights --since=2026-10-01</code></pre>
+  The re-read replaces that mail's old code and plan cards.</li>
+  <li>A plan card on something that isn't a plan: click <strong>Not an event</strong>.</li>
+  <li>A new card doesn't appear on a page that was already open: refresh the page (a hard refresh, Ctrl+F5, if it still doesn't).</li>
+</ul>
+
+<h2>Single sign-on doesn't work</h2>
+<ul>
+  <li><strong>Nothing in the logs, sign-in just fails:</strong> a bot shield (Anubis, Cloudflare challenge) in front of the provider is answering the server's requests with an HTML challenge. Test and fix as on <a href="sso.html#behind-anubis-or-another-bot-shield">Single sign-on → Behind Anubis</a>.</li>
+  <li><strong>"…did not tell BearerMail your email address":</strong> the provider user has no email, or the email scope isn't selected on the provider.</li>
+  <li><strong>"…has not confirmed your email address":</strong> authentik 2025.10+ sends <code>email_verified: false</code> by default — add the verified email mapping.</li>
+  <li><strong>The button lands straight in your mail:</strong> that's success; the provider already had you signed in.</li>
+  <li><strong>Locked out with the password form hidden:</strong> go to <code>/login?password=1</code>.</li>
+  <li>After any change at the provider: <code>docker compose exec php php bin/console cache:pool:clear cache.app</code>.</li>
+</ul>
+
+<h2>Still stuck</h2>
+<p>Collect <code>docker compose logs --tail=100 &lt;service&gt;</code> for the failing service and open an issue on the relevant repo — <a href="https://github.com/DanversKara/pl_mail_bearermail/issues">server</a> or <a href="https://github.com/DanversKara/pl_mail_android_bearermail/issues">android</a>. Say what you expected, what happened, and what the logs show.</p>
+
+<div class="pagenav">
+  <a href="reference.html"><span class="label">← Prev</span>Config reference</a>
+  <a href="index.html" class="next"><span class="label">Back to</span>Overview →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting — own-pbx docs</title>
+<meta name="description" content="Fix the problems that actually happen with own-pbx: registration, audio, calls dropping, email, and more.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">own-pbx <span style="color:#fb923c">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="install.html">Installation</a>
+  </div>
+  <div class="nav-section"><h4>Using it</h4>
+    <a href="phones.html">Phones &amp; feature codes</a>
+    <a href="admin.html">Admin panel</a>
+    <a href="myphone.html">My Phone</a>
+    <a href="android.html">Android app <span class="badge new">new</span></a>
+    <a href="sms.html">SMS &amp; MMS</a>
+  </div>
+  <div class="nav-section"><h4>Running it</h4>
+    <a href="security.html">Security</a>
+    <a href="advanced.html">911 · Recording · Billing</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="troubleshooting.html" class="active">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
+    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Troubleshooting</h1>
+<p class="lead">The problems that actually happen, and where to look first.</p>
+
+<table>
+  <tr><th>Problem</th><th>Check</th></tr>
+  <tr><td>Phone won't register</td><td><strong>Dashboard → Recent sign-ins</strong> and <strong>Activity</strong>; <code>asterisk -rx "pjsip show endpoints"</code>; on the edge <code>fail2ban-client status kamailio-edge</code> (unban: <code>fail2ban-client unban &lt;ip&gt;</code>)</td></tr>
+  <tr><td>Outside calls fail</td><td>User has outside minutes (Billing → User access)? Outbound route matches? <code>asterisk -rx "pjsip show registrations"</code> says <em>Registered</em>? <code>journalctl -u pbx-brain</code> shows <code>outbound ... via trunk</code>?</td></tr>
+  <tr><td>Incoming calls skip someone</td><td>They need outside minutes; check <code>journalctl -u pbx-brain | grep skipped</code></td></tr>
+  <tr><td>Remote phone: no audio</td><td>Router forwards UDP 20000–20099 to the <strong>edge</strong>; the phone uses SRTP (SDES); run <code>./verify-edge.sh</code></td></tr>
+  <tr><td>Remote phone: "SDP mismatch" when answering</td><td>Set the phone's media encryption to <strong>SRTP (SDES)</strong></td></tr>
+  <tr><td>Remote phone never rings</td><td>Zoiper killed in the background (phone settings / push); edge config is current (<code>./update-edge.sh</code>)</td></tr>
+  <tr><td>Hang-up doesn't end the call on the other side</td><td>Edge config is current; the certificate matches <code>sip.example.com</code></td></tr>
+  <tr><td>Calls drop after an IP change</td><td><code>systemctl status pbx-edge-ip.timer</code> on the edge; Network page shows "In sync"</td></tr>
+  <tr><td>No emails</td><td>Email page → <strong>Send test</strong>; port 587 or 465 (many ISPs block 25)</td></tr>
+  <tr><td>Can't open admin pages</td><td>Use <code>http://&lt;PBX-IP&gt;:8001</code> from the office network, not the published address</td></tr>
+  <tr><td>Android app: "doesn't support the app yet", or "Not Found" when calling</td><td>The PBX is older than the app: run <code>pbx-update</code>. Use the same address as My Phone from outside</td></tr>
+  <tr><td>Android app: "Can't reach …"</td><td>Address typed right (<code>https://</code>)? Phone on mobile data can reach your published address? Try it in the phone's browser first. Right after <code>pbx-update</code>, wait 30 seconds</td></tr>
+  <tr><td>Android app: pairing code "wrong or expired"</td><td>Codes work once and for 5 minutes &mdash; get a new one in My Phone &rarr; App</td></tr>
+  <tr><td>Android app: no notifications</td><td>Settings &rarr; Notifications &rarr; <strong>Send a test notification</strong> (none = allow notifications in Android); <strong>Let it run in the background</strong> &rarr; Allow; the line under <strong>Check now</strong> says what the last check found. Texts you send yourself don't notify</td></tr>
+  <tr><td>Android app: calls fail</td><td>Settings &rarr; Calling &rarr; Phone login &rarr; <strong>Get from my PBX</strong> &rarr; Save. "Remote calling isn't set up" = set the domain under Admin &rarr; Network. Otherwise tap <strong>Copy details</strong> on the call screen for the SIP code</td></tr>
+  <tr><td>Android app: a "1" on the icon that won't go away</td><td>Update the app (0.5.1+): the &ldquo;connected&rdquo; notification no longer counts</td></tr>
+  <tr><td>Android app: calls to me go to voicemail, the app never rings</td><td>Run <code>pbx-update</code>, then in the app Settings &rarr; Calling &rarr; Phone login &rarr; <strong>Get from my PBX</strong> &rarr; Save (the username must end in <code>-app</code>). Check <em>Incoming calls</em> says &ldquo;Signed in&rdquo; and allow <strong>Let it run in the background</strong></td></tr>
+  <tr><td>Android app: a call says &ldquo;Not Found&rdquo; or can't reach the PBX</td><td>Run <code>pbx-update</code>; set the remote-access domain under Admin &rarr; Network; use <strong>Get from my PBX</strong> for the phone login</td></tr>
+  <tr><td>Android app signed out by itself</td><td>Panel password changed, signed out from My Phone → App, not used for 60 days, or 10 wrong PINs — pair again</td></tr>
+  <tr><td>Inbound SMS doesn't arrive</td><td>Webhook URL in voip.ms (re-check the token survived the paste); <code>did_sms_routes</code> has the normalized DID; <code>journalctl -u pbx-api -f</code> for webhook hits</td></tr>
+  <tr><td>Outbound SMS fails</td><td>API username is the login email (not account number); <code>journalctl -u pbx-agi -f</code> for <code>msg-route external:</code> lines</td></tr>
+</table>
+
+<h2>Where the logs live</h2>
+<pre><code>journalctl -u pbx-brain -u pbx-api -u pbx-agi
+asterisk -rvvv
+# On the edge:
+journalctl -u kamailio -u rtpengine -u fail2ban</code></pre>
+
+<div class="pagenav">
+  <a href="reference.html"><span class="label">← Prev</span>Updating &amp; maintenance</a>
+  <a href="index.html" class="next"><span class="label">Back to</span>Overview →</a>
+</div>
+
+<div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

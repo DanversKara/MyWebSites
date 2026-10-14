@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android app — BearerMail docs</title>
+<meta name="description" content="Install and use the BearerMail Android app: pairing, Drive, aliases, app lock, and updates.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html" class="active">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Android app <span class="badge new">BearerMail addition</span></h1>
+<p class="lead">A native Android client for your BearerMail server — forked from karatektus's plMail app, renamed, and extended with Drive, aliases, and a handful of quality-of-life features.</p>
+
+<div class="callout">
+  <strong>Not the official app</strong>
+  <p>For upstream plMail, use karatektus's app. Report problems with the BearerMail additions to the <a href="https://github.com/DanversKara/pl_mail_android_bearermail">BearerMail Android repo</a>, not upstream.</p>
+</div>
+
+<h2>Install</h2>
+<p>Get the APK from <a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases">GitHub Releases</a>. Two flavours:</p>
+<table>
+  <tr><th>Flavour</th><th>Install ID</th><th>Pick it when…</th></tr>
+  <tr><td><code>foss</code></td><td><code>com.bearermail.mail</code></td><td>You want no Google dependencies (default). From 0.0.33 pairing needs nothing from Google either.</td></tr>
+  <tr><td><code>google</code></td><td><code>com.bearermail.mail.google</code></td><td>You need Google services (e.g. certain push paths).</td></tr>
+</table>
+<p>It installs <em>next to</em> a stock plMail install, not over it. The app shows as <strong>BearerMail</strong> (and "BearerMail Calendar" for the optional calendar icon).</p>
+<p>On first install, Android asks you to allow BearerMail to install apps — that's for the built-in updater (below).</p>
+
+<div class="callout">
+  <strong>QR scanner: fixed in 0.0.33</strong>
+  <p>Up to 0.0.31, tapping "Scan the code" could close the app on some phones. The cause was inside Google's ML Kit barcode library (it failed during its own setup), so from 0.0.33 the scanner decodes with <strong>ZXing</strong> instead: pure Java, no Google Play services, no native library. 0.0.32 shows "The camera could not be started" with the reason instead of crashing. On any version, <strong>Enter the address instead</strong> pairs with the server address and an app password.</p>
+  <p>ZXing is a little slower to lock on than Google's scanner. Let the QR code fill most of the frame and hold steady for a second; when scanning off a monitor, lower its brightness a bit to cut glare.</p>
+</div>
+
+<h2>Pairing</h2>
+<p>On the server: <strong>Settings → App passwords</strong> → create one, then either scan the QR code in the app or tap the <code>plmail://pair?host=…&amp;code=…</code> link. The app talks JMAP to your server.</p>
+<div class="callout warn">
+  <strong>Reverse-proxy note</strong>
+  <p>If your server sits behind an auth proxy (e.g. Authentik forward-auth), the app's host must bypass it — the app needs a direct, unauthenticated-proxy path to the JMAP endpoint, or pairing and sync fail.</p>
+</div>
+
+<h2>What the fork adds</h2>
+<h3>Drive on the phone</h3>
+<ul>
+  <li><strong>Drawer → Drive</strong> (shown only when the server offers it): browse folders, upload from the phone, open, send or save files, rename, move, delete, and manage share links — with optional password and 1/7/30-day or never expiry. New links are copied to the clipboard.</li>
+  <li><strong>Share to "BearerMail Drive"</strong> — a second entry in every app's share sheet. Sharing there uploads files straight into Drive instead of opening the composer.</li>
+  <li><strong>Drive links in mail and events</strong> — the composer's link button and <strong>Add from Drive</strong> under an event's description pick a Drive file (or upload one) and insert a download link.</li>
+  <li><strong>Too big to attach → Drive link.</strong> Picking a file over 25&nbsp;MB in the composer uploads it to Drive and inserts a download link with a short note, instead of failing at Send. (Phone uploads up to 300&nbsp;MB.)</li>
+  <li><strong>Shared links open a page</strong> — recipients see the file with a Download button and a "Report this link" button, not a raw download.</li>
+</ul>
+
+<h3>On-the-spot aliases</h3>
+<p><strong>Drawer → New alias</strong>, or the composer's From menu → <strong>New alias…</strong> / <strong>Random alias (one tap)</strong>. Type a name or generate a random one (<code>shop.k3v9x2ma@yourdomain.com</code>). It's copied to the clipboard, receives mail within seconds, and works as a From address immediately. Delete it on the web under Settings → Aliases.</p>
+
+<h3>Plans in emails → calendar</h3>
+<p>When a message says something like "meet me at 218 Main St at 10am" or "lunch Friday at 12:30", the reader shows a <strong>Looks like a plan</strong> card. <strong>Add to calendar</strong> opens the event editor pre-filled (title, time, place, note) — nothing is saved until you press Save. Detection runs on the phone, on text already downloaded; nothing is sent anywhere.</p>
+
+<h3>Insert event in compose</h3>
+<p>Composer menu (⋯) → <strong>Insert event</strong> picks one of your upcoming events, writes its details into the message and attaches it as an <code>.ics</code> — the recipient adds it to their calendar in one tap.</p>
+
+<h3>Copy verification codes</h3>
+<p>When a mail carries a one-time code ("Your verification code is 482 913"), the reader shows a <strong>Verification code</strong> card with a <strong>Copy</strong> button, and the new-mail notification gets a <strong>Copy</strong> button too. The code goes on the clipboard marked sensitive (hidden in clipboard preview). Detection needs a code word next to the number, so order numbers, prices and dates are left alone — and it all runs on-device.</p>
+
+<h3>App lock (PIN)</h3>
+<p><strong>Drawer → App lock → Set a PIN</strong> (4, 6 or 12 digits, entered twice). BearerMail then asks for it on every start and when you return to it (immediately, after 1 minute, or after 5 minutes — your choice). The first four wrong PINs in a row cost nothing; from the fifth, each try waits 30 seconds, doubling up to 15 minutes. The PIN is stored only as a salted PBKDF2 hash; on Android 13+ the Recents screen shows a blank card while locked. Forgot it? Clear BearerMail's storage in Android Settings → Apps and pair again.</p>
+
+<h3>Crash reports</h3>
+<p>If the app ever closes unexpectedly, the next launch shows <strong>BearerMail closed unexpectedly</strong> with the error, the app version and the device, plus <strong>Copy</strong> and <strong>Dismiss</strong>. Paste it into a GitHub issue. Nothing is sent anywhere; the report stays on the phone until you copy it.</p>
+
+<h3>Built-in updater</h3>
+<p>Release builds check this repo's GitHub Releases on launch (at most hourly); <strong>Drawer → Check for updates</strong> checks immediately. When a newer version is out you get its notes with <strong>Update</strong>, <strong>Later</strong> and <strong>Skip this version</strong>. Update downloads the APK for your flavour and opens Android's install screen. Every release is cut automatically from <code>main</code> by CI — and every APK must be signed with the same key, or Android refuses the update.</p>
+<p><strong>Your login survives updates.</strong> Installing a newer version over the old one (which is what the updater does) keeps your account, mail, settings and PIN. You are signed out only when the app's data is wiped: uninstalling, <em>Clear storage</em>, or replacing it with a differently signed build. The saved login is encrypted with a key Android deletes with the data, so it cannot be carried to a fresh install; pair again (an existing app password can be reused).</p>
+<p>The app checks on start at most once an hour. If an update doesn't show up, use <strong>Drawer → Check for updates</strong>, or fully close the app (swipe it away) and reopen it.</p>
+
+<h3>From upstream pl_mail_android 0.0.30 <span class="badge new">merged</span></h3>
+<ul>
+  <li><strong>More reliable push</strong> — notifications are handed to a background worker, so a busy phone no longer drops them.</li>
+  <li><strong>Replies from the right address</strong> — a reply goes out from the address the mail was sent to, and a draft keeps the address it was written from.</li>
+</ul>
+
+<h2>Releases (for maintainers)</h2>
+<ol>
+  <li>Merge a pull request into <code>main</code>. <strong>Auto release</strong> bumps the patch version (e.g. 0.0.32 → 0.0.33), commits <code>chore(release): x.y.z</code> and tags it.</li>
+  <li><strong>Release</strong> then runs the tests, builds both flavours, signs them and publishes a GitHub Release with <code>plmail-x.y.z-foss.apk</code>, <code>plmail-x.y.z-google.apk</code>, the <code>.aab</code> bundles and the R8 <code>mapping.txt</code> files. About 15 minutes in all.</li>
+  <li>Phones offer the update on their next check.</li>
+</ol>
+<p>One-time setup, under the repo's <strong>Settings → Secrets and variables → Actions</strong>:</p>
+<table>
+  <tr><th>Secret</th><th>Value</th></tr>
+  <tr><td><code>KEYSTORE_BASE64</code></td><td>The <code>.jks</code> file as base64 (PowerShell: <code>[Convert]::ToBase64String([IO.File]::ReadAllBytes("…\bearermail-release.jks")) | Set-Clipboard</code>)</td></tr>
+  <tr><td><code>KEYSTORE_PASSWORD</code></td><td>The keystore password</td></tr>
+  <tr><td><code>KEY_ALIAS</code></td><td>Only the alias word, e.g. <code>bearermail</code> (see <code>keytool -list -keystore …</code>)</td></tr>
+  <tr><td><code>KEY_PASSWORD</code></td><td>The key password (same as the keystore password for PKCS12 keystores)</td></tr>
+</table>
+<p>Also set <strong>Settings → Actions → General → Workflow permissions → Read and write</strong>, so the release job can push its version bump.</p>
+<div class="callout warn">
+  <strong>Keep the keystore safe</strong>
+  <p>Back up the <code>.jks</code> file and its password. Lose them and installed apps can never be updated again; everyone would have to uninstall and reinstall.</p>
+</div>
+<p><strong>Reading a crash from a release build:</strong> release builds rename classes (R8), so stack traces show names like <code>v77.b</code>. Download the matching <code>plmail-x.y.z-*-mapping.txt</code> from that release and search it for <code>-&gt; v77:</code> to find the real class.</p>
+<p><strong>Screenshot tests:</strong> when a change alters a screen on purpose, put <code>[record-screenshots]</code> in the commit message on a pull-request branch; CI re-records the reference images, commits them and re-runs CI.</p>
+<p><strong>Cost:</strong> the repo is public, so GitHub Actions minutes are free (the billing page shows a "gross" amount, but <em>Billed: $0</em>). A merged change uses roughly 25–30 runner minutes.</p>
+
+<h2>Building it yourself</h2>
+<pre><code>./gradlew :app:assembleFossDebug
+# APK lands in app/build/outputs/apk/foss/debug/</code></pre>
+<p>Needs JDK 21 and the Android SDK (platform 37, build-tools 36). Full build docs are in the repo's <a href="https://github.com/DanversKara/pl_mail_android_bearermail/blob/main/BEARERMAIL.md">BEARERMAIL.md</a>.</p>
+
+<div class="pagenav">
+  <a href="sso.html"><span class="label">← Prev</span>Single sign-on</a>
+  <a href="reference.html" class="next"><span class="label">Next</span>Config reference →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DNS &amp; domains — BearerMail docs</title>
+<meta name="description" content="DNS records for your mail domain: MX, SPF, DKIM, DMARC, reverse DNS, and the Cloudflare dynamic-DNS updater.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html" class="active">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>DNS &amp; domains</h1>
+<p class="lead">Four DNS records (plus DKIM) make your domain a working mail domain. Get these right and most deliverability problems never happen.</p>
+
+<h2>The records</h2>
+<p>Replace <code>yourdomain.com</code> with yours and <code>203.0.113.10</code> with your server's public IP.</p>
+<table>
+  <tr><th>Record</th><th>Name</th><th>Value</th></tr>
+  <tr><td>MX</td><td><code>@</code></td><td><code>10 mail.yourdomain.com.</code></td></tr>
+  <tr><td>A</td><td><code>mail</code></td><td><code>203.0.113.10</code></td></tr>
+  <tr><td>TXT (SPF)</td><td><code>@</code></td><td><code>v=spf1 mx ~all</code></td></tr>
+  <tr><td>TXT (DKIM)</td><td><code>mail._domainkey</code></td><td>the record from <code>docker compose logs mta</code> (see below)</td></tr>
+  <tr><td>TXT (DMARC)</td><td><code>_dmarc</code></td><td><code>v=DMARC1; p=none; rua=mailto:postmaster@yourdomain.com</code></td></tr>
+</table>
+
+<div class="callout warn">
+  <strong>Never proxy mail DNS through Cloudflare</strong>
+  <p>The <code>mail</code> A record must be DNS-only (grey cloud). Cloudflare's proxy doesn't handle SMTP — proxied mail records break receiving entirely. Your website can stay behind the proxy; the mail hostname must not.</p>
+</div>
+
+<h2>DKIM</h2>
+<p>On first boot the MTA generates a DKIM signing key and prints the DNS record to its logs:</p>
+<pre><code>docker compose logs mta | sed -n '/== DKIM DNS/,/== end DKIM DNS/p'</code></pre>
+<p>Paste the whole thing as a TXT record at <code>mail._domainkey.yourdomain.com</code>. The key itself lives in the <code>mail_dkim</code> Docker volume — back it up with everything else, because rotating it means updating DNS.</p>
+
+<h2>DMARC policy</h2>
+<p>Start at <code>p=none</code> (monitoring only). Watch the aggregate reports arriving at <code>postmaster@</code> for a week or two of real traffic, then move to <code>quarantine</code>, then <code>reject</code>. Jumping straight to <code>reject</code> is how legitimate mail silently disappears while you're still misconfigured.</p>
+
+<h2>Reverse DNS (PTR)</h2>
+<p>Ask whoever owns your IP (VPS panel, ISP) to set a PTR record pointing at <code>mail.yourdomain.com</code>. Gmail and friends weigh this heavily — without it, expect the spam folder. On a residential connection you usually can't set this, which is one more reason home servers should relay outbound (see <a href="mail-server.html#sending-direct-or-relayed">Sending: direct or relayed</a>).</p>
+
+<h2 id="dynamic-dns">Dynamic DNS for home IPs</h2>
+<p><span class="badge new">BearerMail addition</span></p>
+<p>If your server sits behind a residential connection, your public IP changes — and your MX/A records have to follow it. BearerMail includes a Cloudflare dynamic-DNS updater: give it a Cloudflare API token and the zone, and it keeps your <code>mail</code> A record pointed at your current IP.</p>
+<pre><code># Cloudflare API token with DNS:Edit on your zone, then:
+export CF_API_TOKEN="your-token"
+export CF_ZONE="yourdomain.com"
+export CF_RECORD="mail"
+docker compose --profile mail up -d</code></pre>
+<p>The updater runs alongside the stack and refreshes the record on a schedule. Pair this with an outbound relay (Mailjet etc.) and a home connection becomes a workable mail server: inbound finds you via the updated A record, outbound deliverability rides on the relay's reputation instead of your residential IP's.</p>
+
+<div class="callout">
+  <strong>The home-hosting checklist</strong>
+  <p>Port 25 inbound reachable (test: <code>telnet mail.yourdomain.com 25</code> from outside) · A record on DNS-only, kept current by the DDNS updater · outbound via relay, not direct · SPF/DKIM/DMARC published. Miss any one of these and something subtle breaks.</p>
+</div>
+
+<div class="pagenav">
+  <a href="mail-server.html"><span class="label">← Prev</span>Mail server</a>
+  <a href="features.html" class="next"><span class="label">Next</span>Features →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

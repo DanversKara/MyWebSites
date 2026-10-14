@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mail server — BearerMail docs</title>
+<meta name="description" content="The built-in Postfix + Dovecot + OpenDKIM mail server: architecture, relays, certificates, testing.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html" class="active">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Mail server <span class="badge new">BearerMail addition</span></h1>
+<p class="lead">Upstream plMail is a client — it reads other people's mailboxes. BearerMail adds the other half: a real mail server for your own domain, built from Postfix, Dovecot and OpenDKIM, running as part of the same compose stack.</p>
+
+<h2>Architecture</h2>
+<pre><code>internet --port 25--> mta (Postfix) --LMTP--> mailstore (Dovecot)
+plMail   --IMAP 143--> mailstore                (reading, like any account)
+plMail   --SMTP 587--> mta                      (sending, DKIM-signed)</code></pre>
+<p>Two containers join the stack under the <code>mail</code> compose profile:</p>
+<table>
+  <tr><th>Service</th><th>Software</th><th>Role</th><th>Published ports</th></tr>
+  <tr><td><code>mta</code></td><td>Postfix + OpenDKIM</td><td>Receives internet mail on port 25, signs outbound with DKIM</td><td><code>25:25</code></td></tr>
+  <tr><td><code>mailstore</code></td><td>Dovecot</td><td>Stores mail (Maildir), serves IMAP to plMail and to the world</td><td><code>993:993</code> (TLS)</td></tr>
+</table>
+<p>Because delivery lands in Dovecot and plMail syncs it over IMAP like any other account, everything plMail does — threads, full-text search, filters, push — works on your domain mail with zero changes to the app. Mail keeps arriving even when plMail itself is down: Postfix queues it.</p>
+<p>Mail lives in the <code>mail_data</code> volume (Maildir); DKIM keys in <code>mail_dkim</code>. Both survive restarts and rebuilds.</p>
+
+<h2>Managing mailboxes</h2>
+<p>Mailboxes come from one variable. <code>localpart:password</code> pairs, comma-separated:</p>
+<pre><code>export MAIL_ACCOUNTS="you:STRONG-PASSWORD,info:ANOTHER-STRONG-PASSWORD"
+docker compose --profile mail up -d --force-recreate mta mailstore</code></pre>
+<p>Logins are the full address (<code>you@yourdomain.com</code>). <code>postmaster@</code> and <code>abuse@</code> are aliased to the first mailbox automatically. There is no mailbox-management UI yet — this variable <em>is</em> the interface.</p>
+
+<h2 id="sending-direct-or-relayed">Sending: direct or relayed</h2>
+<p>By default Postfix delivers outbound mail itself by looking up each recipient's MX (direct delivery). That needs <strong>port 25 outbound</strong> open — commonly blocked on residential connections and some VPS providers.</p>
+<h3>Using a relay (recommended for home IPs)</h3>
+<p>You can point outbound mail at a relay provider <strong>from the web UI</strong> — no shell needed. Go to <strong>Admin → Mail server</strong>, enter the provider's SMTP host, username and secret key, and hit Save. The mta container picks it up within seconds.</p>
+<p>For Mailjet specifically:</p>
+<ol>
+  <li>In Mailjet: <strong>Account → API keys</strong> — copy the API key and the Secret key. The secret goes into your server; never paste it into chat or a ticket.</li>
+  <li>Check <strong>Account → Sender domains</strong>: your domain must be validated there.</li>
+  <li>In BearerMail's Admin → Mail server (or via env vars below):
+    <ul>
+      <li>Host: <code>[in-v3.mailjet.com]:587</code></li>
+      <li>Username: your Mailjet API key</li>
+      <li>Password: your Mailjet secret key</li>
+    </ul>
+  </li>
+</ol>
+<p>The same settings exist as environment variables (<code>MAIL_RELAYHOST</code>, <code>MAIL_RELAY_USER</code>, <code>MAIL_RELAY_PASS</code>); env vars win when both are set. Clearing the host field in the UI switches back to direct delivery.</p>
+<div class="callout ok">
+  <strong>Double DKIM is normal</strong>
+  <p>Outbound mail is DKIM-signed by your own server first, then handed to the relay over TLS, which adds its own signature. Two signatures on one mail is fine. Keep your SPF/DKIM/DMARC records either way — receivers check them no matter who carries the mail.</p>
+</div>
+
+<h2>Reading mail from other apps</h2>
+<p>Dovecot serves public IMAP on port 993 (TLS), so Thunderbird, Apple Mail, or any phone mail app can connect directly:</p>
+<table>
+  <tr><th>Field</th><th>Value</th></tr>
+  <tr><td>Host / port</td><td><code>mail.yourdomain.com</code> / <code>993</code>, SSL/TLS</td></tr>
+  <tr><td>Username</td><td>your full address</td></tr>
+  <tr><td>Password</td><td>the one from <code>MAIL_ACCOUNTS</code></td></tr>
+</table>
+<p>For a valid certificate, mount your Let's Encrypt certs so Dovecot uses them:</p>
+<pre><code>export MAIL_CERTS_PATH="/etc/letsencrypt/live/mail.yourdomain.com"  # fullchain.pem + privkey.pem
+docker compose --profile mail up -d --build --force-recreate mailstore</code></pre>
+<p>Without mounted certs Dovecot generates a self-signed one — mail apps will warn about it, which is the nudge to mount the real cert.</p>
+<div class="callout">
+  <strong>Password guessers get blocked</strong>
+  <p>Because 993 is open to the internet, BearerMail blocks addresses that get mailbox passwords wrong too often (10 tries in an hour, blocked for 24 hours, by default). Settings, the blocked list and Unblock are under <strong>Admin → Security</strong>; your home network is never blocked. See <a href="features.html#mail-login-blocking">Mail login blocking</a>. If no mail app outside your home uses 993, you can also simply not forward it on your router.</p>
+</div>
+
+<h2>Certificates, ports, and what's exposed</h2>
+<ul>
+  <li><strong>Port 25</strong> uses opportunistic TLS; remote servers don't verify it, so the self-signed cert the MTA generates on first start is fine.</li>
+  <li><strong>Port 587 is deliberately not published.</strong> Submission stays inside the compose network between plMail and Postfix. Don't publish it unless you're setting up external submission with real certificates.</li>
+  <li><strong>Port 993</strong> is published for direct IMAP access from your own devices, with <a href="features.html#mail-login-blocking">failed-login blocking</a> in front of it.</li>
+</ul>
+
+<h2>Testing</h2>
+<pre><code># From OUTSIDE your network — does the internet reach your MX?
+telnet mail.yourdomain.com 25
+# expect: 220 mail.yourdomain.com ESMTP plMail
+
+# Send yourself a mail from anywhere (Gmail etc.), then watch it land:
+docker compose logs -f mta</code></pre>
+<p>If nothing arrives, <code>docker compose logs mta</code> shows every SMTP conversation. <code>NOQUEUE: reject: RCPT ... Relay access denied</code> means the recipient isn't in <code>MAIL_ACCOUNTS</code>. A <code>status=bounced</code> with a DNS error means the container can't resolve — check the host's DNS.</p>
+
+<h2>What it is not (yet)</h2>
+<ul>
+  <li>No spam filtering (no Rspamd/SpamAssassin) and no greylisting.</li>
+  <li>No sieve filters, no quotas, no per-domain config — one domain per stack.</li>
+  <li>Mailbox management is the <code>MAIL_ACCOUNTS</code> variable, not a UI.</li>
+  <li>Webmail <em>is</em> plMail itself — that's the point.</li>
+</ul>
+
+<div class="pagenav">
+  <a href="quickstart.html"><span class="label">← Prev</span>Quick start</a>
+  <a href="dns.html" class="next"><span class="label">Next</span>DNS &amp; domains →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

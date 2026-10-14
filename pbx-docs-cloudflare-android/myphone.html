@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Phone — own-pbx docs</title>
+<meta name="description" content="My Phone: the user panel in own-pbx — calls, voicemail, recordings, messages, IVR, billing, settings.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">own-pbx <span style="color:#fb923c">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="install.html">Installation</a>
+  </div>
+  <div class="nav-section"><h4>Using it</h4>
+    <a href="phones.html">Phones &amp; feature codes</a>
+    <a href="admin.html">Admin panel</a>
+    <a href="myphone.html" class="active">My Phone</a>
+    <a href="android.html">Android app <span class="badge new">new</span></a>
+    <a href="sms.html">SMS &amp; MMS</a>
+  </div>
+  <div class="nav-section"><h4>Running it</h4>
+    <a href="security.html">Security</a>
+    <a href="advanced.html">911 · Recording · Billing</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
+    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>My Phone</h1>
+<p class="lead">The user panel — everything a non-admin needs, also on a phone screen. Sign in at <code>http://&lt;PBX-IP&gt;:8001</code> (or your published address).</p>
+
+<table>
+  <tr><th>Page</th><th>What it does</th></tr>
+  <tr><td><strong>Overview</strong></td><td>Phone status, Do Not Disturb, new voicemail, missed calls, where 911 sends help, plan usage, recent calls</td></tr>
+  <tr><td><strong>Calls</strong></td><td>90-day history (can't be deleted), recordings, <strong>Block</strong> and <strong>Report</strong> per call</td></tr>
+  <tr><td><strong>Voicemail</strong></td><td>Listen, download, move, delete; greeting upload or record by phone (<code>*98</code>)</td></tr>
+  <tr><td><strong>Recordings</strong></td><td>The user's own recordings only</td></tr>
+  <tr><td><strong>Messages</strong></td><td>Conversations; send a text to any extension (including Zoiper and other SIP apps); <strong>Block</strong>, <strong>Report</strong>; updates by itself. External numbers go out via voip.ms (see <a href="sms.html">SMS &amp; MMS</a>)</td></tr>
+  <tr><td><strong>IVR</strong></td><td>Personal menus (if their plan allows)</td></tr>
+  <tr><td><strong>Billing</strong></td><td>Choose, switch or cancel a plan (Stripe)</td></tr>
+  <tr><td><strong>App</strong></td><td>Pair the <a href="android.html">Android app</a>: <strong>Get a pairing code</strong> shows a QR code, tap-to-copy code and server, and an <em>Open in the My Phone app</em> button. <strong>Show phone login QR</strong> gives the app your extension's phone login for calls. See and sign out your signed-in phones</td></tr>
+  <tr><td><strong>Settings</strong></td><td>DND, forwarding, ring time, answer with IVR, "Record my calls" (with legal acknowledgement), notification email, text emails on/off, receive/send texts on/off, call filtering (block list: per number choose "not in service", straight to voicemail, or forward elsewhere), 911 notice, phone setup, SIP password, panel password</td></tr>
+</table>
+
+<div class="callout ok">
+  <strong>On Android?</strong>
+  <p>The <a href="android.html">My Phone app</a> gives you the same features with a phone-first layout, notifications, calls in and out from the app, long sign-in and a PIN lock.</p>
+</div>
+
+<h2>Texting from My Phone</h2>
+<p>Messages → pick a conversation or start one. Extension-to-extension texts arrive on the other person's phones (SIP MESSAGE) and in their My Phone. Type an external number (e.g. <code>+15551234567</code>) and it goes out through voip.ms from your mapped DID — see <a href="sms.html">SMS &amp; MMS</a>.</p>
+
+<h2>Blocking and reporting</h2>
+<p>From Calls or Messages, <strong>Block</strong> sends a caller straight to your block list (your choice per number: "not in service", voicemail, or forward elsewhere). <strong>Report</strong> flags a call or text for the admin, who sees it under <strong>Reports</strong>.</p>
+
+<h2>Recording your own calls</h2>
+<p>Settings → <strong>"Record my calls"</strong> needs recording in your plan plus your own legal acknowledgement. See <a href="advanced.html#recording">Call recording and the law</a> — the rules differ by where you live.</p>
+
+<div class="pagenav">
+  <a href="admin.html"><span class="label">← Prev</span>Admin panel</a>
+  <a href="android.html" class="next"><span class="label">Next</span>Android app →</a>
+</div>
+
+<div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

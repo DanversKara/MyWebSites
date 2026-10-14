@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Single sign-on — BearerMail docs</title>
+<meta name="description" content="Sign in to BearerMail through Authentik, Keycloak or another OpenID Connect provider, step by step.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html" class="active">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Single sign-on <span class="badge new">new</span></h1>
+<p class="lead">Sign in to the BearerMail webmail through an OpenID Connect provider you already run — Authentik, Keycloak, Authelia and the like. This page walks through Authentik, including the two things that trip people up behind a bot shield like Anubis.</p>
+
+<h2>What changes, and what doesn't</h2>
+<ul>
+  <li>The <strong>login page</strong> gets a <strong>Sign in with …</strong> button above the email and password form.</li>
+  <li><strong>Mail apps</strong> (Outlook, Thunderbird, phone mail apps) keep using the mailbox password on port 993 — single sign-on doesn't touch them.</li>
+  <li>The <strong>BearerMail phone app</strong> stays paired; it never signs in through the login page.</li>
+  <li>The <strong>password form stays</strong> unless you choose to hide it, and even then there is always a way back to it (below).</li>
+</ul>
+
+<h2>1. In Authentik: the provider</h2>
+<ol>
+  <li>Admin interface → <strong>Applications → Providers → Create → OAuth2/OpenID Provider</strong>.</li>
+  <li><strong>Name:</strong> <code>BearerMail</code>. <strong>Authorization flow:</strong> <code>default-provider-authorization-implicit-consent</code>. <strong>Client type:</strong> <code>Confidential</code>.</li>
+  <li><strong>Redirect URIs:</strong> one entry, <strong>Strict</strong>, exactly the address BearerMail shows in Admin → SSO, e.g. <code>https://mail.yourdomain.com/login/oidc/callback</code>.</li>
+  <li><strong>Signing key:</strong> <code>authentik Self-signed Certificate</code> (RS256). Finish.</li>
+</ol>
+
+<h2>2. In Authentik: the application</h2>
+<p><strong>Applications → Applications → Create</strong> (or <strong>New Application</strong> on the provider's page): name <code>BearerMail</code>, slug <code>bearermail</code>, provider <code>BearerMail</code>. To limit who can use it, bind a group or user under the application's <strong>Policy / Group / User Bindings</strong>.</p>
+<div class="callout warn">
+  <strong>Check the slug</strong>
+  <p>The slug is part of the issuer address. The provider page's <em>OpenID Configuration Issuer</em> must read <code>https://auth.yourdomain.com/application/o/bearermail/</code> — a typo in the slug means BearerMail can't find the application. It shows "–" until the provider is assigned to an application.</p>
+</div>
+
+<h2>3. In Authentik: send a verified email</h2>
+<p>BearerMail finds your account by email address, and by default only links an address the provider says is verified. Since authentik 2025.10, the built-in email mapping says <code>email_verified: false</code>, so create one that says true:</p>
+<ol>
+  <li><strong>Customization → Property Mappings → Create → Scope Mapping</strong>. Name <code>BearerMail email (verified)</code>, scope name <code>email</code>, expression:
+<pre><code>return {
+    "email": request.user.email,
+    "email_verified": True,
+}</code></pre></li>
+  <li>Provider → <strong>Edit → Advanced protocol settings → Scopes</strong>: remove <em>authentik default OAuth Mapping: OpenID 'email'</em>, add <em>BearerMail email (verified)</em>. Selected should be: <code>openid</code>, <code>profile</code>, <code>BearerMail email (verified)</code>.</li>
+  <li><strong>Directory → Users → you</strong>: the <strong>Email</strong> must be exactly your BearerMail login address.</li>
+</ol>
+<p>Only do this if you're the one who sets people's addresses in Authentik. If users can edit their own address, verify addresses properly instead (the authentik docs show a mapping that reads an <code>email_verified</code> attribute).</p>
+
+<h2>4. In BearerMail: Admin → SSO</h2>
+<table>
+  <tr><th>Field</th><th>What to put</th></tr>
+  <tr><td>Redirect URI</td><td>Shown for you — copy it into Authentik (step 1).</td></tr>
+  <tr><td>Issuer</td><td>The provider's <strong>OpenID Configuration Issuer</strong>, exactly, including the trailing <code>/</code>.</td></tr>
+  <tr><td>Client ID / Client secret</td><td>From the provider (Edit shows both). The secret is stored encrypted and never shown again — leave the box blank to keep it.</td></tr>
+  <tr><td>Name on the button</td><td><code>Authentik</code> → "Sign in with Authentik". Empty says "single sign-on".</td></tr>
+  <tr><td>Scopes</td><td>Leave empty (asks for <code>openid email profile</code>).</td></tr>
+  <tr><td>Create an account for people BearerMail has not seen</td><td>Off, so an admin creates each account first with the same address.</td></tr>
+  <tr><td>Only link an address the provider has verified</td><td>On (step 3 makes Authentik say verified).</td></tr>
+  <tr><td>Go straight to the sign-in provider <span class="badge new">BearerMail</span></td><td>Optional: opening BearerMail goes directly to Authentik instead of the login page.</td></tr>
+  <tr><td>Hide the email and password form <span class="badge new">BearerMail</span></td><td>Optional: the login page shows only the sign-in button.</td></tr>
+</table>
+<p>There is no separate on/off switch: single sign-on is <strong>On</strong> as soon as the issuer, client ID and secret are saved. Clear them (and tick "Forget the stored client secret") to turn it off.</p>
+
+<h2>Never locked out</h2>
+<p>With "Go straight to the sign-in provider" or "Hide the email and password form" on, the password form still appears:</p>
+<ul>
+  <li>at <code>https://mail.yourdomain.com/login?password=1</code> — <strong>bookmark it</strong>, it's the way in if Authentik is down;</li>
+  <li>after a failed sign-in, together with the error;</li>
+  <li>for ten minutes after you sign out (otherwise Authentik's own session would sign you straight back in).</li>
+</ul>
+
+<h2 id="behind-anubis-or-another-bot-shield">Behind Anubis (or another bot shield)</h2>
+<p>Signing in has two halves: your <strong>browser</strong> goes to Authentik and back, and the <strong>BearerMail server talks to Authentik directly</strong> to read its settings and exchange the sign-in code. A server can't solve a proof-of-work challenge, so if Anubis sits in front of Authentik, those requests get the challenge page instead of JSON and sign-in fails without a log line.</p>
+<p>Check from the docker host:</p>
+<pre><code>docker compose exec php curl -s -o /dev/null -w "%{http_code} %{content_type}\n" \
+  https://auth.yourdomain.com/application/o/bearermail/.well-known/openid-configuration
+docker compose exec php curl -s -X POST -o /dev/null -w "%{http_code} %{content_type}\n" \
+  https://auth.yourdomain.com/application/o/token/</code></pre>
+<p>Good is <code>200 application/json</code> and <code>400 application/json</code>. <code>text/html</code> means the bot shield answered. For Anubis, add this rule at the <strong>top</strong> of the <code>bots:</code> list in the policy of the Anubis in front of Authentik (load the file with <code>POLICY_FNAME</code>):</p>
+<pre><code>  - name: authentik-oidc-server-to-server
+    path_regex: ^/application/o/(?:token|userinfo|introspect|revoke)/$|^/application/o/[^/]+/(?:\.well-known/openid-configuration|jwks/)$
+    action: ALLOW</code></pre>
+<p>It lets only the discovery document, signing keys, token and userinfo endpoints through; Authentik's login and admin pages stay behind the challenge. The token endpoint is useless without the client secret, and the other two are public by design. The Anubis in front of the <em>mail</em> hostname needs nothing: your browser already passed it.</p>
+<p>After changing anything at the provider, clear BearerMail's cached discovery (kept for an hour):</p>
+<pre><code>docker compose exec php php bin/console cache:pool:clear cache.app</code></pre>
+
+<h2>Common errors</h2>
+<table>
+  <tr><th>You see</th><th>Cause / fix</th></tr>
+  <tr><td>"Your sign-in provider did not tell BearerMail your email address"</td><td>The user has no email in Authentik, or no email scope is selected on the provider (step 3).</td></tr>
+  <tr><td>"…has not confirmed your email address"</td><td>Authentik sends <code>email_verified: false</code> — step 3, or untick "Only link an address the provider has verified" if only you can edit addresses.</td></tr>
+  <tr><td>Redirect URI error on Authentik's page</td><td>The redirect URI in Authentik doesn't exactly match the one in Admin → SSO. If it starts with <code>http://</code>, your reverse proxy isn't passing <code>X-Forwarded-Proto</code>.</td></tr>
+  <tr><td>Clicking the button lands straight in your mail</td><td>It worked — Authentik already had you signed in, so it didn't ask again.</td></tr>
+  <tr><td>"…already linked to someone else"</td><td>The user was recreated at the provider. Unlink: <code>docker compose exec php php bin/console app:user:oidc-unlink you@yourdomain.com</code>.</td></tr>
+  <tr><td>Two-factor asked twice</td><td>Turn off BearerMail's own under Settings → Security if Authentik's is enough.</td></tr>
+</table>
+<p>The upstream plMail <a href="https://karatektus.github.io/pl_mail/docs/providers/oidc.html">OpenID Connect page</a> covers Keycloak and the <code>OIDC_*</code> environment variables.</p>
+
+<div class="pagenav">
+  <a href="features.html"><span class="label">← Prev</span>Features</a>
+  <a href="android.html" class="next"><span class="label">Next</span>Android app →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

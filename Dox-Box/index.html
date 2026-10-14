@@ -194,8 +194,10 @@ const CONFIG = {
         { name: "IncrediblePBX",     desc: "VoIP phone system",                      url: "http://192.168.8.220", icon: false },
         { name: "PBX Portal",        desc: "Phone system web UI",                    url: "https://pbx.dox.box" },
         { name: "VoIP.ms",           desc: "VoIP provider portal",                   url: "https://voip.ms/signin/index.php?ln=en" },
+        { name: "Gmail",             desc: "Google email inbox",                     url: "ext+container://GOOGLE/https://mail.google.com/mail/u/0/#inbox" },
         { name: "Google Messages",   desc: "Send & receive texts from your computer", url: "https://messages.google.com/web/" },
         { name: "Discord",           desc: "Chat & community · servers and channels", url: "https://discord.com/channels/" },
+        { name: "Twitch Chat",       desc: "Stream chat popout · chiefgyk3d",        url: "ext+container://SOCIALS/https://www.twitch.tv/popout/chiefgyk3d/chat?popout=" },
         { name: "Alienware Arena",   desc: "Earn Dell Rewards · free money",         url: "https://na.alienwarearena.com/" },
         { name: "Drive Storage",     desc: "Files, sync & sharing",                  url: "https://drive.dox.box/apps/files/files" },
         { name: "Send",              desc: "Share files & links",                    url: "https://send.dox.box" },
@@ -337,7 +339,7 @@ for (const group of CONFIG.groups) {
     Otherwise, it opens the link normally, avoiding the OS protocol prompt.
 */
 function setupContainerLinks() {
-    const isBrave = navigator.brave && navigator.brave.isBrave ? true : false; // Simple check, see notes below
+    const isBrave = navigator.brave && navigator.brave.isBrave ? true : false; // Simple check
 
     const links = document.querySelectorAll('a[href^="ext+container://"]');
     links.forEach(link => {

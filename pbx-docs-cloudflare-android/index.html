@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>own-pbx docs — your own phone system</title>
+<meta name="description" content="own-pbx documentation: a self-hosted home/hobby PBX (Asterisk 22 + Kamailio). Install, admin, My Phone, SMS, security.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">own-pbx <span style="color:#fb923c">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html" class="active">Overview</a>
+    <a href="install.html">Installation</a>
+  </div>
+  <div class="nav-section"><h4>Using it</h4>
+    <a href="phones.html">Phones &amp; feature codes</a>
+    <a href="admin.html">Admin panel</a>
+    <a href="myphone.html">My Phone</a>
+    <a href="android.html">Android app <span class="badge new">new</span></a>
+    <a href="sms.html">SMS &amp; MMS</a>
+  </div>
+  <div class="nav-section"><h4>Running it</h4>
+    <a href="security.html">Security</a>
+    <a href="advanced.html">911 · Recording · Billing</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
+    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>own-pbx</h1>
+<p class="lead">A self-hosted home/hobby phone system. Plain Asterisk 22 does the calling, a small Python service makes every call decision, a clean web panel runs the whole thing, and a separate Kamailio edge box is the only part that faces the internet.</p>
+
+<div class="callout danger">
+  <strong>Hobby project — read this first</strong>
+  <p>own-pbx is built and tested as a home/hobby PBX. It is <strong>not</strong> intended for business, commercial, multi-tenant, carrier or life-safety use, and comes with no warranty. Only tested with VoIP.ms. <strong>911/E911 has NOT been tested end to end — do not rely on this system to call 911.</strong> Stripe billing has not been tested with real payments. Published as-is under GPL-2.0-or-later.</p>
+</div>
+
+<h2>What you get</h2>
+<div class="card-grid">
+  <a class="card" href="install.html"><h3>Calling →</h3><p>Extensions, ring groups, IVR menus, conference room, voicemail by phone.</p></a>
+  <a class="card" href="phones.html"><h3>Phones anywhere →</h3><p>Desk phones and softphones at home; encrypted TLS + SRTP through the edge box when away.</p></a>
+  <a class="card" href="sms.html"><h3>Texting →</h3><p>Extension-to-extension texts plus real two-way SMS/MMS through voip.ms.</p></a>
+  <a class="card" href="myphone.html"><h3>My Phone →</h3><p>Every user gets calls, voicemail, recordings, texts, IVR, billing and settings.</p></a>
+  <a class="card" href="android.html"><h3>Android app →</h3><p>Free, open-source My Phone app: texts, calls in and out, voicemail, notifications, switches, PIN lock, QR pairing.</p></a>
+</div>
+
+<h2>How it fits together</h2>
+<pre><code>                     Internet
+                        │
+          TCP 5061 (TLS) + UDP 20000-20099 (SRTP audio)
+                        │
+                 ┌──────▼───────┐      Router forwards ONLY these to the edge.
+                 │  Edge server │      Kamailio (SIP proxy) + rtpengine (audio relay)
+                 │ 192.168.1.11 │      fail2ban, flood limit, TLS certificate
+                 └──────┬───────┘
+                        │  plain SIP/RTP on your LAN
+                 ┌──────▼───────┐
+  Office phones ─►  PBX server  │      Asterisk 22 (calls, audio, voicemail)
+  (UDP 5060)     │ 192.168.1.10 │      pbx-brain  (Python: every call decision)
+                 │              │      pbx-agi    (Python: texts)
+                 │              │      pbx-api    (Python: web panel, port 8001)
+                 └──────────────┘      SQLite database /var/lib/pbx/pbx.db
+                        │
+                 SIP trunk provider (outbound registration)</code></pre>
+<ul>
+  <li><strong>Asterisk</strong> handles the low-level work: SIP, audio, recording, playing sounds. It has almost no dialplan — every call is handed to pbx-brain.</li>
+  <li><strong>pbx-brain</strong> decides what happens to every call: who rings, forwarding, voicemail, ring groups, IVR, 911, plans and blocking.</li>
+  <li><strong>pbx-api</strong> is the web panel and REST API. It owns the database and rebuilds Asterisk's phone list whenever you change users or trunks.</li>
+  <li><strong>The edge server</strong> is optional. Without it the system works fully inside your network; you only need it for phones away from home.</li>
+</ul>
+
+<h2>Ports at a glance</h2>
+<table>
+  <tr><th>Where</th><th>Port</th><th>What</th><th>Who can reach it</th></tr>
+  <tr><td>PBX</td><td>5060 UDP/TCP</td><td>SIP for office phones and the edge</td><td>your LAN only</td></tr>
+  <tr><td>PBX</td><td>8001 TCP</td><td>web panel (admin + My Phone)</td><td>your LAN (optionally My Phone via tunnel)</td></tr>
+  <tr><td>PBX</td><td>8088, 8099, 4573</td><td>Asterisk API, brain status, text handler</td><td>the PBX itself only</td></tr>
+  <tr><td>Edge</td><td>5061 TCP</td><td>SIP over TLS for outside phones</td><td>internet</td></tr>
+  <tr><td>Edge</td><td>20000–20099 UDP</td><td>call audio (SRTP)</td><td>internet</td></tr>
+</table>
+
+<h2>Where to go from here</h2>
+<table>
+  <tr><th>If you want to</th><th>Start at</th></tr>
+  <tr><td>Install it</td><td><a href="install.html">Installation</a></td></tr>
+  <tr><td>Set up phones</td><td><a href="phones.html">Phones &amp; feature codes</a></td></tr>
+  <tr><td>Run the system day to day</td><td><a href="admin.html">Admin panel</a></td></tr>
+  <tr><td>Use My Phone on Android</td><td><a href="android.html">Android app</a></td></tr>
+  <tr><td>Text from extensions and DIDs</td><td><a href="sms.html">SMS &amp; MMS</a></td></tr>
+  <tr><td>Understand the security model</td><td><a href="security.html">Security</a></td></tr>
+  <tr><td>Fix something broken</td><td><a href="troubleshooting.html">Troubleshooting</a></td></tr>
+</table>
+
+<div class="pagenav">
+  <a href="install.html"><span class="label">Next</span>Installation →</a>
+</div>
+
+<div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a> · GPL-2.0-or-later</div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Features — BearerMail docs</title>
+<meta name="description" content="What BearerMail adds over upstream plMail: Drive storage, share links, on-the-spot aliases, and more.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html" class="active">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Features <span class="badge new">BearerMail additions</span></h1>
+<p class="lead">What the fork adds on top of upstream plMail. For everything plMail itself does — accounts, calendar, filters, themes — the <a href="https://karatektus.github.io/pl_mail/docs/">upstream handbook</a> remains the reference.</p>
+
+<h2>Drive</h2>
+<p>Personal file storage built into the webmail, Google-Drive-style: grid and list views, folders, file-type icons, search, and drag-and-drop upload. Files live in the <code>app_drive</code> volume (<code>/app/var/drive</code> inside the app containers) and are included in <code>app:backup</code>.</p>
+<ul>
+  <li><strong>Folders</strong> — nested folder tree, rename, move, delete.</li>
+  <li><strong>Uploads</strong> — drag-and-drop or picker, with progress. Up to <strong>2&nbsp;GB per file</strong> from the web (the admin can set a lower limit).</li>
+  <li><strong>Storage</strong> — 5&nbsp;GB per person by default; the admin sets the default and per-person limits (see <a href="#drive-admin">Admin → Drive</a>).</li>
+  <li><strong>Compose integration</strong> — the compose toolbar's <strong>Insert file from Drive</strong> drops a download link into the message instead of a heavy attachment.</li>
+  <li><strong>Too big to attach → Drive link</strong> <span class="badge new">new</span> — attach a file that is over the mail size limit and it is uploaded to your Drive automatically, with a download link and a short note put in the message, instead of failing at Send. Works on the web and in the app.</li>
+  <li><strong>Calendar integration</strong> — <strong>Add from Drive</strong> under an event's description puts a file's share link into the event.</li>
+</ul>
+
+<h3>Share links</h3>
+<p>Any file can get a public download link: ⋯ → <strong>Share</strong>. Each link can have:</p>
+<ul>
+  <li>an optional <strong>password</strong> (visitors must enter it; wrong guesses are rate-limited),</li>
+  <li>an optional <strong>expiry date</strong> (the app offers 1, 7 or 30 days, or never),</li>
+  <li>a download counter, and a <strong>Report this link</strong> button for recipients.</li>
+</ul>
+<p>Shared links open a proper page — the file with a Download button — not a raw download. Manage or revoke links from the file's share dialog; expired links stop working on their own.</p>
+
+<h3>Reported links</h3>
+<p>Anyone who was sent a link can report it (spam, malware, phishing, illegal content, copyright, something else), with optional details and an optional email address.</p>
+<ul>
+  <li>They see a <strong>thank-you</strong> page; if they left an address, they also get a confirmation email.</li>
+  <li>Every administrator gets an email with the file, the reason and a link to Admin → Drive.</li>
+  <li>Clicking Report again from the same address within 24 hours counts once, and one network can file at most 5 reports an hour.</li>
+</ul>
+<p>Report emails are sent from an administrator's own mailbox, so at least one admin needs a mail account in BearerMail.</p>
+
+<h3 id="drive-admin">Admin → Drive <span class="badge new">new</span></h3>
+<ul>
+  <li><strong>Drive limits</strong> — storage per person (0 = no limit) and the largest single file.</li>
+  <li><strong>Storage by person</strong> — who uses how much, an own limit per person, and a switch to <strong>turn Drive off</strong> for someone who abuses it. Turning it off also stops every link that person has shared. The same two settings are on each user's edit form under Admin → Users.</li>
+  <li><strong>Reported links</strong> — each open report with three actions: <strong>Revoke link</strong>, <strong>Switch off owner's Drive</strong>, or <strong>Dismiss</strong>.</li>
+</ul>
+
+<div class="callout">
+  <strong>Security note</strong>
+  <p>Share links are bearer URLs: anyone with the link can download (plus the password, if you set one). Don't put anything sensitive behind an unprotected link, and prefer short expiries for one-off shares.</p>
+</div>
+
+<h2>On-the-spot aliases</h2>
+<p>Create a working email alias in one tap — no admin, no waiting. In the web UI: <strong>Settings → Aliases → New alias</strong>, or straight from the composer's From menu.</p>
+<ul>
+  <li>Type a name (<code>shop@yourdomain.com</code>) or generate a random one (<code>shop.k3v9x2ma@yourdomain.com</code>).</li>
+  <li>The address is live within seconds — the mail server picks it up automatically — and you can select it as the From address immediately.</li>
+  <li>Delete it any time under Settings → Aliases.</li>
+</ul>
+<p>Handy for signups: one alias per service, and when the spam starts you know exactly who sold your address — then delete just that alias.</p>
+
+<h2>Plans and codes found in your mail <span class="badge new">new</span></h2>
+<p>BearerMail reads incoming mail for two kinds of things and shows them as a card at the top of the message, on the web and in the app.</p>
+<ul>
+  <li><strong>Plans</strong> — "meet me at 218 Main St on Friday at 10am", "lunch tomorrow at 12:30". The card shows the date, time and place with <strong>Add to calendar</strong> (opens the event editor pre-filled; nothing is saved until you press Save) and <strong>Not an event</strong>. Addresses that wrap onto two lines are read whole. Header lines in forwarded or quoted mail ("Date: …", "On … wrote:") and sign-in or password-reset mails are never treated as plans.</li>
+  <li><strong>Verification codes</strong> — "enter the following code: 959528". The card shows the code with <strong>Copy code</strong>. A code word has to stand next to the number, so order numbers, prices and years are left alone. Codes in forwarded mail are found too.</li>
+  <li><strong>Insert event in compose</strong> — the composer's <strong>Insert event</strong> picks one of your upcoming events, writes its details into the message and attaches it as an <code>.ics</code>, so the recipient adds it to their calendar in one tap.</li>
+</ul>
+<p>Cards are made when mail arrives. To re-read mail that arrived before an update, run <code>docker compose exec php php bin/console app:backfill insights --since=YYYY-MM-DD</code>; a re-read replaces that mail's old code and plan cards.</p>
+
+<h2>Mail-server admin</h2>
+<ul>
+  <li><strong>Admin → Mail server</strong> — configure the outbound SMTP relay (host, username, secret) from the UI; the MTA picks it up within seconds, no rebuild. Clearing the host returns to direct delivery.</li>
+  <li><strong>DNS checker</strong> — verifies your MX/SPF/DKIM/DMARC records from the admin area.</li>
+  <li><strong>DMARC report parsing</strong> — aggregate reports land in a readable view instead of raw XML.</li>
+  <li><strong>Public IMAP</strong> — port 993 with TLS, so any mail app can connect directly to your domain mailboxes.</li>
+</ul>
+
+<h2>Security extras</h2>
+<ul>
+  <li><strong>Mail login blocking</strong> <span class="badge new">new</span> — see below.</li>
+  <li><strong>Single sign-on</strong> <span class="badge new">new</span> — sign in to the webmail through Authentik, Keycloak or another OpenID Connect provider. See <a href="sso.html">Single sign-on</a>.</li>
+  <li><strong>Forged-sender warnings</strong> — banners on messages whose From doesn't match the authenticated sender.</li>
+  <li><strong>Deceptive-link warnings</strong> — flags when a link's display text doesn't match its target.</li>
+  <li><strong>SMTP keys</strong> — per-device SMTP credentials you can create and revoke, instead of sharing your mailbox password with every client.</li>
+  <li><strong>Flood-protection banner</strong> and <strong>security monitoring</strong> in the admin area.</li>
+</ul>
+
+<h3 id="mail-login-blocking">Mail login blocking</h3>
+<p>Password guessers on the internet try mailbox passwords against IMAP (port 993) over and over. BearerMail counts wrong passwords per internet address and blocks an address that has too many: while it is blocked, even the right password is refused from it. It is built into the mail server — no fail2ban, no firewall changes.</p>
+<ul>
+  <li><strong>Defaults:</strong> 10 wrong passwords within 60 minutes blocks the address for 24 hours. Change all three, or switch it off, under <strong>Admin → Security → Mail login blocking</strong> (block time 0 = until you unblock it).</li>
+  <li><strong>Unblock</strong> or <strong>Unblock and always allow</strong> any blocked address in one click, and add your home or office address to <strong>Always allowed</strong>. Addresses that are failing but not blocked yet are listed too.</li>
+  <li>Each block also appears under <strong>Recent security events</strong>.</li>
+  <li><strong>Never counted:</strong> the web app and the phone app (they don't use port 993), devices on your home network, Docker's own addresses, and always-allowed addresses.</li>
+  <li><strong>Can't lock you out:</strong> if BearerMail itself is down, mail logins go through as before — the blocking switches off, it never blocks everyone.</li>
+</ul>
+<p>To turn it off entirely, put <code>MAIL_LOGIN_GUARD=off</code> in <code>.env.mail.local</code> and restart the mail containers.</p>
+
+<h2>From upstream plMail v0.3.5 <span class="badge new">merged</span></h2>
+<p>BearerMail keeps up with karatektus's plMail. The latest merge brought in, among 60 changes:</p>
+<ul>
+  <li><strong>Single sign-on</strong> through OpenID Connect (Authentik, Keycloak…) — BearerMail adds two switches on top, see <a href="sso.html">Single sign-on</a>.</li>
+  <li><strong>Replies from the right address</strong> — answering a mail sends from the address it came in for, catch-all addresses included, under that address's name. Signatures can be formatted.</li>
+  <li><strong>Unread counts</strong> on the inbox tabs (with a setting to turn them off) and in the browser tab title.</li>
+  <li><strong>Disposal</strong> setting — the Delete forever buttons are hidden unless you switch them on.</li>
+  <li><strong>Account colours</strong> for connected Gmail and Microsoft accounts.</li>
+  <li><strong>More AI hosts</strong> — OpenAI-compatible endpoints as well as Ollama, with a separate host for search by meaning.</li>
+  <li><strong>Reliability</strong> — live IMAP connections reconnect when the server drops them, stuck connections are closed after five minutes, and signing out now holds on every device (remember-me tokens live on the server).</li>
+  <li><strong>Gmail imports</strong> respect Google's quota and show a live messages-per-minute figure.</li>
+  <li><strong>Card fixes</strong> — re-reading old mail no longer overwrites newer parcel cards; Outlook mail is read in full.</li>
+</ul>
+
+<h2>Android-only extras</h2>
+<p>The <a href="android.html">Android app</a> has its own set of additions: one-tap verification-code copying from notifications, an app PIN lock, crash reports and a built-in updater. See the app page for the full list.</p>
+
+<div class="pagenav">
+  <a href="dns.html"><span class="label">← Prev</span>DNS &amp; domains</a>
+  <a href="sso.html" class="next"><span class="label">Next</span>Single sign-on →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

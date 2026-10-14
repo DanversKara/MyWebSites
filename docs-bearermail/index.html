@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BearerMail docs — self-hosted mail, end to end</title>
+<meta name="description" content="BearerMail documentation: a self-hosted mail server plus webmail plus Android app, all yours.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html" class="active">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>BearerMail</h1>
+<p class="lead">A complete self-hosted mail system: your own mail server for your own domain, a full webmail client, and a native Android app — all running on hardware you control.</p>
+
+<p>BearerMail starts from <a href="https://github.com/karatektus/pl_mail">plMail</a> by karatektus — an excellent self-hosted mail <em>client</em> — and adds the missing half: a real <strong>mail server</strong> (Postfix + Dovecot + OpenDKIM) that sends and receives internet mail for your domain, plus a <strong>Drive</strong> with share links, <strong>on-the-spot aliases</strong>, and a companion <strong>Android app</strong>. One compose stack, one domain, zero third-party mail providers required.</p>
+
+<div class="card-grid">
+  <a class="card" href="quickstart.html"><h3>Get running →</h3><p>Docker Compose, three env vars, and your domain sending mail in minutes.</p></a>
+  <a class="card" href="mail-server.html"><h3>Mail server →</h3><p>How Postfix, Dovecot and DKIM fit together, relays, and testing.</p></a>
+  <a class="card" href="android.html"><h3>Android app →</h3><p>Install the APK, pair it, and use Drive, aliases and the app lock.</p></a>
+</div>
+
+<h2>What's in the box</h2>
+<table>
+  <tr><th>Part</th><th>What it does</th><th>Repo</th></tr>
+  <tr><td><strong>Webmail</strong></td><td>plMail with BearerMail additions: Drive, share links, aliases, mail-server admin, plan and code cards, mail login blocking, single sign-on</td><td><a href="https://github.com/DanversKara/pl_mail_bearermail">pl_mail_bearermail</a></td></tr>
+  <tr><td><strong>Mail server</strong></td><td>Postfix (SMTP) + Dovecot (IMAP) + OpenDKIM, as compose services in the same stack</td><td><a href="https://github.com/DanversKara/pl_mail_bearermail">pl_mail_bearermail</a> <code>docker/mail</code></td></tr>
+  <tr><td><strong>Android app</strong></td><td>Native client with Drive, aliases, verification-code copy, app lock, auto-updates</td><td><a href="https://github.com/DanversKara/pl_mail_android_bearermail">pl_mail_android_bearermail</a></td></tr>
+</table>
+
+<h2>How the pieces fit</h2>
+<pre><code>internet --port 25--> mta (Postfix) --LMTP--> mailstore (Dovecot)
+webmail  --IMAP------> mailstore        (reading, like any account)
+webmail  --SMTP 587--> mta             (sending, DKIM-signed)
+android  --JMAP------> webmail         (mail, calendar, Drive, aliases)
+android  --IMAP 993--> mailstore       (optional direct access)</code></pre>
+
+<p>Mail lands in Dovecot; the webmail syncs it over IMAP like any other account — so threads, full-text search, filters and push all work on your domain mail with no special casing. Outbound mail is DKIM-signed by your own server, delivered directly or through a relay like Mailjet.</p>
+
+<h2>What BearerMail adds over upstream plMail</h2>
+<ul>
+  <li><strong>Built-in mail server</strong> <span class="badge new">new</span> — Postfix + Dovecot + OpenDKIM as <code>docker compose --profile mail</code> services. Your domain sends and receives directly.</li>
+  <li><strong>Drive</strong> <span class="badge new">new</span> — personal file storage with folders, share links (password + expiry), and deep links into mail and calendar.</li>
+  <li><strong>On-the-spot aliases</strong> <span class="badge new">new</span> — create a working alias in one tap, from the web or the app.</li>
+  <li><strong>SMTP relay UI</strong> <span class="badge new">new</span> — point outbound mail at Mailjet (or any relay) from Admin → Mail server, no shell needed.</li>
+  <li><strong>Dynamic DNS</strong> <span class="badge new">new</span> — Cloudflare updater keeps your mail hostname on your home IP.</li>
+  <li><strong>Android app</strong> <span class="badge new">new</span> — native client with Drive, alias creation, plan detection, verification-code copy, PIN lock and self-updates.</li>
+  <li><strong>Drive admin</strong> <span class="badge new">new</span> — files up to 2&nbsp;GB, per-person storage limits, a Drive off switch, and reported share links handled from Admin → Drive. Attachments too big to send go to Drive as a link automatically.</li>
+  <li><strong>Plans and codes in mail</strong> <span class="badge new">new</span> — "meet at 10am at 218 Main St" gets an <em>Add to calendar</em> card, a verification code gets a <em>Copy code</em> card, and compose can insert one of your events as an <code>.ics</code>.</li>
+  <li><strong>Mail login blocking</strong> <span class="badge new">new</span> — addresses that keep getting mailbox passwords wrong on IMAP are blocked, with Unblock in Admin → Security.</li>
+  <li><strong>Single sign-on</strong> <span class="badge new">new</span> — sign in through Authentik or Keycloak, with optional "go straight to the provider" and "hide the password form" switches. See <a href="sso.html">Single sign-on</a>.</li>
+  <li><strong>One-command updates</strong> — <code>./update.sh</code> backs up, pulls the latest <code>main</code> and rebuilds.</li>
+</ul>
+<p>Everything upstream plMail does — Gmail/Outlook/IMAP accounts, calendar, filters, themes — still works, and BearerMail stays merged with upstream (currently plMail v0.3.5; see <a href="features.html">Features</a> for what that brought in). For those features, the <a href="https://karatektus.github.io/pl_mail/docs/">upstream handbook</a> remains the reference.</p>
+
+<div class="callout">
+  <strong>Fair credit</strong>
+  <p>BearerMail is a fork. The webmail is karatektus's plMail and the Android app is karatektus's pl_mail_android, both AGPL-3.0. All credit for the base goes upstream; what's documented here is what the fork adds and how the pieces are run together.</p>
+</div>
+
+<div class="pagenav">
+  <a href="quickstart.html"><span class="label">Next</span>Quick start →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a> · built from the forks, for the forks</div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>
