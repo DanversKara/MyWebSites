@@ -69,7 +69,7 @@
   <p>The phone appears under <strong>Dashboard → Signed in now</strong> as <em>Online</em>, showing whether it's internal or external.</p>
 </div>
 
-<h2>Feature codes</h2>
+<h2 id="feature-codes">Feature codes</h2>
 <table>
   <tr><th>Dial</th><th>What it does</th></tr>
   <tr><td><code>911</code> (also <code>9911</code> / prefix + 911)</td><td>Emergency call. Always connects.</td></tr>
@@ -86,7 +86,8 @@
 <p>While monitoring (<code>*555</code>), press <code>*</code> / <code>1</code> for the previous call and <code>#</code> / <code>2</code> for the next call. A beep confirms each hop. Hang up to stop.</p>
 
 <h3>Controlling access</h3>
-<p>The <strong>Features</strong> page in the admin panel controls every star code: turn each one on/off for the whole system, set the default access (<strong>All users</strong>, <strong>Admins only</strong>, or <strong>No one</strong>), and override per user with Allow/Deny. For example, give <code>*555</code> (ChanSpy) to a supervisor without making them a full admin, or disable <code>*70</code> (DISA) entirely.</p>
+<p>The <strong>Features</strong> page in the admin panel controls every star code: turn each one on/off for the whole system, set the default access (<strong>By plan</strong>, <strong>All users</strong>, <strong>Admins only</strong>, or <strong>No one</strong>), and override per user with Allow/Deny. For example, give <code>*555</code> (ChanSpy) to a supervisor without making them a full admin, or disable <code>*70</code> (DISA) entirely. The rule follows the person, so it's the same from a desk phone, Zoiper or the Android app.</p>
+<p><strong>By plan</strong> is the default for every code except <code>*555</code> (admins only). A <strong>new account starts with no star codes</strong>; a user gets a code when their active plan includes it (Billing &rarr; plan &rarr; <strong>Star codes included</strong>), and it goes off again if the plan lapses or changes. Without a plan they get the <strong>Star codes (no plan)</strong> set under Billing &rarr; User access &mdash; empty by default; tick <code>*97</code>/<code>*98</code> there if you don't sell plans and want everyone to reach their voicemail. Admins can always use every code, and a per-user Allow/Deny always wins. Each user's row on the code's page shows <strong>Now</strong>: whether they can use it and why (e.g. &ldquo;in plan Pro&rdquo;, &ldquo;no plan&rdquo;, &ldquo;Allow override&rdquo;). Users who existed before this change kept the codes they had (an Allow override each); set them to Default to hand them to their plan.</p>
 
 <div class="pagenav">
   <a href="install.html"><span class="label">← Prev</span>Installation</a>

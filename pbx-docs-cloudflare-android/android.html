@@ -46,7 +46,7 @@
 <p class="lead">My Phone for Android: a free, open-source app that puts My Phone in your pocket. Texts, calls, voicemail and settings, with notifications, <strong>calls in and out from the app itself</strong>, and a PIN lock. Pair it once and it stays connected for weeks.</p>
 
 <div class="callout warn">
-  <strong>Young app (0.7)</strong>
+  <strong>Young app (0.7.1)</strong>
   <p>It works day to day, but it's new: keep the web My Phone handy. It needs own-pbx up to date &mdash; run <code>pbx-update</code> after each app update. Calls now work <strong>both ways</strong>: the app places calls and rings for incoming ones, alongside your desk phone or Zoiper.</p>
 </div>
 
@@ -138,6 +138,13 @@ Pairing code:  K7QH2MXP   (example; works once, for 5 minutes)</code></pre>
   <tr><td><strong>Send a test notification / Check now</strong></td><td>Check sound and pop-ups; <em>Check now</em> shows when the last check ran and what it found.</td></tr>
 </table>
 <p>Nothing you've already seen in the app pops up again, and nothing pops up while the app is open.</p>
+<h3>Missed calls</h3>
+<ul>
+  <li>Each missed call shows <strong>who and when</strong> &mdash; &ldquo;Missed call &middot; (555) 123-4567 &middot; 2:14 PM&rdquo;; several are listed newest first. Calls that rolled to voicemail count as missed too.</li>
+  <li><strong>The app rang and nobody answered:</strong> it notifies the moment the ringing stops.</li>
+  <li><strong>Answered on another phone</strong> (desk phone, Zoiper): not a missed call &mdash; the app shows &ldquo;Answered on another phone&rdquo;.</li>
+  <li><strong>Phone was offline</strong> (no signal, airplane mode) and never rang: the notification comes as soon as it reaches the PBX again, with the time of each call. With <em>Check for new things</em> on every 15 minutes this can take up to 15 minutes.</li>
+</ul>
 
 <h2>PIN lock</h2>
 <ul>

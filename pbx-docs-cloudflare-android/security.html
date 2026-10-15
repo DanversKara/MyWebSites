@@ -62,6 +62,7 @@
   <li><strong>Passwords and sessions:</strong> bcrypt passwords. Sessions expire after 3 hours idle or 12 hours total, and end immediately when a user is disabled, demoted or changes password.</li>
   <li><strong>Sign-in lockouts:</strong> 10 failures per address, or 20 per username, in 15 minutes locks that address or username for 15 minutes.</li>
   <li><strong>Admin pages:</strong> home network only.</li>
+  <li><strong>Single sign-on (optional):</strong> OpenID Connect authorization code flow with PKCE, a state bound to the browser and a nonce; the ID token's issuer, audience, expiry and nonce are checked. Same lockouts and sign-in log as passwords (entries say &ldquo;single sign-on&rdquo;). Never creates accounts; admins can be kept to passwords. See <a href="admin.html#sign-on">Sign-on</a>.</li>
   <li><strong>Page protection:</strong> CSRF tokens on every form, security headers against framing and clickjacking, 25 MB upload limit.</li>
 </ul>
 

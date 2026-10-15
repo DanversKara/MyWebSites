@@ -52,11 +52,12 @@
       <li><strong>Kill switch</strong> hangs up every call and disconnects every phone — for stopping abuse like toll fraud. Release it to go back to normal.</li>
       <li><strong>Lock admin</strong> freezes the admin side only: calls and My Phone keep working, but nothing in the admin panel or API can change.</li>
       <li><strong>Lock everything</strong> also freezes My Phone (handy overnight). Kill switch and lock always work, and both send an alert.</li>
+      <li><strong>Edit PIN</strong> (optional, 6&ndash;12 digits): once set, every change in the admin panel asks for it first. <strong>Unlock with PIN</strong> works from any admin page and lasts 15 minutes after your last change, or until <strong>Lock now</strong>. A wrong PIN says so; repeated wrong PINs are blocked for a while.</li>
     </ul>
   </li>
   <li><strong>Tiles:</strong> live calls, devices online, sign-ins and failures in the last 24 hours, IPs blocked in the last 24 hours.</li>
   <li><strong>Live calls:</strong> who is calling whom, by name, with type (internal/incoming/outgoing/911), state and duration.</li>
-  <li><strong>Signed in now:</strong> every registered phone — IP, internal or external, connection (direct or via edge with TLS + SRTP), status, response time.</li>
+  <li><strong>Signed in now:</strong> every registered phone — IP, internal or external, connection (direct or via edge with TLS + SRTP), status, response time. The <a href="android.html">Android app</a> shows up too, under its owner with a <strong>My Phone app</strong> tag, while it's signed in for incoming calls.</li>
   <li><strong>Recent sign-ins</strong> and <strong>Activity:</strong> security events and changes from the last 24 hours, updating every 10 seconds.</li>
 </ul>
 
@@ -88,16 +89,42 @@
 <p>Company menus with a greeting (upload WAV/MP3) and key options: ring an extension, ring several extensions, voicemail, another menu, repeat, or hang up. Also controls how many personal menus users may build.</p>
 
 <h2>CDR, Voicemail, Recordings, Messages</h2>
-<p>Call records (kept 90 days), every voicemail, every recording and every text, with select / delete all. The <strong>Recordings</strong> page also holds the recording settings (see <a href="advanced.html#recording">Recording</a>).</p>
+<p>Call records (kept 90 days), every voicemail, every recording (calls in both directions) and every text, with select / delete all. The <strong>Recordings</strong> page also holds the recording settings (see <a href="advanced.html#recording">Recording</a>).</p>
 
 <h2>Billing</h2>
-<p>Stripe keys, plans and <strong>User access</strong> (defaults for users without a plan, plus per-user exceptions). See <a href="advanced.html#billing">Billing</a>.</p>
+<p>Stripe keys, plans and <strong>User access</strong> (defaults for users without a plan, including their star codes, plus per-user exceptions). Each plan also lists the <strong>star codes included</strong>. See <a href="advanced.html#billing">Billing</a>.</p>
+
+<h2 id="store">Store <span class="badge new">new</span></h2>
+<p>A public sign-up page at <code>https://&lt;your panel&gt;/store</code>. New customers pick a plan (and, optionally, a phone number you list for sale), then enter their card on <strong>Stripe's own checkout page</strong>. <strong>Nobody is charged and nothing is created until you approve.</strong></p>
+<table>
+  <tr><th>Step</th><th>What happens</th></tr>
+  <tr><td><strong>Order</strong></td><td>Name, email, plan, number; optional terms to accept. Stripe saves the card without charging. The customer gets &ldquo;waiting for approval, you haven't been charged&rdquo;; you get an email.</td></tr>
+  <tr><td><strong>Approve</strong></td><td>Charges the first month on the saved card (declined = nothing is created). Then creates the login on the next free extension in the Invites range with a generated password and SIP secret, routes the number's calls and texts to it, switches on the plan (with its star codes), and emails the customer their login.</td></tr>
+  <tr><td><strong>Reject</strong></td><td>Closes the order, optionally emailing a reason. The card was never charged.</td></tr>
+</table>
+<p><strong>Settings:</strong> Store open, title, intro, <strong>phone numbers for sale</strong> (a number is offered only while no extension, menu or group answers it and no live order holds it), terms, and who gets new-order emails (default: the security alert address). <strong>Protection:</strong> a hidden bot trap, a form that expires, the sign-in rate limits per address, and one waiting order per email. The admin page is office-network only; the public page works through your tunnel. Needs Stripe keys and published plans (Billing) and SMTP (Email).</p>
 
 <h2>Email</h2>
 <p>SMTP settings, a test email, the panel address used in email links, and <strong>Security alerts</strong>: who gets them and for what (blocked IPs, sign-in lockouts, kill switch / lock / E911 / recording changes, user reports). Every 911 call is always emailed.</p>
 
 <h2>Network</h2>
 <p>Remote-access domain and TLS port, office server address, Cloudflare dynamic DNS (status, IP history), and panel access from the internet.</p>
+
+<h2 id="sign-on">Sign-on <span class="badge new">new</span></h2>
+<p>Single sign-on for the <strong>web panel</strong> through an OpenID Connect provider you already run &mdash; Authentik, Keycloak, Authelia and the like. The login page gets a <strong>Sign in with &hellip;</strong> button above the password form. The My Phone app isn't affected: it still pairs with a code.</p>
+<table>
+  <tr><th>Setting</th><th>What it does</th></tr>
+  <tr><td><strong>Panel address from outside</strong></td><td>The address people open the panel with, e.g. <code>https://myphone.example.com</code>. The page shows the <strong>Redirect URI</strong> to register at the provider: <code>&lt;address&gt;/login/oidc/callback</code>.</td></tr>
+  <tr><td><strong>Issuer, Client ID, Client secret</strong></td><td>From the provider. In Authentik the issuer is the &ldquo;OpenID Configuration Issuer&rdquo; on the provider's page. The secret is never shown again; <em>Forget the stored client secret</em> removes it. <strong>Test the issuer</strong> checks it.</td></tr>
+  <tr><td><strong>Name on the button</strong></td><td>&ldquo;Sign in with&rdquo; and this name. Empty says &ldquo;single sign-on&rdquo;.</td></tr>
+  <tr><td><strong>Scopes</strong></td><td><code>openid</code> is always added. Empty asks for openid, email and profile.</td></tr>
+  <tr><td><strong>Match a first sign-in by</strong></td><td><strong>Username</strong> (the provider's username is the PBX login name) or <strong>Email</strong> (the login's notification email). Only the first time: after that the login stays linked to that provider account, even if names change, until you <strong>Unlink</strong> it. Accounts are never created by sign-on &mdash; add the login, with its extension, first. Renaming a login drops its link.</td></tr>
+  <tr><td><strong>Only link an email the provider has verified</strong></td><td>On by default. Turn off only if people can't edit their own email at the provider.</td></tr>
+  <tr><td><strong>Admin logins may sign in this way</strong></td><td>Off keeps admins on their password. Admin pages stay office-network only either way.</td></tr>
+  <tr><td><strong>Go straight to the sign-in provider</strong></td><td>Opening the panel goes directly to the provider. Not after signing out or a failed sign-in, and never at <code>/login?password=1</code>.</td></tr>
+  <tr><td><strong>Hide the username and password form</strong></td><td>Only the button shows. The form comes back after a failed sign-in and at <code>/login?password=1</code> &mdash; bookmark that, it's the way in if the provider is down.</td></tr>
+</table>
+<p><strong>In Authentik:</strong> Applications &rarr; Providers &rarr; Create &rarr; OAuth2/OpenID Provider, client type <strong>Confidential</strong>, the redirect URI from the page (strict), scopes openid/email/profile. Create an Application using it and bind the users or group allowed in. Then copy the Client ID, Client Secret and issuer into Admin &rarr; Sign-on and try it in a private window before signing out.</p>
 
 <h2>E911</h2>
 <p>Per-user E911 addresses behind a separate unlock code. See <a href="advanced.html#e911">911 / E911</a>.</p>
@@ -109,7 +136,7 @@
 <p>Bearer tokens for the REST API and for the edge's security alerts. A key is shown only once; revoke any time.</p>
 
 <h2>Features</h2>
-<p>Controls every <a href="phones.html#feature-codes">star code</a>: on/off system-wide, default access (All users / Admins only / No one), and per-user Allow/Deny overrides.</p>
+<p>Controls every <a href="phones.html#feature-codes">star code</a>: on/off system-wide, default access (<strong>By plan</strong> / All users / Admins only / No one), and per-user Allow/Deny overrides. Each user's row shows whether they can use the code <strong>now</strong> and why. With <strong>By plan</strong> (the default), new accounts start with none and get the codes their plan includes &mdash; see <a href="phones.html#feature-codes">star codes</a>.</p>
 
 <h2>Branding</h2>
 <p>White-label the panel: site name, header logo (upload or URL) with an optional separate dark-mode logo that auto-swaps, header and button colors with one-click presets, animated gradient header, default dark/light theme, login page logo/title/subtitle, favicon, footer line. Logos live in the database, so they ride along with backups. <strong>Regional:</strong> time zone selector; all times display in 12-hour format in that zone.</p>

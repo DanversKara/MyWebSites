@@ -65,6 +65,7 @@
 <ul>
   <li><strong>Admin call recording is off for the whole system by default.</strong> Turning it on (Recordings → Recording settings) requires the admin to tick a legal acknowledgement, which is logged. When on, only extensions with <em>Admin call recording</em> ticked on the Logins page are recorded. These recordings are silent to callers unless the announcement is on.</li>
   <li><strong>"Record my calls"</strong> (My Phone → Settings) needs recording in the user's plan, plus the user's own legal acknowledgement. An admin can disable a user's recording but <strong>never force it on</strong>.</li>
+  <li><strong>Both directions:</strong> calls you make and calls you receive (from outside, another extension or a ring group) are recorded. Each user who records their calls gets their own copy; on a call between two of them, each gets one.</li>
   <li><strong>"This call may be recorded" announcement:</strong> plays to both parties when a recorded call starts. Upload your own message, or a beep plays instead.</li>
 </ul>
 
@@ -75,12 +76,13 @@
   <strong>Optional, untested with real payments</strong>
   <p>Only use Stripe's test mode unless you have tested it yourself. Most home users don't need billing at all — just give people access under Billing → User access.</p>
 </div>
-<p><strong>What a plan sets:</strong> monthly outside minutes, voicemail, texts per month, recording, and the number of IVR menus. <strong>No plan:</strong> users can only call other extensions. Admins are never limited.</p>
+<p><strong>What a plan sets:</strong> monthly outside minutes, voicemail, texts per month, recording, the number of IVR menus, and the <strong>star codes included</strong>. <strong>No plan:</strong> users can only call other extensions and have no star codes (unless you set &ldquo;no plan&rdquo; defaults). Admins are never limited.</p>
 <p><strong>Setting it up:</strong></p>
 <ol>
   <li>In Stripe (start in <strong>test mode</strong>), copy the secret key and create a webhook to <code>https://&lt;your-public-panel&gt;/stripe/webhook</code>. Copy the signing secret.</li>
   <li>Admin → <strong>Billing</strong>: paste the keys, set the <strong>public URL</strong>, create plans (name, price, limits). Then <strong>Publish</strong> each plan to Stripe.</li>
   <li>Users subscribe, switch and cancel in <strong>My Phone → Billing</strong>. Stripe's own page handles payment details.</li>
+  <li>New customers can sign themselves up through the <a href="admin.html#store">Store</a>: they enter a card, you approve, and only then are they charged and their account created.</li>
 </ol>
 <p><strong>Overriding plans:</strong> Billing → <strong>User access</strong> sets defaults for users without a plan, and per-user exceptions such as <code>unlimited</code> minutes for a lobby phone. <strong>Without Stripe:</strong> just use User access to give people what they need.</p>
 
