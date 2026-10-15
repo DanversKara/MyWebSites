@@ -46,7 +46,7 @@
 <p class="lead">My Phone for Android: a free, open-source app that puts My Phone in your pocket. Texts, calls, voicemail and settings, with notifications, <strong>calls in and out from the app itself</strong>, and a PIN lock. Pair it once and it stays connected for weeks.</p>
 
 <div class="callout warn">
-  <strong>Young app (0.7.1)</strong>
+  <strong>Young app (0.7.2)</strong>
   <p>It works day to day, but it's new: keep the web My Phone handy. It needs own-pbx up to date &mdash; run <code>pbx-update</code> after each app update. Calls now work <strong>both ways</strong>: the app places calls and rings for incoming ones, alongside your desk phone or Zoiper.</p>
 </div>
 
@@ -85,7 +85,20 @@
 <p>Free software (GPL-2.0-or-later; the built-in phone engine, Linphone, is GPL-3.0), no ads, no tracking, <strong>no Google Play Services or Firebase</strong>. Needs Android 8.0 or newer.</p>
 
 <h2>Connecting the app</h2>
-<p>The app connects with a <strong>pairing code</strong> &mdash; it never asks for your My Phone password.</p>
+<h3>Sign in with my browser <span class="badge new">new</span></h3>
+<p>The quickest way, all on the phone &mdash; no QR code, no typing a code:</p>
+<ol>
+  <li>Open the app. The <strong>Server</strong> is already filled in (change it if yours is different). Tap <strong>Sign in with my browser</strong>.</li>
+  <li>My Phone opens in a browser tab inside the app (like links in Gmail). Sign in with your password &mdash; or <strong>Sign in with Authentik</strong> if <a href="admin.html#sign-on">single sign-on</a> is on.</li>
+  <li>The PBX makes a pairing code by itself and sends you back to the app, which connects. Then you choose your PIN.</li>
+</ol>
+<p>If the tab doesn't jump back on its own, tap <strong>Open the My Phone app</strong> on that page (some phones' browsers want one tap); the code is shown there too as a last resort.</p>
+<div class="callout">
+  <strong>Safe by design</strong>
+  <p>The app sends a random one-time value with the sign-in, and only connects by itself when the answer carries that value, from the same server, within 15 minutes. A pairing link from anywhere else is only filled in and waits for you to tap <strong>Connect</strong>, so a link on some website can't quietly pair your app to another server. The app still never sees your password.</p>
+</div>
+<h3>With a pairing code</h3>
+<p>The app can also connect with a <strong>pairing code</strong> from another device:</p>
 <ol>
   <li>In a browser, sign in to My Phone and open <strong>App &rarr; Get a pairing code</strong>.</li>
   <li>In the app, tap <strong>Scan QR code</strong> and point the phone at the QR on your screen. It fills in the server and code and connects.</li>
