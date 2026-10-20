@@ -103,8 +103,62 @@
 </ul>
 <p>Cards are made when mail arrives. To re-read mail that arrived before an update, run <code>docker compose exec php php bin/console app:backfill insights --since=YYYY-MM-DD</code>; a re-read replaces that mail's old code and plan cards.</p>
 
+<h2 id="notes">Notes <span class="badge new">new</span></h2>
+<p>Notes in the style of Google Keep, on the web (<strong>Notes</strong> in the top bar, or <code>/notes</code>) and in the Android app (Drawer → Notes). Both work on the same notes, so a note typed on the phone is on the web a moment later, and the other way round.</p>
+
+<h3>Writing</h3>
+<ul>
+  <li><strong>Saves as you type</strong> — there is no Save button. <strong>Undo</strong> and <strong>Redo</strong> step back and forward through what you typed.</li>
+  <li><strong>Checklists</strong> — the checkbox button turns a note into a list. Tick items off in the note or straight from its card; press Enter for the next item.</li>
+  <li><strong>Formatting</strong> — <strong>bold</strong>, <em>italic</em>, underline, headings and bullet lists from the toolbar. The marks are plain text (<code>**bold**</code>, <code>*italic*</code>, <code>__underline__</code>, a line starting <code># </code> or <code>- </code>), so the web and the phone show the same thing.</li>
+  <li><strong>Colours, labels, pin, archive, bin</strong> — ten Keep colours; labels separated by commas (click one to see only those notes); pin to the top; archive to put away; the bin keeps a note until you delete it forever.</li>
+  <li><strong>Search</strong> — the search box finds text in titles, notes, checklist items and labels.</li>
+</ul>
+
+<h3>Notes on contacts and events</h3>
+<p>Open a contact or a calendar event and its <strong>Notes</strong> section lists the notes linked to it, with <strong>Add note</strong> to write a new one already linked. In a note, the link button links it to a contact or an event; the link shows on the note and opens that contact or day.</p>
+
+<h3 id="note-reminders">Reminders</h3>
+<p>The bell in a note's toolbar sets a reminder: <strong>Later today</strong>, <strong>Tomorrow morning</strong>, <strong>Next week</strong>, or your own date and time. When it is due, BearerMail sends you an email (from and to your own mailbox) and a notification to every device you allowed notifications on — on Android on the <em>Reminders</em> channel, with sound, and tapping it opens the note. The reminder shows as a bell chip on the note and its card, crossed out once it has gone; the ✕ removes it.</p>
+<p>A reminder is sent once. If the server was down when it was due, it still goes out up to an hour late; after that it is skipped rather than arriving hours late.</p>
+
+<h3 id="note-sharing">Share links and collaborators</h3>
+<p>A note's <strong>Share &amp; download</strong> section makes a link (<code>https://your-server/n/…</code>) that opens the note for someone without an account:</p>
+<ul>
+  <li><strong>Password</strong> (optional) — visitors type it first; wrong guesses are rate-limited.</li>
+  <li><strong>Expiry</strong> — never, 1 day, 7 days, 30 days or 1 year.</li>
+  <li><strong>Collaborators</strong> — tick <em>Let people with the link edit</em> and whoever has the link can change the title, the text and the checklist; their changes save as they type.</li>
+  <li>Each link shows whether it can edit, has a password, when it expires and how often it was opened, with <strong>Copy link</strong> and delete.</li>
+</ul>
+<p>Shared notes show their pictures, drawings and voice notes too.</p>
+
+<h3>Download, send and insert</h3>
+<ul>
+  <li><strong>Download .txt</strong> — the title and the text (a checklist as <code>[x]</code> / <code>[ ]</code> lines).</li>
+  <li><strong>Download .png</strong> — a picture of the note card in its colour.</li>
+  <li><strong>In an email</strong> — the compose window's template picker has a <strong>Notes</strong> group; picking one puts the note into the message. In the app: compose menu (⋯) → <strong>Insert note</strong>.</li>
+  <li><strong>On the phone</strong> — the share button sends a copy as text, shares it as a picture, or saves it as a .txt file.</li>
+</ul>
+
+<h3 id="note-media">Pictures, drawings and voice notes</h3>
+<ul>
+  <li><strong>Pictures</strong> — the picture button adds one or several images. They show across the top of the note and on its card; click one to open it full size.</li>
+  <li><strong>Drawing</strong> — the paintbrush opens a drawing pad: six colours and an eraser, pen size, undo and clear. <strong>Save drawing</strong> adds it to the note.</li>
+  <li><strong>Voice notes</strong> — the microphone records until you press it again (at most five minutes); the recording plays under the pictures. The browser (or phone) asks to use the microphone the first time.</li>
+  <li>Up to 30 per note; 15&nbsp;MB a picture, 10&nbsp;MB a drawing, 25&nbsp;MB a recording. The files are kept on the Drive volume and go with the note when it is deleted forever.</li>
+</ul>
+
+<h2 id="app-icon">App icon and logos <span class="badge new">new</span></h2>
+<p><strong>Settings → Appearance</strong>:</p>
+<ul>
+  <li><strong>App icon</strong> — the picture for the web portal's browser tab and top bar: one of the plMail logos, or the BearerMail envelope.</li>
+  <li><strong>Logo</strong> — the icons that go with that choice. With the plMail logos: ten logos, each in its own colours, the theme's, or one of thirty-two colourways. With BearerMail: the BearerMail Android icon in <strong>Navy</strong> or <strong>White</strong>.</li>
+  <li>The Android app's home-screen icon follows the Logo choice on its next sync.</li>
+</ul>
+
 <h2>Mail-server admin</h2>
 <ul>
+  <li><strong>Mailboxes for new people</strong> <span class="badge new">new</span> — <strong>Admin → Users → New user</strong> has a <em>Mailbox</em> field: fill it in and that person gets a mailbox on your domain with their starting password, already added as their mail account — they can send and receive the first time they sign in, with no container restart. From the shell: <code>app:mail:mailbox</code> (see <a href="mail-server.html#managing-mailboxes">Managing mailboxes</a>).</li>
   <li><strong>Admin → Mail server</strong> — configure the outbound SMTP relay (host, username, secret) from the UI; the MTA picks it up within seconds, no rebuild. Clearing the host returns to direct delivery.</li>
   <li><strong>DNS checker</strong> — verifies your MX/SPF/DKIM/DMARC records from the admin area.</li>
   <li><strong>DMARC report parsing</strong> — aggregate reports land in a readable view instead of raw XML.</li>
@@ -147,7 +201,7 @@
 </ul>
 
 <h2>Android-only extras</h2>
-<p>The <a href="android.html">Android app</a> has its own set of additions: one-tap verification-code copying from notifications, an app PIN lock, crash reports and a built-in updater. See the app page for the full list.</p>
+<p>The <a href="android.html">Android app</a> has its own set of additions: home-screen widgets for the calendar and notes, one-tap verification-code copying from notifications, an app PIN lock, crash reports and a built-in updater. See the app page for the full list.</p>
 
 <div class="pagenav">
   <a href="dns.html"><span class="label">← Prev</span>DNS &amp; domains</a>

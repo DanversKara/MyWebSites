@@ -181,6 +181,25 @@ const CONFIG = {
         { name: "Nginx Proxy Manager", desc: "Reverse proxy & SSL certs",     url: "http://192.168.8.147:81", icon: false },
         { name: "WireGuard",           desc: "VPN tunnel & peer config",      url: "http://192.168.8.205:10086/#/signin", icon: false },
         { name: "Cloudflare",          desc: "DNS, domains & tunnels",        url: "https://dash.cloudflare.com/" },
+        {
+          name: "Speed Test",
+          desc: "Internet speed test · Fast & Ookla",
+          url: "https://fast.com",
+          choices: [
+            {
+              label: "Fast.com",
+              url: "https://fast.com",
+              hint: "Netflix's quick speed test",
+              emoji: "⚡"
+            },
+            {
+              label: "Speedtest.net",
+              url: "https://www.speedtest.net/",
+              hint: "Ookla's full speed test",
+              emoji: "📊"
+            },
+          ]
+        },
       ]
     },
     {
@@ -431,6 +450,7 @@ const GLYPHS = {
   proxy:      { h: 28,  p: '<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.8a1.5 1.5 0 013 0V11"/>' },
   mesh:       { h: 350, p: '<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="19" r="2"/><path d="M7 6h10M6.2 7.8l4.8 9.4M17.8 7.8l-4.8 9.4"/>' },
   cloud:      { h: 25,  p: '<path d="M7 18a4.5 4.5 0 01-.6-8.96A6 6 0 0118 10a4 4 0 01-.5 8z"/>' },
+  speed:      { h: 190, p: '<path d="M4 18a8 8 0 1116 0"/><path d="M12 14l4.5-4.5"/><circle cx="12" cy="14" r="1.6"/>' },
   home:       { h: 188, p: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M12.8 12l-2.6 3.6h3.6L11.2 19"/>' },
   phone:      { h: 140, p: '<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/>' },
   headset:    { h: 165, p: '<path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/><path d="M19 20c0 1.4-2 2-5 2"/>' },
@@ -454,6 +474,7 @@ const GLYPHS = {
 const GLYPH_FOR = {
   "Proxmox":"hypervisor", "YunoHost":"apps", "Docker":"containers",
   "Nginx Proxy Manager":"proxy", "WireGuard":"mesh", "Cloudflare":"cloud",
+  "Speed Test":"speed",
   "Home Assistant":"home", "IncrediblePBX":"phone", "VoIP.ms":"headset",
   "Gmail":"mail", "Google Messages":"chat", "Discord":"community",
   "Twitch Chat":"stream", "Alienware Arena":"gamepad", "Drive Storage":"folder",

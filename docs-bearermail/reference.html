@@ -83,13 +83,20 @@
   <tr><th>Volume / path</th><th>What lives there</th></tr>
   <tr><td><code>mail_data</code></td><td>Maildir mailboxes. Back this up.</td></tr>
   <tr><td><code>mail_dkim</code></td><td>DKIM private key. Back this up — losing it means rotating DNS.</td></tr>
-  <tr><td><code>app_drive</code> → <code>/app/var/drive</code></td><td>Drive files, plus <code>_settings.json</code> with the Admin → Drive limits. Included in <code>app:backup</code>.</td></tr>
+  <tr><td><code>app_drive</code> → <code>/app/var/drive</code></td><td>Drive files, plus <code>_settings.json</code> with the Admin → Drive limits, and <code>_notes/</code> with notes' pictures, drawings and voice notes. Included in <code>app:backup</code>.</td></tr>
   <tr><td><code>mail_config</code> → <code>/etc/plmail-mail-config</code></td><td>Shared between the app and the mail containers: relay settings, aliases, SMTP keys, <code>login_guard.json</code> (mail login blocking settings) and <code>auth_policy_key</code> (the secret the mail server uses to ask the app about logins; made on first start).</td></tr>
 </table>
 
 <h2>Applying changes</h2>
 <pre><code># Update to the latest version (backup, download, rebuild):
 ./update.sh
+
+# Mailboxes on the built-in server (see Mail server → Managing mailboxes):
+docker compose exec php php bin/console app:mail:mailbox list
+docker compose exec php php bin/console app:mail:mailbox from-accounts
+
+# Send note reminders that are due now (runs on its own every minute):
+docker compose exec php php bin/console app:notes:reminders
 
 # Re-read old mail for plan and code cards after an update:
 docker compose exec php php bin/console app:backfill insights --since=2026-10-01

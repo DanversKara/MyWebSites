@@ -57,11 +57,22 @@ plMail   --SMTP 587--> mta                      (sending, DKIM-signed)</code></p
 <p>Because delivery lands in Dovecot and plMail syncs it over IMAP like any other account, everything plMail does — threads, full-text search, filters, push — works on your domain mail with zero changes to the app. Mail keeps arriving even when plMail itself is down: Postfix queues it.</p>
 <p>Mail lives in the <code>mail_data</code> volume (Maildir); DKIM keys in <code>mail_dkim</code>. Both survive restarts and rebuilds.</p>
 
-<h2>Managing mailboxes</h2>
-<p>Mailboxes come from one variable. <code>localpart:password</code> pairs, comma-separated:</p>
+<h2 id="managing-mailboxes">Managing mailboxes</h2>
+<p>There are two ways to have a mailbox, and both work side by side.</p>
+<h3>From the admin area <span class="badge new">new</span></h3>
+<p><strong>Admin → Users → New user</strong> has a <strong>Mailbox</strong> field. Type a name (<code>anna</code>, or the full <code>anna@yourdomain.com</code>) and the person gets that mailbox with the starting password from the same form, already added as their mail account. They can send and receive the first time they sign in — no <code>MAIL_ACCOUNTS</code> edit and no container restart. Leave it empty for someone who brings their own mail.</p>
+<p>The same from the shell:</p>
+<pre><code>docker compose exec php php bin/console app:mail:mailbox list
+docker compose exec php php bin/console app:mail:mailbox create anna      # asks for the password
+docker compose exec php php bin/console app:mail:mailbox password anna    # new password
+docker compose exec php php bin/console app:mail:mailbox remove anna      # stops logins and delivery; the mail stays on disk
+docker compose exec php php bin/console app:mail:mailbox from-accounts    # repair: see below</code></pre>
+<p><strong><code>from-accounts</code></strong> fixes people who were added before mailboxes could be created from the admin area and get <em>AUTHENTICATIONFAILED</em>: every mail account that signs in to the built-in server with an address on your domain but has no mailbox gets one, with the password already saved in that account. Add <code>--dry-run</code> to see what it would do first.</p>
+<h3>From the environment</h3>
+<p><code>MAIL_ACCOUNTS</code> still works — <code>localpart:password</code> pairs, comma-separated:</p>
 <pre><code>export MAIL_ACCOUNTS="you:STRONG-PASSWORD,info:ANOTHER-STRONG-PASSWORD"
 docker compose --profile mail up -d --force-recreate mta mailstore</code></pre>
-<p>Logins are the full address (<code>you@yourdomain.com</code>). <code>postmaster@</code> and <code>abuse@</code> are aliased to the first mailbox automatically. There is no mailbox-management UI yet — this variable <em>is</em> the interface.</p>
+<p>Logins are the full address (<code>you@yourdomain.com</code>). <code>postmaster@</code> and <code>abuse@</code> are aliased to the first mailbox automatically. <code>app:mail:mailbox list</code> shows which mailboxes come from <code>MAIL_ACCOUNTS</code> and which from BearerMail; change the ones from <code>MAIL_ACCOUNTS</code> there.</p>
 
 <h2 id="sending-direct-or-relayed">Sending: direct or relayed</h2>
 <p>By default Postfix delivers outbound mail itself by looking up each recipient's MX (direct delivery). That needs <strong>port 25 outbound</strong> open — commonly blocked on residential connections and some VPS providers.</p>
@@ -122,7 +133,7 @@ docker compose logs -f mta</code></pre>
 <ul>
   <li>No spam filtering (no Rspamd/SpamAssassin) and no greylisting.</li>
   <li>No sieve filters, no quotas, no per-domain config — one domain per stack.</li>
-  <li>Mailbox management is the <code>MAIL_ACCOUNTS</code> variable, not a UI.</li>
+  <li>Mailboxes are created from Admin → Users or the console; there is no page yet for listing or removing them (use <code>app:mail:mailbox</code>).</li>
   <li>Webmail <em>is</em> plMail itself — that's the point.</li>
 </ul>
 

@@ -46,7 +46,7 @@
 <p class="lead">My Phone for Android: a free, open-source app that puts My Phone in your pocket. Texts, calls, voicemail and settings, with notifications, <strong>calls in and out from the app itself</strong>, and a PIN lock. Pair it once and it stays connected for weeks.</p>
 
 <div class="callout warn">
-  <strong>Young app (0.7.2)</strong>
+  <strong>Young app (0.7.8)</strong>
   <p>It works day to day, but it's new: keep the web My Phone handy. It needs own-pbx up to date &mdash; run <code>pbx-update</code> after each app update. Calls now work <strong>both ways</strong>: the app places calls and rings for incoming ones, alongside your desk phone or Zoiper.</p>
 </div>
 
@@ -73,15 +73,21 @@
   <tr><td><strong>Messages</strong></td><td>Inbox like Google Messages: search, unread dots, <strong>swipe to delete</strong> with Undo, <strong>long-press to select</strong> several (Select all, Delete), <strong>Start chat</strong> to any extension or number, chat bubbles, copy, block, and a <strong>Call</strong> button in a chat.</td></tr>
   <tr><td><strong>Calls</strong></td><td><strong>All / Missed / Hidden</strong>. Swipe left or long-press to <strong>hide</strong> calls (with Undo); hidden calls wait under Hidden until the PBX removes them after 90 days &mdash; nothing is deleted. Tap a call to <strong>Call</strong>, text back, hide or block. The <strong>dial pad</strong> button places a call. Opening Calls clears the missed-call badge.</td></tr>
   <tr><td><strong>Voicemail</strong></td><td>New / Old. Tap to play, with a seek bar, elapsed/total time and <strong>1x / 1.5x / 2x</strong> speed. Then <strong>Call</strong> back, Text, Move to Old / New, Block or Delete (swipe or multi-select, with Undo).</td></tr>
+  <tr><td><strong>Contacts</strong> <span class="badge new">new</span></td><td>Your private address book from the PBX: search, add, <strong>Call</strong> or text. Open a contact for its <strong>timeline</strong> (calls, texts, voicemail and recordings with them, newest first) and <strong>notes</strong>. A <strong>saved copy</strong> stays on the phone, so your contacts still show with no internet or when the PBX is down (&ldquo;Offline &mdash; showing saved contacts&rdquo;). Names from your contacts also show in Calls, Messages and Voicemail, and on the incoming-call screen.</td></tr>
   <tr><td><strong>Settings</strong></td><td>Do Not Disturb, call forwarding, ring time, record my calls, receive/send texts, text emails, notification email, blocked numbers; <strong>Notifications</strong>; <strong>Calling</strong> (incoming calls, phone login); PIN, fingerprint, lock timer, screenshot blocking; panel password, signed-in phones, sign out.</td></tr>
 </table>
 <p>Everything you change in the app goes through the same rules as the web My Phone: your plan limits, the admin's safety lock, block lists and rate limits all apply the same way.</p>
 
 <h2>Get the app</h2>
 <ol>
-  <li>On GitHub open <strong>Actions &rarr; Android app</strong>, pick the latest green run and download <strong>my-phone-debug-apk</strong> under <em>Artifacts</em>.</li>
-  <li>Unzip it and open the <code>.apk</code> on your phone. Android asks to allow installing from your browser or file manager &mdash; allow it once. Later versions install over the top.</li>
+  <li>On the phone, open <a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">GitHub &rarr; Releases &rarr; latest</a> (<strong>My Phone 0.7.8</strong> or newer) and tap <strong>my-phone-&lt;version&gt;.apk</strong> under <em>Assets</em>.</li>
+  <li>Open the downloaded file. Android asks to allow installing from your browser or file manager &mdash; allow it once.</li>
 </ol>
+<p><strong>Updates:</strong> every change to the app is published as a new signed release automatically. Download the newest <code>.apk</code> from the same page and open it &mdash; it installs over the top and keeps your sign-in, PIN and settings. Run <code>pbx-update</code> on the PBX too, so both sides match.</p>
+<div class="callout warn">
+  <strong>Coming from a test build (0.7.2 or older)?</strong>
+  <p>Earlier builds came from GitHub Actions and were signed with a test key. Android won't install the signed release over one of those (&ldquo;App not installed&rdquo; / &ldquo;conflicts with an existing package&rdquo;). Uninstall the old My Phone first, install the release, then connect again with <em>Sign in with my browser</em>. This is a one-time step; later releases update normally.</p>
+</div>
 <p>Free software (GPL-2.0-or-later; the built-in phone engine, Linphone, is GPL-3.0), no ads, no tracking, <strong>no Google Play Services or Firebase</strong>. Needs Android 8.0 or newer.</p>
 
 <h2>Connecting the app</h2>
@@ -95,7 +101,7 @@
 <p>If the tab doesn't jump back on its own, tap <strong>Open the My Phone app</strong> on that page (some phones' browsers want one tap); the code is shown there too as a last resort.</p>
 <div class="callout">
   <strong>Safe by design</strong>
-  <p>The app sends a random one-time value with the sign-in, and only connects by itself when the answer carries that value, from the same server, within 15 minutes. A pairing link from anywhere else is only filled in and waits for you to tap <strong>Connect</strong>, so a link on some website can't quietly pair your app to another server. The app still never sees your password.</p>
+  <p>The app sends a random one-time value with the sign-in, and only connects by itself when the answer carries that value, from the same server, within 15 minutes. A pairing link from anywhere else is only filled in and waits for you to tap <em>Connect</em>, so a link on some website can't quietly pair your app to another server. The app still never sees your password.</p>
 </div>
 <h3>With a pairing code</h3>
 <p>The app can also connect with a <strong>pairing code</strong> from another device:</p>

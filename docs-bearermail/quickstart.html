@@ -96,6 +96,7 @@ export MAIL_ACCOUNTS="you:CHOOSE-A-STRONG-PASSWORD"</code></pre>
 <pre><code>./update.sh                 # latest main: backs up, downloads, rebuilds
 ./update.sh some-branch     # a test branch, when you've been asked to try one</code></pre>
 <p>Database changes apply themselves on start; your settings, mail and Drive files are kept.</p>
+<p><code>update.sh</code> installs the newest code on <code>main</code> and stamps the build with it, so <strong>Admin → Updates</strong> can tell you when you are behind. Set its <strong>Follow</strong> to <strong>Main</strong> to match: <em>Releases</em> only moves when a version is tagged.</p>
 
 <div class="callout warn">
   <strong>Home connection?</strong>

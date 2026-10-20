@@ -54,14 +54,32 @@
   <tr><td><strong>Messages</strong></td><td>Conversations; send a text to any extension (including Zoiper and other SIP apps); <strong>Block</strong>, <strong>Report</strong>; updates by itself. External numbers go out via voip.ms (see <a href="sms.html">SMS &amp; MMS</a>)</td></tr>
   <tr><td><strong>IVR</strong></td><td>Personal menus (if their plan allows)</td></tr>
   <tr><td><strong>Billing</strong></td><td>Choose, switch or cancel a plan (Stripe)</td></tr>
+  <tr><td><strong>Contacts</strong> <span class="badge new">new</span></td><td>Your private address book (other users never see it). Add, edit, search, select and delete (or delete all); <strong>import</strong> a vCard (<code>.vcf</code>) or CSV, <strong>export</strong> all as vCard. Each contact has a <strong>timeline</strong> of calls, texts, voicemail and recordings with them, and private <strong>notes</strong></td></tr>
   <tr><td><strong>App</strong></td><td>Pair the <a href="android.html">Android app</a>: <strong>Get a pairing code</strong> shows a QR code, tap-to-copy code and server, and an <em>Open in the My Phone app</em> button. <strong>Show phone login QR</strong> gives the app your extension's phone login for calls. See and sign out your signed-in phones</td></tr>
-  <tr><td><strong>Settings</strong></td><td>DND, forwarding, ring time, answer with IVR, "Record my calls" (with legal acknowledgement), notification email, text emails on/off, receive/send texts on/off, call filtering (block list: per number choose "not in service", straight to voicemail, or forward elsewhere), 911 notice, phone setup, SIP password, panel password</td></tr>
+  <tr><td><strong>Settings</strong></td><td>DND, forwarding, ring time, answer with IVR, "Record my calls" (with legal acknowledgement), notification email, text emails on/off, receive/send texts on/off, call filtering (block list: per number choose "not in service", straight to voicemail, or forward elsewhere), <strong>ring my cell too</strong> (see below), 911 notice, phone setup, SIP password, panel password</td></tr>
 </table>
 
 <div class="callout ok">
   <strong>On Android?</strong>
   <p>The <a href="android.html">My Phone app</a> gives you the same features with a phone-first layout, notifications, calls in and out from the app, long sign-in and a PIN lock. To connect it, tap <strong>Sign in with my browser</strong> in the app and sign in &mdash; it pairs by itself.</p>
 </div>
+
+<h2 id="contacts">Contacts, names and notes</h2>
+<ul>
+  <li><strong>Names everywhere:</strong> once a number is in your contacts, its name shows instead of the bare number in Calls, Voicemail, Recordings and Messages &mdash; and on your ringing phones (desk phone, Zoiper, the app's call screen). Names are yours: two people can name the same number differently.</li>
+  <li><strong>Numbers match however they're written:</strong> <code>+1 (310) 555-0100</code>, <code>13105550100</code> and <code>3105550100</code> are the same contact (and the same as on your block list).</li>
+  <li><strong>Notes</strong> are private and stay after the 90-day call-history cleanup. A note can be about a specific call, text, voicemail or recording; deleting that voicemail or recording deletes its notes, and deleting a contact deletes all of its notes.</li>
+  <li><strong>Import / export:</strong> bring contacts in from your phone or another system as a vCard or CSV; export them all as one vCard.</li>
+  <li>Your contacts belong to your login, not your extension: if the admin gives your extension to someone else, they don't get your address book.</li>
+</ul>
+
+<h2 id="ring-cell">Ring my cell too</h2>
+<p>Settings &rarr; <strong>My cell number</strong> and <strong>Also ring my cell on shared numbers</strong>: when a call comes in on one of the PBX's numbers that rings you &mdash; a number routed to you, a <a href="admin.html#ring-groups">ring group</a> you're in, or a menu option that rings you &mdash; your cell rings as well (calls dialled straight to your extension don't), after a delay you choose (<strong>0&ndash;30 seconds</strong>, default 15) so your desk phone and the app ring first.</p>
+<ul>
+  <li><strong>Press 1 to accept:</strong> when you answer on the cell you hear a short prompt; the call connects only when you press <strong>1</strong>. Silence or any other key (for example your cell's voicemail picking up) hangs up just your cell; the other phones keep ringing. You have 12 seconds.</li>
+  <li>Uses your <strong>outside-call minutes</strong> (your plan), goes out over the admin's outbound route, and respects your Do Not Disturb and block list.</li>
+  <li>Once anyone answers, the cell stops ringing (or never starts if its delay hadn't run out).</li>
+</ul>
 
 <h2>Texting from My Phone</h2>
 <p>Messages → pick a conversation or start one. Extension-to-extension texts arrive on the other person's phones (SIP MESSAGE) and in their My Phone. Type an external number (e.g. <code>+15551234567</code>) and it goes out through voip.ms from your mapped DID — see <a href="sms.html">SMS &amp; MMS</a>.</p>

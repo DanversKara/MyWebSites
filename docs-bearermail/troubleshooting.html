@@ -126,6 +126,39 @@
   <li>After any change at the provider: <code>docker compose exec php php bin/console cache:pool:clear cache.app</code>.</li>
 </ul>
 
+<h2>A new user can't send or receive (AUTHENTICATIONFAILED)</h2>
+<p>Their mail account points at a mailbox that was never created on the mail server — people added before the admin area could create mailboxes. Run:</p>
+<pre><code>docker compose exec php php bin/console app:mail:mailbox from-accounts --dry-run   # see who is missing one
+docker compose exec php php bin/console app:mail:mailbox from-accounts</code></pre>
+<p>Each missing mailbox is created with the password already saved in that person's mail account. For new people, fill in <strong>Mailbox</strong> on Admin → Users → New user.</p>
+
+<h2>A shared note won't open after the password</h2>
+<p>Update the server (<code>./update.sh</code>): on older builds the right password looked like it did nothing. A wrong password shows "That password is not right"; after ten wrong tries in fifteen minutes the link waits a while.</p>
+
+<h2>Voice notes won't record</h2>
+<ul>
+  <li>The browser asks for the microphone the first time; if it was refused, allow it for your BearerMail site in the browser's site settings (the padlock in the address bar) and reload.</li>
+  <li>Recording needs the site on <strong>https://</strong>.</li>
+  <li>On the phone: Android Settings → Apps → BearerMail → Permissions → Microphone.</li>
+</ul>
+
+<h2>Note reminders don't arrive</h2>
+<ul>
+  <li><strong>No email:</strong> the reminder is mailed from and to your first mail account, so you need one that can send.</li>
+  <li><strong>No notification:</strong> notifications need push set up on the server (Admin → Push) and allowed on the device. On Android, check the <em>Reminders</em> channel isn't switched off.</li>
+  <li>A reminder more than an hour overdue (the server was off) is skipped.</li>
+</ul>
+
+<h2>Admin → Updates says "development" or never sees a new version</h2>
+<ul>
+  <li>Run <code>./update.sh</code> once with a current version: it now stamps the build with the commit it was made from. Builds made before that show "development".</li>
+  <li>Set <strong>Follow</strong> to <strong>Main</strong> — <code>update.sh</code> installs the latest <code>main</code>. <em>Releases</em> only changes when a version is tagged.</li>
+  <li><strong>Check now</strong> asks GitHub's registry immediately; otherwise it checks every hour.</li>
+</ul>
+
+<h2>The phone's icon didn't change</h2>
+<p>The launcher icon follows Settings → Appearance → Logo on the web, and changes when the app next syncs with the server. Open the app once; some launchers take a minute to redraw. You need an app version with the BearerMail icons (install the latest release).</p>
+
 <h2>Still stuck</h2>
 <p>Collect <code>docker compose logs --tail=100 &lt;service&gt;</code> for the failing service and open an issue on the relevant repo — <a href="https://github.com/DanversKara/pl_mail_bearermail/issues">server</a> or <a href="https://github.com/DanversKara/pl_mail_android_bearermail/issues">android</a>. Say what you expected, what happened, and what the logs show.</p>
 

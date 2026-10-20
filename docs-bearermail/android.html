@@ -100,6 +100,30 @@
 <h3>Crash reports</h3>
 <p>If the app ever closes unexpectedly, the next launch shows <strong>BearerMail closed unexpectedly</strong> with the error, the app version and the device, plus <strong>Copy</strong> and <strong>Dismiss</strong>. Paste it into a GitHub issue. Nothing is sent anywhere; the report stays on the phone until you copy it.</p>
 
+<h3>Notes <span class="badge new">new</span></h3>
+<p><strong>Drawer → Notes</strong>: the same notes as the web (<a href="features.html#notes">what they can do</a>), with a phone editor:</p>
+<ul>
+  <li>Saves as you type, with undo and redo; checklists, bold/italic/underline, headings and bullets; colours, labels, pin and archive.</li>
+  <li><strong>Reminders</strong> — the bell offers later today, tomorrow morning, next week or a date and time. When it is due the phone rings on the <em>Reminders</em> notification channel and the tap opens the note (the server also emails you).</li>
+  <li><strong>Pictures, drawings, voice notes</strong> — the picture button opens the photo picker, the paintbrush a drawing pad, the microphone records a voice note (Android asks for the microphone the first time). Pictures show as thumbnails at the top and open full size; voice notes play in place.</li>
+  <li><strong>Share</strong> — send a copy as text, share it as a picture of the card, or save it as a .txt file.</li>
+  <li><strong>Insert note</strong> — in the composer's menu (⋯), next to Insert event.</li>
+  <li>Notes linked to a contact or an event show on that contact or event.</li>
+</ul>
+
+<h3>Home-screen widgets <span class="badge new">new</span></h3>
+<ul>
+  <li><strong>Calendar agenda</strong> — the month at the top, then a band for each day ("MONDAY 19") and that day's events as coloured blocks in the calendar's colour, with dark or light text to suit. It scrolls through the next month, not just one event. Tapping a day opens the calendar on that day; tapping an event opens that event.</li>
+  <li><strong>Notes</strong> — your notes as Keep-style cards in their colours, pinned first, with checklists you can read at a glance. Tap a card to open it; the buttons start a new note or a new list.</li>
+</ul>
+<p>Add them from your launcher's widget picker (long-press the home screen → Widgets → BearerMail).</p>
+
+<h3>Launcher icon <span class="badge new">new</span></h3>
+<p>The home-screen icon follows <strong>Settings → Appearance → Logo</strong> on the web: any of the plMail logos in any colour, or — with <em>App icon</em> set to BearerMail — the BearerMail icon in <strong>Navy</strong> or <strong>White</strong>. They are adaptive icons, so they fit round, squircle and square launchers. The icon changes on the app's next sync with the server.</p>
+
+<h3>Contacts</h3>
+<p>Tapping a contact's email address opens the composer to them, and contacts are suggested as you type in To, Cc and Bcc. A contact's page lists the notes linked to it.</p>
+
 <h3>Built-in updater</h3>
 <p>Release builds check this repo's GitHub Releases on launch (at most hourly); <strong>Drawer → Check for updates</strong> checks immediately. When a newer version is out you get its notes with <strong>Update</strong>, <strong>Later</strong> and <strong>Skip this version</strong>. Update downloads the APK for your flavour and opens Android's install screen. Every release is cut automatically from <code>main</code> by CI — and every APK must be signed with the same key, or Android refuses the update.</p>
 <p><strong>Your login survives updates.</strong> Installing a newer version over the old one (which is what the updater does) keeps your account, mail, settings and PIN. You are signed out only when the app's data is wiped: uninstalling, <em>Clear storage</em>, or replacing it with a differently signed build. The saved login is encrypted with a key Android deletes with the data, so it cannot be carried to a fresh install; pair again (an existing app password can be reused).</p>
