@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -56,7 +58,7 @@
   <tr><td><strong>Billing</strong></td><td>Choose, switch or cancel a plan (Stripe)</td></tr>
   <tr><td><strong>Contacts</strong> <span class="badge new">new</span></td><td>Your private address book (other users never see it). Add, edit, search, select and delete (or delete all); <strong>import</strong> a vCard (<code>.vcf</code>) or CSV, <strong>export</strong> all as vCard. Each contact has a <strong>timeline</strong> of calls, texts, voicemail and recordings with them, and private <strong>notes</strong></td></tr>
   <tr><td><strong>App</strong></td><td>Pair the <a href="android.html">Android app</a>: <strong>Get a pairing code</strong> shows a QR code, tap-to-copy code and server, and an <em>Open in the My Phone app</em> button. <strong>Show phone login QR</strong> gives the app your extension's phone login for calls. See and sign out your signed-in phones</td></tr>
-  <tr><td><strong>Settings</strong></td><td>DND, forwarding, ring time, answer with IVR, "Record my calls" (with legal acknowledgement), notification email, text emails on/off, receive/send texts on/off, call filtering (block list: per number choose "not in service", straight to voicemail, or forward elsewhere), <strong>ring my cell too</strong> (see below), 911 notice, phone setup, SIP password, panel password</td></tr>
+  <tr><td><strong>Settings</strong></td><td>DND, forwarding, ring time, answer with IVR, "Record my calls" (with legal acknowledgement), notification email, text emails on/off, receive/send texts on/off, call filtering (block list: per number choose "not in service", straight to voicemail, or forward elsewhere), <strong>ring my cell too</strong> (see below), <strong>push-to-talk</strong> (see below), 911 notice, phone setup, SIP password, panel password</td></tr>
 </table>
 
 <div class="callout ok">
@@ -82,13 +84,22 @@
 </ul>
 
 <h2>Texting from My Phone</h2>
-<p>Messages → pick a conversation or start one. Extension-to-extension texts arrive on the other person's phones (SIP MESSAGE) and in their My Phone. Type an external number (e.g. <code>+15551234567</code>) and it goes out through voip.ms from your mapped DID — see <a href="sms.html">SMS &amp; MMS</a>.</p>
+<p>Messages → pick a conversation or start one. Extension-to-extension texts arrive on the other person's phones (SIP MESSAGE) and in their My Phone. Type an external number (e.g. <code>+15550192837</code>) and it goes out through voip.ms from your mapped DID — see <a href="sms.html">SMS &amp; MMS</a>.</p>
 
 <h2>Blocking and reporting</h2>
 <p>From Calls or Messages, <strong>Block</strong> sends a caller straight to your block list (your choice per number: "not in service", voicemail, or forward elsewhere). <strong>Report</strong> flags a call or text for the admin, who sees it under <strong>Reports</strong>.</p>
 
 <h2>Recording your own calls</h2>
 <p>Settings → <strong>"Record my calls"</strong> needs recording in your plan plus your own legal acknowledgement. See <a href="advanced.html#recording">Call recording and the law</a> — the rules differ by where you live.</p>
+
+<h2 id="push-to-talk">Push-to-talk</h2>
+<p>Push-to-talk is an instant intercom: dial <code>*88</code> followed by an extension (for example <code>*88</code> then <code>8801</code>) and you are talking — no ringing, and it never goes to voicemail. The other phone answers by itself on speakerphone with a beep; in the Android app you hold a big button to talk, like a walkie-talkie.</p>
+<ul>
+  <li><strong>Two switches, both required:</strong> your admin must allow push-to-talk on your login (Admin panel → Logins → <strong>Allow push-to-talk</strong>), and you switch it on yourself — Settings → <strong>Call handling</strong> → <strong>Push-to-talk</strong> → <strong>Enable push-to-talk</strong>. The admin can allow it or take it away, but can never switch it on for you.</li>
+  <li><strong>The status line tells you where you stand:</strong> turned off by your admin, on, or allowed but not switched on yet.</li>
+  <li><strong>If either side isn't ready</strong> — the caller isn't allowed, or the person being called isn't allowed or hasn't switched it on — the caller hears a "cannot be completed" announcement and the call ends. It never rings through and never leaves voicemail.</li>
+  <li><strong>Push-to-talk calls are never recorded</strong>, even if call recording is on for either side.</li>
+</ul>
 
 <div class="pagenav">
   <a href="admin.html"><span class="label">← Prev</span>Admin panel</a>

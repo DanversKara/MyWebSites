@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html" class="active">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -91,7 +93,7 @@ pct enter 200      # then: passwd   (set a root password)</code></pre>
 <pre><code>cd /root/kamailio
 chmod +x *.sh pbx-edge-notify
 PUBLIC_HOST=sip.example.com ASTERISK_IP=192.168.1.10 ./install.sh</code></pre>
-<p>This installs Kamailio (TLS-only on 5061, with flood limit), rtpengine (SRTP audio relay), fail2ban, an nftables firewall (default deny), and an IP-follow timer.</p>
+<p>This installs Kamailio (TLS-only on 5061, with flood limit), rtpengine (SRTP audio relay), fail2ban, an nftables firewall (default deny), and an IP-follow timer. Allow about 10–15 minutes — rtpengine builds from source.</p>
 <p><strong>3. Get a real certificate</strong> (domain on Cloudflare):</p>
 <pre><code>CF_Token=&lt;Cloudflare API token with Zone → DNS → Edit&gt; \
   ./get-cert-cloudflare.sh sip.example.com you@example.com</code></pre>
@@ -102,6 +104,8 @@ PUBLIC_HOST=sip.example.com ASTERISK_IP=192.168.1.10 ./install.sh</code></pre>
 <pre><code>./verify-edge.sh
 ./security-check.sh</code></pre>
 <p>All checks should pass.</p>
+<p><strong>6. One step back on the PBX:</strong> incoming calls find remote phones through a <code>Path</code> header, which needs <code>support_path=yes</code> on the phone accounts. It's in the PBX's config template — re-run <code>./scripts/deploy.sh</code> on the PBX once so <code>pjsip.conf</code> is re-rendered with it. Phones re-register on their own.</p>
+<p>How the edge works, certificates (including replacing the self-signed one), dynamic-IP behaviour, updating and its files: <a href="edge.html">Edge server</a>.</p>
 
 <h2>Router, DNS and certificate</h2>
 <p><strong>Router port forwards go to the edge server, never to the PBX:</strong></p>
@@ -131,7 +135,7 @@ PUBLIC_HOST=sip.example.com ASTERISK_IP=192.168.1.10 ./install.sh</code></pre>
 
 <div class="pagenav">
   <a href="index.html"><span class="label">← Prev</span>Overview</a>
-  <a href="phones.html" class="next"><span class="label">Next</span>Phones &amp; feature codes →</a>
+  <a href="edge.html" class="next"><span class="label">Next</span>Edge server →</a>
 </div>
 
 <div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>

@@ -3,456 +3,177 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>DOX BOX ⬡ — Blades</title>
-<meta name="description" content="DOX BOX startpage in the style of the Xbox 360 Blades dashboard." />
+<title>DOX BOX ⬡</title>
 <script>
-  try { document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark'; }
-  catch (e) { document.documentElement.dataset.theme = 'dark'; }
+  try {
+    const s = localStorage.getItem('theme');
+    document.documentElement.dataset.theme =
+      s || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  } catch (e) {}
 </script>
 <style>
-  /* ═══════════════ XBOX 360 BLADES — DOX BOX EDITION ═══════════════
-     The 2005 dashboard: silver-grey stage, coloured blade spines down
-     the left, one blade open at a time, menu items that pop toward you
-     when selected, and the green Guide glow over everything. */
   :root{
-    --green:#76bc21; --green-hi:#9ee04a; --green-deep:#4c8c0f;
-    --ink:#23272b; --muted:#6d747c;
-    --panel:#eef0f2; --panel-edge:#c9ced4;
-    --tile:#ffffff; --tile-edge:#d4d8dd;
-    --stage1:#d7dade; --stage2:#aeb4ba; --stage3:#878e96;
-    --radius:22px;
+    --bg:#0a0c11;--glow1:rgba(88,120,255,.18);--glow2:rgba(255,90,180,.12);
+    --card:rgba(255,255,255,.045);--card-hi:rgba(255,255,255,.09);
+    --border:rgba(255,255,255,.08);--border-hi:rgba(255,255,255,.2);
+    --text:#e9ecf3;--muted:#858da3;
+  }
+  html[data-theme="light"]{
+    --bg:#f4f5f8;--glow1:rgba(120,150,255,.28);--glow2:rgba(255,140,200,.22);
+    --card:rgba(255,255,255,.72);--card-hi:#ffffff;
+    --border:rgba(10,15,40,.08);--border-hi:rgba(10,15,40,.18);
+    --text:#151a24;--muted:#6b7385;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
   body{
-    margin:0; overflow:hidden;
-    font:15px/1.45 "Segoe UI",ui-sans-serif,system-ui,-apple-system,Inter,Roboto,sans-serif;
-    color:var(--ink);
-    background:
-      radial-gradient(70rem 34rem at 78% -12%, rgba(158,224,74,.28), transparent 55%),
-      radial-gradient(46rem 30rem at -10% 110%, rgba(255,255,255,.35), transparent 60%),
-      linear-gradient(180deg, var(--stage1) 0%, var(--stage2) 58%, var(--stage3) 100%);
-    -webkit-font-smoothing:antialiased;
+    margin:0;min-height:100vh;
+    font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;
+    color:var(--text);background:var(--bg);
+    background-image:
+      radial-gradient(60rem 40rem at 15% -10%, var(--glow1), transparent 60%),
+      radial-gradient(50rem 35rem at 90% 0%, var(--glow2), transparent 55%);
+    background-attachment:fixed;-webkit-font-smoothing:antialiased;
   }
-  /* faint 360 "rings" watermark, bottom-right */
-  body::after{
-    content:''; position:fixed; right:-190px; bottom:-230px; width:560px; height:560px;
-    border-radius:50%; pointer-events:none; opacity:.16;
-    background:
-      radial-gradient(circle, transparent 118px, #fff 119px, #fff 128px, transparent 129px),
-      radial-gradient(circle, transparent 178px, #fff 179px, #fff 188px, transparent 189px),
-      radial-gradient(circle, transparent 238px, var(--green) 239px, var(--green) 250px, transparent 251px);
-  }
-  .stage{height:100dvh; display:flex; flex-direction:column; max-width:1460px; margin:0 auto; padding:18px 20px 12px;}
-
-  /* ── top bar: gamercard + search ─────────────────────────────── */
-  .topbar{display:flex; align-items:center; gap:12px; margin-bottom:16px; flex:0 0 auto; min-width:0;}
-  .gamercard{
-    display:flex; align-items:center; gap:12px; min-width:0;
-    background:linear-gradient(180deg,#fdfdfd,#e3e6e9);
-    border:1px solid rgba(255,255,255,.75); border-bottom-color:#b9bfc6;
-    border-radius:14px; padding:8px 16px 8px 9px;
-    box-shadow:0 3px 10px rgba(30,40,20,.18), inset 0 1px 0 #fff;
-  }
-  .gamercard .sphere{width:42px;height:42px;flex:0 0 42px;filter:drop-shadow(0 2px 3px rgba(60,120,10,.4))}
-  .gamercard .who{min-width:0}
-  .gamercard .gt{font-size:19px;font-weight:700;letter-spacing:.01em;line-height:1.1;white-space:nowrap}
-  .gamercard .gt .box360{color:var(--green-deep)}
-  .gamercard .sub{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .gamercard .clock{
-    margin-left:10px; padding-left:14px; border-left:1px solid #cfd4da; text-align:right;
-  }
-  #time{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
-  #date{font-size:11.5px;color:var(--muted)}
-  .search{flex:1 1 250px; max-width:400px; min-width:150px; margin-left:auto; position:relative}
-  .search input{
-    width:100%; padding:12px 16px 12px 40px; font:inherit; font-size:15px;
-    border-radius:999px; border:1px solid #b7bdc4; color:var(--ink);
-    background:linear-gradient(180deg,#ffffff,#eef0f2);
-    box-shadow:inset 0 2px 5px rgba(20,30,10,.10), 0 2px 6px rgba(30,40,20,.10); outline:none;
-  }
-  .search input:focus{border-color:var(--green); box-shadow:0 0 0 3px rgba(118,188,33,.35), inset 0 2px 5px rgba(20,30,10,.08)}
-  .search .mag{position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#8a929b; pointer-events:none}
-  #hint{position:absolute; left:16px; top:calc(100% + 5px); font-size:12px; color:#4a5158; text-shadow:0 1px 0 rgba(255,255,255,.5); height:15px; white-space:nowrap}
-  .iconbtn{
-    width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:50%;
-    border:1px solid #b7bdc4; background:linear-gradient(180deg,#ffffff,#e6e9ec); color:#5a626b;
-    cursor:pointer; box-shadow:0 2px 6px rgba(30,40,20,.12); font-size:17px;
-  }
-  .iconbtn:hover{color:var(--ink); border-color:var(--green)}
-  .iconbtn[aria-pressed="true"]{color:var(--green-deep); border-color:var(--green); background:linear-gradient(180deg,#f4fbec,#e2f2cb)}
-
-  /* ── blades ──────────────────────────────────────────────────── */
-  .blades{flex:1 1 auto; display:flex; gap:0; min-height:0; filter:drop-shadow(0 14px 28px rgba(25,35,15,.28));}
-  .blade{display:flex; min-width:0; flex:0 0 auto; transition:flex .5s cubic-bezier(.7,0,.2,1);}
-  .blade.active{flex:1 1 auto;}
-  .blade-tab{
-    writing-mode:vertical-rl; transform:rotate(180deg);
-    flex:0 0 52px; display:flex; align-items:center; justify-content:flex-end; gap:12px;
-    padding:20px 0 22px; border:0; cursor:pointer; font:inherit;
-    border-radius:16px 0 0 16px; margin-right:-6px; position:relative; z-index:1;
-    color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35);
-    box-shadow:inset -6px 0 10px rgba(0,0,0,.18), inset 1px 0 0 rgba(255,255,255,.35);
-    transition:filter .15s;
-  }
-  .blade-tab:hover{filter:brightness(1.1)}
-  .blade-tab .tab-name{font-size:15.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap}
-  .blade-tab .tab-count{font-size:11px; font-weight:600; opacity:.85; letter-spacing:.06em}
-  .blade-tab .tab-count.zero{opacity:.45}
-  .blade[data-color="system"]    .blade-tab{background:linear-gradient(90deg,#546e7e,#7d99a9)}
-  .blade[data-color="live"]      .blade-tab{background:linear-gradient(90deg,#c85f10,#ef8c2d)}
-  .blade[data-color="media"]     .blade-tab{background:linear-gradient(90deg,#44539f,#6d7fd6)}
-  .blade[data-color="market"]    .blade-tab{background:linear-gradient(90deg,#70378d,#9d5bbd)}
-  .blade[data-color="community"] .blade-tab{background:linear-gradient(90deg,#568c14,#7fb52e)}
-  .blade-panel{
-    flex:1 1 auto; min-width:0; width:0; overflow:hidden; opacity:0; visibility:hidden;
-    background:linear-gradient(180deg,#fbfcfc 0%, var(--panel) 120px, #e2e5e8 100%);
-    border:1px solid var(--panel-edge); border-left:0;
-    border-radius:0 var(--radius) var(--radius) 0;
-    transition:opacity .3s ease .12s, visibility 0s;
-    display:flex; flex-direction:column;
-  }
-  .blade.active .blade-panel{width:auto; opacity:1; visibility:visible;}
-  .blade-head{
-    padding:24px 30px 6px; flex:0 0 auto;
-    background:
-      radial-gradient(34rem 9rem at 12% -30%, color-mix(in srgb, var(--blade-accent) 20%, transparent), transparent 70%);
-  }
-  .blade-head h1{margin:0; font-size:30px; font-weight:300; letter-spacing:.01em; color:#2b3036}
-  .blade-head h1 b{font-weight:700}
-  .blade-head .blade-sub{margin:3px 0 0; color:var(--muted); font-size:13.5px}
-  .blade-head .rule{height:3px; margin-top:14px; border-radius:2px;
-    background:linear-gradient(90deg, var(--blade-accent), transparent 75%);}
-  .blade[data-color="system"]    {--blade-accent:#6d8a9c}
-  .blade[data-color="live"]      {--blade-accent:#e67e22}
-  .blade[data-color="media"]     {--blade-accent:#5a6ac9}
-  .blade[data-color="market"]    {--blade-accent:#8a4fa3}
-  .blade[data-color="community"] {--blade-accent:#76bc21}
-  .blade-body{flex:1 1 auto; overflow-y:auto; padding:16px 30px 26px; scrollbar-width:thin; scrollbar-color:#b6bcc3 transparent}
-  .blade-body::-webkit-scrollbar{width:9px}
-  .blade-body::-webkit-scrollbar-thumb{background:#b6bcc3; border-radius:5px}
-
-  /* menu tiles — 360 dashboard list items */
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(272px,1fr)); gap:9px}
-  .tile{
-    display:flex; align-items:center; gap:12px; min-width:0; position:relative;
-    padding:11px 14px 11px 12px; border-radius:10px; text-decoration:none; color:inherit;
-    background:linear-gradient(180deg,#ffffff,#f1f3f4); border:1px solid var(--tile-edge);
-    box-shadow:0 1px 3px rgba(30,40,20,.07);
-    transition:transform .13s ease, box-shadow .13s, background .13s, border-color .13s;
-  }
+  .wrap{max-width:1000px;margin:0 auto;padding:44px 20px 64px}
+  header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:30px}
+  #time{font-size:2.4rem;font-weight:600;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+  #date{color:var(--muted);font-size:13.5px;margin-top:2px}
+  #themeBtn{width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center;
+    border-radius:11px;border:1px solid var(--border);background:var(--card);
+    color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
+  #themeBtn:hover{background:var(--card-hi);color:var(--text);border-color:var(--border-hi)}
+  #themeBtn svg{width:17px;height:17px;display:block}
+  .search{margin-bottom:30px}
+  .search input{width:100%;padding:14px 16px;font-size:16px;font-family:inherit;
+    border-radius:14px;border:1px solid var(--border);background:var(--card);
+    color:var(--text);outline:none;transition:border-color .15s,background .15s;}
+  .search input::placeholder{color:var(--muted)}
+  .search input:focus{border-color:var(--border-hi);background:var(--card-hi)}
+  #hint{height:18px;margin:7px 2px 0;font-size:12.5px;color:var(--muted)}
+  .group{margin-bottom:26px}
+  .group[hidden]{display:none}
+  .group h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;
+    color:var(--muted);margin:0 0 10px 2px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:10px}
+  .tile{display:flex;align-items:center;gap:11px;min-width:0;
+    padding:10px 13px;border-radius:12px;background:var(--card);border:1px solid var(--border);
+    color:inherit;text-decoration:none;transition:transform .12s ease,background .12s,border-color .12s;}
   .tile[hidden]{display:none}
-  .tile::before{content:''; position:absolute; left:0; top:8px; bottom:8px; width:4px; border-radius:3px;
-    background:var(--green); opacity:0; transition:opacity .13s}
-  .tile:hover, .tile:focus-visible, .tile.selected{
-    background:linear-gradient(180deg,#ffffff,#eef6df); border-color:#a9cf7d;
-    transform:translateX(5px) scale(1.015); outline:none;
-    box-shadow:0 6px 16px rgba(90,140,20,.20), 0 0 0 1px rgba(118,188,33,.35);
-  }
-  .tile:hover::before, .tile:focus-visible::before, .tile.selected::before{opacity:1}
-  .tile:active{transform:translateX(5px) scale(.99)}
-  .tile .chev{margin-left:auto; color:#a7aeb6; font-size:18px; flex:0 0 auto; transition:color .13s, transform .13s}
-  .tile:hover .chev, .tile.selected .chev{color:var(--green-deep); transform:translateX(2px)}
-  .icon{width:34px;height:34px;flex:0 0 34px;border-radius:9px;display:grid;place-items:center;
-    overflow:hidden;font-size:14px;font-weight:700;color:#fff; box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 1px 3px rgba(0,0,0,.18)}
+  .tile:hover,.tile:focus-visible{background:var(--card-hi);border-color:var(--border-hi);
+    transform:translateY(-2px);outline:none;}
+  .tile:active{transform:translateY(0)}
+  .icon{width:26px;height:26px;flex:0 0 26px;border-radius:7px;display:grid;place-items:center;
+    overflow:hidden;font-size:12px;font-weight:700;color:#fff;}
   .icon img{width:100%;height:100%;object-fit:contain;display:block}
-  .tile .text{display:flex;flex-direction:column;min-width:0}
-  .tile .label{font-size:14.5px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .tile .desc{font-size:12px;line-height:1.35;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .tile.has-choices::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);opacity:.65;flex:0 0 6px;position:absolute;top:9px;right:10px}
-  .empty-note{display:none; color:var(--muted); font-size:14px; padding:12px 2px}
-  .blade-body.no-matches .empty-note{display:block}
-  .blade-foot{flex:0 0 auto; padding:0 30px 16px; color:var(--muted); font-size:12.5px}
-  .blade-foot .quote{font-style:italic; max-width:64ch}
-  .blade-foot .quote span{display:block; font-style:normal; font-size:11px; opacity:.8; margin-top:2px}
+  .tile .text{display:flex;flex-direction:column;min-width:0;flex:1 1 auto}
+  .tile .label{font-size:14px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .tile .desc{font-size:11.5px;line-height:1.35;color:var(--muted);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .tile.has-choices::after{content:'';width:5px;height:5px;border-radius:50%;
+    background:currentColor;opacity:.35;flex:0 0 5px;}
+  footer{margin-top:38px;color:var(--muted);font-size:12.5px;text-align:center}
+  kbd{font:inherit;font-size:11.5px;padding:1px 5px;border-radius:5px;
+    border:1px solid var(--border);background:var(--card);}
+  footer .quote{margin:16px auto 0;max-width:52ch;font-size:12px;line-height:1.5;
+    color:var(--muted);opacity:.85;}
+  footer .quote span{display:block;margin-top:3px;font-size:11px;opacity:.75;}
+  footer .foot-links{display:flex;gap:6px 14px;justify-content:center;align-items:center;
+    flex-wrap:wrap;margin-bottom:16px;}
+  footer .foot-links a{color:var(--muted);text-decoration:none;font-size:12.5px;
+    transition:color .15s;}
+  footer .foot-links a:hover{color:var(--text);text-decoration:underline;
+    text-underline-offset:3px;}
+  footer .foot-links .sep{opacity:.35;font-size:11px;}
 
-  /* ── bottom hint bar ─────────────────────────────────────────── */
-  .hintbar{
-    flex:0 0 auto; display:flex; align-items:center; gap:18px; flex-wrap:wrap;
-    padding:10px 4px 2px; color:#3c434a; font-size:12.5px; text-shadow:0 1px 0 rgba(255,255,255,.45);
-  }
-  .hintbar .spacer{flex:1}
-  .hintbar a{color:#3c434a; text-decoration:none}
-  .hintbar a:hover{color:var(--green-deep); text-decoration:underline; text-underline-offset:3px}
-  .pad{display:inline-flex; align-items:center; gap:6px; white-space:nowrap}
-  .pbtn{display:inline-grid; place-items:center; width:19px; height:19px; border-radius:50%;
-    font-size:10.5px; font-weight:800; color:#fff; box-shadow:inset 0 -2px 3px rgba(0,0,0,.28), 0 1px 2px rgba(0,0,0,.25)}
-  .pbtn.a{background:#5da41f}.pbtn.b{background:#d43a2f}.pbtn.x{background:#2f6fd0}.pbtn.y{background:#e3a812;color:#3a2c00}
-  .bumper{display:inline-grid; place-items:center; padding:1px 7px; border-radius:7px 7px 3px 3px;
-    background:linear-gradient(180deg,#f4f5f6,#c9ced3); border:1px solid #a9afb6; font-size:10px; font-weight:800; color:#3c434a}
-  kbd{font:inherit;font-size:11px;padding:1px 5px;border-radius:5px;border:1px solid #a9afb6;background:rgba(255,255,255,.6)}
-
-  /* ── chooser = Xbox Guide overlay ────────────────────────────── */
+  /* chooser modal */
   .chooser{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;
-    background:rgba(24,28,22,.55);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+    background:rgba(0,0,0,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
     animation:fadeIn .14s ease;}
   .chooser[hidden]{display:none}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes guideIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
-  .chooser-card{
-    width:100%; max-width:380px; border-radius:18px; overflow:hidden;
-    background:linear-gradient(180deg,#fbfcfc,#e8ebed); border:1px solid #c3c9cf;
-    box-shadow:0 30px 70px rgba(10,20,0,.5), 0 0 0 4px rgba(118,188,33,.25);
-    animation:guideIn .2s cubic-bezier(.2,.9,.3,1.08);
-  }
-  .chooser-head{background:linear-gradient(90deg,var(--green-deep),var(--green) 70%,var(--green-hi));
-    color:#fff; padding:15px 20px 13px; text-shadow:0 1px 2px rgba(0,0,0,.3)}
-  .chooser-title{font-size:17px;font-weight:700;margin:0}
-  .chooser-sub{font-size:12.5px;margin:2px 0 0;opacity:.92}
-  .chooser-options{display:grid;gap:8px;padding:16px 16px 6px}
-  .chooser-option{display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:11px;width:100%;
-    border:1px solid var(--tile-edge);background:linear-gradient(180deg,#fff,#f1f3f4);color:inherit;font:inherit;
+  @keyframes popIn{from{opacity:0;transform:scale(.94) translateY(6px)}to{opacity:1;transform:none}}
+  html[data-theme="light"] .chooser{background:rgba(20,25,45,.45)}
+  .chooser-card{background:var(--bg);border:1px solid var(--border-hi);border-radius:18px;
+    padding:22px;width:100%;max-width:360px;box-shadow:0 24px 60px rgba(0,0,0,.55);
+    animation:popIn .18s cubic-bezier(.2,.9,.3,1.1);}
+  .chooser-title{font-size:16px;font-weight:600;letter-spacing:-.01em;margin:0 0 4px;}
+  .chooser-sub{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  .chooser-options{display:grid;gap:8px}
+  .chooser-option{display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:12px;
+    border:1px solid var(--border);background:var(--card);color:inherit;font:inherit;
     text-align:left;cursor:pointer;transition:background .13s,border-color .13s,transform .1s;}
-  .chooser-option:hover{background:linear-gradient(180deg,#fff,#eef6df);border-color:#a9cf7d}
+  .chooser-option:hover{background:var(--card-hi);border-color:var(--border-hi)}
   .chooser-option:active{transform:scale(.985)}
-  .chooser-option .opt-label{font-size:14px;font-weight:600;line-height:1.3}
-  .chooser-option .opt-hint{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.3}
-  .chooser-option .opt-emoji{flex:0 0 32px;width:32px;height:32px;border-radius:9px;
-    display:grid;place-items:center;background:#eef1f3;font-size:16px}
-  .chooser-cancel{margin:10px 16px 16px;width:calc(100% - 32px);padding:11px;border-radius:11px;
-    border:1px solid var(--tile-edge);background:transparent;color:var(--muted);
-    font:inherit;font-size:13.5px;cursor:pointer}
-  .chooser-cancel:hover{background:#fff;color:var(--ink)}
-
-
-  /* ── boot intro (homage, original artwork — see README) ──────── */
-  #boot{position:fixed; inset:0; z-index:300; display:grid; place-items:center;
-    background:
-      radial-gradient(70rem 34rem at 78% -12%, rgba(158,224,74,.28), transparent 55%),
-      linear-gradient(180deg, #d7dade 0%, #aeb4ba 58%, #878e96 100%);
-    transition:opacity .5s ease, visibility .5s; cursor:pointer;}
-  #boot.done{opacity:0; visibility:hidden; pointer-events:none}
-  .boot-inner{text-align:center; position:relative; padding:20px}
-  .boot-stage{position:relative; width:170px; height:170px; margin:0 auto 10px; display:grid; place-items:center}
-  .boot-sphere{width:112px; height:112px; filter:drop-shadow(0 10px 22px rgba(60,120,10,.45));
-    animation:bootDrop .9s cubic-bezier(.2,.9,.3,1.15) both}
-  @keyframes bootDrop{from{opacity:0; transform:translateY(-26px) scale(.72)} to{opacity:1; transform:none}}
-  .boot-orbit{position:absolute; inset:6px; border-radius:50%;
-    border:3px solid transparent; border-top-color:var(--green); border-right-color:rgba(118,188,33,.45);
-    animation:bootOrbit 1.15s cubic-bezier(.3,.7,.3,1) both}
-  @keyframes bootOrbit{from{opacity:0; transform:rotate(-140deg) scale(.82)} 60%{opacity:1} to{opacity:0; transform:rotate(160deg) scale(1.04)}}
-  .boot-ring{position:absolute; inset:26px; border-radius:50%; border:2px solid rgba(118,188,33,.5);
-    animation:bootRing 1.5s ease-out .25s both}
-  .boot-ring.r2{animation-delay:.5s}
-  @keyframes bootRing{from{opacity:.9; transform:scale(.55)} to{opacity:0; transform:scale(1.45)}}
-  .boot-name{font-size:46px; font-weight:300; letter-spacing:.02em; color:#23272b; line-height:1.05;
-    animation:bootUp .6s ease .6s both}
-  .boot-name b{font-weight:700; color:var(--green-deep)}
-  @keyframes bootUp{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
-  .boot-tag{margin-top:7px; font-size:14px; color:#5f6871; letter-spacing:.04em; animation:bootUp .6s ease .85s both}
-  .boot-bar{width:0; height:3px; margin:22px auto 0; border-radius:2px;
-    background:linear-gradient(90deg, var(--green-deep), var(--green-hi));
-    animation:bootBar 1.55s cubic-bezier(.4,0,.2,1) .3s both}
-  @keyframes bootBar{from{width:0} to{width:190px}}
-  .boot-skip{position:absolute; left:0; right:0; bottom:-64px; font-size:11.5px; color:#7a828b;
-    letter-spacing:.08em; text-transform:uppercase; animation:bootUp .5s ease 1.2s both}
-  .stage.enter{animation:stageIn .55s ease both}
-  @keyframes stageIn{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
-  @media (prefers-reduced-motion: reduce){ #boot{display:none} }
-
-
-  /* ── dark theme (default) ────────────────────────────────────── */
-  html[data-theme="dark"]{
-    --stage1:#34383d; --stage2:#22252a; --stage3:#101215;
-    --ink:#e9edf2; --muted:#9aa4ad; --panel:#23262b;
-  }
-  html[data-theme="dark"] body{
-    background:
-      radial-gradient(70rem 34rem at 78% -12%, rgba(118,188,33,.20), transparent 55%),
-      radial-gradient(46rem 30rem at -10% 110%, rgba(255,255,255,.05), transparent 60%),
-      linear-gradient(180deg, var(--stage1) 0%, var(--stage2) 58%, var(--stage3) 100%);
-  }
-  html[data-theme="dark"] .gamercard{
-    background:linear-gradient(180deg,#2e3237,#22252a);
-    border-color:#454b52; border-bottom-color:#17191c;
-    box-shadow:0 3px 10px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.07);
-  }
-  html[data-theme="dark"] .gamercard .gt .box360{color:var(--green-hi)}
-  html[data-theme="dark"] .gamercard .clock{border-left-color:#3c4249}
-  html[data-theme="dark"] .search input{
-    background:linear-gradient(180deg,#2a2e33,#22252a); border-color:#454b52; color:var(--ink);
-    box-shadow:inset 0 2px 5px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.3);
-  }
-  html[data-theme="dark"] .search input::placeholder{color:#79828c}
-  html[data-theme="dark"] .search .mag{color:#7d868f}
-  html[data-theme="dark"] #hint{color:#aeb6bf; text-shadow:none}
-  html[data-theme="dark"] .iconbtn{
-    background:linear-gradient(180deg,#2e3237,#22252a); border-color:#454b52; color:#aeb6bf;
-    box-shadow:0 2px 6px rgba(0,0,0,.35);
-  }
-  html[data-theme="dark"] .iconbtn:hover{color:#fff}
-  html[data-theme="dark"] .iconbtn[aria-pressed="true"]{
-    color:var(--green-hi); border-color:var(--green);
-    background:linear-gradient(180deg,#2c3a1c,#222d13);
-  }
-  html[data-theme="dark"] .blade-panel{
-    background:linear-gradient(180deg,#2b2f34 0%, var(--panel) 120px, #1b1e22 100%);
-    border-color:#3c4249;
-  }
-  html[data-theme="dark"] .blade-head h1{color:#eef1f4}
-  html[data-theme="dark"] .blade-body{scrollbar-color:#454b52 transparent}
-  html[data-theme="dark"] .blade-body::-webkit-scrollbar-thumb{background:#454b52}
-  html[data-theme="dark"] .tile{
-    background:linear-gradient(180deg,#2e3237,#26292e); border-color:#3f454d;
-    box-shadow:0 1px 3px rgba(0,0,0,.35);
-  }
-  html[data-theme="dark"] .tile:hover, html[data-theme="dark"] .tile:focus-visible, html[data-theme="dark"] .tile.selected{
-    background:linear-gradient(180deg,#353d2b,#28331e); border-color:#6f9c3e;
-    box-shadow:0 6px 16px rgba(0,0,0,.45), 0 0 0 1px rgba(118,188,33,.4);
-  }
-  html[data-theme="dark"] .tile .chev{color:#6a737e}
-  html[data-theme="dark"] .hintbar{color:#c3cad1; text-shadow:0 1px 0 rgba(0,0,0,.4)}
-  html[data-theme="dark"] .hintbar a{color:#c3cad1}
-  html[data-theme="dark"] .hintbar a:hover{color:var(--green-hi)}
-  html[data-theme="dark"] .bumper{
-    background:linear-gradient(180deg,#3a3f45,#26292e); border-color:#4a5058; color:#d5dae0;
-  }
-  html[data-theme="dark"] kbd{border-color:#4a5058; background:rgba(255,255,255,.08)}
-  html[data-theme="dark"] .chooser-card{
-    background:linear-gradient(180deg,#2b2f34,#22252a); border-color:#454b52;
-    box-shadow:0 30px 70px rgba(0,0,0,.65), 0 0 0 4px rgba(118,188,33,.25);
-  }
-  html[data-theme="dark"] .chooser-option{
-    background:linear-gradient(180deg,#2e3237,#26292e); border-color:#3f454d;
-  }
-  html[data-theme="dark"] .chooser-option:hover{background:linear-gradient(180deg,#353d2b,#28331e); border-color:#6f9c3e}
-  html[data-theme="dark"] .chooser-option .opt-emoji{background:#1d2023}
-  html[data-theme="dark"] .chooser-cancel{border-color:#3f454d}
-  html[data-theme="dark"] .chooser-cancel:hover{background:#2e3237; color:#fff}
-  html[data-theme="dark"] #boot{
-    background:
-      radial-gradient(70rem 34rem at 78% -12%, rgba(118,188,33,.20), transparent 55%),
-      linear-gradient(180deg, #34383d 0%, #22252a 58%, #101215 100%);
-  }
-  html[data-theme="dark"] .boot-name{color:#eef1f4}
-  html[data-theme="dark"] .boot-tag{color:#9aa4ad}
-  html[data-theme="dark"] .boot-skip{color:#788089}
-
-  /* ── topbar breathing room: gamercard sheds extras mid-width ── */
-  @media (max-width:1120px){
-    .gamercard .clock{display:none}
-    .gamercard .sub{display:none}
-  }
-
-  /* ── mobile: blades become a tab strip ───────────────────────── */
-  @media (max-width:860px){
-    body{overflow:auto}
-    .stage{height:auto; min-height:100dvh; padding:12px 12px 10px}
-    .topbar{flex-wrap:wrap; gap:10px}
-    .gamercard{flex:1 1 auto}
-    .gamercard .clock{display:none}
-    .search{order:3; flex:1 1 100%; max-width:none; margin-left:0}
-    .blades{flex-direction:column; filter:none}
-    .blade{display:contents}
-    .blade-tab{order:1}
-    .blade-panel{order:2}
-    .blade-tab{
-      writing-mode:horizontal-tb; transform:none; flex:1 1 0; justify-content:center;
-      padding:11px 4px; border-radius:14px 14px 0 0; margin:0 2px -1px 0;
-      box-shadow:inset 0 -6px 10px rgba(0,0,0,.15);
-    }
-    .blade-tab .tab-name{font-size:11.5px; letter-spacing:.05em}
-    .blade-tab .tab-count{display:none}
-    .blade-panel{display:none; width:auto; border-radius:0 0 18px 18px; border:1px solid var(--panel-edge);
-      opacity:1; visibility:visible; overflow:visible}
-    .blade.active .blade-panel{display:flex}
-    .blade-head{padding:18px 18px 4px}
-    .blade-head h1{font-size:24px}
-    .blade-body{overflow:visible; padding:14px 16px 20px}
-    .grid{grid-template-columns:1fr}
-    .hintbar .pad.kb{display:none}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .blade,.tile,.blade-panel{transition:none}
+  .chooser-option .opt-label{font-size:14px;font-weight:500;line-height:1.3;}
+  .chooser-option .opt-hint{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.3;}
+  .chooser-option .opt-emoji{flex:0 0 30px;width:30px;height:30px;border-radius:8px;
+    display:grid;place-items:center;background:var(--card-hi);font-size:15px;}
+  .chooser-cancel{margin-top:14px;width:100%;padding:11px;border-radius:11px;
+    border:1px solid var(--border);background:transparent;color:var(--muted);
+    font:inherit;font-size:13.5px;cursor:pointer;transition:background .13s,color .13s;}
+  .chooser-cancel:hover{background:var(--card);color:var(--text)}
+  @media (max-width:520px){
+    .wrap{padding-top:30px}
+    #time{font-size:1.9rem}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(158px,1fr))}
   }
 </style>
 </head>
 <body>
-<div class="stage">
-
-  <div class="topbar">
-    <div class="gamercard" aria-label="DOX BOX profile">
-      <svg class="sphere" viewBox="0 0 48 48" aria-hidden="true">
-        <defs><radialGradient id="sph" cx="35%" cy="30%" r="80%">
-          <stop offset="0%" stop-color="#b9ec7d"/><stop offset="55%" stop-color="#76bc21"/><stop offset="100%" stop-color="#4c8c0f"/>
-        </radialGradient></defs>
-        <circle cx="24" cy="24" r="21" fill="url(#sph)"/>
-        <path d="M13 12c5 4.5 8.5 8 11 12 2.5-4 6-7.5 11-12 1.6 2 2.6 4.4 3 7-5.4 3.4-10 8-14 14-4-6-8.6-10.6-14-14 .4-2.6 1.4-5 3-7z" fill="#fff" opacity=".92"/>
-      </svg>
-      <div class="who">
-        <div class="gt">DOX <span class="box360">BOX LIVE</span></div>
-        <div class="sub">⚽ Kara — welcome back</div>
-      </div>
-      <div class="clock">
-        <div id="time">--:--</div>
-        <div id="date"></div>
-      </div>
+<div class="wrap">
+  <header>
+    <div>
+      <div id="time">--:--</div>
+      <div id="date"></div>
     </div>
+    <button id="themeBtn" aria-label="Toggle theme"></button>
+  </header>
 
-    <div class="search">
-      <span class="mag" aria-hidden="true">🔍</span>
-      <input id="q" type="text" placeholder="Search your blades…  ( / )"
-             autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Filter links or search" />
-      <div id="hint"></div>
-    </div>
-
-    <button id="themeBtn" class="iconbtn" type="button" aria-pressed="true" title="Switch to light">☀️</button>
-    <button id="soundBtn" class="iconbtn" type="button" aria-pressed="false" title="Blade sounds off">🔇</button>
+  <div class="search">
+    <input id="q" type="text" placeholder="Filter links, or press Enter to search…"
+           autocomplete="off" autocapitalize="off" spellcheck="false" />
+    <div id="hint"></div>
   </div>
 
-  <main class="blades" id="blades"><!-- blades are rendered by script --></main>
+  <main id="groups"></main>
 
-  <footer class="hintbar">
-    <span class="pad"><span class="pbtn a">A</span> Select</span>
-    <span class="pad"><span class="pbtn b">B</span> Back</span>
-    <span class="pad"><span class="bumper">LB</span><span class="bumper">RB</span> Switch blade</span>
-    <span class="pad kb"><kbd>←</kbd><kbd>→</kbd> blades · <kbd>↑</kbd><kbd>↓</kbd> items · <kbd>/</kbd> search</span>
-    <span class="spacer"></span>
-    <a href="privacy.html">Privacy Policy</a><span aria-hidden="true">·</span>
-    <a href="tos.html">Terms of Service</a><span aria-hidden="true">·</span>
-    <a href="https://pay.dox.box">Support the Lab</a>
+  <footer>
+    <div class="foot-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="tos.html">Terms of Service</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="https://pay.dox.box">Support the Lab</a>
+    </div>
+    <kbd>/</kbd> to search &nbsp;·&nbsp; <kbd>Esc</kbd> to clear &nbsp;·&nbsp; <kbd>Enter</kbd> opens top match
+    <p class="quote">
+      “Piracy is almost always a service problem and not a pricing problem.”
+      <span>— Gabe Newell, co-founder of Valve</span>
+    </p>
   </footer>
 </div>
 
-
-<div id="boot" role="presentation" aria-hidden="true">
-  <div class="boot-inner">
-    <div class="boot-stage">
-      <span class="boot-ring"></span><span class="boot-ring r2"></span><span class="boot-orbit"></span>
-      <svg class="boot-sphere" viewBox="0 0 48 48" aria-hidden="true">
-        <defs><radialGradient id="bsph" cx="35%" cy="30%" r="80%">
-          <stop offset="0%" stop-color="#b9ec7d"/><stop offset="55%" stop-color="#76bc21"/><stop offset="100%" stop-color="#4c8c0f"/>
-        </radialGradient></defs>
-        <circle cx="24" cy="24" r="21" fill="url(#bsph)"/>
-        <path d="M13 12c5 4.5 8.5 8 11 12 2.5-4 6-7.5 11-12 1.6 2 2.6 4.4 3 7-5.4 3.4-10 8-14 14-4-6-8.6-10.6-14-14 .4-2.6 1.4-5 3-7z" fill="#fff" opacity=".92"/>
-      </svg>
-    </div>
-    <div class="boot-name">DOX <b>BOX LIVE</b></div>
-    <div class="boot-tag">⬡ SURF LIKE A PRO</div>
-    <div class="boot-bar"></div>
-    <div class="boot-skip">Click or press any key to skip</div>
-  </div>
-</div>
-<noscript><style>#boot{display:none}</style></noscript>
-
 <div id="chooser" class="chooser" hidden>
   <div class="chooser-card" role="dialog" aria-modal="true" aria-labelledby="chooserTitle">
-    <div class="chooser-head">
-      <h3 class="chooser-title" id="chooserTitle">Open</h3>
-      <p class="chooser-sub">Where do you want to open this?</p>
-    </div>
+    <h3 class="chooser-title" id="chooserTitle">Open</h3>
+    <p class="chooser-sub">Where do you want to open this?</p>
     <div class="chooser-options" id="chooserOptions"></div>
-    <button class="chooser-cancel" id="chooserCancel" type="button">Cancel &nbsp;·&nbsp; B</button>
+    <button class="chooser-cancel" id="chooserCancel" type="button">Cancel</button>
   </div>
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   CONFIG, platform detection, icons, Android launching and the
-   chooser are carried over unchanged from the previous DOX BOX
-   startpage (index-4.html). Only the shell around them — blades,
-   rendering, keyboard/gamepad-style navigation — is new.
-   ═══════════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────────────────────
+   EDIT THIS BLOCK — that's the whole config.
+
+   For Android app launching, add:
+     androidPkg    — string or array of package names to try
+     androidScheme — optional { scheme, path } for direct app scheme
+
+   The script tries custom scheme, then https App Link, then each
+   package name, then finally falls back to the web URL. If none
+   of the intents succeed, it will NOT go to the Play Store.
+   ───────────────────────────────────────────────────────────── */
 const CONFIG = {
   search: "https://duckduckgo.com/?q=",
   groups: [
@@ -687,6 +408,17 @@ const CONFIG = {
   ]
 };
 
+const root    = document.documentElement;
+const q       = document.getElementById('q');
+const hintEl  = document.getElementById('hint');
+const groupsEl= document.getElementById('groups');
+const timeEl  = document.getElementById('time');
+const dateEl  = document.getElementById('date');
+const themeBtn= document.getElementById('themeBtn');
+const chooserEl     = document.getElementById('chooser');
+const chooserTitle  = document.getElementById('chooserTitle');
+const chooserOptions= document.getElementById('chooserOptions');
+const chooserCancel = document.getElementById('chooserCancel');
 
 /* ---------- platform detection ---------- */
 const isAndroid = /android/i.test(navigator.userAgent);
@@ -720,7 +452,6 @@ function forceBrowserIntent(httpsUrl) {
   const fallback = encodeURIComponent(httpsUrl);
   return `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=${u.protocol.replace(":", "")};package=${pkg};S.browser_fallback_url=${fallback};end`;
 }
-
 
 /* ---------- icons ---------- */
 /* Designed fallback icons. A tile shows its glyph until (and unless) a real
@@ -809,7 +540,6 @@ function makeIcon(link){
   return box;
 }
 
-
 /* ---------- Android app launching ---------- */
 /* ONE intent per tap. Chrome/Firefox follow S.browser_fallback_url the
    moment the intent can't be handled, so chaining several intents
@@ -877,17 +607,167 @@ function tryCustom(schemeUrl, fallbackUrl) {
   }, 900);
 }
 
+/* ---------- hot air balloon game ---------- */
+function openBalloonGame() {
+  if (document.getElementById('balloon-ov')) return;
+  const ov = document.createElement('div');
+  ov.id = 'balloon-ov';
+  ov.innerHTML = '<div id="balloon-hud"><span id="balloon-score">0</span>' +
+    '<button id="balloon-close" aria-label="Close">\u2715</button></div>' +
+    '<canvas id="balloon-cv"></canvas><div id="balloon-msg"></div>';
+  document.body.appendChild(ov);
 
-const root    = document.documentElement;
-const q       = document.getElementById('q');
-const hintEl  = document.getElementById('hint');
-const bladesEl= document.getElementById('blades');
-const timeEl  = document.getElementById('time');
-const dateEl  = document.getElementById('date');
-const chooserEl     = document.getElementById('chooser');
-const chooserTitle  = document.getElementById('chooserTitle');
-const chooserOptions= document.getElementById('chooserOptions');
-const chooserCancel = document.getElementById('chooserCancel');
+  const cv = ov.querySelector('#balloon-cv');
+  const ctx = cv.getContext('2d');
+  const scoreEl = ov.querySelector('#balloon-score');
+  const msgEl = ov.querySelector('#balloon-msg');
+  let W, H, raf;
+
+  function resize() { W = cv.width = ov.clientWidth; H = cv.height = ov.clientHeight; }
+
+  const balloon = { x: 0, y: 0, vy: 0, r: 26 };
+  let thrust = false, clouds = [], stars = [], score = 0, dist = 0, speed = 2.2, running = true, t = 0;
+
+  function reset() {
+    balloon.x = Math.max(80, W * 0.28); balloon.y = H / 2; balloon.vy = 0;
+    clouds = []; stars = []; score = 0; dist = 0; speed = 2.2; running = true; t = 0;
+    msgEl.style.display = 'none'; msgEl.innerHTML = '';
+  }
+
+  function spawnCloud() {
+    const gapH = 120 + Math.random() * 60;
+    const gapY = 70 + Math.random() * Math.max(50, H - 140 - gapH);
+    clouds.push({ x: W + 60, w: 64 + Math.random() * 36, gapY, gapH, passed: false });
+  }
+  function spawnStar() {
+    stars.push({ x: W + 30, y: 50 + Math.random() * Math.max(50, H - 100), r: 11, taken: false });
+  }
+
+  function drawStar(x, y, r) {
+    ctx.beginPath();
+    for (let i = 0; i < 10; i++) {
+      const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.45 : r;
+      ctx[i ? 'lineTo' : 'moveTo'](x + Math.cos(a) * rr, y + Math.sin(a) * rr);
+    }
+    ctx.closePath(); ctx.fill();
+  }
+  function rr(x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function update() {
+    t++;
+    balloon.vy += thrust ? -0.55 : 0.38;
+    balloon.vy *= 0.985;
+    balloon.vy = Math.max(-9, Math.min(9, balloon.vy));
+    balloon.y += balloon.vy;
+    if (balloon.y < balloon.r) { balloon.y = balloon.r; balloon.vy = 0; }
+    if (balloon.y > H - balloon.r - 26) { balloon.y = H - balloon.r - 26; balloon.vy = 0; }
+    if (t % 95 === 0) spawnCloud();
+    if (t % 150 === 0) spawnStar();
+    speed = 2.2 + dist / 9000;
+
+    const bx = balloon.x, by = balloon.y, r = balloon.r * 0.8;
+    for (const c of clouds) {
+      c.x -= speed;
+      if (!c.passed && c.x + c.w < bx) { c.passed = true; score += 1; }
+      if (bx + r > c.x && bx - r < c.x + c.w && (by - r < c.gapY || by + r > c.gapY + c.gapH)) {
+        gameOver(); return;
+      }
+    }
+    for (const s of stars) {
+      s.x -= speed;
+      if (!s.taken) {
+        const dx = s.x - bx, dy = s.y - by;
+        if (dx * dx + dy * dy < (s.r + balloon.r) * (s.r + balloon.r)) { s.taken = true; score += 10; }
+      }
+    }
+    clouds = clouds.filter(c => c.x + c.w > -80);
+    stars = stars.filter(s => s.x > -40 && !s.taken);
+    dist += speed;
+    scoreEl.textContent = score + Math.floor(dist / 100);
+  }
+
+  function draw() {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#6ec1f5'); g.addColorStop(1, '#e8f7ff');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#ffdf6b';
+    ctx.beginPath(); ctx.arc(W - 70, 70, 32, 0, 7); ctx.fill();
+    ctx.fillStyle = '#ffb700';
+    for (const s of stars) drawStar(s.x, s.y, s.r);
+    for (const c of clouds) {
+      ctx.fillStyle = '#ffffff';
+      rr(c.x, -12, c.w, c.gapY + 12, 16); ctx.fill();
+      rr(c.x, c.gapY + c.gapH, c.w, H - (c.gapY + c.gapH) + 12, 16); ctx.fill();
+      ctx.fillStyle = 'rgba(170,200,225,.55)';
+      rr(c.x, -12, 13, c.gapY + 12, 7); ctx.fill();
+      rr(c.x, c.gapY + c.gapH, 13, H - (c.gapY + c.gapH) + 12, 7); ctx.fill();
+    }
+    const bx = balloon.x, by = balloon.y;
+    ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(bx - 13, by + 16); ctx.lineTo(bx - 8, by + 42);
+    ctx.moveTo(bx + 13, by + 16); ctx.lineTo(bx + 8, by + 42);
+    ctx.stroke();
+    ctx.fillStyle = '#a0713d';
+    rr(bx - 10, by + 42, 20, 15, 3); ctx.fill();
+    const eg = ctx.createLinearGradient(bx - 26, by - 32, bx + 26, by + 18);
+    eg.addColorStop(0, '#ff6b6b'); eg.addColorStop(0.5, '#ff9f43'); eg.addColorStop(1, '#ee5253');
+    ctx.fillStyle = eg;
+    ctx.beginPath(); ctx.ellipse(bx, by - 4, 26, 30, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.35)';
+    ctx.beginPath(); ctx.ellipse(bx, by - 4, 10, 30, 0, 0, 7); ctx.fill();
+    if (thrust) {
+      ctx.fillStyle = '#ffd32a';
+      ctx.beginPath();
+      ctx.moveTo(bx - 6, by + 42); ctx.lineTo(bx + 6, by + 42); ctx.lineTo(bx, by + 28);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.fillStyle = '#7fbf6a'; ctx.fillRect(0, H - 24, W, 24);
+  }
+
+  function gameOver() {
+    running = false;
+    const final = score + Math.floor(dist / 100);
+    msgEl.innerHTML = '\uD83D\uDCA5 Popped!<br><span>Score: ' + final + '</span><br><button id="balloon-retry">Fly again</button>';
+    msgEl.style.display = 'flex';
+    ov.querySelector('#balloon-retry').addEventListener('click', e => { e.stopPropagation(); reset(); });
+  }
+
+  function loop() { if (running) update(); draw(); raf = requestAnimationFrame(loop); }
+
+  function close() {
+    cancelAnimationFrame(raf);
+    window.removeEventListener('resize', resize);
+    window.removeEventListener('keydown', keyH);
+    window.removeEventListener('keyup', keyH);
+    ov.remove();
+  }
+  function keyH(e) {
+    if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); thrust = (e.type === 'keydown'); }
+    if (e.code === 'Escape') close();
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('keydown', keyH);
+  window.addEventListener('keyup', keyH);
+  ov.addEventListener('pointerdown', e => { e.preventDefault(); thrust = true; });
+  ov.addEventListener('pointerup', e => { e.preventDefault(); thrust = false; });
+  ov.addEventListener('pointercancel', () => { thrust = false; });
+  ov.addEventListener('pointerleave', () => { thrust = false; });
+  ov.querySelector('#balloon-close').addEventListener('click', e => { e.stopPropagation(); close(); });
+  reset();
+  loop();
+}
 
 /* ---------- chooser modal ---------- */
 function openChooser(link) {
@@ -948,97 +828,15 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !chooserEl.hidden) { e.stopPropagation(); closeChooser(); }
 });
 
+/* ---------- render ---------- */
+for (const group of CONFIG.groups) {
+  const g = document.createElement('section');
+  g.className = 'group';
 
-/* ── blade definitions: your groups, dressed as 360 blades ── */
-const BLADE_STYLE = [
-  { color: 'system',    tab: 'System',      sub: 'Hypervisor, containers, proxy & tunnels — the machine room.' },
-  { color: 'live',      tab: 'DOX BOX LIVE',   sub: 'Your connected services — mail, chat, phone & cameras.' },
-  { color: 'media',     tab: 'Media',       sub: 'AI assistants, ready when you are.' },
-  { color: 'market',    tab: 'Marketplace', sub: 'Shops & storefronts.' },
-  { color: 'community', tab: 'Community',   sub: 'Your pages, your people, your lab.' },
-];
+  const h = document.createElement('h2');
+  h.textContent = group.title;
+  g.appendChild(h);
 
-/* ── tiny blade swoosh (WebAudio, off by default) ── */
-let soundOn = false, audioCtx = null;
-try { soundOn = localStorage.getItem('blades-sound') === 'on'; } catch (e) {}
-const soundBtn = document.getElementById('soundBtn');
-function paintSoundBtn(){
-  soundBtn.textContent = soundOn ? '🔊' : '🔇';
-  soundBtn.setAttribute('aria-pressed', String(soundOn));
-  soundBtn.title = soundOn ? 'Blade sounds on' : 'Blade sounds off';
-}
-soundBtn.addEventListener('click', () => {
-  soundOn = !soundOn;
-  try { localStorage.setItem('blades-sound', soundOn ? 'on' : 'off'); } catch (e) {}
-  paintSoundBtn(); if (soundOn) swoosh();
-});
-paintSoundBtn();
-
-/* ── theme toggle (dark is the default; choice shared with legal pages) ── */
-const themeBtn = document.getElementById('themeBtn');
-function paintThemeBtn(){
-  const dark = root.dataset.theme !== 'light';
-  themeBtn.textContent = dark ? '☀️' : '🌙';
-  themeBtn.title = dark ? 'Switch to light' : 'Switch to dark';
-  themeBtn.setAttribute('aria-pressed', String(dark));
-}
-themeBtn.addEventListener('click', () => {
-  root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
-  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
-  paintThemeBtn();
-});
-paintThemeBtn();
-
-function swoosh(){
-  if (!soundOn) return;
-  try {
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-    const t = audioCtx.currentTime, o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = 'sine'; o.frequency.setValueAtTime(520, t); o.frequency.exponentialRampToValueAtTime(940, t + .09);
-    g.gain.setValueAtTime(.06, t); g.gain.exponentialRampToValueAtTime(.0001, t + .12);
-    o.connect(g); g.connect(audioCtx.destination); o.start(t); o.stop(t + .13);
-  } catch (e) {}
-}
-
-/* ── render blades ── */
-let activeBlade = 0;
-try {
-  const saved = parseInt(localStorage.getItem('blades-active') || '0', 10);
-  if (saved >= 0 && saved < CONFIG.groups.length) activeBlade = saved;
-} catch (e) {}
-
-const bladeEls = [], allTiles = [];
-
-CONFIG.groups.forEach((group, gi) => {
-  const style = BLADE_STYLE[gi] || BLADE_STYLE[0];
-  const blade = document.createElement('section');
-  blade.className = 'blade' + (gi === activeBlade ? ' active' : '');
-  blade.dataset.color = style.color;
-
-  const tab = document.createElement('button');
-  tab.type = 'button'; tab.className = 'blade-tab';
-  tab.setAttribute('aria-label', 'Open the ' + group.title + ' blade');
-  tab.innerHTML = '';
-  const tn = document.createElement('span'); tn.className = 'tab-name'; tn.textContent = style.tab;
-  const tc = document.createElement('span'); tc.className = 'tab-count'; tc.textContent = group.links.length + ' items';
-  tab.append(tn, tc);
-  tab.addEventListener('click', () => setBlade(gi, true));
-  blade.appendChild(tab);
-
-  const panel = document.createElement('div');
-  panel.className = 'blade-panel';
-  const head = document.createElement('div');
-  head.className = 'blade-head';
-  head.innerHTML = '<h1></h1><p class="blade-sub"></p><div class="rule"></div>';
-  head.querySelector('h1').innerHTML = '';
-  const h1 = head.querySelector('h1');
-  const bold = document.createElement('b'); bold.textContent = group.title;
-  h1.append(document.createTextNode(style.tab === group.title ? '' : ''), bold);
-  head.querySelector('.blade-sub').textContent = style.sub;
-  panel.appendChild(head);
-
-  const bodyEl = document.createElement('div');
-  bodyEl.className = 'blade-body';
   const grid = document.createElement('div');
   grid.className = 'grid';
 
@@ -1046,193 +844,115 @@ CONFIG.groups.forEach((group, gi) => {
     const a = document.createElement('a');
     a.className = 'tile';
     if (link.choices && link.choices.length) a.classList.add('has-choices');
+
     a.href = link.url;
     a.title = link.desc ? link.url + '\n' + link.desc : link.url;
     a.dataset.name = link.name;
-    a.dataset.blade = String(gi);
-    let searchBlob = (group.title + ' ' + link.name + ' ' + (link.desc || '') + ' ' + link.url).toLowerCase();
-    if (link.choices) for (const c of link.choices) searchBlob += ' ' + (c.label || '') + ' ' + (c.url || '');
+
+    let searchBlob = (link.name + ' ' + (link.desc || '') + ' ' + link.url).toLowerCase();
+    if (link.choices) {
+      for (const c of link.choices) searchBlob += ' ' + (c.label || '') + ' ' + (c.url || '');
+    }
     a.dataset.search = searchBlob;
 
     const text = document.createElement('span');
     text.className = 'text';
+
     const label = document.createElement('span');
-    label.className = 'label'; label.textContent = link.name;
+    label.className = 'label';
+    label.textContent = link.name;
     text.appendChild(label);
+
     if (link.desc) {
       const desc = document.createElement('span');
-      desc.className = 'desc'; desc.textContent = link.desc;
+      desc.className = 'desc';
+      desc.textContent = link.desc;
       text.appendChild(desc);
     }
-    const chev = document.createElement('span');
-    chev.className = 'chev'; chev.textContent = '›'; chev.setAttribute('aria-hidden', 'true');
-    a.append(makeIcon(link), text, chev);
+
+    a.append(makeIcon(link), text);
 
     a.addEventListener('click', function(e) {
-      if (link.choices && link.choices.length) { e.preventDefault(); openChooser(link); return; }
+      if (link.game === 'balloon') {
+        e.preventDefault();
+        openBalloonGame();
+        return;
+      }
+      if (link.choices && link.choices.length) {
+        e.preventDefault();
+        openChooser(link);
+        return;
+      }
+      // Platform-specific overrides first (e.g. Android app intent)
       if (isAndroid && link.androidPkg) {
         e.preventDefault();
         launchAndroid(link.androidPkg, link.url, link.androidScheme, link.freshStart);
         return;
       }
-      if (isAndroid && link.android) { e.preventDefault(); openUrl(link.android, link.fallback); return; }
-      if (isIOS && link.ios)         { e.preventDefault(); openUrl(link.ios, link.fallback); return; }
-      if (link.url.startsWith('ext+container://')) { e.preventDefault(); openUrl(link.url); }
+      if (isAndroid && link.android) {
+        e.preventDefault();
+        openUrl(link.android, link.fallback);
+        return;
+      }
+      if (isIOS && link.ios) {
+        e.preventDefault();
+        openUrl(link.ios, link.fallback);
+        return;
+      }
+      if (link.url.startsWith('ext+container://')) {
+        e.preventDefault();
+        openUrl(link.url);
+      }
     });
-    a.addEventListener('mouseenter', () => selectTile(a, false));
-    a.addEventListener('focus', () => selectTile(a, false));
 
     grid.appendChild(a);
-    allTiles.push(a);
   }
 
-  bodyEl.appendChild(grid);
-  const empty = document.createElement('p');
-  empty.className = 'empty-note';
-  empty.textContent = 'Nothing on this blade matches — try another blade, or press Enter to search the web.';
-  bodyEl.appendChild(empty);
-  panel.appendChild(bodyEl);
-
-  if (gi === CONFIG.groups.length - 1) {
-    const foot = document.createElement('div');
-    foot.className = 'blade-foot';
-    foot.innerHTML = '<p class="quote">“Piracy is almost always a service problem and not a pricing problem.”<span>— Gabe Newell, co-founder of Valve</span></p>';
-    panel.appendChild(foot);
-  }
-
-  blade.appendChild(panel);
-  bladesEl.appendChild(blade);
-  bladeEls.push({ blade, tab, tc, bodyEl });
-});
-
-/* mobile: tabs need to sit in one row above the panels — regroup in DOM order via CSS contents */
-function setBlade(i, focusFirst){
-  if (i < 0) i = bladeEls.length - 1;
-  if (i >= bladeEls.length) i = 0;
-  activeBlade = i;
-  bladeEls.forEach((b, bi) => b.blade.classList.toggle('active', bi === i));
-  try { localStorage.setItem('blades-active', String(i)); } catch (e) {}
-  swoosh();
-  clearSelection();
-  if (focusFirst) {
-    const first = visibleTiles(i)[0];
-    if (first) selectTile(first, false);
-  }
-}
-function visibleTiles(bi){
-  return allTiles.filter(t => Number(t.dataset.blade) === bi && !t.hidden);
-}
-let selectedTile = null;
-function selectTile(tile, scroll){
-  if (selectedTile) selectedTile.classList.remove('selected');
-  selectedTile = tile;
-  if (tile) {
-    tile.classList.add('selected');
-    if (scroll) tile.scrollIntoView({ block: 'nearest' });
-  }
-}
-function clearSelection(){ if (selectedTile) { selectedTile.classList.remove('selected'); selectedTile = null; } }
-function moveSelection(dir){
-  const vis = visibleTiles(activeBlade);
-  if (!vis.length) return;
-  let idx = vis.indexOf(selectedTile);
-  idx = idx === -1 ? (dir > 0 ? 0 : vis.length - 1) : Math.min(vis.length - 1, Math.max(0, idx + dir));
-  selectTile(vis[idx], true);
+  g.appendChild(grid);
+  groupsEl.appendChild(g);
 }
 
-/* ── filter / search (across all blades, like the Guide) ── */
+/* ---------- filter / search ---------- */
 function applyFilter(){
   const val = q.value.trim().toLowerCase();
-  let first = null, firstBlade = -1;
-  const counts = bladeEls.map(() => 0);
-  for (const t of allTiles) {
-    const hit = !val || t.dataset.search.includes(val);
-    t.hidden = !hit;
-    if (hit) { counts[Number(t.dataset.blade)]++; if (!first) { first = t; firstBlade = Number(t.dataset.blade); } }
-  }
-  bladeEls.forEach((b, bi) => {
-    b.bodyEl.classList.toggle('no-matches', !!val && counts[bi] === 0);
-    b.tc.textContent = val ? counts[bi] + ' match' + (counts[bi] === 1 ? '' : 'es') : CONFIG.groups[bi].links.length + ' items';
-    b.tc.classList.toggle('zero', !!val && counts[bi] === 0);
+  let first = null;
+
+  document.querySelectorAll('.group').forEach(g => {
+    let any = false;
+    g.querySelectorAll('.tile').forEach(t => {
+      const hit = !val || t.dataset.search.includes(val);
+      t.hidden = !hit;
+      if (hit) { any = true; if (!first) first = t; }
+    });
+    g.hidden = !any;
   });
-  if (val && first && counts[activeBlade] === 0) setBlade(firstBlade, false);
-  if (val && first) selectTile(first, false);
+
   hintEl.textContent = val
-    ? (first ? '↵  ' + first.dataset.name + '  ·  ' + counts.reduce((a, c) => a + c, 0) + ' match' + (counts.reduce((a, c) => a + c, 0) === 1 ? '' : 'es') : '↵  Search the web for “' + q.value.trim() + '”')
+    ? (first ? '↵  ' + first.dataset.name : '↵  Search the web for “' + q.value.trim() + '”')
     : '';
 }
+
 q.addEventListener('input', applyFilter);
+
 q.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
-    const first = allTiles.find(t => !t.hidden);
-    if (first) { setBlade(Number(first.dataset.blade), false); first.click(); return; }
+    const first = [...document.querySelectorAll('.tile')].find(t => !t.hidden);
+    if (first) { first.click(); return; }
     const val = q.value.trim();
     if (val) location.href = CONFIG.search + encodeURIComponent(val);
   }
   if (e.key === 'Escape') { q.value = ''; applyFilter(); q.blur(); }
 });
 
-/* ── keyboard navigation: arrows = D-pad, Q/E & [ ] = bumpers ── */
 document.addEventListener('keydown', e => {
-  const typing = document.activeElement === q;
-  if (!chooserEl.hidden) return; // chooser has its own Esc handling
-  if (typing) {
-    if (e.key === 'ArrowDown') { e.preventDefault(); q.blur(); moveSelection(1); }
-    return;
-  }
-  switch (e.key) {
-    case '/': e.preventDefault(); q.focus(); q.select(); break;
-    case 'ArrowRight': e.preventDefault(); setBlade(activeBlade + 1, true); break;
-    case 'ArrowLeft':  e.preventDefault(); setBlade(activeBlade - 1, true); break;
-    case 'ArrowDown':  e.preventDefault(); moveSelection(gridCols()); break;
-    case 'ArrowUp':    e.preventDefault(); moveSelection(-gridCols()); break;
-    case 'Enter': if (selectedTile) { e.preventDefault(); selectedTile.click(); } break;
-    case 'Escape': clearSelection(); break;
-    default:
-      if (e.key === 'q' || e.key === '[') { e.preventDefault(); setBlade(activeBlade - 1, true); }
-      if (e.key === 'e' || e.key === ']') { e.preventDefault(); setBlade(activeBlade + 1, true); }
+  if (e.key === '/' && document.activeElement !== q) {
+    e.preventDefault();
+    q.focus();
+    q.select();
   }
 });
-function gridCols(){
-  const grid = bladeEls[activeBlade].bodyEl.querySelector('.grid');
-  if (!grid) return 1;
-  const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
-  return Math.max(1, cols);
-}
 
-/* ── gamepad: D-pad / sticks switch blades, A opens, B clears ── */
-let padState = {}, padTimer = null;
-window.addEventListener('gamepadconnected', () => {
-  if (padTimer) return;
-  padTimer = setInterval(() => {
-    const gp = [...(navigator.getGamepads ? navigator.getGamepads() : [])].find(Boolean);
-    if (!gp) return;
-    const pressed = i => !!(gp.buttons[i] && gp.buttons[i].pressed);
-    const edge = (name, down) => { const was = padState[name]; padState[name] = down; return down && !was; };
-    if (edge('rb', pressed(5))) setBlade(activeBlade + 1, true);
-    if (edge('lb', pressed(4))) setBlade(activeBlade - 1, true);
-    if (edge('right', pressed(15))) setBlade(activeBlade + 1, true);
-    if (edge('left', pressed(14))) setBlade(activeBlade - 1, true);
-    if (edge('down', pressed(13))) moveSelection(gridCols());
-    if (edge('up', pressed(12))) moveSelection(-gridCols());
-    if (edge('a', pressed(0)) && selectedTile && chooserEl.hidden) selectedTile.click();
-    if (edge('b', pressed(1))) { if (!chooserEl.hidden) closeChooser(); else clearSelection(); }
-    const ax = gp.axes[0] || 0;
-    if (edge('axr', ax > .6)) setBlade(activeBlade + 1, true);
-    if (edge('axl', ax < -.6)) setBlade(activeBlade - 1, true);
-  }, 90);
-});
-
-/* ── swipe between blades (touch) ── */
-let touchX = null;
-document.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
-document.addEventListener('touchend', e => {
-  if (touchX === null) return;
-  const dx = e.changedTouches[0].clientX - touchX; touchX = null;
-  if (Math.abs(dx) > 70 && window.innerWidth > 860) setBlade(activeBlade + (dx < 0 ? 1 : -1), true);
-}, { passive: true });
-
-/* ── clock ── */
+/* ---------- clock ---------- */
 function tick(){
   const d = new Date();
   timeEl.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1241,32 +961,21 @@ function tick(){
 tick();
 setInterval(tick, 10000);
 
+/* ---------- theme ---------- */
+const SUN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
 
-/* ── boot intro: once per session, skippable, motion-safe ── */
-(function bootIntro(){
-  const bootEl = document.getElementById('boot');
-  if (!bootEl) return;
-  let played = false;
-  try { played = sessionStorage.getItem('blades-booted') === '1'; } catch (e) {}
-  const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  if (played || reduceMotion) { bootEl.remove(); return; }
-  try { sessionStorage.setItem('blades-booted', '1'); } catch (e) {}
-  let ended = false;
-  function endBoot(){
-    if (ended) return; ended = true;
-    bootEl.classList.add('done');
-    const st = document.querySelector('.stage');
-    if (st) st.classList.add('enter');
-    setTimeout(() => bootEl.remove(), 600);
-  }
-  setTimeout(endBoot, 2350);
-  bootEl.addEventListener('click', endBoot);
-  document.addEventListener('keydown', function bk(){ endBoot(); document.removeEventListener('keydown', bk); });
-})();
-
-/* select the first tile of the opening blade */
-const firstTile = visibleTiles(activeBlade)[0];
-if (firstTile) selectTile(firstTile, false);
+function paintThemeBtn(){
+  const dark = root.dataset.theme === 'dark';
+  themeBtn.innerHTML = dark ? SUN : MOON;
+  themeBtn.title = dark ? 'Switch to light' : 'Switch to dark';
+}
+themeBtn.addEventListener('click', () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  paintThemeBtn();
+});
+paintThemeBtn();
 </script>
 <a href="https://bots.dox.box/maze" rel="nofollow" tabindex="-1" aria-hidden="true" style="display:none">archive</a>
 </body>

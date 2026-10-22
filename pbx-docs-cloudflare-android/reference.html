@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html" class="active">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -51,6 +53,7 @@
 <p>It downloads the latest code (the project folder must be a <code>git clone</code>), re-deploys the PBX, and — only if the edge files changed — copies <code>kamailio/</code> to the edge box and runs <code>update-edge.sh</code> there. The first time the edge needs updating it asks for the edge's address and remembers it. <code>pbx-update --edge</code> updates the edge even when nothing in it changed.</p>
 <p>When you log in to the PBX as root it checks GitHub (at most hourly) and tells you if an update is available. It <strong>never installs anything by itself</strong> — an update restarts the phone services and would drop calls in progress, so you choose when to run it.</p>
 <p>Edge-only manual path: copy the new <code>kamailio/</code> folder over and run <code>./update-edge.sh</code>. It keeps your IPs and domain, and rolls back by itself if the new config doesn't start.</p>
+<p><strong>Android app:</strong> install the newest APK from GitHub Releases over the old one (see <a href="android.html">Android app</a>). After an app update, run <code>pbx-update</code> too: new app features often need the matching PBX side.</p>
 
 <h2>Backups</h2>
 <p>Back up these three:</p>
@@ -83,10 +86,13 @@ journalctl -u kamailio -u rtpengine -u fail2ban</code></pre>
   voipms_sms.py   voip.ms helper: sendSMS/sendMMS, getSMS/getMMS polling,
                   DID normalization, route lookups
   ucp.py          My Phone
+  app_api.py      JSON API for the Android app: pairing / QR, notifications
+                  long poll (/me/wait), phone login (/me/sip), hidden calls
   ring_groups_ui.py, ivr_ui.py, billing.py, e911_ui.py, email_ui.py,
   network_ui.py, safety_ui.py, security.py, ddns.py, entitlements.py, mailer.py
 pbx-brain/      call engine (ARI) - app.py, e911.py, agi_server.py (texts,
                 incl. external SMS/MMS via voip.ms API), voipms_sms.py (shared helper)
+shared/         phone.py: the one number normalizer pbx-api and pbx-brain share
 config-gen/     renders Asterisk pjsip.conf from the database; static Asterisk configs
 db/             schema.sql (applied on every deploy), prod-seed.sql (example)
 scripts/        install.sh, deploy.sh, create-admin.py, security-check.sh,
@@ -94,8 +100,12 @@ scripts/        install.sh, deploy.sh, create-admin.py, security-check.sh,
 kamailio/       edge server: install.sh, update-edge.sh, kamailio.cfg.template,
                 rtpengine.conf.template, fail2ban/, certificate + IP scripts,
                 verify-edge.sh, pbx-edge-notify
-dev/            developer and test tools (not needed to run own-pbx)
-docs/           API.md (REST API), SCREENSHOTS.md (all screenshots), screenshots/,
+android/        My Phone app for Android (Kotlin, Jetpack Compose, Linphone);
+                built by GitHub Actions
+dev/            developer and test tools (not needed to run own-pbx),
+                incl. test-app-*.py and test-brain-ring.py
+docs/           API.md (REST API), SCREENSHOTS.md (all screenshots), screenshots/
+                (screenshots/android/ for the app), ANDROID_APP_PLAN.md,
                 VOIPMS_SMS_SETUP.md (voip.ms SMS/MMS setup and troubleshooting)</code></pre>
 <h3>On the PBX</h3>
 <ul>
@@ -111,7 +121,7 @@ docs/           API.md (REST API), SCREENSHOTS.md (all screenshots), screenshots
 
 <div class="pagenav">
   <a href="advanced.html"><span class="label">← Prev</span>911 · Recording · Billing</a>
-  <a href="troubleshooting.html" class="next"><span class="label">Next</span>Troubleshooting →</a>
+  <a href="api.html" class="next"><span class="label">Next</span>API reference →</a>
 </div>
 
 <div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>

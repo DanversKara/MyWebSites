@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edge server — own-pbx docs</title>
+<meta name="description" content="The Kamailio edge server in detail: architecture, certificates, dynamic IP, verifying, updating, and its files.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">own-pbx <span style="color:#fb923c">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="install.html">Installation</a>
+    <a href="edge.html" class="active">Edge server</a>
+  </div>
+  <div class="nav-section"><h4>Using it</h4>
+    <a href="phones.html">Phones &amp; feature codes</a>
+    <a href="admin.html">Admin panel</a>
+    <a href="myphone.html">My Phone</a>
+    <a href="android.html">Android app <span class="badge new">new</span></a>
+    <a href="sms.html">SMS &amp; MMS</a>
+  </div>
+  <div class="nav-section"><h4>Running it</h4>
+    <a href="security.html">Security</a>
+    <a href="advanced.html">911 · Recording · Billing</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
+    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Edge server</h1>
+<p class="lead">The Kamailio edge box is the only part of own-pbx that faces the internet. This page is its detailed reference — the step-by-step install lives on <a href="install.html">Installation</a>.</p>
+
+<h2>How it works</h2>
+<pre><code>Remote phone --TLS 5061--> Kamailio --UDP 5060--> Asterisk (192.168.1.10, private)
+RTP: phone &lt;-SRTP, UDP 20000-20099-&gt; rtpengine (same box) &lt;-plain RTP, LAN-&gt; Asterisk</code></pre>
+<ul>
+  <li><strong>Kamailio</strong> terminates TLS, proxies SIP to Asterisk, and pins a <code>Path</code> header on REGISTER so inbound calls can find the phone again.</li>
+  <li><strong>Asterisk stays the registrar and the authenticator.</strong> Extensions are still managed entirely by the panel and API — no credential sync, no second user database on the edge.</li>
+  <li><strong>rtpengine</strong> relays the audio so NAT "just works", and terminates <strong>SRTP (SDES)</strong> on the internet leg. The LAN leg to Asterisk stays plain RTP — a trusted network, and zero Asterisk changes for encryption.</li>
+  <li><strong>The public surface is one TLS port.</strong> SIP scanners are UDP-based, so TLS-only kills ~99% of drive-by scanning before fail2ban even gets involved.</li>
+</ul>
+
+<h2>What the installer sets up</h2>
+<p>The edge install on <a href="install.html">Installation</a> takes about 10–15 minutes (rtpengine builds from source) and leaves you with:</p>
+<ul>
+  <li><strong>Kamailio</strong> — TLS-only on port 5061, with a flood limit.</li>
+  <li><strong>rtpengine</strong> — the audio relay that does the SRTP encryption, UDP 20000–20099.</li>
+  <li><strong>fail2ban</strong> — bans scanners and password guessers. Your own LAN is never banned.</li>
+  <li><strong>A firewall</strong> — nftables, default deny.</li>
+  <li><strong>An IP-follow timer</strong> — re-advertises your public IP every minute if it changes (see <a href="#dynamic-ip">below</a>).</li>
+</ul>
+<h3>One more step, on the PBX</h3>
+<p>The edge needs <code>support_path=yes</code> on the phone AORs (that's what makes the <code>Path</code> header work). It's in the PBX's config template, so after installing the edge, re-deploy the PBX once:</p>
+<pre><code>cd /root/own-pbx &amp;&amp; ./scripts/deploy.sh</code></pre>
+<p>This re-renders <code>pjsip.conf</code> and reloads. Phones re-register on their own; LAN phones keep working exactly as before.</p>
+<div class="callout warn">
+  <strong>First connect may warn about the certificate</strong>
+  <p>Until you install a real certificate, the edge uses a self-signed one and phones show a certificate warning on first connect. Accept it once, or install a real certificate (next section) — many softphones refuse self-signed or name-mismatched certificates, so do that when you switch to a domain.</p>
+</div>
+
+<h2>Certificates</h2>
+<h3>Real certificate via Cloudflare (recommended)</h3>
+<pre><code>cd /root/kamailio
+CF_Token=&lt;Cloudflare API token with Zone → DNS → Edit&gt; \
+  ./get-cert-cloudflare.sh sip.example.com you@example.com</code></pre>
+<p>Uses Let's Encrypt with the Cloudflare DNS challenge (no port 80 needed), installs the certificate to <code>/etc/kamailio/tls/</code>, adds the domain as a Kamailio alias, and renews automatically.</p>
+<h3>Replacing the certificate by hand</h3>
+<p>Already have a certificate pair (from any CA or tool)? Drop it in and restart:</p>
+<pre><code>cp fullchain.pem /etc/kamailio/tls/cert.pem
+cp privkey.pem   /etc/kamailio/tls/key.pem
+chmod 600 /etc/kamailio/tls/key.pem
+systemctl restart kamailio</code></pre>
+
+<h2 id="dynamic-ip">If your public IP changes</h2>
+<p>Two things follow the IP automatically:</p>
+<ul>
+  <li><strong>DNS</strong> — on the PBX, Admin → <strong>Network</strong>: SIP domain plus a Cloudflare API token (Zone → DNS → Edit). The PBX checks every 1–15 minutes and updates the A record — always <em>DNS only</em>, TTL 60 s, because Cloudflare's proxy can't carry SIP/RTP.</li>
+  <li><strong>The edge itself</strong> — <code>pbx-edge-ip.timer</code> (installed by <code>install.sh</code>, or add it with <code>./update-public-ip.sh --install-timer</code>) checks every minute and updates Kamailio's advertised address and rtpengine's SDP address, then restarts both. Without it, calls still connect after an IP change but have <strong>no audio</strong>.</li>
+</ul>
+<p>Run it by hand any time with <code>/root/kamailio/update-public-ip.sh</code> (or pass the new IP). Logs: <code>journalctl -u pbx-edge-ip</code>. Expected downtime after a change: up to ~1 minute (detection) + the DNS TTL (60 s) + the phone's re-register interval — which is why phones away from home should <a href="phones.html">re-register every 60–120 seconds</a>.</p>
+
+<h2>Updating the edge</h2>
+<p>Copy the new <code>kamailio/</code> folder over <code>/root/kamailio</code> and run:</p>
+<pre><code>cd /root/kamailio &amp;&amp; ./update-edge.sh</code></pre>
+<p>It re-renders <code>kamailio.cfg</code> from the new template (keeping your IPs and aliases), installs the fail2ban files and the alert hook — and <strong>rolls back by itself</strong> if the new config won't start. Usually you won't even do this by hand: <code>pbx-update</code> on the PBX updates the edge for you whenever the edge files changed (see <a href="reference.html">Updating &amp; maintenance</a>).</p>
+
+<h2>Verifying the edge</h2>
+<p>One command on the edge covers it:</p>
+<pre><code>cd /root/kamailio &amp;&amp; PUBLIC_HOST=sip.example.com ./verify-edge.sh</code></pre>
+<p>It checks the services, the <code>kamailio.cfg</code> syntax, the TLS listener and handshake on 5061, the certificate's hostname and expiry, rtpengine's media ports, the nftables rules, the fail2ban jail, the UDP path to Asterisk, and whether your public IP still matches the advertised one. Green means go. Manual checks work too:</p>
+<pre><code># on the edge
+systemctl is-active kamailio rtpengine fail2ban
+kamailio -c -f /etc/kamailio/kamailio.cfg   # config ok
+tail -f /var/log/syslog | grep kamailio     # watch registrations
+
+# on the PBX
+asterisk -rx "pjsip show contacts"          # phone contact, with Path</code></pre>
+<p>Then register a phone remotely, call an extension both ways, and confirm two-way audio.</p>
+
+<h2>Flood limit, fail2ban and alerts</h2>
+<ul>
+  <li><strong>Flood limit:</strong> more than ~30 requests in 2 seconds from one IP is dropped and logged once as <code>edge: flood from &lt;ip&gt;</code>.</li>
+  <li><strong>Failed sign-ins:</strong> the edge logs <code>edge: auth failed</code> only when a phone actually sent a password and was refused — the normal first 401 challenge doesn't count, and stale nonces are ignored, so real users don't trip it by accident.</li>
+  <li><strong>Two fail2ban jails:</strong> <code>kamailio-edge</code> (scanners, failed sign-ins, junk: 8 in 10 minutes → 1-hour ban) and <code>kamailio-edge-flood</code> (one flood → 24-hour ban). List bans with <code>fail2ban-client status kamailio-edge</code>; lift one with <code>fail2ban-client unban &lt;ip&gt;</code>.</li>
+  <li><strong>Alerts:</strong> every ban and unban is sent to the PBX, which shows it in the dashboard Activity feed and emails the address under Email → Security alerts. One-time setup with an admin API key from the panel's <strong>API Keys</strong> page: <code>pbx-edge-notify --setup http://&lt;PBX-IP&gt;:8001 &lt;API key&gt;</code>.</li>
+</ul>
+<p>More on the whole security model: <a href="security.html">Security</a>.</p>
+
+<h2>Files on the edge</h2>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>kamailio.cfg.template</code></td><td>Main proxy config</td></tr>
+  <tr><td><code>tls.cfg</code></td><td>TLS server profile</td></tr>
+  <tr><td><code>rtpengine.conf.template</code></td><td>Media relay config</td></tr>
+  <tr><td><code>install.sh</code></td><td>Full edge installer</td></tr>
+  <tr><td><code>update-edge.sh</code></td><td>Re-render config and update in place, with rollback</td></tr>
+  <tr><td><code>update-public-ip.sh</code></td><td>Re-point the edge at a new public IP</td></tr>
+  <tr><td><code>verify-edge.sh</code></td><td>The one-command health check above</td></tr>
+  <tr><td><code>pbx-edge-notify</code></td><td>Sends bans and alerts to the PBX</td></tr>
+  <tr><td><code>fail2ban/</code></td><td>Filter + jails for scanners and brute force</td></tr>
+</table>
+<p>Installed configuration lives in <code>/etc/kamailio</code>, <code>/etc/rtpengine</code>, <code>/etc/fail2ban/jail.d</code> and <code>/etc/pbx-edge/notify.env</code>.</p>
+
+<h2>Edge troubleshooting</h2>
+<table>
+  <tr><th>Problem</th><th>Check</th></tr>
+  <tr><td>Phone won't register</td><td><code>tail -f /var/log/syslog | grep kamailio</code> on the edge — TLS handshake errors point at the certificate; also check the router forward for TCP 5061</td></tr>
+  <tr><td>Registers but no audio</td><td>UDP 20000–20099 forwarded to the edge? Public IP changed? Run <code>./update-public-ip.sh</code></td></tr>
+  <tr><td>Inbound calls don't reach the phone</td><td>The REGISTER must carry a <code>Path</code> header: <code>pjsip show contacts</code> on the PBX should show the contact, and <code>support_path=yes</code> must be on the AOR (re-run <code>deploy.sh</code> on the PBX)</td></tr>
+  <tr><td>fail2ban banned you</td><td><code>fail2ban-client status kamailio-edge</code>, then <code>fail2ban-client unban &lt;ip&gt;</code> (your LAN is never banned — if you're remote, your public IP can be)</td></tr>
+</table>
+<p>More problems and fixes: <a href="troubleshooting.html">Troubleshooting</a>.</p>
+
+<div class="pagenav">
+  <a href="install.html"><span class="label">← Prev</span>Installation</a>
+  <a href="phones.html" class="next"><span class="label">Next</span>Phones &amp; feature codes →</a>
+</div>
+
+<div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

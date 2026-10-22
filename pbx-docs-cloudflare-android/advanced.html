@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -96,6 +98,7 @@
   <li>Turn on Cloudflare's <strong>Always Use HTTPS</strong>.</li>
   <li>Never forward port 8001 (or NPM's 80/443) directly from the router.</li>
   <li>Use a different name from the SIP domain: <code>sip.example.com</code> stays a grey-cloud A record.</li>
+  <li>The <a href="android.html">Android app</a> uses this same address (it only reaches My Phone features, never admin pages). Its Instant notifications hold one request per phone open for up to 55 seconds, under Cloudflare's 100-second limit.</li>
 </ul>
 
 <div class="pagenav">

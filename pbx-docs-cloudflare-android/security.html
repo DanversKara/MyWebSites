@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -52,9 +54,9 @@
 <ul>
   <li><strong>TLS only</strong> — no plaintext SIP from the internet.</li>
   <li><strong>Known scanners dropped on sight.</strong></li>
-  <li><strong>Flood limit:</strong> more than ~30 requests in 2 seconds gets an IP banned for 24 hours.</li>
-  <li><strong>fail2ban:</strong> 8 failed sign-ins or junk requests in 10 minutes → banned 1 hour. Your LAN is never banned.</li>
-  <li>Every ban shows on the dashboard and is emailed.</li>
+  <li><strong>Flood limit:</strong> more than ~30 requests in 2 seconds from one IP is dropped on the spot, and a second fail2ban jail (<code>kamailio-edge-flood</code>) bans that IP for 24 hours.</li>
+  <li><strong>fail2ban:</strong> 8 failed sign-ins or junk requests in 10 minutes → banned 1 hour. A failed sign-in only counts when a phone actually sent a password and was refused — the normal first 401 challenge isn't counted, and stale nonces are ignored. Your LAN is never banned.</li>
+  <li>Every ban shows on the dashboard and is emailed. Lift one on the edge with <code>fail2ban-client unban &lt;ip&gt;</code>.</li>
 </ul>
 
 <h2>Panel</h2>
@@ -70,6 +72,8 @@
 <ul>
   <li>Code, Python environments and helper scripts are root-owned; the service account can't change them.</li>
   <li>The database is readable by the PBX services only (mode 600).</li>
+  <li>Asterisk's own API (ARI) listens on the PBX itself only (127.0.0.1), behind a long random password — it's never exposed to the network.</li>
+  <li>The kill switch and safety lock can also be driven over the <a href="api.html">API</a>, and the kill switch bypasses the safety lock — an emergency stop always works.</li>
 </ul>
 
 <h2>Emergency tools</h2>

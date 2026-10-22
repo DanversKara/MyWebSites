@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -54,11 +56,11 @@
 <h3>Inbound — two paths, no lost messages</h3>
 <ul>
   <li><strong>URL callback (instant):</strong> voip.ms fires a GET/POST to <code>https://&lt;your-panel&gt;/hooks/voipms-sms</code> with <code>to, from, message, id, date</code>. The PBX checks the token, dedupes by message ID, looks up the DID route, stores the message, and pushes it to Zoiper via SIP MESSAGE.</li>
-  <li><strong>Poller (safety net, every 60s):</strong> callbacks can misfire (tunnel hiccup, timeout). A background thread polls voip.ms <code>getSMS</code>/<code>getMMS</code> per routed DID and ingests anything the webhook missed. Same dedupe table — nothing is ever delivered twice. Webhook = instant, poll = source of truth.</li>
+  <li><strong>Poller (safety net, every 60s):</strong> callbacks can misfire (tunnel hiccup, timeout). A background thread polls voip.ms <code>getSMS</code>/<code>getMMS</code> per routed DID (last 2 days) and ingests anything the webhook missed. Same dedupe table — nothing is ever delivered twice. Webhook = instant, poll = source of truth. On its first run the poller backfills up to 2 days of unseen messages; anything it recovers is logged as <code>voip.ms poll: recovered missed SMS id=…</code>.</li>
 </ul>
 <h3>Outbound</h3>
 <ul>
-  <li><strong>Zoiper:</strong> text <code>+15551234567</code> as a SIP MESSAGE destination. The AGI detects the external number and sends it via the voip.ms API from the DID mapped to your extension — in a background thread, so Zoiper gets its reply immediately even if voip.ms is slow.</li>
+  <li><strong>Zoiper:</strong> text <code>+15550192837</code> as a SIP MESSAGE destination. The AGI detects the external number and sends it via the voip.ms API from the DID mapped to your extension — in a background thread, so Zoiper gets its reply immediately even if voip.ms is slow.</li>
   <li><strong>My Phone → Messages:</strong> type an external number, same path.</li>
   <li><strong>ESP/HA:</strong> <code>POST http://&lt;pbx&gt;:8099/messages/send</code> with <code>{"to": "+1555…", "from": "8801", "body": "…"}</code> — external numbers route out through voip.ms automatically.</li>
 </ul>
@@ -82,14 +84,42 @@
 <h3>2. PBX → SMS routes</h3>
 <ol>
   <li>Admin panel → <strong>SMS routes</strong> (or <code>/sms-routes</code>): fill in the API username/password, webhook token (auto-generated if blank), default DID.</li>
-  <li>Add one route per DID: DID (digits, e.g. <code>15551234567</code>) → destination extension (e.g. <code>8801</code>). The page shows the exact webhook URL to paste into voip.ms.</li>
+  <li>Add one route per DID: DID (digits, e.g. <code>15550192837</code>) → destination extension (e.g. <code>8801</code>). The page shows the exact webhook URL to paste into voip.ms.</li>
   <li>Make the webhook reachable from the internet — via Cloudflare Tunnel / Nginx Proxy Manager to <code>http://&lt;pbx-ip&gt;:8001</code>. <code>/hooks/voipms-sms</code> is allow-listed for remote access, so it works through the tunnel even when admin pages are LAN-only.</li>
 </ol>
 <h3>3. Test</h3>
-<p>Text the DID from your mobile → Zoiper should pop within seconds. Reply from Zoiper → your mobile gets it from the DID. Then check the logs:</p>
+<p>First check the webhook answers at all:</p>
+<pre><code>curl "https://&lt;panel&gt;/hooks/voipms-sms?token=&lt;token&gt;"   # should return: ok</code></pre>
+<p>Then text the DID from your mobile → Zoiper should pop within seconds. Reply from Zoiper → your mobile gets it from the DID. Then check the logs:</p>
 <pre><code>journalctl -u pbx-api -f    # webhook hits
 journalctl -u pbx-brain -f  # "msg external:" lines
 journalctl -u pbx-agi -f    # "msg-route external:" lines</code></pre>
+
+<h2>Upgrading an existing system</h2>
+<p>Adding SMS to a system that's already running doesn't need a fresh install — the upgrade is idempotent and safe to re-run. The build ships an upgrade script that does it all: it backs up the database and <code>/opt/pbx</code>, applies the schema (the new tables are <code>CREATE TABLE IF NOT EXISTS</code>, so existing data is untouched), runs the normal deploy (new code in, services restarted, Asterisk reloaded), and verifies the services plus the webhook.</p>
+<pre><code>scp own-pbx-sms-voipms.zip root@&lt;pbx-ip&gt;:/root/
+ssh root@&lt;pbx-ip&gt;
+cd /root &amp;&amp; unzip -q -o own-pbx-sms-voipms.zip
+cd own-pbx-sms
+bash scripts/upgrade-voipms-sms.sh</code></pre>
+<p>By hand, it's the same steps:</p>
+<pre><code># 1. backup
+cp -a /var/lib/pbx/pbx.db /var/backups/pbx/pbx.db.bak
+cp -a /opt/pbx /opt/pbx.bak
+
+# 2. put the new source somewhere, e.g. /root/own-pbx-sms, then
+cd /root/own-pbx-sms
+sqlite3 /var/lib/pbx/pbx.db &lt; db/schema.sql
+bash scripts/deploy.sh   # copies code, restarts services, reloads Asterisk
+
+# 3. verify
+systemctl status pbx-api pbx-brain pbx-agi --no-pager
+curl -s http://127.0.0.1:8001/hooks/voipms-sms  # -&gt; ok</code></pre>
+<p>No new Python dependencies were added (standard library only), so the Python environments don't change. Afterwards, finish the setup above: SMS routes in the panel, the webhook URL into each DID at voip.ms, and a test text both ways.</p>
+<h3>Rollback</h3>
+<pre><code>cp -a /var/backups/pbx/pbx.db.&lt;timestamp&gt;.bak /var/lib/pbx/pbx.db
+rm -rf /opt/pbx &amp;&amp; cp -a /opt/pbx.bak.&lt;timestamp&gt; /opt/pbx
+systemctl restart pbx-api pbx-brain pbx-agi</code></pre>
 
 <h2>Security notes</h2>
 <ul>

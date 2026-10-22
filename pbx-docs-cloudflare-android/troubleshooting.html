@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html" class="active">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -62,6 +64,7 @@
   <tr><td>Android app: &ldquo;Sign in with my browser&rdquo; signs in but doesn't return to the app</td><td>Tap <strong>Open the My Phone app</strong> on that page, or type the code it shows. Check the Server in the app matches the address you signed in at, and run <code>pbx-update</code> (needs the PBX from 14 Oct 2026 or newer) with app 0.7.2 or newer</td></tr>
   <tr><td>Android app: pairing code "wrong or expired"</td><td>Codes work once and for 5 minutes &mdash; get a new one in My Phone &rarr; App</td></tr>
   <tr><td>Android app: no notifications</td><td>Settings &rarr; Notifications &rarr; <strong>Send a test notification</strong> (none = allow notifications in Android); <strong>Let it run in the background</strong> &rarr; Allow; the line under <strong>Check now</strong> says what the last check found. Texts you send yourself don't notify</td></tr>
+  <tr><td>Android app: the &ldquo;Connected&rdquo; notification disappears after a few hours and calls stop ringing</td><td>Your phone's battery saver killed the app (Motorola is the worst for this). Update the app (<strong>0.7.9 or newer</strong> restarts its connection and re-registers by itself, about every 15 minutes). Then Settings &rarr; Notifications &rarr; <strong>Let it run in the background</strong> &rarr; Allow, and on Motorola also <strong>App settings (Motorola battery killer)</strong> &rarr; Battery &rarr; <strong>Unrestricted</strong> with <strong>&ldquo;Pause app activity if unused&rdquo;</strong> off. Don't swipe the app away from Recents</td></tr>
   <tr><td>Android app: calls fail</td><td>Settings &rarr; Calling &rarr; Phone login &rarr; <strong>Get from my PBX</strong> &rarr; Save. "Remote calling isn't set up" = set the domain under Admin &rarr; Network. Otherwise tap <strong>Copy details</strong> on the call screen for the SIP code</td></tr>
   <tr><td>Android app: a "1" on the icon that won't go away</td><td>Update the app (0.5.1+): the &ldquo;connected&rdquo; notification no longer counts</td></tr>
   <tr><td>Android app: calls to me go to voicemail, the app never rings</td><td>Run <code>pbx-update</code>, then in the app Settings &rarr; Calling &rarr; Phone login &rarr; <strong>Get from my PBX</strong> &rarr; Save (the username must end in <code>-app</code>). Check <em>Incoming calls</em> says &ldquo;Signed in&rdquo; and allow <strong>Let it run in the background</strong></td></tr>
@@ -96,7 +99,7 @@ asterisk -rvvv
 journalctl -u kamailio -u rtpengine -u fail2ban</code></pre>
 
 <div class="pagenav">
-  <a href="reference.html"><span class="label">← Prev</span>Updating &amp; maintenance</a>
+  <a href="api.html"><span class="label">← Prev</span>API reference</a>
   <a href="index.html" class="next"><span class="label">Back to</span>Overview →</a>
 </div>
 

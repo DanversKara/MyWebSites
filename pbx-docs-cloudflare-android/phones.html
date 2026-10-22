@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html" class="active">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -64,6 +66,9 @@
 <h3>Desk phones</h3>
 <p>Set Proxy, Registrar and Outbound proxy to the PBX IP, port 5060, transport UDP, and turn SRTP off on the LAN. If you use "dial 9 for an outside line", update the phone's dial plan (e.g. <code>9xxxxxxxxxx</code>).</p>
 
+<h3>Or skip the softphone: the Android app</h3>
+<p>Instead of (or as well as) Zoiper, users can use the <a href="android.html">My Phone app</a>. It sets up its own phone login with one tap and signs in on the extension's separate app line (<code>&lt;username&gt;-app</code>), so it rings together with the desk phone or Zoiper without replacing them.</p>
+
 <div class="callout ok">
   <strong>Check it</strong>
   <p>The phone appears under <strong>Dashboard → Signed in now</strong> as <em>Online</em>, showing whether it's internal or external.</p>
@@ -81,16 +86,17 @@
   <tr><td><code>*555</code></td><td>Scan mode: listen to any active call on the system</td></tr>
   <tr><td><code>*70</code></td><td>DISA: outside dial tone after a PIN (only if a PIN is configured)</td></tr>
   <tr><td><code>*86</code> <em>(during a call)</em></td><td>Block the caller mid-call: the call ends, they hear "the number you have dialed is not in service", and their number lands on your block list. Only keys from your own phone count.</td></tr>
+  <tr><td><code>*88&lt;ext&gt;</code></td><td><strong>Push-to-talk:</strong> talk to that extension instantly — no ringing, and never voicemail. Their phone answers by itself on speakerphone with a beep, walkie-talkie style. You must be allowed by your admin, and the other person must be allowed <em>and</em> have push-to-talk switched on; if either side isn't ready you hear a "cannot be completed" announcement and the call ends. See <a href="myphone.html#push-to-talk">Push-to-talk</a>.</td></tr>
   <tr><td>ring group or IVR number</td><td>Ring that group or menu</td></tr>
 </table>
 <p>While monitoring (<code>*555</code>), press <code>*</code> / <code>1</code> for the previous call and <code>#</code> / <code>2</code> for the next call. A beep confirms each hop. Hang up to stop.</p>
 
 <h3>Controlling access</h3>
-<p>The <strong>Features</strong> page in the admin panel controls every star code: turn each one on/off for the whole system, set the default access (<strong>By plan</strong>, <strong>All users</strong>, <strong>Admins only</strong>, or <strong>No one</strong>), and override per user with Allow/Deny. For example, give <code>*555</code> (ChanSpy) to a supervisor without making them a full admin, or disable <code>*70</code> (DISA) entirely. The rule follows the person, so it's the same from a desk phone, Zoiper or the Android app.</p>
+<p>The <strong>Features</strong> page in the admin panel controls every star code: turn each one on/off for the whole system, set the default access (<strong>By plan</strong>, <strong>All users</strong>, <strong>Admins only</strong>, or <strong>No one</strong>), and override per user with Allow/Deny. One exception: <code>*88</code> (push-to-talk) is not a Features-page code — it is controlled per account by the <strong>Allow push-to-talk</strong> flag on the login, plus the user's own switch in their Settings. For example, give <code>*555</code> (ChanSpy) to a supervisor without making them a full admin, or disable <code>*70</code> (DISA) entirely. The rule follows the person, so it's the same from a desk phone, Zoiper or the Android app.</p>
 <p><strong>By plan</strong> is the default for every code except <code>*555</code> (admins only). A <strong>new account starts with no star codes</strong>; a user gets a code when their active plan includes it (Billing &rarr; plan &rarr; <strong>Star codes included</strong>), and it goes off again if the plan lapses or changes. Without a plan they get the <strong>Star codes (no plan)</strong> set under Billing &rarr; User access &mdash; empty by default; tick <code>*97</code>/<code>*98</code> there if you don't sell plans and want everyone to reach their voicemail. Admins can always use every code, and a per-user Allow/Deny always wins. Each user's row on the code's page shows <strong>Now</strong>: whether they can use it and why (e.g. &ldquo;in plan Pro&rdquo;, &ldquo;no plan&rdquo;, &ldquo;Allow override&rdquo;). Users who existed before this change kept the codes they had (an Allow override each); set them to Default to hand them to their plan.</p>
 
 <div class="pagenav">
-  <a href="install.html"><span class="label">← Prev</span>Installation</a>
+  <a href="edge.html"><span class="label">← Prev</span>Edge server</a>
   <a href="admin.html" class="next"><span class="label">Next</span>Admin panel →</a>
 </div>
 

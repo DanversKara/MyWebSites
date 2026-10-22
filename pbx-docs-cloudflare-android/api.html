@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API reference — own-pbx docs</title>
+<meta name="description" content="The own-pbx REST API v1: extensions, live status, the kill switch and safety lock, and the My Phone app API.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">own-pbx <span style="color:#fb923c">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
+  </div>
+  <div class="nav-section"><h4>Using it</h4>
+    <a href="phones.html">Phones &amp; feature codes</a>
+    <a href="admin.html">Admin panel</a>
+    <a href="myphone.html">My Phone</a>
+    <a href="android.html">Android app <span class="badge new">new</span></a>
+    <a href="sms.html">SMS &amp; MMS</a>
+  </div>
+  <div class="nav-section"><h4>Running it</h4>
+    <a href="security.html">Security</a>
+    <a href="advanced.html">911 · Recording · Billing</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html" class="active">API reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
+    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>API reference</h1>
+<p class="lead">Everything the panel does, the REST API (v1) can do — extensions are API entities. Plus the separate JSON API the Android app talks to.</p>
+
+<h2>Keys</h2>
+<p>Issue a key in the panel (<strong>API Keys</strong>) or through the API itself. The raw key is shown <strong>once</strong> at creation; only its SHA-256 is stored. Keys are Bearer tokens:</p>
+<pre><code>KEY="pbx_..."
+AUTH="Authorization: Bearer $KEY"</code></pre>
+<ul>
+  <li><strong>Admin keys</strong> have full access.</li>
+  <li><strong>User keys</strong> can only read their own extension: <code>GET /api/v1/extensions</code>, <code>GET /api/v1/extensions/{own}</code> and <code>GET /api/v1/me</code>.</li>
+  <li>Revoke a key at any time on the same page. The edge's security alerts use their own key — see <a href="edge.html">Edge server</a>.</li>
+</ul>
+
+<h2>Extensions</h2>
+<pre><code># list extensions
+curl -s -H "$AUTH" http://127.0.0.1:8001/api/v1/extensions
+
+# create one (sip_secret + login password auto-generated, returned once)
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"username":"alice","exten":"8802","display_name":"Alice"}' \
+  http://127.0.0.1:8001/api/v1/extensions
+
+# read / patch / delete
+curl -s -H "$AUTH" http://127.0.0.1:8001/api/v1/extensions/8802
+curl -s -H "$AUTH" -H 'Content-Type: application/json' -X PATCH \
+  -d '{"display_name":"Alice A.","user_record":true}' \
+  http://127.0.0.1:8001/api/v1/extensions/8802
+curl -s -H "$AUTH" -X DELETE http://127.0.0.1:8001/api/v1/extensions/8802
+
+# rotate the SIP secret (returned once) / reset the login password
+curl -s -H "$AUTH" -X POST http://127.0.0.1:8001/api/v1/extensions/8802/rotate-secret
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"password":"new-strong-password"}' \
+  http://127.0.0.1:8001/api/v1/extensions/8802/reset-password
+
+# keys: list / issue / revoke (admin only)
+curl -s -H "$AUTH" http://127.0.0.1:8001/api/v1/api-keys
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"username":"alice","name":"provisioning"}' \
+  http://127.0.0.1:8001/api/v1/api-keys
+curl -s -H "$AUTH" -X DELETE http://127.0.0.1:8001/api/v1/api-keys/3</code></pre>
+<h3>Rules</h3>
+<ul>
+  <li><code>sip_secret</code> and the login <code>password</code> are returned <strong>once</strong> — at create, rotate or reset time — and never appear in GET responses.</li>
+  <li>Mutations regenerate <code>pjsip.conf</code> and reload PJSIP through a root-owned wrapper, sudo-scoped to the service user. The response reports <code>"applied": true/false</code>; on <code>false</code>, retry with <code>POST /system/reload</code>.</li>
+  <li>PATCH accepts <code>display_name</code>, <code>vm_email</code>, <code>record_admin</code>, <code>user_record</code>, <code>max_messages</code> and <code>enabled</code>. Identity fields (<code>username</code>, <code>exten</code>, <code>sip_username</code>, <code>role</code>) are set at creation — delete and recreate to change them.</li>
+</ul>
+
+<h2>Live status</h2>
+<p>The dashboard is a thin consumer of these endpoints — the same JSON any external tool can use. pbx-brain is the source of truth for calls (from its Asterisk events); Asterisk is the source for registrations. User keys only see their own device and calls.</p>
+<pre><code># registered SIP devices (deduped per real device)
+curl -s -H "$AUTH" http://127.0.0.1:8001/api/v1/devices
+
+# live calls, straight from the brain
+curl -s -H "$AUTH" http://127.0.0.1:8001/api/v1/calls/live
+
+# panel sign-in history (admin)
+curl -s -H "$AUTH" 'http://127.0.0.1:8001/api/v1/signins?limit=50&amp;failed_only=1'</code></pre>
+<p>Panel sign-ins, success and failure, are audited to the database. The dashboard renders devices, live calls and recent sign-ins from these endpoints and refreshes every 10 seconds.</p>
+
+<h2>Safety: kill switch and safety lock</h2>
+<pre><code># status: {"kill_switch":..,"safety_lock":..,"lock_mode":"off"|"full"|"admin"}
+curl -s -H "$AUTH" http://127.0.0.1:8001/api/v1/safety
+
+# safety lock, full (default): routine mutations on the admin panel, the API
+# AND My Phone are rejected with 403
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"locked":true,"mode":"full"}' http://127.0.0.1:8001/api/v1/safety/lock
+
+# safety lock, admin only: admin panel + API are frozen, but users can keep
+# using My Phone (send texts, change their settings, voicemail, ...)
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"locked":true,"mode":"admin"}' http://127.0.0.1:8001/api/v1/safety/lock
+
+# release either lock
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"locked":false}' http://127.0.0.1:8001/api/v1/safety/lock
+
+# kill switch: hangs up all active calls, renders an empty pjsip.conf
+# (no registrations, no trunk) and reloads. Bypasses the safety lock.
+# The brain also hangs up any new channel while the switch is on.
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"engaged":true}' http://127.0.0.1:8001/api/v1/safety/kill-switch
+# release when the emergency is over (config re-renders, trunk re-registers)
+curl -s -H "$AUTH" -H 'Content-Type: application/json' \
+  -d '{"engaged":false}' http://127.0.0.1:8001/api/v1/safety/kill-switch</code></pre>
+<p>Both are also on the dashboard: a status banner with Kill switch, Lock admin / Lock everything, and Unlock buttons. See <a href="security.html">Security</a> for when to use them.</p>
+
+<h2>My Phone app API (Android)</h2>
+<p>The <a href="android.html">Android app</a> uses its own long-lived sign-in. Device tokens (<code>pbxd_...</code>) only work for the signed-in user's own My Phone data — never for admin pages.</p>
+<pre><code># sign in (or: POST /api/v1/app/pair {"code":"ABCD2345"} with a code from My Phone &gt; App)
+curl -s -H 'Content-Type: application/json' \
+  -d '{"username":"alice","password":"...","device_name":"Pixel 8"}' \
+  https://myphone.example.com/api/v1/app/login        # -&gt; {"token":"pbxd_...","ttl_days":60,...}
+AUTH="Authorization: Bearer pbxd_..."
+
+curl -s -H "$AUTH" https://myphone.example.com/api/v1/me/overview
+curl -s -H "$AUTH" https://myphone.example.com/api/v1/me/threads
+curl -s -H "$AUTH" https://myphone.example.com/api/v1/me/threads/8801
+curl -s -H "$AUTH" -d to=8801 -d body=hello https://myphone.example.com/api/v1/me/messages/send
+curl -s -H "$AUTH" -d ids=12 -d ids=13 -d convs=8801 https://myphone.example.com/api/v1/me/messages/delete</code></pre>
+<p>The Android app itself signs in with pairing codes only; <code>/app/login</code> stays available for other API clients. Tokens expire <strong>60 days after last use</strong>, and a password change signs out every other phone.</p>
+<table>
+  <tr><th>Reads (GET)</th><th>Changes (POST, form fields like the web forms)</th></tr>
+  <tr><td><code>/me/overview</code>, <code>/me/threads</code>, <code>/me/threads/{peer}?before=&amp;limit=</code>, <code>/me/messages/since?after=</code></td><td><code>/me/messages/send</code>, <code>/me/messages/delete</code> (<code>ids</code>, <code>convs</code>, or <code>mode=all</code>)</td></tr>
+  <tr><td><code>/me/calls?view=all|missed|hidden</code>, <code>/me/voicemail?folder=Old</code>, <code>/me/voicemail/{id}/audio</code></td><td><code>/me/calls/hide</code> (<code>ids</code>; <code>unhide=1</code> to show again), <code>/me/calls/seen</code>, <code>/me/voicemail/delete</code>, <code>/me/voicemail/{id}/heard</code>, <code>/me/voicemail/{id}/move</code></td></tr>
+  <tr><td><code>/me/recordings</code>, <code>/me/recordings/{id}/audio</code></td><td><code>/me/recordings/delete</code></td></tr>
+  <tr><td><code>/me/settings</code>, <code>/me/devices</code></td><td><code>/me/settings/calls</code>, <code>/me/settings/prefs</code>, <code>/me/settings/messaging</code>, <code>/me/settings/password</code>, <code>/me/dnd</code>, <code>/me/block</code>, <code>/me/report</code></td></tr>
+</table>
+<p>Changes answer <code>{"ok": bool, "code": "&lt;key&gt;", "message": "&lt;text&gt;"}</code> — HTTP 400 on a refused change, <strong>423 when the safety lock is on</strong>. Also: <code>DELETE /me/devices/{id}</code>, <code>PUT /me/push {"endpoint":"https://..."}</code> (UnifiedPush), and <code>POST /api/v1/app/logout</code>.</p>
+<h3>Details worth knowing</h3>
+<ul>
+  <li><strong>Calls can't be deleted by users, only hidden</strong> (per user). Hidden calls drop out of the <code>all</code>/<code>missed</code> views and are listed under <code>view=hidden</code> until the 90-day call-history purge removes them.</li>
+  <li><code>/me/overview</code> returns <code>missed_new</code> — the missed calls this phone hasn't seen and the user hasn't hidden. <code>POST /me/calls/seen</code> (the app calls it when Calls is opened) resets it to 0.</li>
+  <li><strong>Instant notifications:</strong> <code>GET /me/wait?msg=&amp;call=&amp;vm=&amp;timeout=50</code> is a long poll. It answers as soon as there is a text, an unhidden missed call or an Inbox voicemail newer than the IDs given (checked every 2 s), or after <code>timeout</code> seconds (max 55 — under Cloudflare's 100 s limit), with the newest IDs and <code>changed</code>.</li>
+  <li><strong>Calling:</strong> <code>GET /me/sip</code> gives the app's built-in phone what it needs to call as the user's own extension through the edge, on the extension's <strong>app line</strong>: <code>enabled</code> (false, with a <code>reason</code>, when the extension, its phone password or the Admin → Network domain is missing — the password is then left out), <code>username</code> (<code>&lt;sip_username&gt;-app</code>, a second endpoint with the same password and caller ID that pbx-brain rings alongside the main line; <code>main_username</code> is the desk-phone login), <code>password</code>, <code>domain</code>, <code>port</code>, <code>transport</code> (tls), <code>srtp</code> (sdes) and <code>codecs</code>.</li>
+  <li><strong>Pairing QR codes</strong> hold <code>myphone://pair?s=&lt;server&gt;&amp;c=&lt;code&gt;</code> (rendering them needs the <code>segno</code> package, which <code>deploy.sh</code> installs). See <a href="android.html">Android app</a> for how pairing works.</li>
+</ul>
+
+<div class="pagenav">
+  <a href="reference.html"><span class="label">← Prev</span>Updating &amp; maintenance</a>
+  <a href="troubleshooting.html" class="next"><span class="label">Next</span>Troubleshooting →</a>
+</div>
+
+<div class="footer">own-pbx docs · <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo</a> · <a href="https://danverskara.github.io/MyPersonalPBX/demo/">live demo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

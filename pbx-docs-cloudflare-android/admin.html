@@ -18,6 +18,7 @@
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
+    <a href="edge.html">Edge server</a>
   </div>
   <div class="nav-section"><h4>Using it</h4>
     <a href="phones.html">Phones &amp; feature codes</a>
@@ -32,6 +33,7 @@
   </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Updating &amp; maintenance</a>
+    <a href="api.html">API reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
   </div>
   <div class="nav-section"><h4>Project</h4>
@@ -63,6 +65,7 @@
 
 <h2>Logins</h2>
 <p>Users are extensions: username, panel password, extension number, SIP username and password, display name, notification email, recording flags, and enabled. <strong>Disabling a login signs it out everywhere at once.</strong></p>
+<p>The editor also has <strong>Allow push-to-talk</strong>: tick it to let that user place and receive push-to-talk calls (<code>*88</code> + extension — see <a href="phones.html#feature-codes">feature codes</a>). Allowing is not switching it on: the user turns push-to-talk on themselves in their own Settings, and unticking the box here disables it for them entirely.</p>
 
 <h2>Invites</h2>
 <p>Onboard users without handing out passwords: <strong>Invites → Generate invite</strong> picks the next free extension, auto-generates the SIP username/secret, and gives you a single-use link — shown once, copy it or email it to the user. The link expires after 1–30 days (your choice), dies after one use, and can be revoked. The recipient picks their own login password plus display name and voicemail email; the login is created on the spot. Tokens are 256-bit and stored hashed.</p>
@@ -140,7 +143,7 @@
 <p>Controls every <a href="phones.html#feature-codes">star code</a>: on/off system-wide, default access (<strong>By plan</strong> / All users / Admins only / No one), and per-user Allow/Deny overrides. Each user's row shows whether they can use the code <strong>now</strong> and why. With <strong>By plan</strong> (the default), new accounts start with none and get the codes their plan includes &mdash; see <a href="phones.html#feature-codes">star codes</a>.</p>
 
 <h2>Branding</h2>
-<p>White-label the panel: site name, header logo (upload or URL) with an optional separate dark-mode logo that auto-swaps, header and button colors with one-click presets, animated gradient header, default dark/light theme, login page logo/title/subtitle, favicon, footer line. Logos live in the database, so they ride along with backups. <strong>Regional:</strong> time zone selector; all times display in 12-hour format in that zone.</p>
+<p>White-label the panel: site name, header logo (upload or URL — shown as text, logo, or both) with an optional separate dark-mode logo that auto-swaps with the theme, header and button colors with one-click presets (Ocean, Sunset, Royal…), animated gradient header, default dark/light theme (visitors can flip it with the 🌙/☀️ icon; their choice sticks in their browser), login page logo/title/subtitle (also with a dark-mode variant), favicon, and an optional footer line. Logos live in the database, so they ride along with backups. <strong>Regional:</strong> time zone selector (defaults to Los Angeles); all call, message, voicemail and recording times display in 12-hour format in that zone.</p>
 
 <div class="pagenav">
   <a href="phones.html"><span class="label">← Prev</span>Phones &amp; feature codes</a>
