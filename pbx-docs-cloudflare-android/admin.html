@@ -63,11 +63,23 @@
 </ul>
 
 <h2>Logins</h2>
-<p>Users are extensions: username, panel password, extension number, SIP username and password, display name, notification email, recording flags, and enabled. <strong>Disabling a login signs it out everywhere at once.</strong></p>
+<p>Users are extensions: username, panel password, extension number, SIP username and password, display name, notification email, recording flags, and enabled. The list also shows each account's <strong>Type</strong> — normal or <a href="#guest-extensions">guest</a>. <strong>Disabling a login signs it out everywhere at once.</strong></p>
 <p>The editor also has <strong>Allow push-to-talk</strong>: tick it to let that user place and receive push-to-talk calls (<code>*88</code> + extension — see <a href="phones.html#feature-codes">feature codes</a>). Allowing is not switching it on: the user turns push-to-talk on themselves in their own Settings, and unticking the box here disables it for them entirely.</p>
+<p>The editor's <strong>Account type</strong> dropdown switches the login between a normal extension and a <a href="#guest-extensions">guest extension</a>, with the guest rules right below it. Converting keeps the account, its extension and its history — no new account needed — and takes effect immediately.</p>
 
 <h2>Invites</h2>
 <p>Onboard users without handing out passwords: <strong>Invites → Generate invite</strong> picks the next free extension, auto-generates the SIP username/secret, and gives you a single-use link — shown once, copy it or email it to the user. The link expires after 1–30 days (your choice), dies after one use, and can be revoked. The recipient picks their own login password plus display name and voicemail email; the login is created on the spot. Tokens are 256-bit and stored hashed.</p>
+<p>The generator also picks the <strong>account type</strong> — normal or guest — and, for guests, which guest rules start switched on. The redeemed account is created with exactly those settings.</p>
+
+<h2 id="guest-extensions">Guest extensions <span class="badge new">new</span></h2>
+<p>A guest extension is a restricted account type, made for courtesy, lobby and visitor phones. <strong>Internal calling always works</strong> — other extensions, feature codes, and ring groups dialed from inside. Everything that reaches outside the PBX is <strong>off</strong> unless the admin turns that one thing on for that guest:</p>
+<ul>
+  <li><strong>Outside calling</strong> — the guest may dial real phone numbers through a trunk. Their plan / outside minutes still apply on top: the guest rules are caps, never grants.</li>
+  <li><strong>Receiving calls from real phone numbers</strong> — DID routes and ring groups may ring the guest for outside callers. Off: the guest is skipped in the ring list, exactly as if it weren't a member; if everyone is skipped, the group's normal no-answer path (voicemail / forward) runs.</li>
+  <li><strong>SMS / MMS texting</strong> — a dropdown with four scopes, applied in both directions: <strong>Both external and internal</strong> (real phone numbers and other extensions), <strong>External only</strong> (real numbers; no extension-to-extension texts), <strong>Internal only</strong> (extension-to-extension; no real numbers), or <strong>Block all</strong>. Sends outside the scope are refused everywhere (My Phone, the app, softphones, the API), and inbound texts outside it are dropped before they're stored.</li>
+  <li><strong>911 / 933 calls</strong> — off: dialing 911 or 933 from that guest extension is not routed; the caller hears the standard cannot-complete announcement and the attempt is written to the PBX log. This is an explicit per-extension admin decision for guest phones that are not E911-provisioned — normal extensions can never be blocked from 911. The <a href="#e911">E911 page</a> lists every guest and its 911 state.</li>
+</ul>
+<p>Set the type and rules when creating a login or generating an invite, or convert any existing account either way under <strong>Logins → Edit → Account type</strong>. Every type or rule change is written to the audit log (shown in Dashboard → Activity), and the E911 changes are flagged there like other E911 events.</p>
 
 <h2>Trunks</h2>
 <p>Your SIP provider(s): registrar, username, secret and codecs.</p>
@@ -129,8 +141,8 @@
 </table>
 <p><strong>In Authentik:</strong> Applications &rarr; Providers &rarr; Create &rarr; OAuth2/OpenID Provider, client type <strong>Confidential</strong>, the redirect URI from the page (strict), scopes openid/email/profile. Create an Application using it and bind the users or group allowed in. Then copy the Client ID, Client Secret and issuer into Admin &rarr; Sign-on and try it in a private window before signing out.</p>
 
-<h2>E911</h2>
-<p>Per-user E911 addresses behind a separate unlock code. See <a href="advanced.html#e911">911 / E911</a>.</p>
+<h2 id="e911">E911</h2>
+<p>Per-user E911 addresses behind a separate unlock code. See <a href="advanced.html#e911">911 / E911</a>. A <strong>Guest extensions</strong> section at the bottom of the page lists every <a href="#guest-extensions">guest extension</a> and whether 911 routing is on or off for it, with an Edit link to its login.</p>
 
 <h2>Reports</h2>
 <p>Calls and texts users reported from My Phone. Mark resolved, reopen or delete. To stop someone, disable their login.</p>
