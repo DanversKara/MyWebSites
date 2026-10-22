@@ -179,3 +179,12 @@ document.addEventListener('DOMContentLoaded', function () {
     pre.appendChild(btn);
   });
 });
+
+/* External links (demo, GitHub, voip.ms, ...) open in a new tab;
+   internal docs links are relative and stay in this window. */
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach(function (a) {
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+  });
+});
