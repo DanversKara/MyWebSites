@@ -14,7 +14,7 @@
 </div>
 <div class="layout">
 <nav class="sidebar" id="sidebar">
-  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a></div>
+  <div class="brand"><a href="index.html"><div class="logo">own-pbx <span>docs</span></div><div class="tag">Your own phone system</div></a><a class="demo-link" href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo &#8599;</a></div>
   <div class="nav-section"><h4>Start here</h4>
     <a href="index.html">Overview</a>
     <a href="install.html">Installation</a>
@@ -38,7 +38,6 @@
   </div>
   <div class="nav-section"><h4>Project</h4>
     <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo ↗</a>
-    <a href="https://danverskara.github.io/MyPersonalPBX/demo/">Live demo ↗</a>
   </div>
 </nav>
 <main class="main">
@@ -145,6 +144,32 @@
 <h2>Branding</h2>
 <p>White-label the panel: site name, header logo (upload or URL — shown as text, logo, or both) with an optional separate dark-mode logo that auto-swaps with the theme, header and button colors with one-click presets (Ocean, Sunset, Royal…), animated gradient header, default dark/light theme (visitors can flip it with the 🌙/☀️ icon; their choice sticks in their browser), login page logo/title/subtitle (also with a dark-mode variant), favicon, and an optional footer line. Logos live in the database, so they ride along with backups. <strong>Regional:</strong> time zone selector (defaults to Los Angeles); all call, message, voicemail and recording times display in 12-hour format in that zone.</p>
 
+<h2 id="panel-gallery">The admin panel in pictures</h2>
+<p>Every page of the admin panel, photographed on a running system. Private values — phone numbers, keys, addresses, account names — are covered in the photos themselves. Click any photo to pop it up full size; the <b>&#8249; &#8250;</b> arrows move through the gallery without leaving the page.</p>
+<div class="shots wide">
+<figure><a href="images/admin/dashboard.jpg"><img src="images/admin/dashboard.jpg" alt="Admin panel Dashboard" loading="lazy"></a><figcaption>Dashboard — status, kill switch and PIN lock, live calls, who's signed in, and the security activity log.</figcaption></figure>
+<figure><a href="images/admin/logins.png"><img src="images/admin/logins.png" alt="Admin panel Logins / Extensions page" loading="lazy"></a><figcaption>Logins / Extensions — every account with its role, name and enabled state; Edit and Delete live here.</figcaption></figure>
+<figure><a href="images/admin/invites.png"><img src="images/admin/invites.png" alt="Admin panel Invites page" loading="lazy"></a><figcaption>Invites — single-use sign-up links; the extension and SIP credentials are auto-created. Used links stay listed.</figcaption></figure>
+<figure><a href="images/admin/trunks.png"><img src="images/admin/trunks.png" alt="Admin panel Trunks page" loading="lazy"></a><figcaption>Trunks — the SIP providers calls leave through; this system runs one voip.ms trunk.</figcaption></figure>
+<figure><a href="images/admin/routes.jpg"><img src="images/admin/routes.jpg" alt="Admin panel Routes page" loading="lazy"></a><figcaption>Routes — inbound numbers point at ring groups, menus or extensions; outbound patterns pick the trunk. Optional outside-line prefix below.</figcaption></figure>
+<figure><a href="images/admin/ring-groups.png"><img src="images/admin/ring-groups.png" alt="Admin panel Ring groups page" loading="lazy"></a><figcaption>Ring groups — several phones ring at once and the first to answer wins; no answer falls back to a member's voicemail.</figcaption></figure>
+<figure><a href="images/admin/cdr.png"><img src="images/admin/cdr.png" alt="Admin panel CDR page" loading="lazy"></a><figcaption>CDR — the call log: direction (the ptt rows are push-to-talk), status, duration and billed seconds.</figcaption></figure>
+<figure><a href="images/admin/voicemail.png"><img src="images/admin/voicemail.png" alt="Admin panel Voicemail page" loading="lazy"></a><figcaption>Voicemail — every mailbox's messages in one list, playable in the browser.</figcaption></figure>
+<figure><a href="images/admin/recordings.jpg"><img src="images/admin/recordings.jpg" alt="Admin panel Recordings page" loading="lazy"></a><figcaption>Recordings — the admin recording switch with its consent warning, the “this call may be recorded” announcement, and the recordings list.</figcaption></figure>
+<figure><a href="images/admin/messages.png"><img src="images/admin/messages.png" alt="Admin panel Messages page" loading="lazy"></a><figcaption>Messages — the PBX's internal text messages between users.</figcaption></figure>
+<figure><a href="images/admin/sms.jpg"><img src="images/admin/sms.jpg" alt="Admin panel SMS / MMS page" loading="lazy"></a><figcaption>SMS / MMS (voip.ms) — each number routed to an extension, the webhook URL to paste at voip.ms, and the API settings for outbound texts.</figcaption></figure>
+<figure><a href="images/admin/features.jpg"><img src="images/admin/features.jpg" alt="Admin panel Features page" loading="lazy"></a><figcaption>Features — the star codes (*555 ChanSpy, *60 conference, *70 DISA, *86 block caller, *97 voicemail, *98 greeting), with access by plan and per user.</figcaption></figure>
+<figure><a href="images/admin/ivr.jpg"><img src="images/admin/ivr.jpg" alt="Admin panel IVR page" loading="lazy"></a><figcaption>IVR — system menus you can point numbers at, and how many menus each user may create.</figcaption></figure>
+<figure><a href="images/admin/billing.jpg"><img src="images/admin/billing.jpg" alt="Admin panel Billing page" loading="lazy"></a><figcaption>Billing — Stripe keys and webhook, the plans for sale, subscribers, and per-user access limits (minutes, texts, recording, IVR menus).</figcaption></figure>
+<figure><a href="images/admin/store.jpg"><img src="images/admin/store.jpg" alt="Admin panel Store page" loading="lazy"></a><figcaption>Store — the public sign-up page: title, numbers for sale, terms, order email. Nobody is charged and nothing is created until you approve.</figcaption></figure>
+<figure><a href="images/admin/email.jpg"><img src="images/admin/email.jpg" alt="Admin panel Email page" loading="lazy"></a><figcaption>Email — the SMTP server for voicemail-to-email, a test sender, and security alerts (blocked IPs, sign-in lockouts, kill-switch changes).</figcaption></figure>
+<figure><a href="images/admin/network.jpg"><img src="images/admin/network.jpg" alt="Admin panel Network page" loading="lazy"></a><figcaption>Network — the remote-access SIP domain, Cloudflare dynamic DNS keeping it on your public IP, and who may open admin pages.</figcaption></figure>
+<figure><a href="images/admin/sign-on.jpg"><img src="images/admin/sign-on.jpg" alt="Admin panel Sign-on page" loading="lazy"></a><figcaption>Sign-on — single sign-on via an OpenID provider such as Authentik, and which PBX logins are linked to it.</figcaption></figure>
+<figure><a href="images/admin/e911.jpg"><img src="images/admin/e911.jpg" alt="Admin panel E911 page" loading="lazy"></a><figcaption>E911 — locked behind its own code: the office fallback, per-user 911 numbers and addresses. 911 always connects; every call is logged and emailed.</figcaption></figure>
+<figure><a href="images/admin/reports.jpg"><img src="images/admin/reports.jpg" alt="Admin panel Reports page" loading="lazy"></a><figcaption>Reports — calls and texts users flagged from the My Phone app.</figcaption></figure>
+<figure><a href="images/admin/api-keys.jpg"><img src="images/admin/api-keys.jpg" alt="Admin panel API Keys page" loading="lazy"></a><figcaption>API Keys — bearer tokens for the /api/v1 REST API. The full key is shown once, at creation; revoking stops it instantly.</figcaption></figure>
+<figure><a href="images/admin/branding.jpg"><img src="images/admin/branding.jpg" alt="Admin panel Branding page" loading="lazy"></a><figcaption>Branding — white-label the whole panel: site name, logos for light and dark, colors, login page, favicon and footer.</figcaption></figure>
+</div>
 <div class="pagenav">
   <a href="phones.html"><span class="label">← Prev</span>Phones &amp; feature codes</a>
   <a href="myphone.html" class="next"><span class="label">Next</span>My Phone →</a>
