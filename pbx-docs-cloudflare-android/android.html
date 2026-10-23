@@ -47,7 +47,7 @@
 <p class="lead">My Phone for Android: a free, open-source app that puts My Phone in your pocket. Texts, calls, voicemail and settings, with notifications, <strong>calls in and out from the app itself</strong>, and a PIN lock. Pair it once and it stays connected for weeks.</p>
 
 <div class="callout warn">
-  <strong>Young app (0.7.11)</strong>
+  <strong>Young app (0.7.16)</strong>
   <p>It works day to day, but it's new: keep the web My Phone handy. It needs own-pbx up to date &mdash; run <code>pbx-update</code> after each app update. Calls now work <strong>both ways</strong>: the app places calls and rings for incoming ones, alongside your desk phone or Zoiper.</p>
 </div>
 
@@ -72,7 +72,7 @@
   <figure><a href="images/android/11-incoming-notification.png"><img src="images/android/11-incoming-notification.png" alt="Incoming call notification with Decline and Answer" loading="lazy"></a><figcaption>Incoming call notification</figcaption></figure>
   <figure><a href="images/android/12-incoming-call.png"><img src="images/android/12-incoming-call.png" alt="Full-screen incoming call with Decline and Answer" loading="lazy"></a><figcaption>Incoming call screen</figcaption></figure>
 </div>
-<p class="shots-note">Settings, Contacts, Plan &amp; usage and Push-to-talk screenshots from 0.7.11; the rest from 0.7.0. Tap one to pop it up full size without leaving the page &mdash; tap the photo to zoom, tap outside it (or the &times;) to close.</p>
+<p class="shots-note">Settings, Contacts, Plan &amp; usage and Push-to-talk screenshots from 0.7.11 (the accept screen and missed-PTT choice arrived in 0.7.12); the rest from 0.7.0. Tap one to pop it up full size without leaving the page &mdash; tap the photo to zoom, tap outside it (or the &times;) to close.</p>
 
 <h2>What it does</h2>
 <table>
@@ -83,17 +83,17 @@
   <tr><td><strong>Contacts</strong> <span class="badge new">new</span></td><td>Your private address book from the PBX: search, add, <strong>Call</strong> or text. Open a contact for its <strong>timeline</strong> (calls, texts, voicemail and recordings with them, newest first) and <strong>notes</strong>. A <strong>saved copy</strong> stays on the phone, so your contacts still show with no internet or when the PBX is down (&ldquo;Offline &mdash; showing saved contacts&rdquo;). Names from your contacts also show in Calls, Messages and Voicemail, and on the incoming-call screen.</td></tr>
   <tr><td><strong>Settings</strong></td><td>Do Not Disturb, call forwarding, ring time, record my calls, receive/send texts, text emails, notification email, blocked numbers; <strong>Notifications</strong>; <strong>Calling</strong> (incoming calls, phone login); PIN, fingerprint, lock timer, screenshot blocking; panel password, signed-in phones, sign out.</td></tr>
   <tr><td><strong>Plan &amp; usage</strong> <span class="badge new">new</span></td><td>At the top of Settings: minutes and texts left this month (the month resets on the 1st) and what your plan includes &mdash; voicemail, push-to-talk, call recording, IVR menus, texting.</td></tr>
-  <tr><td><strong>Push-to-talk options</strong> <span class="badge new">new</span></td><td>Under Settings &rarr; Push-to-talk: <strong>Extra loud</strong> (max volume plus extra gain on push-to-talk calls) and <strong>VOX hands-free</strong> (no holding the button &mdash; the mic opens when you speak).</td></tr>
-  <tr><td><strong>Updates</strong> <span class="badge new">new</span></td><td>Settings &rarr; About shows your version and can <strong>check for updates</strong> itself &mdash; once a day against the GitHub releases, or right now with <strong>Check now</strong>.</td></tr>
+  <tr><td><strong>Push-to-talk options</strong> <span class="badge new">new</span></td><td>Under Settings &rarr; Push-to-talk: <strong>If I don't accept a push-to-talk</strong> (send the caller to voicemail, or chirp again up to 3 tries then voicemail), <strong>Auto-accept pages from</strong> (extensions you trust connect instantly, no Accept tap), <strong>Extra loud</strong> (max volume plus extra gain on push-to-talk calls) and <strong>VOX hands-free</strong> (no holding the button &mdash; the mic opens when you speak).</td></tr>
+  <tr><td><strong>Updates</strong> <span class="badge new">new</span></td><td>The app <strong>checks for updates every time it comes to the front</strong> and puts the update on screen right away &mdash; no trip to Settings needed. <strong>Later</strong> just postpones it to the next time the app is opened; it only goes away for good once installed. Settings &rarr; About still shows your version, with a <strong>Check for updates now</strong> button.</td></tr>
 </table>
 <p>Everything you change in the app goes through the same rules as the web My Phone: your plan limits, the admin's safety lock, block lists and rate limits all apply the same way.</p>
 
 <h2>Get the app</h2>
 <ol>
-  <li>On the phone, open <a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">GitHub &rarr; Releases &rarr; latest</a> (<strong>My Phone 0.7.11</strong> or newer) and tap <strong>my-phone-&lt;version&gt;.apk</strong> under <em>Assets</em>.</li>
+  <li>On the phone, open <a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">GitHub &rarr; Releases &rarr; latest</a> (<strong>My Phone 0.7.16</strong> or newer) and tap <strong>my-phone-&lt;version&gt;.apk</strong> under <em>Assets</em>.</li>
   <li>Open the downloaded file. Android asks to allow installing from your browser or file manager &mdash; allow it once.</li>
 </ol>
-<p><strong>Updates:</strong> every change to the app is published as a new signed release automatically. The app checks once a day and tells you in <strong>Settings &rarr; About</strong> (or tap <strong>Check now</strong> there); download the newest <code>.apk</code> from the same page and open it &mdash; it installs over the top and keeps your sign-in, PIN and settings. Run <code>pbx-update</code> on the PBX too, so both sides match.</p>
+<p><strong>Updates:</strong> every change to the app is published as a new signed release automatically. The app checks whenever it comes to the front and <strong>shows the update on screen straight away</strong>; tap <strong>Update</strong> and it downloads and hands the <code>.apk</code> to the installer &mdash; it installs over the top and keeps your sign-in, PIN and settings. (<strong>Settings &rarr; About</strong> shows your version and has a <strong>Check for updates now</strong> button too.) Run <code>pbx-update</code> on the PBX too, so both sides match.</p>
 <div class="callout warn">
   <strong>Coming from a test build (0.7.2 or older)?</strong>
   <p>Earlier builds came from GitHub Actions and were signed with a test key. Android won't install the signed release over one of those (&ldquo;App not installed&rdquo; / &ldquo;conflicts with an existing package&rdquo;). Uninstall the old My Phone first, install the release, then connect again with <em>Sign in with my browser</em>. This is a one-time step; later releases update normally.</p>
@@ -159,10 +159,10 @@ Pairing code:  K7QH2MXP   (example; works once, for 5 minutes)</code></pre>
 </ul>
 
 <h3>Push-to-talk</h3>
-<p>With push-to-talk switched on (<strong>Settings → Push-to-talk</strong> — your admin must allow it on your account first), the app works like a walkie-talkie:</p>
+<p>With push-to-talk switched on (<strong>Settings → Push-to-talk</strong> — your plan must include it, or your admin must allow it on your account), the app works like a walkie-talkie:</p>
 <ul>
-  <li><strong>Talking:</strong> contacts who can receive push-to-talk get a <strong>PTT</strong> button (long-pressing the contact works too). The call connects instantly and your microphone starts muted — <strong>hold the big button to talk</strong>, let go to listen.</li>
-  <li><strong>Receiving:</strong> a push-to-talk call answers by itself on speakerphone with a beep and shows the hold-to-talk screen — no ringing. If your push-to-talk is off, the same call simply rings like a normal call.</li>
+  <li><strong>Talking:</strong> contacts who can receive push-to-talk get a <strong>PTT</strong> button (long-pressing the contact works too). Your microphone starts muted once you're connected — <strong>hold the big button to talk</strong>, let go to listen.</li>
+  <li><strong>Receiving:</strong> a page never connects by itself — unless the caller is on your <strong>Auto-accept pages from</strong> list (Settings → Push-to-talk), in which case one chirp plays and the line opens on speaker right away, walkie-talkie style (your mic still stays off until you talk). Otherwise your phone plays the <strong>PTT chirp</strong> — a short three-tone alert (an original sound generated by the app, not a ringtone) that sounds over your normal ring and notification sounds, with vibration — and shows <strong>Accept / No accept</strong>. Accept opens the hold-to-talk screen on speakerphone; No accept sends the caller straight to voicemail, and letting it ring out follows your <strong>"If I don't accept a push-to-talk"</strong> setting below.</li>
   <li><strong>On the call:</strong> Speaker, <strong>Extra loud</strong> and <strong>VOX</strong> buttons sit above the hold-to-talk button. With VOX hands-free on (Settings &rarr; Push-to-talk) you don't hold anything &mdash; the mic opens when you speak.</li>
   <li><strong>From any phone</strong> (desk phone, Zoiper): dial <code>*88</code> + the extension. See <a href="phones.html#feature-codes">feature codes</a>.</li>
 </ul>
