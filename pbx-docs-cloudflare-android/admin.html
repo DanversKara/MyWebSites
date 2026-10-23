@@ -58,7 +58,7 @@
   </li>
   <li><strong>Tiles:</strong> live calls, devices online, sign-ins and failures in the last 24 hours, IPs blocked in the last 24 hours.</li>
   <li><strong>Live calls:</strong> who is calling whom, by name, with type (internal/incoming/outgoing/911), state and duration.</li>
-  <li><strong>Signed in now:</strong> every registered phone — IP, internal or external, connection (direct or via edge with TLS + SRTP), status, response time. The <a href="android.html">Android app</a> shows up too, under its owner with a <strong>My Phone app</strong> tag, while it's signed in for incoming calls.</li>
+  <li><strong>Signed in now:</strong> every registered phone — IP, internal or external, connection (direct or via edge with TLS + SRTP), status, response time. The <a href="android.html">Android app</a> shows up too, under its owner with a <strong>My Phone app</strong> tag, while it's signed in for incoming calls — with the <strong>app version</strong> it last reported underneath (the app reports its version whenever it talks to the PBX), so you can spot a user stuck on an old build at a glance.</li>
   <li><strong>Recent sign-ins</strong> and <strong>Activity:</strong> security events and changes from the last 24 hours, updating every 10 seconds.</li>
 </ul>
 
@@ -161,7 +161,7 @@
 <p>Every page of the admin panel, photographed on a running system. Private values — phone numbers, keys, addresses, account names — are covered in the photos themselves. Click any photo to pop it up full size; the <b>&#8249; &#8250;</b> arrows move through the gallery without leaving the page.</p>
 <div class="shots wide">
 <figure><a href="images/admin/dashboard.jpg"><img src="images/admin/dashboard.jpg" alt="Admin panel Dashboard" loading="lazy"></a><figcaption>Dashboard — status, kill switch and PIN lock, live calls, who's signed in, and the security activity log.</figcaption></figure>
-<figure><a href="images/admin/logins.png"><img src="images/admin/logins.png" alt="Admin panel Logins / Extensions page" loading="lazy"></a><figcaption>Logins / Extensions — every account with its role, name and enabled state; Edit and Delete live here.</figcaption></figure>
+<figure><a href="images/admin/logins.png"><img src="images/admin/logins.png" alt="Admin panel Logins / Extensions page" loading="lazy"></a><figcaption>Logins / Extensions — every account with its role, name, the My Phone app version its phone last reported (App column) and enabled state; Edit and Delete live here.</figcaption></figure>
 <figure><a href="images/admin/invites.png"><img src="images/admin/invites.png" alt="Admin panel Invites page" loading="lazy"></a><figcaption>Invites — single-use sign-up links; the extension and SIP credentials are auto-created. Used links stay listed.</figcaption></figure>
 <figure><a href="images/admin/trunks.png"><img src="images/admin/trunks.png" alt="Admin panel Trunks page" loading="lazy"></a><figcaption>Trunks — the SIP providers calls leave through; this system runs one voip.ms trunk.</figcaption></figure>
 <figure><a href="images/admin/routes.jpg"><img src="images/admin/routes.jpg" alt="Admin panel Routes page" loading="lazy"></a><figcaption>Routes — inbound numbers point at ring groups, menus or extensions; outbound patterns pick the trunk. Optional outside-line prefix below.</figcaption></figure>
