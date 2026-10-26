@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download the apps — BearerMail docs</title>
+<meta name="description" content="Download BearerMail for Android, iPhone and iPad.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Download apps</h4>
+    <a href="download.html" class="active">Download the apps</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>iOS</h4>
+    <a href="ios.html">iPhone &amp; iPad</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_ios">iOS repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>Download the apps <span class="badge new">BearerMail addition</span></h1>
+<p class="lead">BearerMail has an app for Android phones and tablets, and one for iPhone and iPad. Both connect to your own BearerMail server and nothing else.</p>
+
+<div class="card-grid">
+  <a class="card" href="https://github.com/DanversKara/pl_mail_android_bearermail/releases/latest/download/BearerMail-Android.apk"><h3>⬇ Android →</h3><p>The newest BearerMail for Android, always. Works on every Android phone, with or without Google.</p></a>
+  <a class="card" href="ios.html"><h3>⬇ iPhone &amp; iPad →</h3><p>The iOS app, and the three ways Apple lets you install it.</p></a>
+  <a class="card" href="#web"><h3>On a computer →</h3><p>Nothing to install: open your BearerMail address in any browser.</p></a>
+</div>
+
+<h2>Android</h2>
+<p><a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases/latest/download/BearerMail-Android.apk"><strong>⬇ Download BearerMail for Android</strong></a> — the newest version; the link follows every release.</p>
+<ul>
+  <li>Open the file on the phone and allow the install when Android asks. Then pair it — see <a href="android.html#pairing">Android app → Pairing</a>.</li>
+  <li>Want new mail to arrive through Google's push service? Take <a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases/latest/download/BearerMail-Android-GooglePush.apk">the Google version</a> instead (<code>com.bearermail.mail.google</code>). Same app otherwise; it installs next to the standard one.</li>
+  <li>Every version with its notes: <a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases">all Android releases</a>.</li>
+</ul>
+<p>Once installed, the app updates itself — it checks for a newer release and offers it.</p>
+
+<h2>iPhone &amp; iPad</h2>
+<p><a href="https://github.com/DanversKara/pl_mail_ios/releases/latest"><strong>⬇ BearerMail for iPhone and iPad</strong></a></p>
+<p>Apple only lets apps onto an iPhone through the App Store or as an app signed for that phone, so it takes a few more steps than Android. Everything is on the <a href="ios.html">iPhone &amp; iPad</a> page.</p>
+<div class="callout ok">
+  <strong>In a hurry?</strong>
+  <p>Open your BearerMail address in Safari, tap <strong>Share → Add to Home Screen</strong>. The web app opens full screen like an app, with notifications on iOS 16.4 and newer.</p>
+</div>
+
+<h2 id="web">Which do I need?</h2>
+<table>
+  <tr><th>You have</th><th>Get</th></tr>
+  <tr><td>An Android phone or tablet</td><td><a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases/latest/download/BearerMail-Android.apk">BearerMail for Android</a></td></tr>
+  <tr><td>Android, and you want Google's push service</td><td><a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases/latest/download/BearerMail-Android-GooglePush.apk">BearerMail for Android, Google version</a></td></tr>
+  <tr><td>An iPhone or iPad</td><td><a href="ios.html">BearerMail for iPhone &amp; iPad</a>, or the web app on the Home Screen</td></tr>
+  <tr><td>A computer</td><td>Nothing — your BearerMail address in any browser</td></tr>
+</table>
+
+<div class="callout warn">
+  <strong>"Install blocked" on Android</strong>
+  <p>Android asks once for each app that opens an APK — your browser or file manager. Allow it for that app, then tap the file again.</p>
+</div>
+
+<div class="pagenav">
+  <a href="quickstart.html"><span class="label">← Prev</span>Quick start</a>
+  <a href="mail-server.html" class="next"><span class="label">Next</span>Mail server →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a> · <a href="https://github.com/DanversKara/pl_mail_ios">ios repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>

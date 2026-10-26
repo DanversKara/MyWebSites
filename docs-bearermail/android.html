@@ -19,6 +19,9 @@
     <a href="index.html">Overview</a>
     <a href="quickstart.html">Quick start</a>
   </div>
+  <div class="nav-section"><h4>Download apps</h4>
+    <a href="download.html">Download the apps</a>
+  </div>
   <div class="nav-section"><h4>Server</h4>
     <a href="mail-server.html">Mail server</a>
     <a href="dns.html">DNS &amp; domains</a>
@@ -28,6 +31,9 @@
   <div class="nav-section"><h4>Apps</h4>
     <a href="android.html" class="active">Android app</a>
   </div>
+  <div class="nav-section"><h4>iOS</h4>
+    <a href="ios.html">iPhone &amp; iPad</a>
+  </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Config reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -35,6 +41,7 @@
   <div class="nav-section"><h4>Project</h4>
     <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
     <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_ios">iOS repo ↗</a>
     <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
   </div>
 </nav>
@@ -50,7 +57,7 @@
 </div>
 
 <h2>Install</h2>
-<p>Get the APK from <a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases">GitHub Releases</a>. Two flavours:</p>
+<p><a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases/latest/download/BearerMail-Android.apk"><strong>⬇ Download BearerMail for Android</strong></a> (the newest <code>foss</code> build), or see <a href="download.html">Download the apps</a>. All versions are on <a href="https://github.com/DanversKara/pl_mail_android_bearermail/releases">GitHub Releases</a>. Two flavours:</p>
 <table>
   <tr><th>Flavour</th><th>Install ID</th><th>Pick it when…</th></tr>
   <tr><td><code>foss</code></td><td><code>com.bearermail.mail</code></td><td>You want no Google dependencies (default). From 0.0.33 pairing needs nothing from Google either.</td></tr>
@@ -65,7 +72,7 @@
   <p>ZXing is a little slower to lock on than Google's scanner. Let the QR code fill most of the frame and hold steady for a second; when scanning off a monitor, lower its brightness a bit to cut glare.</p>
 </div>
 
-<h2>Pairing</h2>
+<h2 id="pairing">Pairing</h2>
 <p>On the server: <strong>Settings → App passwords</strong> → create one, then either scan the QR code in the app or tap the <code>plmail://pair?host=…&amp;code=…</code> link. The app talks JMAP to your server.</p>
 <div class="callout warn">
   <strong>Reverse-proxy note</strong>
@@ -165,10 +172,10 @@
 
 <div class="pagenav">
   <a href="sso.html"><span class="label">← Prev</span>Single sign-on</a>
-  <a href="reference.html" class="next"><span class="label">Next</span>Config reference →</a>
+  <a href="ios.html" class="next"><span class="label">Next</span>iPhone &amp; iPad →</a>
 </div>
 
-<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a> · <a href="https://github.com/DanversKara/pl_mail_ios">ios repo</a></div>
 </div>
 </main>
 </div>

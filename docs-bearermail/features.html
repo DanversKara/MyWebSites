@@ -19,6 +19,9 @@
     <a href="index.html">Overview</a>
     <a href="quickstart.html">Quick start</a>
   </div>
+  <div class="nav-section"><h4>Download apps</h4>
+    <a href="download.html">Download the apps</a>
+  </div>
   <div class="nav-section"><h4>Server</h4>
     <a href="mail-server.html">Mail server</a>
     <a href="dns.html">DNS &amp; domains</a>
@@ -28,6 +31,9 @@
   <div class="nav-section"><h4>Apps</h4>
     <a href="android.html">Android app</a>
   </div>
+  <div class="nav-section"><h4>iOS</h4>
+    <a href="ios.html">iPhone &amp; iPad</a>
+  </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Config reference</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -35,6 +41,7 @@
   <div class="nav-section"><h4>Project</h4>
     <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
     <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_ios">iOS repo ↗</a>
     <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
   </div>
 </nav>
@@ -156,6 +163,21 @@
   <li>The Android app's home-screen icon follows the Logo choice on its next sync.</li>
 </ul>
 
+<h2 id="account-health">Account health</h2>
+<p><strong>Settings → Account health</strong> answers "why has my mail stopped?" and, where it can, gives you the button that fixes it. It reads what the server already recorded and never contacts Google or any other provider, so opening it is free.</p>
+<table>
+  <tr><th>It reports</th><th>What it means</th><th>Fix button</th></tr>
+  <tr><td>An account needs you to sign in again</td><td>The saved sign-in stopped working, so nothing runs for that account: no new mail, no calendar sync, no sending. Mail already downloaded is untouched.</td><td><strong>Reconnect this account</strong> (keeps the mailbox)</td></tr>
+  <tr><td>A calendar has stopped syncing</td><td>It shows what it knew when it last worked; changes aren't coming in or going out.</td><td><strong>Try syncing now</strong></td></tr>
+  <tr><td>Instant delivery expired / not arriving</td><td>Push stopped, so new mail waits for the next periodic check.</td><td><strong>Re-register push</strong></td></tr>
+  <tr><td>Abandoned background jobs</td><td>Work that failed too many times and gave up.</td><td><strong>Put them back on the queue</strong> or discard</td></tr>
+</table>
+<ul>
+  <li><strong>It only appears in the Settings list when something is wrong.</strong> On a good day the menu item is gone on purpose — its showing up is the warning. The page itself is always at <code>/settings?section=health</code> and says <em>Everything is working</em>.</li>
+  <li><strong>The top bar points at it</strong> with a dot when there is a problem.</li>
+  <li><strong>It covers your own accounts only.</strong> Admins see every user's sign-in and push problems on the <strong>Admin</strong> dashboard (token health, push and worker status).</li>
+</ul>
+
 <h2>Mail-server admin</h2>
 <ul>
   <li><strong>Mailboxes for new people</strong> <span class="badge new">new</span> — <strong>Admin → Users → New user</strong> has a <em>Mailbox</em> field: fill it in and that person gets a mailbox on your domain with their starting password, already added as their mail account — they can send and receive the first time they sign in, with no container restart. From the shell: <code>app:mail:mailbox</code> (see <a href="mail-server.html#managing-mailboxes">Managing mailboxes</a>).</li>
@@ -208,7 +230,7 @@
   <a href="sso.html" class="next"><span class="label">Next</span>Single sign-on →</a>
 </div>
 
-<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a> · <a href="https://github.com/DanversKara/pl_mail_ios">ios repo</a></div>
 </div>
 </main>
 </div>

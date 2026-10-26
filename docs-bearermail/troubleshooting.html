@@ -19,6 +19,9 @@
     <a href="index.html">Overview</a>
     <a href="quickstart.html">Quick start</a>
   </div>
+  <div class="nav-section"><h4>Download apps</h4>
+    <a href="download.html">Download the apps</a>
+  </div>
   <div class="nav-section"><h4>Server</h4>
     <a href="mail-server.html">Mail server</a>
     <a href="dns.html">DNS &amp; domains</a>
@@ -28,6 +31,9 @@
   <div class="nav-section"><h4>Apps</h4>
     <a href="android.html">Android app</a>
   </div>
+  <div class="nav-section"><h4>iOS</h4>
+    <a href="ios.html">iPhone &amp; iPad</a>
+  </div>
   <div class="nav-section"><h4>Reference</h4>
     <a href="reference.html">Config reference</a>
     <a href="troubleshooting.html" class="active">Troubleshooting</a>
@@ -35,6 +41,7 @@
   <div class="nav-section"><h4>Project</h4>
     <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
     <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_ios">iOS repo ↗</a>
     <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
   </div>
 </nav>
@@ -46,6 +53,7 @@
 
 <h2>Mail isn't arriving</h2>
 <ol>
+  <li><strong>Check Account health first.</strong> Open <a href="features.html#account-health">Settings → Account health</a> (or go to <code>/settings?section=health</code>). If a sign-in, calendar or push has broken, it says which and gives the one-click fix.</li>
   <li><strong>Is port 25 reachable?</strong> From outside your network: <code>telnet mail.yourdomain.com 25</code> should show the Postfix banner. If it hangs, your ISP or host is blocking inbound port 25 — you can't receive directly.</li>
   <li><strong>Is the MX right?</strong> <code>dig MX yourdomain.com</code> should point at your <code>mail</code> hostname, and that A record must be DNS-only (grey cloud), not proxied.</li>
   <li><strong>Watch the conversation:</strong> <code>docker compose logs -f mta</code> shows every SMTP session live.</li>
@@ -167,7 +175,7 @@ docker compose exec php php bin/console app:mail:mailbox from-accounts</code></p
   <a href="index.html" class="next"><span class="label">Back to</span>Overview →</a>
 </div>
 
-<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a></div>
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a> · <a href="https://github.com/DanversKara/pl_mail_ios">ios repo</a></div>
 </div>
 </main>
 </div>

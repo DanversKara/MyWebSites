@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPhone & iPad — BearerMail docs</title>
+<meta name="description" content="Install BearerMail on iPhone and iPad: web app, SideStore/AltStore, or Xcode.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Download apps</h4>
+    <a href="download.html">Download the apps</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="mail-server.html">Mail server</a>
+    <a href="dns.html">DNS &amp; domains</a>
+    <a href="features.html">Features</a>
+    <a href="sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="android.html">Android app</a>
+  </div>
+  <div class="nav-section"><h4>iOS</h4>
+    <a href="ios.html" class="active">iPhone &amp; iPad</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="reference.html">Config reference</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Project</h4>
+    <a href="https://github.com/DanversKara/pl_mail_bearermail">Server repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_android_bearermail">Android repo ↗</a>
+    <a href="https://github.com/DanversKara/pl_mail_ios">iOS repo ↗</a>
+    <a href="https://karatektus.github.io/pl_mail/docs/">Upstream plMail docs ↗</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>iPhone &amp; iPad <span class="badge new">BearerMail addition</span></h1>
+<p class="lead">The BearerMail app for iPhone and iPad. Like the Android app it talks only to your own server.</p>
+
+<div class="callout">
+  <strong>Not in the App Store</strong>
+  <p>Apple allows three ways to put an app on an iPhone that is not in the App Store. Pick one below. Downloads: <a href="https://github.com/DanversKara/pl_mail_ios/releases/latest">iOS releases</a>.</p>
+</div>
+
+<table>
+  <tr><th>Way</th><th>You need</th><th>Lasts</th></tr>
+  <tr><td><strong>Web app on the Home Screen</strong></td><td>Safari</td><td>For good — nothing to renew</td></tr>
+  <tr><td><strong>SideStore or AltStore</strong> with the <code>.ipa</code></td><td>A free Apple ID</td><td>7 days, then renews itself (SideStore) or from your computer (AltStore)</td></tr>
+  <tr><td><strong>Build it with Xcode</strong></td><td>A Mac with Xcode 26, a free Apple ID</td><td>7 days, then build again</td></tr>
+</table>
+
+<h2 id="features">What the app does</h2>
+<p>The same BearerMail as on Android and the web, in the iPhone's own look:</p>
+<ul>
+  <li><strong>Mail and calendar</strong> — the full plMail mail client and calendar.</li>
+  <li><strong>Notes</strong> — the notes wall (Notes / Archive / Bin, pinned first, coloured cards, labels, search), an editor that saves by itself, checklists, reminders, pictures and voice notes, and Share. A mail's ••• menu has <strong>Save as note</strong>.</li>
+  <li><strong>Contacts</strong> — A–Z list with search and tags, tap to mail, call or map, photos, recent mail with each person, editing, and <strong>Find duplicates</strong> with merge and undo.</li>
+  <li><strong>Drive</strong> — folders and files, picture previews, open anything in Quick Look, copy share links, upload photos or files, storage used.</li>
+  <li><strong>Composer</strong> — <strong>Insert note</strong> and <strong>Insert Drive link</strong> in the attach menu; a file too big to attach goes to Drive as a link automatically.</li>
+  <li><strong>Aliases</strong> — Settings → Sending addresses → <strong>New alias</strong>, typed or random.</li>
+  <li><strong>App lock</strong> — Settings → App lock: Face ID, Touch ID or passcode, and mail hidden in the app switcher.</li>
+</ul>
+<p>Not on iPhone (they need a paid Apple developer account): push notifications while the app is closed, and Home Screen widgets.</p>
+
+<h2>Web app on the Home Screen</h2>
+<ol>
+  <li>Open your BearerMail address in <strong>Safari</strong> and sign in.</li>
+  <li>Tap <strong>Share → Add to Home Screen → Add</strong>.</li>
+  <li>Open it from the Home Screen and allow notifications when asked (iOS 16.4+).</li>
+</ol>
+
+<h2>SideStore or AltStore</h2>
+<ol>
+  <li>Install <a href="https://sidestore.io">SideStore</a> or <a href="https://altstore.io">AltStore</a> following their own guide.</li>
+  <li>On the iPhone, download <code>BearerMail-iOS.ipa</code> from <a href="https://github.com/DanversKara/pl_mail_ios/releases/latest">the latest iOS release</a>.</li>
+  <li>Open it with SideStore or AltStore and sign in with your Apple ID. The app is signed for your phone only.</li>
+</ol>
+
+<h2>Build it with Xcode</h2>
+<p>Step by step in the repo: <a href="https://github.com/DanversKara/pl_mail_ios/blob/main/docs/INSTALL-ON-DEVICE.md">Putting BearerMail on your own iPhone or iPad</a>.</p>
+
+<h2 id="pairing">Pairing</h2>
+<p>On the server: <strong>Settings → App passwords → Pair a device</strong>, then scan the code with the app.</p>
+
+<h2>Things that bite</h2>
+<div class="callout warn">
+  <strong>"Untrusted Developer"</strong>
+  <p>After a SideStore, AltStore or Xcode install: Settings → General → <strong>VPN &amp; Device Management</strong> → your Apple ID → <strong>Trust</strong>.</p>
+</div>
+<div class="callout warn">
+  <strong>Stops opening after a week</strong>
+  <p>Apple's limit for apps signed with a free Apple ID. Refresh in SideStore/AltStore, or build again. Only a paid Apple developer account (or the App Store) removes it.</p>
+</div>
+<div class="callout">
+  <strong>No notifications while closed, empty widget</strong>
+  <p>With a free Apple ID, Apple grants neither push nor the widget's shared data. The Home Screen web app does get notifications.</p>
+</div>
+
+<div class="pagenav">
+  <a href="android.html"><span class="label">← Prev</span>Android app</a>
+  <a href="reference.html" class="next"><span class="label">Next</span>Config reference →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a> · <a href="https://github.com/DanversKara/pl_mail_ios">ios repo</a></div>
+</div>
+</main>
+</div>
+<script src="site.js"></script>
+</body>
+</html>
