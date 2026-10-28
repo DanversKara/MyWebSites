@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BearerMail for Android — Privacy Policy · BearerMail docs</title>
+<meta name="description" content="Privacy policy for the BearerMail Android app: what the app handles, where it goes, and what it never collects.">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="../../index.html">BearerMail <span style="color:#60a5fa">docs</span></a>
+  <button class="menu-btn" onclick="toggleNav()">Menu</button>
+</div>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="brand"><a href="../../index.html"><div class="logo">BearerMail <span>docs</span></div><div class="tag">Self-hosted mail, end to end</div></a></div>
+  <div class="nav-section"><h4>Start here</h4>
+    <a href="../../index.html">Overview</a>
+    <a href="../../quickstart.html">Quick start</a>
+  </div>
+  <div class="nav-section"><h4>Download apps</h4>
+    <a href="../../download.html">Download the apps</a>
+  </div>
+  <div class="nav-section"><h4>Server</h4>
+    <a href="../../mail-server.html">Mail server</a>
+    <a href="../../dns.html">DNS &amp; domains</a>
+    <a href="../../features.html">Features</a>
+    <a href="../../sso.html">Single sign-on</a>
+  </div>
+  <div class="nav-section"><h4>Apps</h4>
+    <a href="../../android.html">Android app</a>
+    <a href="index.html" class="sub active">Privacy policy</a>
+    <a href="../terms-of-service/" class="sub">Terms of Service</a>
+  </div>
+  <div class="nav-section"><h4>iOS</h4>
+    <a href="../../ios.html">iPhone &amp; iPad</a>
+  </div>
+  <div class="nav-section"><h4>Reference</h4>
+    <a href="../../reference.html">Config reference</a>
+    <a href="../../troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="nav-section"><h4>Legal</h4>
+    <a href="index.html" class="active">Privacy policy</a>
+    <a href="../terms-of-service/">Terms of Service</a>
+  </div>
+</nav>
+<main class="main">
+<div class="content">
+
+<h1>BearerMail for Android — Privacy Policy</h1>
+<p class="lead">For the BearerMail Android app (<code>com.bearermail.mail</code>, and the <code>com.bearermail.mail.google</code> flavour), the free, open-source companion app for a BearerMail / plMail server. Last updated October 27, 2026.</p>
+
+<div class="callout">
+  <strong>In short</strong>
+  <p>The app talks only to the mail server you configure. The developer runs no cloud service for this app and receives none of your data. No ads, no analytics, no tracking. The foss build contains no Google code at all; the google build uses Firebase only to deliver push notifications.</p>
+</div>
+
+<h2>Who provides the app</h2>
+<p>BearerMail for Android is developed by the BearerMail project (<a href="https://github.com/DanversKara/pl_mail_android_bearermail">DanversKara/pl_mail_android_bearermail</a>), published as free software. There is no company behind it and no hosted service that the app reports to. When this policy says “the developer”, it means the project, not a firm collecting your data.</p>
+
+<h2>What the app handles, and where it goes</h2>
+<p>Everything below goes to exactly one place besides your phone: the mail server you configure when you add your account. That server is yours, or your administrator’s — not the developer’s.</p>
+<ul>
+  <li><strong>Account.</strong> Your email address, password, and server settings, stored on your phone, sent only to your mail server to sign in.</li>
+  <li><strong>Mail, folders, contacts, calendar, notes, drive files, aliases.</strong> These live on your mail server. The app shows them and sends your actions — sending, moving, deleting, uploading — to that server only.</li>
+  <li><strong>Attachments and uploads.</strong> Files you choose to attach or upload go to your mail server as part of the message or drive upload. The app does not read your phone’s address book or files except what you choose to share with it.</li>
+  <li><strong>Push notifications.</strong> Both flavours can receive new-mail notifications through UnifiedPush. The google flavour can additionally use Firebase Cloud Messaging to deliver them; the foss flavour contains no Firebase code and never touches it.</li>
+  <li><strong>Microphone.</strong> Used only when you record audio inside the app.</li>
+  <li><strong>Crash reports.</strong> If the app crashes, the last crash (stack trace, app version, phone model) is saved on your phone only. Nothing is uploaded; it leaves your phone only if you copy it into a bug report yourself.</li>
+  <li><strong>Updates.</strong> If you installed from Google Play, updates come from Google Play and the app never checks anywhere else for them. If you installed from GitHub, the app checks GitHub releases for new versions and installs one only when you approve it.</li>
+</ul>
+
+<h2>What the app does not do</h2>
+<ul>
+  <li>No advertising, no analytics, no tracking SDKs, no location collection, no advertising ID.</li>
+  <li>Nothing is sold, and no data is shared with any third party — except your mail server itself, and, in the google flavour only, Firebase for push delivery.</li>
+  <li>The foss build contains no Google code of any kind.</li>
+</ul>
+
+<h2>If you installed from Google Play</h2>
+<p>Google handles the install and the update through Google Play, under Google’s own privacy policy. That is the only Google involvement for a foss install; a google-flavour install additionally uses Firebase for push delivery, as described above.</p>
+
+<h2>Your mail server is separate from this policy</h2>
+<p>What happens to data once it reaches your mail server — how long mail, files, and calendar entries are kept there — is decided by whoever runs that server. This policy covers the app on your phone, not the server it connects to.</p>
+
+<h2>How long data stays on your phone</h2>
+<p>Account details and app settings stay on your phone until you remove the account or uninstall the app. Uninstalling removes the app’s on-device data.</p>
+
+<h2>Children</h2>
+<p>The app is not directed at children. It is a tool for users of a mail server they (or their administrator) run.</p>
+
+<h2>Changes to this policy</h2>
+<p>If this policy changes, the new version will be posted on this page, with a new “last updated” date.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy can be raised through the project on GitHub: <a href="https://github.com/DanversKara/pl_mail_android_bearermail">DanversKara/pl_mail_android_bearermail</a>, or by mail: PO Box 1357, Lindsay, CA 93247.</p>
+
+<div class="pagenav">
+  <a href="../../android.html"><span class="label">← Back</span>Android app</a>
+  <a href="../../index.html" class="next"><span class="label">Next</span>Docs home →</a>
+</div>
+
+<div class="footer">BearerMail docs · <a href="https://github.com/DanversKara/pl_mail_bearermail">server repo</a> · <a href="https://github.com/DanversKara/pl_mail_android_bearermail">android repo</a> · built from the forks, for the forks · <a href="index.html">Privacy policy</a> · <a href="../terms-of-service/">Terms of Service</a></div>
+</div>
+</main>
+</div>
+<script src="../../site.js"></script>
+</body>
+</html>

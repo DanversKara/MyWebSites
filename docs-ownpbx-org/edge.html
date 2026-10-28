@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/edge by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:06:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edge server · own-pbx docs</title>
+<meta name="description" content="The Kamailio edge server in detail: architecture, certificates, dynamic IP, verifying, updating, and its files.">
+<link rel="canonical" href="edge.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="Edge server">
+<meta property="og:description" content="The Kamailio edge server in detail: architecture, certificates, dynamic IP, verifying, updating, and its files.">
+<meta property="og:url" content="edge.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html" class="active" aria-current="page">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Start here</div>
+
+<h1>Edge server</h1>
+<p class="lead">The Kamailio edge box is the only part of own-pbx that faces the internet. This page is its detailed reference — the step-by-step install lives on <a href="install.html">Installation</a>.</p>
+<h2 id="how-it-works"><a aria-hidden="true" class="anchor" href="#how-it-works" tabindex="-1">#</a>How it works</h2>
+<pre><code>Remote phone --TLS 5061--&gt; Kamailio --UDP 5060--&gt; Asterisk (192.168.1.10, private)
+RTP: phone &lt;-SRTP, UDP 20000-20099-&gt; rtpengine (same box) &lt;-plain RTP, LAN-&gt; Asterisk</code></pre>
+<ul>
+<li><strong>Kamailio</strong> terminates TLS, proxies SIP to Asterisk, and pins a <code>Path</code> header on REGISTER so inbound calls can find the phone again.</li>
+<li><strong>Asterisk stays the registrar and the authenticator.</strong> Extensions are still managed entirely by the panel and API — no credential sync, no second user database on the edge.</li>
+<li><strong>rtpengine</strong> relays the audio so NAT "just works", and terminates <strong>SRTP (SDES)</strong> on the internet leg. The LAN leg to Asterisk stays plain RTP — a trusted network, and zero Asterisk changes for encryption.</li>
+<li><strong>The public surface is one TLS port.</strong> SIP scanners are UDP-based, so TLS-only kills ~99% of drive-by scanning before fail2ban even gets involved.</li>
+</ul>
+<h2 id="what-the-installer-sets-up"><a aria-hidden="true" class="anchor" href="#what-the-installer-sets-up" tabindex="-1">#</a>What the installer sets up</h2>
+<p>The edge install on <a href="install.html">Installation</a> takes about 10–15 minutes (rtpengine builds from source) and leaves you with:</p>
+<ul>
+<li><strong>Kamailio</strong> — TLS-only on port 5061, with a flood limit.</li>
+<li><strong>rtpengine</strong> — the audio relay that does the SRTP encryption, UDP 20000–20099.</li>
+<li><strong>fail2ban</strong> — bans scanners and password guessers. Your own LAN is never banned.</li>
+<li><strong>A firewall</strong> — nftables, default deny.</li>
+<li><strong>An IP-follow timer</strong> — re-advertises your public IP every minute if it changes (see <a href="#dynamic-ip">below</a>).</li>
+</ul>
+<h3 id="one-more-step-on-the-pbx"><a aria-hidden="true" class="anchor" href="#one-more-step-on-the-pbx" tabindex="-1">#</a>One more step, on the PBX</h3>
+<p>The edge needs <code>support_path=yes</code> on the phone AORs (that's what makes the <code>Path</code> header work). It's in the PBX's config template, so after installing the edge, re-deploy the PBX once:</p>
+<pre><code>cd /root/own-pbx &amp;&amp; ./scripts/deploy.sh</code></pre>
+<p>This re-renders <code>pjsip.conf</code> and reloads. Phones re-register on their own; LAN phones keep working exactly as before.</p>
+<div class="callout warn">
+<strong>First connect may warn about the certificate</strong>
+<p>Until you install a real certificate, the edge uses a self-signed one and phones show a certificate warning on first connect. Accept it once, or install a real certificate (next section) — many softphones refuse self-signed or name-mismatched certificates, so do that when you switch to a domain.</p>
+</div>
+<h2 id="certificates"><a aria-hidden="true" class="anchor" href="#certificates" tabindex="-1">#</a>Certificates</h2>
+<h3 id="real-certificate-via-cloudflare-recommended"><a aria-hidden="true" class="anchor" href="#real-certificate-via-cloudflare-recommended" tabindex="-1">#</a>Real certificate via Cloudflare (recommended)</h3>
+<pre><code>cd /root/kamailio
+CF_Token=&lt;Cloudflare API token with Zone → DNS → Edit&gt; \
+  ./get-cert-cloudflare.sh sip.example.com <a href="cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="87fee8f2c7e2ffe6eaf7ebe2a9e4e8ea">[email&#160;protected]</a></code></pre>
+<p>Uses Let's Encrypt with the Cloudflare DNS challenge (no port 80 needed), installs the certificate to <code>/etc/kamailio/tls/</code>, adds the domain as a Kamailio alias, and renews automatically.</p>
+<h3 id="replacing-the-certificate-by-hand"><a aria-hidden="true" class="anchor" href="#replacing-the-certificate-by-hand" tabindex="-1">#</a>Replacing the certificate by hand</h3>
+<p>Already have a certificate pair (from any CA or tool)? Drop it in and restart:</p>
+<pre><code>cp fullchain.pem /etc/kamailio/tls/cert.pem
+cp privkey.pem   /etc/kamailio/tls/key.pem
+chmod 600 /etc/kamailio/tls/key.pem
+systemctl restart kamailio</code></pre>
+<h2 id="dynamic-ip"><a aria-hidden="true" class="anchor" href="#dynamic-ip" tabindex="-1">#</a>If your public IP changes</h2>
+<p>Two things follow the IP automatically:</p>
+<ul>
+<li><strong>DNS</strong> — on the PBX, Admin → <strong>Network</strong>: SIP domain plus a Cloudflare API token (Zone → DNS → Edit). The PBX checks every 1–15 minutes and updates the A record — always <em>DNS only</em>, TTL 60 s, because Cloudflare's proxy can't carry SIP/RTP.</li>
+<li><strong>The edge itself</strong> — <code>pbx-edge-ip.timer</code> (installed by <code>install.sh</code>, or add it with <code>./update-public-ip.sh --install-timer</code>) checks every minute and updates Kamailio's advertised address and rtpengine's SDP address, then restarts both. Without it, calls still connect after an IP change but have <strong>no audio</strong>.</li>
+</ul>
+<p>Run it by hand any time with <code>/root/kamailio/update-public-ip.sh</code> (or pass the new IP). Logs: <code>journalctl -u pbx-edge-ip</code>. Expected downtime after a change: up to ~1 minute (detection) + the DNS TTL (60 s) + the phone's re-register interval — which is why phones away from home should <a href="phones.html">re-register every 60–120 seconds</a>.</p>
+<h2 id="updating-the-edge"><a aria-hidden="true" class="anchor" href="#updating-the-edge" tabindex="-1">#</a>Updating the edge</h2>
+<p>Copy the new <code>kamailio/</code> folder over <code>/root/kamailio</code> and run:</p>
+<pre><code>cd /root/kamailio &amp;&amp; ./update-edge.sh</code></pre>
+<p>It re-renders <code>kamailio.cfg</code> from the new template (keeping your IPs and aliases), installs the fail2ban files and the alert hook — and <strong>rolls back by itself</strong> if the new config won't start. Usually you won't even do this by hand: <code>pbx-update</code> on the PBX updates the edge for you whenever the edge files changed (see <a href="reference.html">Updating &amp; maintenance</a>).</p>
+<h2 id="verifying-the-edge"><a aria-hidden="true" class="anchor" href="#verifying-the-edge" tabindex="-1">#</a>Verifying the edge</h2>
+<p>One command on the edge covers it:</p>
+<pre><code>cd /root/kamailio &amp;&amp; PUBLIC_HOST=sip.example.com ./verify-edge.sh</code></pre>
+<p>It checks the services, the <code>kamailio.cfg</code> syntax, the TLS listener and handshake on 5061, the certificate's hostname and expiry, rtpengine's media ports, the nftables rules, the fail2ban jail, the UDP path to Asterisk, and whether your public IP still matches the advertised one. Green means go. Manual checks work too:</p>
+<pre><code># on the edge
+systemctl is-active kamailio rtpengine fail2ban
+kamailio -c -f /etc/kamailio/kamailio.cfg   # config ok
+tail -f /var/log/syslog | grep kamailio     # watch registrations
+
+# on the PBX
+asterisk -rx "pjsip show contacts"          # phone contact, with Path</code></pre>
+<p>Then register a phone remotely, call an extension both ways, and confirm two-way audio.</p>
+<h2 id="flood-limit-fail2ban-and-alerts"><a aria-hidden="true" class="anchor" href="#flood-limit-fail2ban-and-alerts" tabindex="-1">#</a>Flood limit, fail2ban and alerts</h2>
+<ul>
+<li><strong>Flood limit:</strong> more than ~30 requests in 2 seconds from one IP is dropped and logged once as <code>edge: flood from &lt;ip&gt;</code>.</li>
+<li><strong>Failed sign-ins:</strong> the edge logs <code>edge: auth failed</code> only when a phone actually sent a password and was refused — the normal first 401 challenge doesn't count, and stale nonces are ignored, so real users don't trip it by accident.</li>
+<li><strong>Two fail2ban jails:</strong> <code>kamailio-edge</code> (scanners, failed sign-ins, junk: 8 in 10 minutes → 1-hour ban) and <code>kamailio-edge-flood</code> (one flood → 24-hour ban). List bans with <code>fail2ban-client status kamailio-edge</code>; lift one with <code>fail2ban-client unban &lt;ip&gt;</code>.</li>
+<li><strong>Alerts:</strong> every ban and unban is sent to the PBX, which shows it in the dashboard Activity feed and emails the address under Email → Security alerts. One-time setup with an admin API key from the panel's <strong>API Keys</strong> page: <code>pbx-edge-notify --setup http://&lt;PBX-IP&gt;:8001 &lt;API key&gt;</code>.</li>
+</ul>
+<p>More on the whole security model: <a href="security.html">Security</a>.</p>
+<h2 id="files-on-the-edge"><a aria-hidden="true" class="anchor" href="#files-on-the-edge" tabindex="-1">#</a>Files on the edge</h2>
+<div class="table-wrap"><table>
+<tr><th>File</th><th>Purpose</th></tr>
+<tr><td><code>kamailio.cfg.template</code></td><td>Main proxy config</td></tr>
+<tr><td><code>tls.cfg</code></td><td>TLS server profile</td></tr>
+<tr><td><code>rtpengine.conf.template</code></td><td>Media relay config</td></tr>
+<tr><td><code>install.sh</code></td><td>Full edge installer</td></tr>
+<tr><td><code>update-edge.sh</code></td><td>Re-render config and update in place, with rollback</td></tr>
+<tr><td><code>update-public-ip.sh</code></td><td>Re-point the edge at a new public IP</td></tr>
+<tr><td><code>verify-edge.sh</code></td><td>The one-command health check above</td></tr>
+<tr><td><code>pbx-edge-notify</code></td><td>Sends bans and alerts to the PBX</td></tr>
+<tr><td><code>fail2ban/</code></td><td>Filter + jails for scanners and brute force</td></tr>
+</table></div>
+<p>Installed configuration lives in <code>/etc/kamailio</code>, <code>/etc/rtpengine</code>, <code>/etc/fail2ban/jail.d</code> and <code>/etc/pbx-edge/notify.env</code>.</p>
+<h2 id="edge-troubleshooting"><a aria-hidden="true" class="anchor" href="#edge-troubleshooting" tabindex="-1">#</a>Edge troubleshooting</h2>
+<div class="table-wrap"><table>
+<tr><th>Problem</th><th>Check</th></tr>
+<tr><td>Phone won't register</td><td><code>tail -f /var/log/syslog | grep kamailio</code> on the edge — TLS handshake errors point at the certificate; also check the router forward for TCP 5061</td></tr>
+<tr><td>Registers but no audio</td><td>UDP 20000–20099 forwarded to the edge? Public IP changed? Run <code>./update-public-ip.sh</code></td></tr>
+<tr><td>Inbound calls don't reach the phone</td><td>The REGISTER must carry a <code>Path</code> header: <code>pjsip show contacts</code> on the PBX should show the contact, and <code>support_path=yes</code> must be on the AOR (re-run <code>deploy.sh</code> on the PBX)</td></tr>
+<tr><td>fail2ban banned you</td><td><code>fail2ban-client status kamailio-edge</code>, then <code>fail2ban-client unban &lt;ip&gt;</code> (your LAN is never banned — if you're remote, your public IP can be)</td></tr>
+</table></div>
+<p>More problems and fixes: <a href="troubleshooting.html">Troubleshooting</a>.</p>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="install.html"><span class="label">← Previous</span>Installation</a><a class="next" href="phones.html"><span class="label">Next →</span>Phones &amp; feature codes</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#how-it-works">How it works</a></li><li><a class="lvl2" href="#what-the-installer-sets-up">What the installer sets up</a></li><li><a class="lvl3" href="#one-more-step-on-the-pbx">One more step, on the PBX</a></li><li><a class="lvl2" href="#certificates">Certificates</a></li><li><a class="lvl3" href="#real-certificate-via-cloudflare-recommended">Real certificate via Cloudflare (recommended)</a></li><li><a class="lvl3" href="#replacing-the-certificate-by-hand">Replacing the certificate by hand</a></li><li><a class="lvl2" href="#dynamic-ip">If your public IP changes</a></li><li><a class="lvl2" href="#updating-the-edge">Updating the edge</a></li><li><a class="lvl2" href="#verifying-the-edge">Verifying the edge</a></li><li><a class="lvl2" href="#flood-limit-fail2ban-and-alerts">Flood limit, fail2ban and alerts</a></li><li><a class="lvl2" href="#files-on-the-edge">Files on the edge</a></li><li><a class="lvl2" href="#edge-troubleshooting">Edge troubleshooting</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/edge by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:06:58 GMT -->
+</html>

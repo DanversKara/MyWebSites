@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/phones by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:06:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phones &amp; feature codes · own-pbx docs</title>
+<meta name="description" content="Set up desk phones and softphones at home and away, plus every star code.">
+<link rel="canonical" href="phones.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="Phones &amp; feature codes">
+<meta property="og:description" content="Set up desk phones and softphones at home and away, plus every star code.">
+<meta property="og:url" content="phones.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html" class="active" aria-current="page">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Using it</div>
+
+<h1>Phones &amp; feature codes</h1>
+<p class="lead">Every user can see their own phone settings in <strong>My Phone → Settings → Phone setup</strong>. Here's what goes where.</p>
+<h2 id="phone-settings"><a aria-hidden="true" class="anchor" href="#phone-settings" tabindex="-1">#</a>Phone settings</h2>
+<div class="table-wrap"><table>
+<tr><th>Setting</th><th>In the office</th><th>Away from the office</th></tr>
+<tr><td>Server / domain</td><td>PBX IP, e.g. <code>192.168.1.10</code></td><td><code>sip.example.com</code></td></tr>
+<tr><td>Port</td><td>5060</td><td>5061</td></tr>
+<tr><td>Transport</td><td>UDP</td><td><strong>TLS</strong></td></tr>
+<tr><td>Outbound proxy</td><td>(none)</td><td><code>sip.example.com:5061</code></td></tr>
+<tr><td>Media encryption</td><td>off</td><td><strong>SRTP (SDES)</strong></td></tr>
+<tr><td>Username / auth name</td><td>extension number, e.g. <code>8800</code></td><td>same</td></tr>
+<tr><td>Password</td><td>the extension's SIP password</td><td>same</td></tr>
+<tr><td>Re-register</td><td>default</td><td>every 60–120 seconds</td></tr>
+</table></div>
+<h3 id="zoiper-on-a-mobile-phone-away"><a aria-hidden="true" class="anchor" href="#zoiper-on-a-mobile-phone-away" tabindex="-1">#</a>Zoiper on a mobile phone (away)</h3>
+<p>Account → domain <code>sip.example.com</code>, transport TLS, outbound proxy <code>sip.example.com:5061</code>. Under Advanced → Encryption choose <strong>SRTP (SDES)</strong>, not ZRTP. Android and iOS can close a background app's connection — allow Zoiper to run in the background (or use push), or incoming calls go to voicemail.</p>
+<h3 id="desk-phones"><a aria-hidden="true" class="anchor" href="#desk-phones" tabindex="-1">#</a>Desk phones</h3>
+<p>Set Proxy, Registrar and Outbound proxy to the PBX IP, port 5060, transport UDP, and turn SRTP off on the LAN. If you use "dial 9 for an outside line", update the phone's dial plan (e.g. <code>9xxxxxxxxxx</code>).</p>
+<h3 id="or-skip-the-softphone-the-android-app"><a aria-hidden="true" class="anchor" href="#or-skip-the-softphone-the-android-app" tabindex="-1">#</a>Or skip the softphone: the Android app</h3>
+<p>Instead of (or as well as) Zoiper, users can use the <a href="android.html">My Phone app</a>. It sets up its own phone login with one tap and signs in on the extension's separate app line (<code>&lt;username&gt;-app</code>), so it rings together with the desk phone or Zoiper without replacing them.</p>
+<div class="callout ok">
+<strong>Check it</strong>
+<p>The phone appears under <strong>Dashboard → Signed in now</strong> as <em>Online</em>, showing whether it's internal or external.</p>
+</div>
+<h2 id="feature-codes"><a aria-hidden="true" class="anchor" href="#feature-codes" tabindex="-1">#</a>Feature codes</h2>
+<div class="table-wrap"><table>
+<tr><th>Dial</th><th>What it does</th></tr>
+<tr><td><code>911</code> (also <code>9911</code> / prefix + 911)</td><td>Emergency call. Always connects.</td></tr>
+<tr><td><code>933</code></td><td>Provider test line: reads back your E911 address</td></tr>
+<tr><td><code>*97</code></td><td>Check your voicemail</td></tr>
+<tr><td><code>*98</code></td><td>Record your voicemail greeting</td></tr>
+<tr><td><code>*60</code></td><td>Join the conference room</td></tr>
+<tr><td><code>*555&lt;ext&gt;</code></td><td>Monitor an extension's calls — stays on the line, auto-follows new calls (admins only by default)</td></tr>
+<tr><td><code>*555</code></td><td>Scan mode: listen to any active call on the system</td></tr>
+<tr><td><code>*70</code></td><td>DISA: outside dial tone after a PIN (only if a PIN is configured)</td></tr>
+<tr><td><code>*86</code> <em>(during a call)</em></td><td>Block the caller mid-call: the call ends, they hear "the number you have dialed is not in service", and their number lands on your block list. Only keys from your own phone count.</td></tr>
+<tr><td><code>*88&lt;ext&gt;</code></td><td><strong>Push-to-talk:</strong> page that extension, walkie-talkie style. Their phone chirps and shows who is calling; nothing connects until they accept, and if they don't, their own setting sends you to their voicemail or chirps them again. Your plan must include push-to-talk (or your admin must have overridden it on your login), and the other person must have it <em>and</em> have push-to-talk switched on; if either side isn't permitted you hear a "cannot be completed" announcement and the call ends. See <a href="myphone.html#push-to-talk">Push-to-talk</a>.</td></tr>
+<tr><td>ring group or IVR number</td><td>Ring that group or menu</td></tr>
+</table></div>
+<p>While monitoring (<code>*555</code>), press <code>*</code> / <code>1</code> for the previous call and <code>#</code> / <code>2</code> for the next call. A beep confirms each hop. Hang up to stop.</p>
+<h3 id="controlling-access"><a aria-hidden="true" class="anchor" href="#controlling-access" tabindex="-1">#</a>Controlling access</h3>
+<p>The <strong>Features</strong> page in the admin panel controls every star code: turn each one on/off for the whole system, set the default access (<strong>By plan</strong>, <strong>All users</strong>, <strong>Admins only</strong>, or <strong>No one</strong>), and override per user with Allow/Deny. One exception: <code>*88</code> (push-to-talk) is not a Features-page code — it follows the plans instead: it is included when the user's plan has <strong>Push-to-talk</strong> ticked (Billing → Plans), or when the admin ticks the <strong>Allow push-to-talk (override)</strong> flag on the login — plus the user's own switch in their Settings. For example, give <code>*555</code> (ChanSpy) to a supervisor without making them a full admin, or disable <code>*70</code> (DISA) entirely. The rule follows the person, so it's the same from a desk phone, Zoiper or the Android app.</p>
+<p><strong>By plan</strong> is the default for every code except <code>*555</code> (admins only). A <strong>new account starts with no star codes</strong>; a user gets a code when their active plan includes it (Billing → plan → <strong>Star codes included</strong>), and it goes off again if the plan lapses or changes. Without a plan they get the <strong>Star codes (no plan)</strong> set under Billing → User access — empty by default; tick <code>*97</code>/<code>*98</code> there if you don't sell plans and want everyone to reach their voicemail. Admins can always use every code, and a per-user Allow/Deny always wins. Each user's row on the code's page shows <strong>Now</strong>: whether they can use it and why (e.g. “in plan Pro”, “no plan”, “Allow override”). Users who existed before this change kept the codes they had (an Allow override each); set them to Default to hand them to their plan.</p>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="edge.html"><span class="label">← Previous</span>Edge server</a><a class="next" href="admin.html"><span class="label">Next →</span>Admin panel</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#phone-settings">Phone settings</a></li><li><a class="lvl3" href="#zoiper-on-a-mobile-phone-away">Zoiper on a mobile phone (away)</a></li><li><a class="lvl3" href="#desk-phones">Desk phones</a></li><li><a class="lvl3" href="#or-skip-the-softphone-the-android-app">Or skip the softphone: the Android app</a></li><li><a class="lvl2" href="#feature-codes">Feature codes</a></li><li><a class="lvl3" href="#controlling-access">Controlling access</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/phones by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:06:59 GMT -->
+</html>

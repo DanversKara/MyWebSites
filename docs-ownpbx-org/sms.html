@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/sms by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMS &amp; MMS · own-pbx docs</title>
+<meta name="description" content="Two-way SMS/MMS with the outside world through voip.ms: webhook, poller, DID routing, and setup.">
+<link rel="canonical" href="sms.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="SMS &amp; MMS">
+<meta property="og:description" content="Two-way SMS/MMS with the outside world through voip.ms: webhook, poller, DID routing, and setup.">
+<meta property="og:url" content="sms.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html" class="active" aria-current="page">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Using it</div>
+
+<h1>SMS &amp; MMS</h1>
+<p class="lead">Your voip.ms DIDs send and receive real texts. Each DID routes to an extension: inbound texts land in Zoiper, My Phone and ESP/HA devices; replies go back out from the same DID.</p>
+<div class="callout">
+<strong>Need a VoIP provider?</strong>
+<p><a href="https://voip.ms/en/invite/MjM2MjQ4">voip.ms referral link ↗</a> — reasonable plans that work with this project.</p>
+</div>
+<h2 id="how-it-works"><a aria-hidden="true" class="anchor" href="#how-it-works" tabindex="-1">#</a>How it works</h2>
+<h3 id="inbound-two-paths-no-lost-messages"><a aria-hidden="true" class="anchor" href="#inbound-two-paths-no-lost-messages" tabindex="-1">#</a>Inbound — two paths, no lost messages</h3>
+<ul>
+<li><strong>URL callback (instant):</strong> voip.ms fires a GET/POST to <code>https://&lt;your-panel&gt;/hooks/voipms-sms</code> with <code>to, from, message, id, date</code>. The PBX checks the token, dedupes by message ID, looks up the DID route, stores the message, and pushes it to Zoiper via SIP MESSAGE.</li>
+<li><strong>Poller (safety net, every 60s):</strong> callbacks can misfire (tunnel hiccup, timeout). A background thread polls voip.ms <code>getSMS</code>/<code>getMMS</code> per routed DID (last 2 days) and ingests anything the webhook missed. Same dedupe table — nothing is ever delivered twice. Webhook = instant, poll = source of truth. On its first run the poller backfills up to 2 days of unseen messages; anything it recovers is logged as <code>voip.ms poll: recovered missed SMS id=…</code>.</li>
+</ul>
+<h3 id="outbound"><a aria-hidden="true" class="anchor" href="#outbound" tabindex="-1">#</a>Outbound</h3>
+<ul>
+<li><strong>Zoiper:</strong> text <code>+15550192837</code> as a SIP MESSAGE destination. The AGI detects the external number and sends it via the voip.ms API from the DID mapped to your extension — in a background thread, so Zoiper gets its reply immediately even if voip.ms is slow.</li>
+<li><strong>My Phone → Messages:</strong> type an external number, same path.</li>
+<li><strong>ESP/HA:</strong> <code>POST http://&lt;pbx&gt;:8099/messages/send</code> with <code>{"to": "+1555…", "from": "8801", "body": "…"}</code> — external numbers route out through voip.ms automatically.</li>
+</ul>
+<h3 id="mms"><a aria-hidden="true" class="anchor" href="#mms" tabindex="-1">#</a>MMS</h3>
+<p>voip.ms callbacks carry no media, so inbound MMS is enriched via the <code>getMMS</code> API. Pictures arrive as <code>[MMS: &lt;link&gt;]</code> entries — tappable in Zoiper, My Phone and ESP.</p>
+<h3 id="sender-did-selection"><a aria-hidden="true" class="anchor" href="#sender-did-selection" tabindex="-1">#</a>Sender DID selection</h3>
+<p>Replies go out from the DID the conversation is already on (each message records its DID), so a thread stays on one number even when several DIDs route to the same extension. For a brand-new conversation: the DID whose route points at your extension, else the configured default DID, else the first route.</p>
+<h2 id="setup"><a aria-hidden="true" class="anchor" href="#setup" tabindex="-1">#</a>Setup</h2>
+<h3 id="1-voipms-portal"><a aria-hidden="true" class="anchor" href="#1-voipms-portal" tabindex="-1">#</a>1. voip.ms portal</h3>
+<ol>
+<li><strong>Main Menu → SOAP and REST/JSON API:</strong> enable the API and set an <strong>API password</strong> (separate from your portal login; shown once, save it). The API username is your <strong>portal login email</strong> — not the account number.</li>
+<li><strong>DID Numbers → Manage DIDs → edit each DID → Message Service (SMS/MMS):</strong> enable it, paste the webhook URL from the PBX's SMS page, choose <strong>E.164</strong> number format, turn on callback retry, Apply.
+    <pre><code>https://&lt;panel&gt;/hooks/voipms-sms?token=...&amp;to={TO}&amp;from={FROM}&amp;message={MESSAGE}&amp;id={ID}&amp;date={TIMESTAMP}</code></pre>
+</li>
+</ol>
+<div class="callout warn">
+<strong>Verify after save</strong>
+<p>The voip.ms portal sometimes mangles pasted URLs. Re-open the DID after saving and confirm the webhook URL — especially the token — survived intact.</p>
+</div>
+<h3 id="2-pbx-sms-routes"><a aria-hidden="true" class="anchor" href="#2-pbx-sms-routes" tabindex="-1">#</a>2. PBX → SMS routes</h3>
+<ol>
+<li>Admin panel → <strong>SMS routes</strong> (or <code>/sms-routes</code>): fill in the API username/password, webhook token (auto-generated if blank), default DID.</li>
+<li>Add one route per DID: DID (digits, e.g. <code>15550192837</code>) → destination extension (e.g. <code>8801</code>). The page shows the exact webhook URL to paste into voip.ms.</li>
+<li>Make the webhook reachable from the internet — via Cloudflare Tunnel / Nginx Proxy Manager to <code>http://&lt;pbx-ip&gt;:8001</code>. <code>/hooks/voipms-sms</code> is allow-listed for remote access, so it works through the tunnel even when admin pages are LAN-only.</li>
+</ol>
+<h3 id="3-test"><a aria-hidden="true" class="anchor" href="#3-test" tabindex="-1">#</a>3. Test</h3>
+<p>First check the webhook answers at all:</p>
+<pre><code>curl "https://&lt;panel&gt;/hooks/voipms-sms?token=&lt;token&gt;"   # should return: ok</code></pre>
+<p>Then text the DID from your mobile → Zoiper should pop within seconds. Reply from Zoiper → your mobile gets it from the DID. Then check the logs:</p>
+<pre><code>journalctl -u pbx-api -f    # webhook hits
+journalctl -u pbx-brain -f  # "msg external:" lines
+journalctl -u pbx-agi -f    # "msg-route external:" lines</code></pre>
+<h2 id="upgrading-an-existing-system"><a aria-hidden="true" class="anchor" href="#upgrading-an-existing-system" tabindex="-1">#</a>Upgrading an existing system</h2>
+<p>Adding SMS to a system that's already running doesn't need a fresh install — the upgrade is idempotent and safe to re-run. The build ships an upgrade script that does it all: it backs up the database and <code>/opt/pbx</code>, applies the schema (the new tables are <code>CREATE TABLE IF NOT EXISTS</code>, so existing data is untouched), runs the normal deploy (new code in, services restarted, Asterisk reloaded), and verifies the services plus the webhook.</p>
+<pre><code>scp own-pbx-sms-voipms.zip root@&lt;pbx-ip&gt;:/root/
+ssh root@&lt;pbx-ip&gt;
+cd /root &amp;&amp; unzip -q -o own-pbx-sms-voipms.zip
+cd own-pbx-sms
+bash scripts/upgrade-voipms-sms.sh</code></pre>
+<p>By hand, it's the same steps:</p>
+<pre><code># 1. backup
+cp -a /var/lib/pbx/pbx.db /var/backups/pbx/pbx.db.bak
+cp -a /opt/pbx /opt/pbx.bak
+
+# 2. put the new source somewhere, e.g. /root/own-pbx-sms, then
+cd /root/own-pbx-sms
+sqlite3 /var/lib/pbx/pbx.db &lt; db/schema.sql
+bash scripts/deploy.sh   # copies code, restarts services, reloads Asterisk
+
+# 3. verify
+systemctl status pbx-api pbx-brain pbx-agi --no-pager
+curl -s http://127.0.0.1:8001/hooks/voipms-sms  # -&gt; ok</code></pre>
+<p>No new Python dependencies were added (standard library only), so the Python environments don't change. Afterwards, finish the setup above: SMS routes in the panel, the webhook URL into each DID at voip.ms, and a test text both ways.</p>
+<h3 id="rollback"><a aria-hidden="true" class="anchor" href="#rollback" tabindex="-1">#</a>Rollback</h3>
+<pre><code>cp -a /var/backups/pbx/pbx.db.&lt;timestamp&gt;.bak /var/lib/pbx/pbx.db
+rm -rf /opt/pbx &amp;&amp; cp -a /opt/pbx.bak.&lt;timestamp&gt; /opt/pbx
+systemctl restart pbx-api pbx-brain pbx-agi</code></pre>
+<h2 id="security-notes"><a aria-hidden="true" class="anchor" href="#security-notes" tabindex="-1">#</a>Security notes</h2>
+<ul>
+<li>The webhook token in the URL query prevents random POSTs from storing messages.</li>
+<li>The voip.ms API password is stored in the database settings, not in code.</li>
+<li>Outbound still respects per-extension send switches, monthly quotas and message limits.</li>
+</ul>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="android.html"><span class="label">← Previous</span>Android app</a><a class="next" href="security.html"><span class="label">Next →</span>Security</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#how-it-works">How it works</a></li><li><a class="lvl3" href="#inbound-two-paths-no-lost-messages">Inbound — two paths, no lost messages</a></li><li><a class="lvl3" href="#outbound">Outbound</a></li><li><a class="lvl3" href="#mms">MMS</a></li><li><a class="lvl3" href="#sender-did-selection">Sender DID selection</a></li><li><a class="lvl2" href="#setup">Setup</a></li><li><a class="lvl3" href="#1-voipms-portal">1. voip.ms portal</a></li><li><a class="lvl3" href="#2-pbx-sms-routes">2. PBX → SMS routes</a></li><li><a class="lvl3" href="#3-test">3. Test</a></li><li><a class="lvl2" href="#upgrading-an-existing-system">Upgrading an existing system</a></li><li><a class="lvl3" href="#rollback">Rollback</a></li><li><a class="lvl2" href="#security-notes">Security notes</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/sms by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:17 GMT -->
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/admin by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:06:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin panel · own-pbx docs</title>
+<meta name="description" content="Every admin page in own-pbx: dashboard, logins, trunks, routes, ring groups, IVR, billing, and more.">
+<link rel="canonical" href="admin.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="Admin panel">
+<meta property="og:description" content="Every admin page in own-pbx: dashboard, logins, trunks, routes, ring groups, IVR, billing, and more.">
+<meta property="og:url" content="admin.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html" class="active" aria-current="page">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Using it</div>
+
+<h1>Admin panel</h1>
+<p class="lead">Page by page. Admin pages only open on your home ("office") network — over the internet you get My Phone only, with the admin menu hidden.</p>
+<h2 id="dashboard"><a aria-hidden="true" class="anchor" href="#dashboard" tabindex="-1">#</a>Dashboard</h2>
+<ul>
+<li><strong>Status bar:</strong>
+<ul>
+<li><strong>Kill switch</strong> hangs up every call and disconnects every phone — for stopping abuse like toll fraud. Release it to go back to normal.</li>
+<li><strong>Lock admin</strong> freezes the admin side only: calls and My Phone keep working, but nothing in the admin panel or API can change.</li>
+<li><strong>Lock everything</strong> also freezes My Phone (handy overnight). Kill switch and lock always work, and both send an alert.</li>
+<li><strong>Edit PIN</strong> (optional, 6–12 digits): once set, every change in the admin panel asks for it first. <strong>Unlock with PIN</strong> works from any admin page and lasts 15 minutes after your last change, or until <strong>Lock now</strong>. A wrong PIN says so; repeated wrong PINs are blocked for a while.</li>
+</ul>
+</li>
+<li><strong>Tiles:</strong> live calls, devices online, sign-ins and failures in the last 24 hours, IPs blocked in the last 24 hours.</li>
+<li><strong>Live calls:</strong> who is calling whom, by name, with type (internal/incoming/outgoing/911), state and duration.</li>
+<li><strong>Signed in now:</strong> every registered phone — IP, internal or external, connection (direct or via edge with TLS + SRTP), status, response time. The <a href="android.html">Android app</a> shows up too, under its owner with a <strong>My Phone app</strong> tag, while it's signed in for incoming calls — with the <strong>app version</strong> it last reported underneath (the app reports its version whenever it talks to the PBX), so you can spot a user stuck on an old build at a glance.</li>
+<li><strong>Recent sign-ins</strong> and <strong>Activity:</strong> security events and changes from the last 24 hours, updating every 10 seconds.</li>
+</ul>
+<h2 id="logins"><a aria-hidden="true" class="anchor" href="#logins" tabindex="-1">#</a>Logins</h2>
+<p>Users are extensions: username, panel password, extension number, SIP username and password, display name, notification email, recording flags, and enabled. The list also shows each account's <strong>Type</strong> — normal or <a href="#guest-extensions">guest</a>. <strong>Disabling a login signs it out everywhere at once.</strong></p>
+<p>The editor also has <strong>Allow push-to-talk (override)</strong>: push-to-talk normally comes from the user's plan (tick <strong>Push-to-talk</strong> when editing a plan under Billing → Plans; subscribers get it right away, and editing the plan later updates them). Tick the override to give <em>this</em> user push-to-talk (<code>*88</code> + extension — see <a href="phones.html#feature-codes">feature codes</a>) even when their plan doesn't include it — or when they have no plan at all, guests included. Untick it and the user falls back to plan-only. Either way, allowing is not switching it on: the user turns push-to-talk on themselves in their own Settings, and pages only connect when they accept them.</p>
+<p>The editor's <strong>Account type</strong> dropdown switches the login between a normal extension and a <a href="#guest-extensions">guest extension</a>, with the guest rules right below it. Converting keeps the account, its extension and its history — no new account needed — and takes effect immediately.</p>
+<h2 id="invites"><a aria-hidden="true" class="anchor" href="#invites" tabindex="-1">#</a>Invites</h2>
+<p>Onboard users without handing out passwords: <strong>Invites → Generate invite</strong> picks the next free extension, auto-generates the SIP username/secret, and gives you a single-use link — shown once, copy it or email it to the user. The link expires after 1–30 days (your choice), dies after one use, and can be revoked. The recipient picks their own login password plus display name and voicemail email; the login is created on the spot. Tokens are 256-bit and stored hashed.</p>
+<p>The generator also picks the <strong>account type</strong> — normal or guest — and, for guests, which guest rules start switched on. The redeemed account is created with exactly those settings.</p>
+<h2 id="guest-extensions"><a aria-hidden="true" class="anchor" href="#guest-extensions" tabindex="-1">#</a>Guest extensions <span class="badge new">new</span></h2>
+<p>A guest extension is a restricted account type, made for courtesy, lobby and visitor phones. <strong>Internal calling always works</strong> — other extensions, feature codes, and ring groups dialed from inside. Everything that reaches outside the PBX is <strong>off</strong> unless the admin turns that one thing on for that guest:</p>
+<ul>
+<li><strong>Outside calling</strong> — the guest may dial real phone numbers through a trunk. Their plan / outside minutes still apply on top: the guest rules are caps, never grants.</li>
+<li><strong>Receiving calls from real phone numbers</strong> — DID routes and ring groups may ring the guest for outside callers. Off: the guest is skipped in the ring list, exactly as if it weren't a member; if everyone is skipped, the group's normal no-answer path (voicemail / forward) runs.</li>
+<li><strong>SMS / MMS texting</strong> — a dropdown with four scopes, applied in both directions: <strong>Both external and internal</strong> (real phone numbers and other extensions), <strong>External only</strong> (real numbers; no extension-to-extension texts), <strong>Internal only</strong> (extension-to-extension; no real numbers), or <strong>Block all</strong>. Sends outside the scope are refused everywhere (My Phone, the app, softphones, the API), and inbound texts outside it are dropped before they're stored.</li>
+<li><strong>911 / 933 calls</strong> — off: dialing 911 or 933 from that guest extension is not routed; the caller hears the standard cannot-complete announcement and the attempt is written to the PBX log. This is an explicit per-extension admin decision for guest phones that are not E911-provisioned — normal extensions can never be blocked from 911. The <a href="#e911">E911 page</a> lists every guest and its 911 state.</li>
+<li><strong>Buying a plan to become a normal user</strong> — off (the default): the guest can't buy plans at all, and their Plans page tells them the admin doesn't allow this account to upgrade plans without contacting support first. On: the guest may buy a plan, and when a paid plan's subscription activates, the account converts to a normal extension and every guest rule stops applying (the conversion is audit-logged). Free plans never convert an account — guests never upgrade on their own.</li>
+</ul>
+<p>Set the type and rules when creating a login or generating an invite, or convert any existing account either way under <strong>Logins → Edit → Account type</strong>. Every type or rule change is written to the audit log (shown in Dashboard → Activity), and the E911 changes are flagged there like other E911 events.</p>
+<h2 id="trunks"><a aria-hidden="true" class="anchor" href="#trunks" tabindex="-1">#</a>Trunks</h2>
+<p>Your SIP provider(s): registrar, username, secret and codecs.</p>
+<h2 id="routes"><a aria-hidden="true" class="anchor" href="#routes" tabindex="-1">#</a>Routes</h2>
+<ul>
+<li><strong>Inbound:</strong> phone number → ring group, IVR menu or list of extensions. One route covers the number with or without the leading 1.</li>
+<li><strong>Outbound:</strong> number patterns → trunk.</li>
+<li><strong>Time condition</strong> (per number): business hours one way, after hours another — see <a href="#call-flow">Call flow</a>.</li>
+<li><strong>Detect faxes</strong> (per number): receive faxes on an ordinary number — see <a href="#faxes">Faxes</a>.</li>
+<li><strong>Outside line prefix:</strong> <em>Off</em> (default), <em>Optional</em> (9 + number and the number alone both work) or <em>Required</em>, with digit 9 or 8. The prefix is stripped before dialing; 911 never needs it.</li>
+</ul>
+<h2 id="faxes"><a aria-hidden="true" class="anchor" href="#faxes" tabindex="-1">#</a>Faxes <span class="badge new">new</span></h2>
+<p>Receive and send faxes on the phone numbers you already have — no separate fax number. Works with an ordinary voip.ms DID.</p>
+<h3 id="fax-receive"><a aria-hidden="true" class="anchor" href="#fax-receive" tabindex="-1">#</a>Receiving</h3>
+<ul>
+<li><strong>Routes → Edit</strong> a number → tick <strong>Detect faxes on this number</strong>. The PBX always listens on a number with this ticked.</li>
+<li>Calls to it are answered at once; the caller hears ringing while the PBX listens for a fax machine's tone for <strong>3–8 seconds</strong> (4 by default). A fax is received and saved as a <strong>PDF</strong>; anything else rings through exactly as before (phones, menu, cells, voicemail).</li>
+<li>Faxes go at <strong>9600 baud with error correction</strong>, which holds up far better over internet phone lines. If a fax still breaks off at the very end, the pages that arrived are kept, marked <em>May be incomplete</em>.</li>
+</ul>
+<div class="table-wrap"><table>
+<tr><th>Where faxes go</th><th></th></tr>
+<tr><td><strong>Email</strong></td><td>The PDF, to the addresses you list for the number (<em>Also email faxes to</em>) and, if ticked, to the people the number rings (their notification email).</td></tr>
+<tr><td><strong>My Phone → Faxes</strong> and the app</td><td>For the people the number rings (a ring group: every member) whose plan includes <strong>Fax</strong>, with a new-fax count and a notification in the app.</td></tr>
+<tr><td><strong>Admin → Faxes</strong></td><td>Every fax on every number, who it was for, failed ones with the reason, and every sent fax. Kept until deleted.</td></tr>
+</table></div>
+<div class="callout warn">
+<strong>One-time setup on an existing PBX</strong>
+<p>Asterisk needs fax support (spandsp). New installs include it. On a PBX installed before, run <code>pbx-update --with-fax</code> once when the phones are quiet: it compiles Asterisk with fax (about 10–20 minutes, calls keep working), then restarts it as soon as no call is in progress.</p>
+</div>
+<h3 id="fax-send"><a aria-hidden="true" class="anchor" href="#fax-send" tabindex="-1">#</a>Sending</h3>
+<p>Users send from <strong>My Phone → Faxes → Send a fax</strong> or the app's <strong>Faxes</strong> tab:</p>
+<div class="table-wrap"><table>
+<tr><th>Step</th><th></th></tr>
+<tr><td><strong>Document</strong></td><td>A PDF or a photo (JPG, PNG), up to 20 MB and 50 pages.</td></tr>
+<tr><td><strong>Fax number</strong></td><td>A 10-digit US/Canada number, sent over your normal outbound route.</td></tr>
+<tr><td><strong>Send from</strong></td><td>One of the user's numbers (numbers whose route rings them; admins can use any). The other side sees it as the caller ID and on the header line of every page.</td></tr>
+<tr><td><strong>Cover page</strong></td><td>Optional first page with To, From, Subject, page count and a message, using the <a href="#fax-branding">fax branding</a>.</td></tr>
+</table></div>
+<ul>
+<li>Faxes go out one at a time. A busy line or no answer is tried again: <strong>3 attempts, 3 minutes apart</strong>. The <strong>Sent</strong> list shows <em>waiting / sending / will retry / sent / failed</em>, and the sender is emailed the result.</li>
+<li>Answered time counts toward the plan's outside minutes, like a call.</li>
+</ul>
+<h3 id="fax-plan"><a aria-hidden="true" class="anchor" href="#fax-plan" tabindex="-1">#</a>Fax in plans</h3>
+<p>Under <strong>Billing</strong>, each plan has a <strong>Fax</strong> checkbox (send and receive) and <strong>Faxes per month</strong> (a number, <em>Unlimited</em>, or 0 for receive only). The same two settings are in <em>Defaults (no plan)</em> and per-user exceptions. New accounts have Fax off. Admins can always fax.</p>
+<ul>
+<li>Without Fax a user has no Faxes tab and can't send. Faxes to their numbers are still caught, and land in Admin → Faxes and the number's email addresses.</li>
+<li>Receiving is never limited; failed or cancelled faxes don't count toward the monthly number. Users see faxes sent and left in Plan &amp; usage (app and web).</li>
+</ul>
+<h3 id="fax-branding"><a aria-hidden="true" class="anchor" href="#fax-branding" tabindex="-1">#</a>Fax branding</h3>
+<p><strong>Faxes → Fax branding</strong> sets what the cover page and the top line of every page show:</p>
+<div class="table-wrap"><table>
+<tr><th>Field</th><th></th></tr>
+<tr><td><strong>Logo</strong></td><td>PNG or JPG, trimmed and turned into crisp fax black &amp; white.</td></tr>
+<tr><td><strong>Logo text / company</strong></td><td>Big at the top when there's no logo, otherwise under it.</td></tr>
+<tr><td><strong>Address, phone, email, website</strong></td><td>Under the company name.</td></tr>
+<tr><td><strong>Footer notice</strong></td><td>Small print at the bottom, e.g. a confidentiality notice.</td></tr>
+<tr><td><strong>Header line</strong></td><td>Printed at the top of every page with the date, the sending number and the page number.</td></tr>
+</table></div>
+<p><strong>Preview cover page</strong> opens a PDF of exactly what's sent. Tick <strong>Let users use their own branding</strong> and each user can set theirs under My Phone → Faxes → <em>My fax branding</em>. With nothing set, the cover page is plain.</p>
+<h2 id="ring-groups"><a aria-hidden="true" class="anchor" href="#ring-groups" tabindex="-1">#</a>Ring groups</h2>
+<ul>
+<li><strong>Name</strong> and an optional <strong>internal number</strong> phones can dial.</li>
+<li><strong>Members</strong>, all ringing at once. Their order sets the "first member".</li>
+<li><strong>Ring time</strong>, then <strong>if nobody answers:</strong> one member's voicemail · a copy for every member · another extension, ring group, IVR menu, or an outside number (uses the first member's minutes) · hang up.</li>
+</ul>
+<p>Calls to the group's internal number aren't billed.</p>
+<p><strong>Members' cells:</strong> a member can choose to have their own cell ring too when a call rings the group (or any number routed to them) (My Phone → Settings → <a href="myphone.html#ring-cell">Ring my cell too</a>). The cell rings after their chosen delay, must press 1 to accept (so a cell voicemail can't grab the call), and uses that member's outside minutes over your outbound route. Nothing to set on this page.</p>
+<h2 id="call-flow"><a aria-hidden="true" class="anchor" href="#call-flow" tabindex="-1">#</a>Call flow <span class="badge new">new</span></h2>
+<p>Decide where calls go by the time of day and by who is calling.</p>
+<h3 id="time-conditions"><a aria-hidden="true" class="anchor" href="#time-conditions" tabindex="-1">#</a>Time conditions</h3>
+<ul>
+<li><strong>Open hours</strong> per weekday, one or more ranges (<code>9:00-12:00, 13:00-17:00</code>; <code>24h</code>; a range can run past midnight), in your time zone.</li>
+<li><strong>Holidays</strong>: one date (<code>2026-11-26 Thanksgiving</code>) or every year (<code>12-25 Christmas</code>).</li>
+<li><strong>Where calls go</strong> when open, when closed, and on holidays (or as closed): a ring group, an extension or list of extensions, a voicemail box, an IVR menu, another time condition, “not in service”, or hang up.</li>
+<li><strong>Switch</strong>: <em>Auto</em> follows the hours; <em>Open</em> or <em>Closed</em> overrides them (“closing early today”) — one click on the Call flow page, which also shows whether each one is open right now.</li>
+<li>Use one from <strong>Routes</strong> (a phone number's <em>Send callers to</em>), an <strong>IVR key</strong>, or a caller rule. After hours a ring group can go straight to voicemail this way.</li>
+</ul>
+<h3 id="caller-rules"><a aria-hidden="true" class="anchor" href="#caller-rules" tabindex="-1">#</a>Caller rules</h3>
+<p>“If the caller ID matches, do this”, checked before a number's normal route. The first match wins; rules for one number come before rules for any number, and each shows how often it was used.</p>
+<div class="table-wrap"><table>
+<tr><th>Caller</th><th></th></tr>
+<tr><td><strong>This number</strong></td><td>One caller, e.g. (555) 555-5555</td></tr>
+<tr><td><strong>Numbers starting with</strong></td><td>An area code or prefix, e.g. <code>559</code> or <code>1800</code></td></tr>
+<tr><td><strong>No caller ID</strong></td><td>Blocked, private, anonymous or restricted callers</td></tr>
+</table></div>
+<p>Send the call to any of the destinations above, or <strong>Normal route, but no voicemail</strong>: it rings exactly as it would, but if nobody answers (or everyone declines) the call hangs up instead of reaching voicemail.</p>
+<p>Users have their own list too, in My Phone → Settings → <a href="myphone.html#call-filtering">Call filtering</a>.</p>
+<h2 id="ivr"><a aria-hidden="true" class="anchor" href="#ivr" tabindex="-1">#</a>IVR</h2>
+<p>Company menus with a greeting (upload WAV/MP3) and key options: ring an extension, several extensions or a ring group, voicemail, another menu, a <a href="#time-conditions">time condition</a>, repeat, or hang up. <strong>No key</strong> and <strong>wrong key</strong> each have their own number of replays and their own final destination (e.g. no key → the front desk, three wrong keys → hang up). Also controls how many personal menus users may build.</p>
+<h2 id="cdr-voicemail-recordings-messages"><a aria-hidden="true" class="anchor" href="#cdr-voicemail-recordings-messages" tabindex="-1">#</a>CDR, Voicemail, Recordings, Messages</h2>
+<p>Call records (kept 90 days), every voicemail, every recording (calls in both directions) and every text, with select / delete all. The <strong>Recordings</strong> page also holds the recording settings (see <a href="advanced.html#recording">Recording</a>).</p>
+<h2 id="billing"><a aria-hidden="true" class="anchor" href="#billing" tabindex="-1">#</a>Billing</h2>
+<p>Stripe keys, plans and <strong>User access</strong> (defaults for users without a plan, including their star codes, plus per-user exceptions). Each plan also lists the <strong>star codes included</strong> and whether it includes <a href="#fax-plan">Fax</a> (with faxes per month). See <a href="advanced.html#billing">Billing</a>.</p>
+<h3 id="app-store-mode"><a aria-hidden="true" class="anchor" href="#app-store-mode" tabindex="-1">#</a>App store mode <span class="badge new">new</span></h3>
+<p>For people using the My Phone app from Google Play, so the app never looks like it sells or upgrades anything. <strong>Billing → App store mode</strong>: tick <strong>All users</strong> or individual users (also on each login's edit page: <em>Hide plans &amp; billing in the My Phone app</em>), and enter where to send them for account details (e.g. your My Phone address).</p>
+<ul>
+<li>Their app shows no plan, usage, texts or minutes left, prices or “not in your plan”. Settings shows <em>Account: For account details, visit …</em> as plain text, and anything unavailable says “This isn't available on your account.”</li>
+<li>A copy installed from Google Play gets this automatically, whatever the setting.</li>
+<li>The PBX enforces it (usage data isn't sent). Plans and limits still apply.</li>
+<li><strong>Hide in web portal</strong> (second column, or <strong>All users: also hide in the web portal</strong>; also on each login's edit page): the web My Phone portal drops the <strong>Billing</strong> tab and <strong>Your plan this month</strong>, and every page swaps plan wording for “isn't available on your account”. <code>/ucp/billing</code> sends them back to the Overview and billing actions are refused. Use it for the test account you give a Google Play reviewer, so the whole account looks like a plain phone / push-to-talk service with nothing for sale. Guests are listed too; admin pages are unaffected.</li>
+</ul>
+<h2 id="store"><a aria-hidden="true" class="anchor" href="#store" tabindex="-1">#</a>Store <span class="badge new">new</span></h2>
+<p>A public sign-up page at <code>https://&lt;your panel&gt;/store</code>. New customers pick a plan (and, optionally, a phone number you list for sale), then enter their card on <strong>Stripe's own checkout page</strong>. <strong>Nobody is charged and nothing is created until you approve.</strong></p>
+<div class="table-wrap"><table>
+<tr><th>Step</th><th>What happens</th></tr>
+<tr><td><strong>Order</strong></td><td>Name, email, plan, number; optional terms to accept. Stripe saves the card without charging. The customer gets “waiting for approval, you haven't been charged”; you get an email.</td></tr>
+<tr><td><strong>Approve</strong></td><td>Charges the first month on the saved card (declined = nothing is created). Then creates the login on the next free extension in the Invites range with a generated password and SIP secret, routes the number's calls and texts to it, switches on the plan (with its star codes), and emails the customer their login.</td></tr>
+<tr><td><strong>Reject</strong></td><td>Closes the order, optionally emailing a reason. The card was never charged.</td></tr>
+</table></div>
+<p><strong>Settings:</strong> Store open, title, intro, <strong>phone numbers for sale</strong> (a number is offered only while no extension, menu or group answers it and no live order holds it), terms, and who gets new-order emails (default: the security alert address). <strong>Protection:</strong> a hidden bot trap, a form that expires, the sign-in rate limits per address, and one waiting order per email. The admin page is office-network only; the public page works through your tunnel. Needs Stripe keys and published plans (Billing) and SMTP (Email).</p>
+<h2 id="email"><a aria-hidden="true" class="anchor" href="#email" tabindex="-1">#</a>Email</h2>
+<p>SMTP settings, a test email, the panel address used in email links, and <strong>Security alerts</strong>: who gets them and for what (blocked IPs, sign-in lockouts, kill switch / lock / E911 / recording changes, user reports). Every 911 call is always emailed.</p>
+<h2 id="network"><a aria-hidden="true" class="anchor" href="#network" tabindex="-1">#</a>Network</h2>
+<p>Remote-access domain and TLS port, office server address, Cloudflare dynamic DNS (status, IP history), and panel access from the internet.</p>
+<h2 id="sign-on"><a aria-hidden="true" class="anchor" href="#sign-on" tabindex="-1">#</a>Sign-on <span class="badge new">new</span></h2>
+<p>Single sign-on for the <strong>web panel</strong> through an OpenID Connect provider you already run — Authentik, Keycloak, Authelia and the like. The login page gets a <strong>Sign in with …</strong> button above the password form. The My Phone app isn't affected: it still pairs with a code.</p>
+<div class="table-wrap"><table>
+<tr><th>Setting</th><th>What it does</th></tr>
+<tr><td><strong>Panel address from outside</strong></td><td>The address people open the panel with, e.g. <code>https://myphone.example.com</code>. The page shows the <strong>Redirect URI</strong> to register at the provider: <code>&lt;address&gt;/login/oidc/callback</code>.</td></tr>
+<tr><td><strong>Issuer, Client ID, Client secret</strong></td><td>From the provider. In Authentik the issuer is the “OpenID Configuration Issuer” on the provider's page. The secret is never shown again; <em>Forget the stored client secret</em> removes it. <strong>Test the issuer</strong> checks it.</td></tr>
+<tr><td><strong>Name on the button</strong></td><td>“Sign in with” and this name. Empty says “single sign-on”.</td></tr>
+<tr><td><strong>Scopes</strong></td><td><code>openid</code> is always added. Empty asks for openid, email and profile.</td></tr>
+<tr><td><strong>Match a first sign-in by</strong></td><td><strong>Username</strong> (the provider's username is the PBX login name) or <strong>Email</strong> (the login's notification email). Only the first time: after that the login stays linked to that provider account, even if names change, until you <strong>Unlink</strong> it. Accounts are never created by sign-on — add the login, with its extension, first. Renaming a login drops its link.</td></tr>
+<tr><td><strong>Only link an email the provider has verified</strong></td><td>On by default. Turn off only if people can't edit their own email at the provider.</td></tr>
+<tr><td><strong>Admin logins may sign in this way</strong></td><td>Off keeps admins on their password. Admin pages stay office-network only either way.</td></tr>
+<tr><td><strong>Go straight to the sign-in provider</strong></td><td>Opening the panel goes directly to the provider. Not after signing out or a failed sign-in, and never at <code>/login?password=1</code>.</td></tr>
+<tr><td><strong>Hide the username and password form</strong></td><td>Only the button shows. The form comes back after a failed sign-in and at <code>/login?password=1</code> — bookmark that, it's the way in if the provider is down.</td></tr>
+</table></div>
+<p><strong>In Authentik:</strong> Applications → Providers → Create → OAuth2/OpenID Provider, client type <strong>Confidential</strong>, the redirect URI from the page (strict), scopes openid/email/profile. Create an Application using it and bind the users or group allowed in. Then copy the Client ID, Client Secret and issuer into Admin → Sign-on and try it in a private window before signing out.</p>
+<h2 id="e911"><a aria-hidden="true" class="anchor" href="#e911" tabindex="-1">#</a>E911</h2>
+<p>Per-user E911 addresses behind a separate unlock code. See <a href="advanced.html#e911">911 / E911</a>. A <strong>Guest extensions</strong> section at the bottom of the page lists every <a href="#guest-extensions">guest extension</a> and whether 911 routing is on or off for it, with an Edit link to its login.</p>
+<h2 id="reports"><a aria-hidden="true" class="anchor" href="#reports" tabindex="-1">#</a>Reports</h2>
+<p>Calls and texts users reported from My Phone. Mark resolved, reopen or delete. To stop someone, disable their login.</p>
+<h2 id="api-keys"><a aria-hidden="true" class="anchor" href="#api-keys" tabindex="-1">#</a>API Keys</h2>
+<p>Bearer tokens for the REST API and for the edge's security alerts. A key is shown only once; revoke any time.</p>
+<h2 id="features"><a aria-hidden="true" class="anchor" href="#features" tabindex="-1">#</a>Features</h2>
+<p>Controls every <a href="phones.html#feature-codes">star code</a>: on/off system-wide, default access (<strong>By plan</strong> / All users / Admins only / No one), and per-user Allow/Deny overrides. Each user's row shows whether they can use the code <strong>now</strong> and why. With <strong>By plan</strong> (the default), new accounts start with none and get the codes their plan includes — see <a href="phones.html#feature-codes">star codes</a>.</p>
+<h2 id="branding"><a aria-hidden="true" class="anchor" href="#branding" tabindex="-1">#</a>Branding</h2>
+<p>White-label the panel: site name, header logo (upload or URL — shown as text, logo, or both) with an optional separate dark-mode logo that auto-swaps with the theme, header and button colors with one-click presets (Ocean, Sunset, Royal…), animated gradient header, default dark/light theme (visitors can flip it with the 🌙/☀️ icon; their choice sticks in their browser), login page logo/title/subtitle (also with a dark-mode variant), favicon, and an optional footer line. Logos live in the database, so they ride along with backups. <strong>Regional:</strong> time zone selector (defaults to Los Angeles); all call, message, voicemail and recording times display in 12-hour format in that zone.</p>
+<h2 id="panel-gallery"><a aria-hidden="true" class="anchor" href="#panel-gallery" tabindex="-1">#</a>The admin panel in pictures</h2>
+<p>Every page of the admin panel, photographed on a running system, including the edit form behind each list. Phone numbers, keys, addresses and account names in the photos are demo values. Click any photo to pop it up full size; the <b>‹ ›</b> arrows move through the gallery without leaving the page.</p>
+<div class="shots wide">
+<figure><a href="images/admin/dashboard.webp"><img alt="Admin panel Dashboard" decoding="async" loading="lazy" src="images/admin/dashboard.webp"/></a><figcaption>Dashboard — status, kill switch and PIN lock, live calls, who's signed in, and the security activity log.</figcaption></figure>
+<figure><a href="images/admin/logins.webp"><img alt="Admin panel Logins / Extensions page" decoding="async" loading="lazy" src="images/admin/logins.webp"/></a><figcaption>Logins / Extensions — every account with its role, name, the My Phone app version its phone last reported (App column) and enabled state; Edit and Delete live here.</figcaption></figure>
+<figure><a href="images/admin/logins-edit.webp"><img alt="Admin panel Edit login form" decoding="async" loading="lazy" src="images/admin/logins-edit.webp"/></a><figcaption>Edit login — the form behind Edit: extension, display name, role, plan, and the per-user feature-code overrides.</figcaption></figure>
+<figure><a href="images/admin/invites.webp"><img alt="Admin panel Invites page" decoding="async" loading="lazy" src="images/admin/invites.webp"/></a><figcaption>Invites — single-use sign-up links; the extension and SIP credentials are auto-created. Used links stay listed.</figcaption></figure>
+<figure><a href="images/admin/trunks.webp"><img alt="Admin panel Trunks page" decoding="async" loading="lazy" src="images/admin/trunks.webp"/></a><figcaption>Trunks — the SIP providers calls leave through; this system runs one voip.ms trunk.</figcaption></figure>
+<figure><a href="images/admin/trunks-edit.webp"><img alt="Admin panel Edit trunk form" decoding="async" loading="lazy" src="images/admin/trunks-edit.webp"/></a><figcaption>Edit trunk — provider, server, username and the registration settings for a trunk.</figcaption></figure>
+<figure><a href="images/admin/routes.webp"><img alt="Admin panel Routes page" decoding="async" loading="lazy" src="images/admin/routes.webp"/></a><figcaption>Routes — inbound numbers point at ring groups, menus or extensions; outbound patterns pick the trunk. Optional outside-line prefix below.</figcaption></figure>
+<figure><a href="images/admin/routes-edit.webp"><img alt="Admin panel Edit inbound route form" decoding="async" loading="lazy" src="images/admin/routes-edit.webp"/></a><figcaption>Edit inbound route — where a number rings, and the fax-detect section that hands fax calls to the faxes page.</figcaption></figure>
+<figure><a href="images/admin/ring-groups.webp"><img alt="Admin panel Ring groups page" decoding="async" loading="lazy" src="images/admin/ring-groups.webp"/></a><figcaption>Ring groups — several phones ring at once and the first to answer wins; no answer falls back to a member's voicemail.</figcaption></figure>
+<figure><a href="images/admin/ring-groups-edit.webp"><img alt="Admin panel Edit ring group form" decoding="async" loading="lazy" src="images/admin/ring-groups-edit.webp"/></a><figcaption>Edit ring group — members, ring strategy, and the no-answer fallback.</figcaption></figure>
+<figure><a href="images/admin/callflow.webp"><img alt="Admin panel Call flow page" decoding="async" loading="lazy" src="images/admin/callflow.webp"/></a><figcaption>Call flow — time conditions with whether each is open right now and its Auto / Open / Closed switch, and the caller rules with how often each was used.</figcaption></figure>
+<figure><a href="images/admin/callflow-tc-edit.webp"><img alt="Admin panel Edit time condition form" decoding="async" loading="lazy" src="images/admin/callflow-tc-edit.webp"/></a><figcaption>Edit time condition — open hours per day, holidays, and where calls go when open, closed or on a holiday.</figcaption></figure>
+<figure><a href="images/admin/callflow-rule-edit.webp"><img alt="Admin panel Edit caller rule form" decoding="async" loading="lazy" src="images/admin/callflow-rule-edit.webp"/></a><figcaption>Edit caller rule — one caller, an area code or no caller ID, sent to a ring group, voicemail, a menu, a time condition, or the normal route without voicemail.</figcaption></figure>
+<figure><a href="images/admin/cdr.webp"><img alt="Admin panel CDR page" decoding="async" loading="lazy" src="images/admin/cdr.webp"/></a><figcaption>CDR — the call log: direction (the ptt rows are push-to-talk), status, duration and billed seconds.</figcaption></figure>
+<figure><a href="images/admin/voicemail.webp"><img alt="Admin panel Voicemail page" decoding="async" loading="lazy" src="images/admin/voicemail.webp"/></a><figcaption>Voicemail — every mailbox's messages in one list, playable in the browser.</figcaption></figure>
+<figure><a href="images/admin/faxes.webp"><img alt="Admin panel Faxes page" decoding="async" loading="lazy" src="images/admin/faxes.webp"/></a><figcaption>Faxes — received and sent faxes in one list, with the sender's cover branding and per-number fax detection under Routes.</figcaption></figure>
+<figure><a href="images/admin/recordings.webp"><img alt="Admin panel Recordings page" decoding="async" loading="lazy" src="images/admin/recordings.webp"/></a><figcaption>Recordings — the admin recording switch with its consent warning, the “this call may be recorded” announcement, and the recordings list.</figcaption></figure>
+<figure><a href="images/admin/messages.webp"><img alt="Admin panel Messages page" decoding="async" loading="lazy" src="images/admin/messages.webp"/></a><figcaption>Messages — the PBX's internal text messages between users.</figcaption></figure>
+<figure><a href="images/admin/sms.webp"><img alt="Admin panel SMS / MMS page" decoding="async" loading="lazy" src="images/admin/sms.webp"/></a><figcaption>SMS / MMS (voip.ms) — each number routed to an extension, the webhook URL to paste at voip.ms, and the API settings for outbound texts.</figcaption></figure>
+<figure><a href="images/admin/sms-edit.webp"><img alt="Admin panel Edit SMS route form" decoding="async" loading="lazy" src="images/admin/sms-edit.webp"/></a><figcaption>Edit SMS route — the number, its destination extensions, and the label shown on the list.</figcaption></figure>
+<figure><a href="images/admin/features.webp"><img alt="Admin panel Features page" decoding="async" loading="lazy" src="images/admin/features.webp"/></a><figcaption>Features — the star codes (*555 ChanSpy, *60 conference, *70 DISA, *86 block caller, *97 voicemail, *98 greeting), with access by plan and per user.</figcaption></figure>
+<figure><a href="images/admin/features-edit.webp"><img alt="Admin panel Edit feature form" decoding="async" loading="lazy" src="images/admin/features-edit.webp"/></a><figcaption>Edit feature — one star code's access rule and its per-user Allow/Deny overrides.</figcaption></figure>
+<figure><a href="images/admin/ivr.webp"><img alt="Admin panel IVR page" decoding="async" loading="lazy" src="images/admin/ivr.webp"/></a><figcaption>IVR — system menus you can point numbers at, and how many menus each user may create.</figcaption></figure>
+<figure><a href="images/admin/ivr-edit.webp"><img alt="Admin panel Edit menu form" decoding="async" loading="lazy" src="images/admin/ivr-edit.webp"/></a><figcaption>Edit menu — the greeting, key presses and where each key sends the caller.</figcaption></figure>
+<figure><a href="images/admin/billing.webp"><img alt="Admin panel Billing page" decoding="async" loading="lazy" src="images/admin/billing.webp"/></a><figcaption>Billing — Stripe keys and webhook, the plans for sale, subscribers, and per-user access limits (minutes, texts, recording, IVR menus).</figcaption></figure>
+<figure><a href="images/admin/billing-edit.webp"><img alt="Admin panel Edit plan form" decoding="async" loading="lazy" src="images/admin/billing-edit.webp"/></a><figcaption>Edit plan — a plan's price, minutes, texts, and which features it unlocks.</figcaption></figure>
+<figure><a href="images/admin/store.webp"><img alt="Admin panel Store page" decoding="async" loading="lazy" src="images/admin/store.webp"/></a><figcaption>Store — the public sign-up page: title, numbers for sale, terms, order email. Nobody is charged and nothing is created until you approve.</figcaption></figure>
+<figure><a href="images/admin/email.webp"><img alt="Admin panel Email page" decoding="async" loading="lazy" src="images/admin/email.webp"/></a><figcaption>Email — the SMTP server for voicemail-to-email, a test sender, and security alerts (blocked IPs, sign-in lockouts, kill-switch changes).</figcaption></figure>
+<figure><a href="images/admin/network.webp"><img alt="Admin panel Network page" decoding="async" loading="lazy" src="images/admin/network.webp"/></a><figcaption>Network — the remote-access SIP domain, Cloudflare dynamic DNS keeping it on your public IP, and who may open admin pages.</figcaption></figure>
+<figure><a href="images/admin/sign-on.webp"><img alt="Admin panel Sign-on page" decoding="async" loading="lazy" src="images/admin/sign-on.webp"/></a><figcaption>Sign-on — single sign-on via an OpenID provider such as Authentik, and which PBX logins are linked to it.</figcaption></figure>
+<figure><a href="images/admin/e911.webp"><img alt="Admin panel E911 page" decoding="async" loading="lazy" src="images/admin/e911.webp"/></a><figcaption>E911 — locked behind its own code: the office fallback, per-user 911 numbers and addresses. 911 always connects; every call is logged and emailed.</figcaption></figure>
+<figure><a href="images/admin/reports.webp"><img alt="Admin panel Reports page" decoding="async" loading="lazy" src="images/admin/reports.webp"/></a><figcaption>Reports — calls and texts users flagged from the My Phone app.</figcaption></figure>
+<figure><a href="images/admin/api-keys.webp"><img alt="Admin panel API Keys page" decoding="async" loading="lazy" src="images/admin/api-keys.webp"/></a><figcaption>API Keys — bearer tokens for the /api/v1 REST API. The full key is shown once, at creation; revoking stops it instantly.</figcaption></figure>
+<figure><a href="images/admin/branding.webp"><img alt="Admin panel Branding page" decoding="async" loading="lazy" src="images/admin/branding.webp"/></a><figcaption>Branding — white-label the whole panel: site name, logos for light and dark, colors, login page, favicon and footer.</figcaption></figure>
+</div>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="phones.html"><span class="label">← Previous</span>Phones &amp; feature codes</a><a class="next" href="myphone.html"><span class="label">Next →</span>My Phone</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#dashboard">Dashboard</a></li><li><a class="lvl2" href="#logins">Logins</a></li><li><a class="lvl2" href="#invites">Invites</a></li><li><a class="lvl2" href="#guest-extensions">Guest extensions</a></li><li><a class="lvl2" href="#trunks">Trunks</a></li><li><a class="lvl2" href="#routes">Routes</a></li><li><a class="lvl2" href="#faxes">Faxes</a></li><li><a class="lvl2" href="#ring-groups">Ring groups</a></li><li><a class="lvl2" href="#call-flow">Call flow</a></li><li><a class="lvl2" href="#ivr">IVR</a></li><li><a class="lvl2" href="#cdr-voicemail-recordings-messages">CDR, Voicemail, Recordings, Messages</a></li><li><a class="lvl2" href="#billing">Billing</a></li><li><a class="lvl2" href="#store">Store</a></li><li><a class="lvl2" href="#email">Email</a></li><li><a class="lvl2" href="#network">Network</a></li><li><a class="lvl2" href="#sign-on">Sign-on</a></li><li><a class="lvl2" href="#e911">E911</a></li><li><a class="lvl2" href="#reports">Reports</a></li><li><a class="lvl2" href="#api-keys">API Keys</a></li><li><a class="lvl2" href="#features">Features</a></li><li><a class="lvl2" href="#branding">Branding</a></li><li><a class="lvl2" href="#panel-gallery">The admin panel in pictures</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/admin by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:07 GMT -->
+</html>

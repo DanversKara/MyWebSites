@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/android by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android app · own-pbx docs</title>
+<meta name="description" content="My Phone for Android: the free, open-source app for own-pbx users — texts, calls from the app, voicemail, notifications and settings with a PIN lock.">
+<link rel="canonical" href="android.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="Android app">
+<meta property="og:description" content="My Phone for Android: the free, open-source app for own-pbx users — texts, calls from the app, voicemail, notifications and settings with a PIN lock.">
+<meta property="og:url" content="android.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html" class="active" aria-current="page">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Using it</div>
+
+<h1>Android app <span class="badge new">new</span></h1>
+<p class="lead">My Phone for Android: a free, open-source app that puts My Phone in your pocket. Texts, calls, voicemail and settings, with notifications, <strong>calls in and out from the app itself</strong>, and a PIN lock. Pair it once and it stays connected for weeks.</p>
+<p><a href="android/privacy-policy/index.html">Privacy policy for the Android app →</a></p>
+<p><a href="android/terms-of-service/index.html">Terms of Service for the Android app →</a></p>
+<div class="callout warn">
+<strong>Young app (0.8.4)</strong>
+<p>It works day to day, but it's new: keep the web My Phone handy. It needs own-pbx up to date — run <code>pbx-update</code> after each app update. Calls now work <strong>both ways</strong>: the app places calls and rings for incoming ones, alongside your desk phone or Zoiper.</p>
+</div>
+<h2 id="screenshots"><a aria-hidden="true" class="anchor" href="#screenshots" tabindex="-1">#</a>Screenshots</h2>
+<div class="shots">
+<figure><a href="images/android/messages.webp"><img alt="Messages inbox with one thread and a Start chat button" decoding="async" loading="lazy" src="images/android/messages.webp"/></a><figcaption>Messages: inbox, Start chat</figcaption></figure>
+<figure><a href="images/android/new-message.webp"><img alt="New message dialog asking for an extension or phone number" decoding="async" loading="lazy" src="images/android/new-message.webp"/></a><figcaption>Start a new text</figcaption></figure>
+<figure><a href="images/android/calls-all.webp"><img alt="Calls list on All, with outgoing and voicemail entries" decoding="async" loading="lazy" src="images/android/calls-all.webp"/></a><figcaption>Calls: All</figcaption></figure>
+<figure><a href="images/android/calls-missed.webp"><img alt="Calls list on Missed, with voicemail entries" decoding="async" loading="lazy" src="images/android/calls-missed.webp"/></a><figcaption>Calls: Missed</figcaption></figure>
+<figure><a href="images/android/calls-hidden.webp"><img alt="Calls list on Hidden, with the 90-day note" decoding="async" loading="lazy" src="images/android/calls-hidden.webp"/></a><figcaption>Calls: Hidden (90 days)</figcaption></figure>
+<figure><a href="images/android/dial-pad.webp"><img alt="Dial pad with a number entered and a green call button" decoding="async" loading="lazy" src="images/android/dial-pad.webp"/></a><figcaption>Dial pad</figcaption></figure>
+<figure><a href="images/android/contacts.webp"><img alt="Contacts list with search and an add button" decoding="async" loading="lazy" src="images/android/contacts.webp"/></a><figcaption>Contacts: search, add</figcaption></figure>
+<figure><a href="images/android/contacts-add.webp"><img alt="Add contact dialog with name, number, organization and email fields" decoding="async" loading="lazy" src="images/android/contacts-add.webp"/></a><figcaption>Add a contact</figcaption></figure>
+<figure><a href="images/android/contact-detail.webp"><img alt="Contact page with push-to-talk button, timeline and notes" decoding="async" loading="lazy" src="images/android/contact-detail.webp"/></a><figcaption>Contact: timeline, notes, PTT</figcaption></figure>
+<figure><a href="images/android/voicemail-new.webp"><img alt="Voicemail on New, empty" decoding="async" loading="lazy" src="images/android/voicemail-new.webp"/></a><figcaption>Voicemail: New</figcaption></figure>
+<figure><a href="images/android/voicemail-old.webp"><img alt="Voicemail on Old, empty" decoding="async" loading="lazy" src="images/android/voicemail-old.webp"/></a><figcaption>Voicemail: Old</figcaption></figure>
+<figure><a href="images/android/faxes-received.webp"><img alt="Faxes on Received, empty, with the numbers faxes arrive on" decoding="async" loading="lazy" src="images/android/faxes-received.webp"/></a><figcaption>Faxes: Received</figcaption></figure>
+<figure><a href="images/android/faxes-sent.webp"><img alt="Faxes on Sent, with sent faxes and their delivery times" decoding="async" loading="lazy" src="images/android/faxes-sent.webp"/></a><figcaption>Faxes: Sent</figcaption></figure>
+<figure><a href="images/android/send-fax-top.webp"><img alt="Send a fax form, top: document picker, fax number and send-from number" decoding="async" loading="lazy" src="images/android/send-fax-top.webp"/></a><figcaption>Send a fax: document, number</figcaption></figure>
+<figure><a href="images/android/send-fax-bottom.webp"><img alt="Send a fax form, bottom: cover page, branding and message" decoding="async" loading="lazy" src="images/android/send-fax-bottom.webp"/></a><figcaption>Send a fax: cover page, send</figcaption></figure>
+<figure><a href="images/android/settings-calls-ptt.webp"><img alt="Settings: plan and usage row, calls options, and push-to-talk" decoding="async" loading="lazy" src="images/android/settings-calls-ptt.webp"/></a><figcaption>Settings: calls &amp; push-to-talk</figcaption></figure>
+<figure><a href="images/android/settings-texts-blocked.webp"><img alt="Settings: push-to-talk options, texts, notification email and blocked numbers" decoding="async" loading="lazy" src="images/android/settings-texts-blocked.webp"/></a><figcaption>Settings: texts &amp; blocked</figcaption></figure>
+<figure><a href="images/android/settings-notifications.webp"><img alt="Settings: notifications, background running, sounds, and app security" decoding="async" loading="lazy" src="images/android/settings-notifications.webp"/></a><figcaption>Notifications &amp; security</figcaption></figure>
+<figure><a href="images/android/settings-calling-account.webp"><img alt="Settings: lock timer, calling, account, and About with check for updates" decoding="async" loading="lazy" src="images/android/settings-calling-account.webp"/></a><figcaption>Calling, account &amp; updates</figcaption></figure>
+<figure><a href="images/android/phone-login.webp"><img alt="Phone login dialog with server, username and password fields" decoding="async" loading="lazy" src="images/android/phone-login.webp"/></a><figcaption>Phone login</figcaption></figure>
+<figure><a href="images/android/plan-usage.webp"><img alt="Plan and usage: unlimited minutes and texts, faxes sent, and what the plan includes" decoding="async" loading="lazy" src="images/android/plan-usage.webp"/></a><figcaption>Plan &amp; usage</figcaption></figure>
+</div>
+<p class="shots-note">Screenshots from 0.8.4, showing the new Faxes tab. Names, numbers and addresses shown are demo data. Tap one to pop it up full size without leaving the page — tap the photo to zoom, tap outside it (or the ×) to close.</p>
+<h2 id="what-it-does"><a aria-hidden="true" class="anchor" href="#what-it-does" tabindex="-1">#</a>What it does</h2>
+<div class="table-wrap"><table>
+<tr><th>Screen</th><th>What you can do</th></tr>
+<tr><td><strong>Messages</strong></td><td>Inbox like Google Messages: search, unread dots, <strong>swipe to delete</strong> with Undo, <strong>long-press to select</strong> several (Select all, Delete), <strong>Start chat</strong> to any extension or number, chat bubbles, copy, block, and a <strong>Call</strong> button in a chat.</td></tr>
+<tr><td><strong>Calls</strong></td><td><strong>All / Missed / Hidden</strong>. Swipe left or long-press to <strong>hide</strong> calls (with Undo); hidden calls wait under Hidden until the PBX removes them after 90 days — nothing is deleted. Tap a call to <strong>Call</strong>, text back, hide or block. The <strong>dial pad</strong> button places a call. Opening Calls clears the missed-call badge.</td></tr>
+<tr><td><strong>Voicemail</strong></td><td>New / Old. Tap to play, with a seek bar, elapsed/total time and <strong>1x / 1.5x / 2x</strong> speed. Then <strong>Call</strong> back, Text, Move to Old / New, Block or Delete (swipe or multi-select, with Undo).</td></tr>
+
+<tr><td><strong>Contacts</strong> <span class="badge new">new</span></td><td>Your private address book from the PBX: search, add, <strong>Call</strong> or text. Open a contact for its <strong>timeline</strong> (calls, texts, voicemail and recordings with them, newest first) and <strong>notes</strong>. A <strong>saved copy</strong> stays on the phone, so your contacts still show with no internet or when the PBX is down (“Offline — showing saved contacts”). Names from your contacts also show in Calls, Messages and Voicemail, and on the incoming-call screen.</td></tr>
+<tr><td><strong>Faxes</strong> <span class="badge new">new</span></td><td><strong>Received</strong> and <strong>Sent</strong>; tap a fax to read it in the app (zoom, <strong>Share</strong>, <em>Open with</em>, Call back, Delete). <strong>Send a fax</strong>: choose a PDF or photo, enter the fax number, pick your number to send from, add an optional cover page (with a <strong>Preview</strong> of your branding). Faxes left this month are shown; new faxes get a notification. Shown when your plan includes Fax.</td></tr>
+<tr><td><strong>Settings</strong></td><td>Do Not Disturb, call forwarding, ring time, record my calls, receive/send texts, text emails, notification email, blocked numbers; <strong>Notifications</strong>; <strong>Calling</strong> (incoming calls, phone login); PIN, fingerprint, lock timer, screenshot blocking; panel password, signed-in phones, sign out.</td></tr>
+<tr><td><strong>Plan &amp; usage</strong> <span class="badge new">new</span></td><td>At the top of Settings: minutes and texts left this month (the month resets on the 1st) and what your plan includes — voicemail, push-to-talk, call recording, IVR menus, texting, fax (with faxes sent and left). When the admin turns on <a href="admin.html#app-store-mode">App store mode</a> for you, this is replaced by “For account details, visit …” (and the admin can hide plans in the web portal too).</td></tr>
+<tr><td><strong>Push-to-talk options</strong> <span class="badge new">new</span></td><td>Under Settings → Push-to-talk: <strong>If I don't accept a push-to-talk</strong> (send the caller to voicemail, or chirp again up to 3 tries then voicemail), <strong>Auto-accept pages from</strong> (extensions you trust connect instantly, no Accept tap), <strong>Extra loud</strong> (max volume plus extra gain on push-to-talk calls) and <strong>VOX hands-free</strong> (no holding the button — the mic opens when you speak).</td></tr>
+<tr><td><strong>Updates</strong> <span class="badge new">new</span></td><td>The app <strong>checks for updates every time it comes to the front</strong> and puts the update on screen right away — no trip to Settings needed. <strong>Later</strong> just postpones it to the next time the app is opened; it only goes away for good once installed. Settings → About still shows your version, with a <strong>Check for updates now</strong> button.</td></tr>
+</table></div>
+<p>Everything you change in the app goes through the same rules as the web My Phone: your plan limits, the admin's safety lock, block lists and rate limits all apply the same way.</p>
+<h2 id="get-the-app"><a aria-hidden="true" class="anchor" href="#get-the-app" tabindex="-1">#</a>Get the app</h2>
+<ol>
+<li>On the phone, open <a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">GitHub → Releases → latest</a> (<strong>My Phone 0.7.17</strong> or newer) and tap <strong>my-phone-&lt;version&gt;.apk</strong> under <em>Assets</em>.</li>
+<li>Open the downloaded file. Android asks to allow installing from your browser or file manager — allow it once.</li>
+</ol>
+<p><strong>Updates:</strong> every change to the app is published as a new signed release automatically. The app checks whenever it comes to the front and <strong>shows the update on screen straight away</strong>; tap <strong>Update</strong> and it downloads and hands the <code>.apk</code> to the installer — it installs over the top and keeps your sign-in, PIN and settings. (<strong>Settings → About</strong> shows your version and has a <strong>Check for updates now</strong> button too.) Run <code>pbx-update</code> on the PBX too, so both sides match.</p>
+<div class="callout warn">
+<strong>Coming from a test build (0.7.2 or older)?</strong>
+<p>Earlier builds came from GitHub Actions and were signed with a test key. Android won't install the signed release over one of those (“App not installed” / “conflicts with an existing package”). Uninstall the old My Phone first, install the release, then connect again with <em>Sign in with my browser</em>. This is a one-time step; later releases update normally.</p>
+</div>
+<p>Free software (GPL-2.0-or-later; the built-in phone engine, Linphone, is GPL-3.0), no ads, no tracking, <strong>no Google Play Services or Firebase</strong>. Needs Android 8.0 or newer.</p>
+<h2 id="connecting-the-app"><a aria-hidden="true" class="anchor" href="#connecting-the-app" tabindex="-1">#</a>Connecting the app</h2>
+<h3 id="sign-in-with-my-browser"><a aria-hidden="true" class="anchor" href="#sign-in-with-my-browser" tabindex="-1">#</a>Sign in with my browser <span class="badge new">new</span></h3>
+<p>The quickest way, all on the phone — no QR code, no typing a code:</p>
+<ol>
+<li>Open the app. The <strong>Server</strong> is already filled in (change it if yours is different). Tap <strong>Sign in with my browser</strong>.</li>
+<li>My Phone opens in a browser tab inside the app (like links in Gmail). Sign in with your password — or <strong>Sign in with Authentik</strong> if <a href="admin.html#sign-on">single sign-on</a> is on.</li>
+<li>The PBX makes a pairing code by itself and sends you back to the app, which connects. Then you choose your PIN.</li>
+</ol>
+<p>If the tab doesn't jump back on its own, tap <strong>Open the My Phone app</strong> on that page (some phones' browsers want one tap); the code is shown there too as a last resort.</p>
+<div class="callout">
+<strong>Safe by design</strong>
+<p>The app sends a random one-time value with the sign-in, and only connects by itself when the answer carries that value, from the same server, within 15 minutes. A pairing link from anywhere else is only filled in and waits for you to tap <em>Connect</em>, so a link on some website can't quietly pair your app to another server. The app still never sees your password.</p>
+</div>
+<h3 id="with-a-pairing-code"><a aria-hidden="true" class="anchor" href="#with-a-pairing-code" tabindex="-1">#</a>With a pairing code</h3>
+<p>The app can also connect with a <strong>pairing code</strong> from another device:</p>
+<ol>
+<li>In a browser, sign in to My Phone and open <strong>App → Get a pairing code</strong>.</li>
+<li>In the app, tap <strong>Scan QR code</strong> and point the phone at the QR on your screen. It fills in the server and code and connects.</li>
+</ol>
+<p>Other ways, same result:</p>
+<ul>
+<li><strong>Phone's own camera:</strong> scan the QR; it opens the app with everything filled in — tap <strong>Connect</strong>.</li>
+<li><strong>Page open on the phone itself:</strong> tap <strong>Open in the My Phone app</strong> on that page.</li>
+<li><strong>Type it:</strong> tap the code and server on the web page to copy them, and enter them under <em>or type it</em>.</li>
+</ul>
+<pre><code>Server:        https://myphone.example.com
+Pairing code:  K7QH2MXP   (example; works once, for 5 minutes)</code></pre>
+<p>The server is your My Phone address from outside (for example published through Cloudflare Tunnel), or <code>http://&lt;PBX-IP&gt;:8001</code> at home. An <code>http://</code> address isn't encrypted; the app warns you — only use it on your home network or a VPN.</p>
+<div class="callout">
+<strong>Stays connected</strong>
+<p>Each phone's sign-in lasts <strong>60 days after you last used the app</strong> — use it weekly and you never pair again. Changing your panel password signs out all your other phones. You can sign out any phone from My Phone → <strong>App</strong> or from the app's Settings.</p>
+</div>
+<h2 id="calls"><a aria-hidden="true" class="anchor" href="#calls" tabindex="-1">#</a>Calls</h2>
+<p>The app has a built-in phone, so it makes and takes calls itself — no Zoiper needed.</p>
+<ol>
+<li>In the app: <strong>Settings → Calling → Phone login → Get from my PBX</strong>, check the details, tap <strong>Save</strong>.</li>
+<li>Use the <strong>dial pad</strong> on Calls, or <strong>Call</strong> on a call, a voicemail or in a chat. Allow the microphone the first time.</li>
+</ol>
+<p>Instead of <em>Get from my PBX</em> you can scan the phone login QR (web: My Phone → App → <strong>Show phone login QR</strong>; the password stays hidden until you ask), or type the server, username and password like in Zoiper.</p>
+<ul>
+<li><strong>During a call:</strong> mute, keypad (for menus like <code>*97</code> voicemail), speaker, hang up. Leave the app and an <strong>On a call</strong> notification keeps it going, with a <strong>Hang up</strong> button.</li>
+<li><strong>If a call fails,</strong> the screen says why with a SIP code; <strong>Copy details</strong> copies it for whoever looks after the PBX.</li>
+<li><strong>How it connects:</strong> like a remote Zoiper — TLS to the edge on port 5061, encrypted audio (SRTP), with your extension's login.</li>
+<li><strong>Needs</strong> the remote-access domain set under Admin → Network (the one Zoiper uses away from the office).</li>
+</ul>
+<h3 id="incoming-calls"><a aria-hidden="true" class="anchor" href="#incoming-calls" tabindex="-1">#</a>Incoming calls</h3>
+<p>Settings → Calling → <strong>Incoming calls</strong> (on by default). Your extension then rings the app <strong>at the same time as</strong> your desk phone and Zoiper — whichever answers first takes the call, the others stop.</p>
+<ul>
+<li><strong>Ringing:</strong> a full-screen call screen, even over the lock screen, with <strong>Answer</strong> and <strong>Decline</strong>. If the phone is in use you get a pop-up notification with the same buttons.</li>
+<li><strong>Its own line:</strong> the app signs in as <code>&lt;extension&gt;-app</code> (for example <code>8800-app</code>) with the same password, so it never knocks your desk phone or Zoiper off. <em>Get from my PBX</em> fills this in — if you set up the phone login before 0.7, tap <em>Get from my PBX</em> → <strong>Save</strong> once.</li>
+<li><strong>Status:</strong> under the switch it shows <em>Signed in: this phone rings for incoming calls</em>, or what's wrong.</li>
+<li><strong>Battery:</strong> to ring, the app stays connected with the small “My Phone is connected” notification and needs <strong>Let it run in the background</strong> allowed (Settings → Notifications). The row now stays visible after you allow it — tap it any time to re-check. Motorola phones have a second switch: use the <strong>App settings (Motorola battery killer)</strong> row under it — set <strong>Battery → Unrestricted</strong> and turn off <strong>“Pause app activity if unused”</strong>. Turn Incoming calls off and it only places calls.</li>
+<li><strong>If Android kills it anyway</strong> (some brands close even foreground apps after a few hours): since 0.7.9 the app restarts its connection by itself — a background check every 15 minutes brings it back and it re-registers, instead of staying signed out until you open it. Swiping it away from Recents also restarts it. The “Connected” notification disappearing for a while is the sign this happened.</li>
+<li>If the app isn't signed in (phone off, no signal), calls ring your other phones and go to voicemail as before.</li>
+</ul>
+<h3 id="push-to-talk"><a aria-hidden="true" class="anchor" href="#push-to-talk" tabindex="-1">#</a>Push-to-talk</h3>
+<p>With push-to-talk switched on (<strong>Settings → Push-to-talk</strong> — your plan must include it, or your admin must allow it on your account), the app works like a walkie-talkie:</p>
+<ul>
+<li><strong>Talking:</strong> contacts who can receive push-to-talk get a <strong>PTT</strong> button (long-pressing the contact works too). Your microphone starts muted once you're connected — <strong>hold the big button to talk</strong>, let go to listen.</li>
+<li><strong>Receiving:</strong> a page never connects by itself — unless the caller is on your <strong>Auto-accept pages from</strong> list (Settings → Push-to-talk), in which case one chirp plays and the line opens on speaker right away, walkie-talkie style (your mic still stays off until you talk). Otherwise your phone plays the <strong>PTT chirp</strong> — a short three-tone alert (an original sound generated by the app, not a ringtone) that sounds over your normal ring and notification sounds, with vibration — and shows <strong>Accept / No accept</strong>. Accept opens the hold-to-talk screen on speakerphone; No accept sends the caller straight to voicemail, and letting it ring out follows your <strong>"If I don't accept a push-to-talk"</strong> setting below.</li>
+<li><strong>On the call:</strong> Speaker, <strong>Extra loud</strong> and <strong>VOX</strong> buttons sit above the hold-to-talk button. With VOX hands-free on (Settings → Push-to-talk) you don't hold anything — the mic opens when you speak.</li>
+<li><strong>From any phone</strong> (desk phone, Zoiper): dial <code>*88</code> + the extension. See <a href="phones.html#feature-codes">feature codes</a>.</li>
+</ul>
+<h2 id="notifications"><a aria-hidden="true" class="anchor" href="#notifications" tabindex="-1">#</a>Notifications</h2>
+<p>New texts, missed calls and voicemail pop up with sound, and the app icon shows how many are waiting. Tapping one opens that chat or tab. Settings → <strong>Notifications</strong>:</p>
+<div class="table-wrap"><table>
+<tr><th>Setting</th><th>What it does</th></tr>
+<tr><td><strong>Check for new things</strong></td><td><strong>Instant</strong> (default): the app stays connected and the PBX tells it within seconds. Shows a small “My Phone is connected” notification — Android requires it; long-press it to hide that category. Or every <strong>30 s, 1 min or 5 min</strong>, or every <strong>15 min</strong> to save battery (no “connected” notification).</td></tr>
+<tr><td><strong>Let it run in the background</strong></td><td>Always shown while the app stays connected. Tap and choose <strong>Allow</strong>; afterwards the row stays, reading “Allowed in Android — tap to re-check”, so you can get back to it if your phone quietly turns it off again.</td></tr>
+<tr><td><strong>App settings (Motorola battery killer)</strong></td><td>Opens Android's App info page for My Phone. On Motorola (and some other brands) this second page is the one that matters: <strong>Battery → Unrestricted</strong>, and turn off <strong>“Pause app activity if unused”</strong> — without it the phone can kill the app even when background running is allowed above.</td></tr>
+<tr><td><strong>Show text in notifications</strong></td><td>Off: just “New message” and who it's from. The lock screen only ever says “New message” unless your phone allows private content there.</td></tr>
+<tr><td><strong>Send a test notification / Check now</strong></td><td>Check sound and pop-ups; <em>Check now</em> shows when the last check ran and what it found.</td></tr>
+</table></div>
+<p>Nothing you've already seen in the app pops up again, and nothing pops up while the app is open.</p>
+<h3 id="missed-calls"><a aria-hidden="true" class="anchor" href="#missed-calls" tabindex="-1">#</a>Missed calls</h3>
+<ul>
+<li>Each missed call shows <strong>who and when</strong> — “Missed call · (555) 019-2837 · 2:14 PM”; several are listed newest first. Calls that rolled to voicemail count as missed too.</li>
+<li><strong>The app rang and nobody answered:</strong> it notifies the moment the ringing stops.</li>
+<li><strong>Answered on another phone</strong> (desk phone, Zoiper): not a missed call — the app shows “Answered on another phone”.</li>
+<li><strong>Phone was offline</strong> (no signal, airplane mode) and never rang: the notification comes as soon as it reaches the PBX again, with the time of each call. With <em>Check for new things</em> on every 15 minutes this can take up to 15 minutes.</li>
+</ul>
+<h2 id="pin-lock"><a aria-hidden="true" class="anchor" href="#pin-lock" tabindex="-1">#</a>PIN lock</h2>
+<ul>
+<li>After pairing you choose a <strong>6-digit</strong> or <strong>12-digit</strong> PIN. Easy PINs like <code>111111</code> or <code>123456</code> are refused.</li>
+<li>The PIN never leaves your phone; only a salted hash is kept, in storage encrypted by the phone's hardware key store.</li>
+<li>Optional fingerprint or face unlock — your PIN always works too.</li>
+<li>Lock immediately when you leave the app, or after 1, 5 or 15 minutes away — even if Android closes the app in between. Restarting the phone always locks it.</li>
+<li>Coming back through the PIN keeps your place: the same tab, open chat and half-filled settings (handy when you pop out to a password manager). The app's own QR scanner doesn't count as leaving.</li>
+<li>Wrong PINs make you wait longer each time; <strong>10 wrong in a row signs the app out</strong> (your account is untouched — just pair again).</li>
+<li>Screens are hidden from screenshots and the recent-apps view; turn off <strong>Hide screen in recent apps</strong> to take screenshots.</li>
+</ul>
+<h2 id="if-the-app-closes-by-itself"><a aria-hidden="true" class="anchor" href="#if-the-app-closes-by-itself" tabindex="-1">#</a>If the app closes by itself</h2>
+<p>Open it again: it shows <strong>“The app closed unexpectedly”</strong> with the error. Tap <strong>Copy and close</strong> and send it to whoever looks after your PBX. It holds only the error, the app and Android version and the phone model — no messages or numbers.</p>
+<h2 id="for-the-admin"><a aria-hidden="true" class="anchor" href="#for-the-admin" tabindex="-1">#</a>For the admin</h2>
+<ul>
+<li>Nothing to configure: <code>pbx-update</code> adds the app API, its tables (<code>app_devices</code>, <code>call_hidden</code>) and the <code>segno</code> package for QR codes. No new ports — the app uses the same address as the web panel, and calls use the existing edge.</li>
+<li><code>pbx-update</code> also gives every extension a second SIP line, <code>&lt;extension&gt;-app</code>, with the same password. When it's signed in, a call to the extension rings both lines and the first to answer wins; ring groups do the same.</li>
+<li>App sign-ins show up in <strong>Recent sign-ins</strong> and the audit log like web sign-ins, with the same lockouts (10 failures per address in 15 minutes). Showing a phone login QR is audited too.</li>
+<li>Instant notifications hold one request open per phone for up to 55 seconds (under Cloudflare's 100-second limit); the PBX checks for news every 2 seconds while it waits.</li>
+<li>The app only reaches My Phone features. Admin pages stay office-network only, even for admin logins.</li>
+<li>The JSON API the app uses (<code>/api/v1/app/*</code>, <code>/api/v1/me/*</code>, including <code>/me/wait</code> and <code>/me/sip</code>) is documented in <code>docs/API.md</code>.</li>
+</ul>
+<h2 id="coming-next"><a aria-hidden="true" class="anchor" href="#coming-next" tabindex="-1">#</a>Coming next</h2>
+<p>A Do Not Disturb quick-settings tile, push for incoming calls without the “connected” notification, recordings, and signed releases / F-Droid. The full plan is in <code>docs/ANDROID_APP_PLAN.md</code>.</p>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="myphone.html"><span class="label">← Previous</span>My Phone</a><a class="next" href="sms.html"><span class="label">Next →</span>SMS &amp; MMS</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#screenshots">Screenshots</a></li><li><a class="lvl2" href="#what-it-does">What it does</a></li><li><a class="lvl2" href="#get-the-app">Get the app</a></li><li><a class="lvl2" href="#connecting-the-app">Connecting the app</a></li><li><a class="lvl3" href="#sign-in-with-my-browser">Sign in with my browser</a></li><li><a class="lvl3" href="#with-a-pairing-code">With a pairing code</a></li><li><a class="lvl2" href="#calls">Calls</a></li><li><a class="lvl3" href="#incoming-calls">Incoming calls</a></li><li><a class="lvl3" href="#push-to-talk">Push-to-talk</a></li><li><a class="lvl2" href="#notifications">Notifications</a></li><li><a class="lvl3" href="#missed-calls">Missed calls</a></li><li><a class="lvl2" href="#pin-lock">PIN lock</a></li><li><a class="lvl2" href="#if-the-app-closes-by-itself">If the app closes by itself</a></li><li><a class="lvl2" href="#for-the-admin">For the admin</a></li><li><a class="lvl2" href="#coming-next">Coming next</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/android by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:16 GMT -->
+</html>

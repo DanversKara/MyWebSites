@@ -59,6 +59,7 @@ body {
 }
 .nav-section a:hover { background: #1e293b; color: #fff; }
 .nav-section a.active { background: #1d4ed8; color: #fff; font-weight: 600; }
+.nav-section a.sub { padding-left: 26px; font-size: 13.5px; }
 
 .main { flex: 1; min-width: 0; }
 .content { max-width: var(--max-w); margin: 0 auto; padding: 48px 40px 80px; }

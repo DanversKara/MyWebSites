@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/troubleshooting by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting · own-pbx docs</title>
+<meta name="description" content="Fix the problems that actually happen with own-pbx: registration, audio, calls dropping, email, and more.">
+<link rel="canonical" href="troubleshooting.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="Troubleshooting">
+<meta property="og:description" content="Fix the problems that actually happen with own-pbx: registration, audio, calls dropping, email, and more.">
+<meta property="og:url" content="troubleshooting.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html" class="active" aria-current="page">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Reference</div>
+
+<h1>Troubleshooting</h1>
+<p class="lead">The problems that actually happen, and where to look first.</p>
+<div class="table-wrap"><table>
+<tr><th>Problem</th><th>Check</th></tr>
+<tr><td>Phone won't register</td><td><strong>Dashboard → Recent sign-ins</strong> and <strong>Activity</strong>; <code>asterisk -rx "pjsip show endpoints"</code>; on the edge <code>fail2ban-client status kamailio-edge</code> (unban: <code>fail2ban-client unban &lt;ip&gt;</code>)</td></tr>
+<tr><td>Outside calls fail</td><td>User has outside minutes (Billing → User access)? Outbound route matches? <code>asterisk -rx "pjsip show registrations"</code> says <em>Registered</em>? <code>journalctl -u pbx-brain</code> shows <code>outbound ... via trunk</code>?</td></tr>
+<tr><td>Incoming calls skip someone</td><td>They need outside minutes; check <code>journalctl -u pbx-brain | grep skipped</code></td></tr>
+<tr><td>Remote phone: no audio</td><td>Router forwards UDP 20000–20099 to the <strong>edge</strong>; the phone uses SRTP (SDES); run <code>./verify-edge.sh</code></td></tr>
+<tr><td>Remote phone: "SDP mismatch" when answering</td><td>Set the phone's media encryption to <strong>SRTP (SDES)</strong></td></tr>
+<tr><td>Remote phone never rings</td><td>Zoiper killed in the background (phone settings / push); edge config is current (<code>./update-edge.sh</code>)</td></tr>
+<tr><td>Hang-up doesn't end the call on the other side</td><td>Edge config is current; the certificate matches <code>sip.example.com</code></td></tr>
+<tr><td>Calls drop after an IP change</td><td><code>systemctl status pbx-edge-ip.timer</code> on the edge; Network page shows "In sync"</td></tr>
+<tr><td>No emails</td><td>Email page → <strong>Send test</strong>; port 587 or 465 (many ISPs block 25)</td></tr>
+<tr><td>Can't open admin pages</td><td>Use <code>http://&lt;PBX-IP&gt;:8001</code> from the office network, not the published address</td></tr>
+<tr><td>Android app: "doesn't support the app yet", or "Not Found" when calling</td><td>The PBX is older than the app: run <code>pbx-update</code>. Use the same address as My Phone from outside</td></tr>
+<tr><td>Android app: "Can't reach …"</td><td>Address typed right (<code>https://</code>)? Phone on mobile data can reach your published address? Try it in the phone's browser first. Right after <code>pbx-update</code>, wait 30 seconds</td></tr>
+<tr><td>Android app: “Sign in with my browser” signs in but doesn't return to the app</td><td>Tap <strong>Open the My Phone app</strong> on that page, or type the code it shows. Check the Server in the app matches the address you signed in at, and run <code>pbx-update</code> (needs the PBX from 14 Oct 2026 or newer) with app 0.7.2 or newer</td></tr>
+<tr><td>Android app: pairing code "wrong or expired"</td><td>Codes work once and for 5 minutes — get a new one in My Phone → App</td></tr>
+<tr><td>Android app: no notifications</td><td>Settings → Notifications → <strong>Send a test notification</strong> (none = allow notifications in Android); <strong>Let it run in the background</strong> → Allow; the line under <strong>Check now</strong> says what the last check found. Texts you send yourself don't notify</td></tr>
+<tr><td>Android app: the “Connected” notification disappears after a few hours and calls stop ringing</td><td>Your phone's battery saver killed the app (Motorola is the worst for this). Update the app (<strong>0.7.9 or newer</strong> restarts its connection and re-registers by itself, about every 15 minutes). Then Settings → Notifications → <strong>Let it run in the background</strong> → Allow, and on Motorola also <strong>App settings (Motorola battery killer)</strong> → Battery → <strong>Unrestricted</strong> with <strong>“Pause app activity if unused”</strong> off. Don't swipe the app away from Recents</td></tr>
+<tr><td>Android app: calls fail</td><td>Settings → Calling → Phone login → <strong>Get from my PBX</strong> → Save. "Remote calling isn't set up" = set the domain under Admin → Network. Otherwise tap <strong>Copy details</strong> on the call screen for the SIP code</td></tr>
+<tr><td>Android app: a "1" on the icon that won't go away</td><td>Update the app (0.5.1+): the “connected” notification no longer counts</td></tr>
+<tr><td>Android app: calls to me go to voicemail, the app never rings</td><td>Run <code>pbx-update</code>, then in the app Settings → Calling → Phone login → <strong>Get from my PBX</strong> → Save (the username must end in <code>-app</code>). Check <em>Incoming calls</em> says “Signed in” and allow <strong>Let it run in the background</strong></td></tr>
+<tr><td>Android app: a call says “Not Found” or can't reach the PBX</td><td>Run <code>pbx-update</code>; set the remote-access domain under Admin → Network; use <strong>Get from my PBX</strong> for the phone login</td></tr>
+<tr><td>Android app: no missed-call notification</td><td>Update the app (0.7.1 or newer) and run <code>pbx-update</code> (older apps skipped calls that went to voicemail). Check <em>Check for new things</em> isn't on 15 minutes</td></tr>
+<tr><td>Android app isn't under Dashboard → Signed in now</td><td>Run <code>pbx-update</code>; the app only signs in while <em>Incoming calls</em> is on and says “Signed in”</td></tr>
+<tr><td>Incoming calls aren't recorded</td><td>Run <code>pbx-update</code> (fixed: they were filed under the caller, and calls from outside weren't recorded at all)</td></tr>
+<tr><td>Single sign-on: “no login here has that username / email”</td><td>Sign-on doesn't create accounts: add the login first. Match by username needs the <code>profile</code> scope; by email, the login's notification email must match (and be verified at the provider)</td></tr>
+<tr><td>Single sign-on: redirect URI error at the provider</td><td>Register exactly the Redirect URI shown on Admin → Sign-on; set <em>Panel address from outside</em> to your public address</td></tr>
+<tr><td>Single sign-on: “issuer” or “expired” errors</td><td>Copy the issuer exactly as the provider shows it (trailing slash included); check the PBX clock (<code>timedatectl</code>)</td></tr>
+<tr><td>Locked out: provider down and the password form is hidden</td><td>Open <code>/login?password=1</code></td></tr>
+<tr><td>Edit PIN: “Unlock with PIN” does nothing on some pages</td><td>Run <code>pbx-update</code> (fixed: it only worked on the dashboard), then refresh the page</td></tr>
+<tr><td>My Phone says “Offline – No phone signed in” while the app works</td><td>Run <code>pbx-update</code>: the card now counts the app's line (<code>&lt;ext&gt;-app</code>)</td></tr>
+<tr><td>A new user can't use <code>*97</code> or another star code</td><td>Expected: codes are <strong>By plan</strong>. Add the code to their plan, tick it under Billing → User access → Star codes (no plan), or Allow it for them on Features</td></tr>
+<tr><td>Store: “Not available”</td><td>Store open? Stripe keys set and at least one plan offered and <strong>published</strong> to Stripe (Billing)?</td></tr>
+<tr><td>Store: Approve says “No free extensions” or the number is in use</td><td>Widen the extension range on Invites; free the number under Routes, or reject the order</td></tr>
+<tr><td>Store: customer didn't get their login email</td><td>Check SMTP on the Email page; Approve shows the username and password on screen when the email fails</td></tr>
+<tr><td>Android app: “App not installed” / “conflicts with an existing package”</td><td>You have an old test build (0.7.2 or older). Uninstall My Phone, install the release from GitHub → Releases, and connect again with <strong>Sign in with my browser</strong> (one time only)</td></tr>
+<tr><td>Android app: calls had no audio on 0.7.3</td><td>Fixed in 0.7.5: install the latest release</td></tr>
+<tr><td>Contact names don't show</td><td>Run <code>pbx-update</code>; check the contact's number (any format works). Names show for your own contacts only</td></tr>
+<tr><td>“Ring my cell too”: the cell never rings</td><td>The cell rings for calls to a phone number or <strong>ring group</strong> that rings you — not for calls dialled straight to your extension. You need outside minutes in your plan, a working outbound route (Routes), and DND off. The cell starts after your delay — if someone answers first, it never rings</td></tr>
+<tr><td>“Ring my cell too”: answered but it hung up</td><td>Press <strong>1</strong> within 12 seconds of answering; anything else hangs up just the cell (that's what stops your cell's voicemail taking the call)</td></tr>
+<tr><td>Android app signed out by itself</td><td>Panel password changed, signed out from My Phone → App, not used for 60 days, or 10 wrong PINs — pair again</td></tr>
+<tr><td>Inbound SMS doesn't arrive</td><td>Webhook URL in voip.ms (re-check the token survived the paste); <code>did_sms_routes</code> has the normalized DID; <code>journalctl -u pbx-api -f</code> for webhook hits</td></tr>
+<tr><td>Outbound SMS fails</td><td>API username is the login email (not account number); <code>journalctl -u pbx-agi -f</code> for <code>msg-route external:</code> lines</td></tr>
+<tr><td>Incoming calls stop arriving (nothing reaches the PBX), but outgoing calls work</td><td>The router forgot the PBX's connection to voip.ms. Run <code>pbx-update</code> (the PBX now checks in with voip.ms every 25 seconds); right now, <code>asterisk -rx "pjsip send register reg-voipms"</code></td></tr>
+<tr><td>A desk phone shows busy or doesn't ring after a PBX restart</td><td>It hasn't signed in again yet. After <code>pbx-update</code> phones re-register within 5 minutes; to fix it now, power-cycle the phone. Check with <code>asterisk -rx "pjsip show contacts"</code></td></tr>
+<tr><td>Faxes: a fax rang through like a normal call (or went to voicemail)</td><td><strong>Detect faxes</strong> ticked for that number? <code>journalctl -u pbx-agi | grep fax-check</code> says whether the PBX listened and why not. Some senders start silently: raise <em>Listen for</em></td></tr>
+<tr><td>Faxes: “didn't come through” / “May be incomplete”</td><td>Usually the internet line garbling the fax tones; ask the sender to retry. If it keeps happening, ask voip.ms to enable T.38 for the number</td></tr>
+<tr><td>Faxes: “built without fax support” on Routes or Faxes</td><td>Run <code>pbx-update --with-fax</code> once when the phones are quiet</td></tr>
+<tr><td>Faxes: “Send a fax” missing or not available</td><td>The user needs Fax in their plan (Billing), a number whose route rings them, outside minutes, and faxes left this month. The message under the button says which</td></tr>
+</table></div>
+<h2 id="where-the-logs-live"><a aria-hidden="true" class="anchor" href="#where-the-logs-live" tabindex="-1">#</a>Where the logs live</h2>
+<pre><code>journalctl -u pbx-brain -u pbx-api -u pbx-agi
+asterisk -rvvv
+# On the edge:
+journalctl -u kamailio -u rtpengine -u fail2ban</code></pre>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="api.html"><span class="label">← Previous</span>API reference</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#where-the-logs-live">Where the logs live</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/troubleshooting by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:22 GMT -->
+</html>

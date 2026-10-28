@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/myphone by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Phone · own-pbx docs</title>
+<meta name="description" content="My Phone: the user panel in own-pbx — calls, voicemail, recordings, messages, IVR, billing, settings.">
+<link rel="canonical" href="myphone.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="My Phone">
+<meta property="og:description" content="My Phone: the user panel in own-pbx — calls, voicemail, recordings, messages, IVR, billing, settings.">
+<meta property="og:url" content="myphone.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html" class="active" aria-current="page">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Using it</div>
+
+<h1>My Phone</h1>
+<p class="lead">The user panel — everything a non-admin needs, also on a phone screen. Sign in at <code>http://&lt;PBX-IP&gt;:8001</code> (or your published address).</p>
+<div class="table-wrap"><table>
+<tr><th>Page</th><th>What it does</th></tr>
+<tr><td><strong>Overview</strong></td><td>Phone status (each signed-in phone, including the Android app as “My Phone app”), Do Not Disturb, new voicemail, missed calls, where 911 sends help, plan usage, recent calls</td></tr>
+<tr><td><strong>Calls</strong></td><td>90-day history (can't be deleted), recordings, <strong>Block</strong> and <strong>Report</strong> per call</td></tr>
+<tr><td><strong>Voicemail</strong></td><td>Listen, download, move, delete; greeting upload or record by phone (<code>*98</code>)</td></tr>
+<tr><td><strong>Faxes</strong> <span class="badge new">new</span></td><td>Received faxes as PDFs (view, download, delete), <strong>Send a fax</strong> and the Sent list, and <em>My fax branding</em>. Shown when your plan includes Fax — see <a href="#faxes">Faxes</a></td></tr>
+<tr><td><strong>Recordings</strong></td><td>The user's own recordings only</td></tr>
+<tr><td><strong>Messages</strong></td><td>Conversations; send a text to any extension (including Zoiper and other SIP apps); <strong>Block</strong>, <strong>Report</strong>; updates by itself. External numbers go out via voip.ms (see <a href="sms.html">SMS &amp; MMS</a>)</td></tr>
+<tr><td><strong>IVR</strong></td><td>Personal menus (if their plan allows)</td></tr>
+<tr><td><strong>Billing</strong></td><td>Choose, switch or cancel a plan (Stripe)</td></tr>
+<tr><td><strong>Contacts</strong> <span class="badge new">new</span></td><td>Your private address book (other users never see it). Add, edit, search, select and delete (or delete all); <strong>import</strong> a vCard (<code>.vcf</code>) or CSV, <strong>export</strong> all as vCard. Each contact has a <strong>timeline</strong> of calls, texts, voicemail and recordings with them, and private <strong>notes</strong></td></tr>
+<tr><td><strong>App</strong></td><td>Pair the <a href="android.html">Android app</a>: <strong>Get a pairing code</strong> shows a QR code, tap-to-copy code and server, and an <em>Open in the My Phone app</em> button. <strong>Show phone login QR</strong> gives the app your extension's phone login for calls. See and sign out your signed-in phones</td></tr>
+<tr><td><strong>Settings</strong></td><td>DND, forwarding, ring time, answer with IVR, "Record my calls" (with legal acknowledgement), notification email, text emails on/off, receive/send texts on/off, <a href="#call-filtering">call filtering</a> (per number: "not in service", straight to voicemail, forward elsewhere, ring but no voicemail, or always ring even on Do Not Disturb), <strong>ring my cell too</strong> (see below), <strong>push-to-talk</strong> (see below), 911 notice, phone setup, SIP password, panel password</td></tr>
+</table></div>
+<div class="callout ok">
+<strong>On Android?</strong>
+<p>The <a href="android.html">My Phone app</a> gives you the same features with a phone-first layout, notifications, calls in and out from the app, long sign-in and a PIN lock. To connect it, tap <strong>Sign in with my browser</strong> in the app and sign in — it pairs by itself.</p>
+</div>
+<h2 id="faxes"><a aria-hidden="true" class="anchor" href="#faxes" tabindex="-1">#</a>Faxes <span class="badge new">new</span></h2>
+<ul>
+<li><strong>Received:</strong> faxes sent to the numbers that ring you, as PDFs, with a new-fax count. They're emailed to you too if the admin set that up.</li>
+<li><strong>Send a fax:</strong> upload a PDF or photo, enter the fax number, choose which of your numbers it's sent from, and add an optional cover page (To, Subject, message). The form shows how many faxes you have left this month.</li>
+<li><strong>Sent:</strong> <em>waiting / sending / will retry / sent / failed</em>; busy lines are tried 3 times, and you're emailed the result. Cancel one that hasn't gone yet.</li>
+<li><strong>My fax branding</strong> (if the admin allows it): your own logo, company details, footer notice and header line, with <strong>Preview cover page</strong>.</li>
+</ul>
+<h2 id="call-filtering"><a aria-hidden="true" class="anchor" href="#call-filtering" tabindex="-1">#</a>Call filtering <span class="badge new">new</span></h2>
+<p>Settings → <strong>Call filtering</strong>: add an extension or number and choose what happens when it calls you. Only you see your list; the Android app shows it too.</p>
+<div class="table-wrap"><table>
+<tr><th>Choice</th><th>What the caller gets</th></tr>
+<tr><td><strong>Not in service</strong></td><td>“The number you have dialed is not in service”. Also stops their texts.</td></tr>
+<tr><td><strong>Straight to my voicemail</strong></td><td>Your phones don't ring. Also stops their texts.</td></tr>
+<tr><td><strong>Forward to another number</strong></td><td>Sent to the extension or number you enter. Also stops their texts.</td></tr>
+<tr><td><strong>Ring me, but no voicemail</strong></td><td>Your phones ring as usual; if you don't answer (or decline), the call ends instead of reaching your voicemail.</td></tr>
+<tr><td><strong>Always ring me</strong></td><td>Rings you even when Do Not Disturb is on (a VIP).</td></tr>
+</table></div>
+<p>Press <code>*86</code> during a call someone made to you to hang up and add them as “not in service”. The admin can also set rules for the whole PBX (<a href="admin.html#caller-rules">Caller rules</a>).</p>
+<h2 id="contacts"><a aria-hidden="true" class="anchor" href="#contacts" tabindex="-1">#</a>Contacts, names and notes</h2>
+<ul>
+<li><strong>Names everywhere:</strong> once a number is in your contacts, its name shows instead of the bare number in Calls, Voicemail, Recordings and Messages — and on your ringing phones (desk phone, Zoiper, the app's call screen). Names are yours: two people can name the same number differently.</li>
+<li><strong>Numbers match however they're written:</strong> <code>+1 (310) 555-0100</code>, <code>13105550100</code> and <code>3105550100</code> are the same contact (and the same as on your block list).</li>
+<li><strong>Notes</strong> are private and stay after the 90-day call-history cleanup. A note can be about a specific call, text, voicemail or recording; deleting that voicemail or recording deletes its notes, and deleting a contact deletes all of its notes.</li>
+<li><strong>Import / export:</strong> bring contacts in from your phone or another system as a vCard or CSV; export them all as one vCard.</li>
+<li>Your contacts belong to your login, not your extension: if the admin gives your extension to someone else, they don't get your address book.</li>
+</ul>
+<h2 id="ring-cell"><a aria-hidden="true" class="anchor" href="#ring-cell" tabindex="-1">#</a>Ring my cell too</h2>
+<p>Settings → <strong>My cell number</strong> and <strong>Also ring my cell on shared numbers</strong>: when a call comes in on one of the PBX's numbers that rings you — a number routed to you, a <a href="admin.html#ring-groups">ring group</a> you're in, or a menu option that rings you — your cell rings as well (calls dialled straight to your extension don't), after a delay you choose (<strong>0–30 seconds</strong>, default 15) so your desk phone and the app ring first.</p>
+<ul>
+<li><strong>Press 1 to accept:</strong> when you answer on the cell you hear a short prompt; the call connects only when you press <strong>1</strong>. Silence or any other key (for example your cell's voicemail picking up) hangs up just your cell; the other phones keep ringing. You have 12 seconds.</li>
+<li>Uses your <strong>outside-call minutes</strong> (your plan), goes out over the admin's outbound route, and respects your Do Not Disturb and block list.</li>
+<li>Once anyone answers, the cell stops ringing (or never starts if its delay hadn't run out).</li>
+</ul>
+<h2 id="texting-from-my-phone"><a aria-hidden="true" class="anchor" href="#texting-from-my-phone" tabindex="-1">#</a>Texting from My Phone</h2>
+<p>Messages → pick a conversation or start one. Extension-to-extension texts arrive on the other person's phones (SIP MESSAGE) and in their My Phone. Type an external number (e.g. <code>+15550192837</code>) and it goes out through voip.ms from your mapped DID — see <a href="sms.html">SMS &amp; MMS</a>.</p>
+<h2 id="blocking-and-reporting"><a aria-hidden="true" class="anchor" href="#blocking-and-reporting" tabindex="-1">#</a>Blocking and reporting</h2>
+<p>From Calls or Messages, <strong>Block</strong> sends a caller straight to your block list (your choice per number: "not in service", voicemail, or forward elsewhere). <strong>Report</strong> flags a call or text for the admin, who sees it under <strong>Reports</strong>.</p>
+<h2 id="recording-your-own-calls"><a aria-hidden="true" class="anchor" href="#recording-your-own-calls" tabindex="-1">#</a>Recording your own calls</h2>
+<p>Settings → <strong>"Record my calls"</strong> needs recording in your plan plus your own legal acknowledgement. See <a href="advanced.html#recording">Call recording and the law</a> — the rules differ by where you live.</p>
+<h2 id="push-to-talk"><a aria-hidden="true" class="anchor" href="#push-to-talk" tabindex="-1">#</a>Push-to-talk</h2>
+<p>Push-to-talk is a walkie-talkie page: dial <code>*88</code> followed by an extension (for example <code>*88</code> then <code>8801</code>) and the other phone <strong>chirps</strong> — a short three-tone alert that cuts over the normal ringtone — and shows who is paging. <strong>Nothing connects until they tap Accept:</strong> a page never opens someone's phone line by itself — unless the caller is on their auto-accept list (below). Once connected, it works like a walkie-talkie: in the Android app you hold a big button to talk.</p>
+<ul>
+<li><strong>Permission comes from your plan — or an admin override:</strong> push-to-talk works when your plan includes it (Admin panel → Billing → Plans), or when your admin ticks <strong>Allow push-to-talk (override)</strong> on your login. No plan with push-to-talk and no override means no push-to-talk — guests included. On top of that, <em>you</em> switch it on yourself — Settings → <strong>Call handling</strong> → <strong>Push-to-talk</strong> → <strong>Enable push-to-talk</strong>. Nobody can switch it on for you.</li>
+<li><strong>The status line tells you where you stand:</strong> not available on your account, on, or available but not switched on yet.</li>
+<li><strong>Auto-accept for people you trust:</strong> Settings → <strong>Auto-accept pages from</strong> takes a list of extensions. Pages from those extensions skip the Accept screen — one chirp and the line opens on speaker, the classic walkie-talkie way. Your microphone still stays off until you hold to talk (or use VOX), so a trusted caller can be <em>heard</em> instantly but can never <em>overhear</em> you. Everyone not on your list chirps and waits for your tap, exactly as before. The list is yours alone — not even an admin can put someone on it for you.</li>
+<li><strong>If you don't accept a page,</strong> your own setting decides what happens — Settings → <strong>If I don't accept a push-to-talk</strong>: <strong>send the caller to my voicemail</strong>, or <strong>chirp me again</strong> (up to 3 tries) and then voicemail. Tapping <strong>No accept</strong> is final, though: a page you actively decline is never re-chirped — the caller goes straight to voicemail. A desk phone that isn't picked up follows the same rule.</li>
+<li><strong>If either side isn't permitted</strong> — the caller has no push-to-talk, or the person being called has none or hasn't switched it on — the caller hears a "cannot be completed" announcement and the call ends, without ringing through.</li>
+<li><strong>Push-to-talk calls are never recorded</strong>, even if call recording is on for either side.</li>
+</ul>
+<h2 id="portal-gallery"><a aria-hidden="true" class="anchor" href="#portal-gallery" tabindex="-1">#</a>The user portal in pictures</h2>
+<p>Every tab of the web portal your users sign in to, photographed on a running system (phone numbers and account names in the photos are demo values). Click any photo to pop it up full size; the <b>‹ ›</b> arrows move through the gallery without leaving the page.</p>
+<div class="shots wide">
+<figure><a href="images/portal/overview.webp"><img alt="User portal Overview" decoding="async" loading="lazy" src="images/portal/overview.webp"/></a><figcaption>Overview — phone status, do-not-disturb, voicemail and missed-call counters, the 911 notice, this month's plan usage, and recent calls.</figcaption></figure>
+<figure><a href="images/portal/calls.webp"><img alt="User portal Call history" decoding="async" loading="lazy" src="images/portal/calls.webp"/></a><figcaption>Calls — call history with Block and Report on every row; history is kept for 90 days.</figcaption></figure>
+<figure><a href="images/portal/voicemail.webp"><img alt="User portal Voicemail" decoding="async" loading="lazy" src="images/portal/voicemail.webp"/></a><figcaption>Voicemail — upload a greeting or record one with *98; Inbox and Archived tabs; listen in the browser.</figcaption></figure>
+<figure><a href="images/portal/faxes.webp"><img alt="User portal Faxes" decoding="async" loading="lazy" src="images/portal/faxes.webp"/></a><figcaption>Faxes — received and sent faxes, with the sender's cover branding on each one.</figcaption></figure>
+<figure><a href="images/portal/recordings.webp"><img alt="User portal Recordings" decoding="async" loading="lazy" src="images/portal/recordings.webp"/></a><figcaption>Recordings — only the recordings you started yourself; turn on “Record my calls” in Settings.</figcaption></figure>
+<figure><a href="images/portal/messages.webp"><img alt="User portal Messages" decoding="async" loading="lazy" src="images/portal/messages.webp"/></a><figcaption>Messages — text conversations in the portal; Block and Report live in the thread.</figcaption></figure>
+<figure><a href="images/portal/ivr.webp"><img alt="User portal IVR menus" decoding="async" loading="lazy" src="images/portal/ivr.webp"/></a><figcaption>IVR — build your own “press 1 for…” menus; choose one to answer your calls under Settings → Call handling.</figcaption></figure>
+<figure><a href="images/portal/contacts.webp"><img alt="User portal Contacts" decoding="async" loading="lazy" src="images/portal/contacts.webp"/></a><figcaption>Contacts — the address book: add, and import/export vCard or CSV. Names show next to numbers everywhere, including on the ringing phone.</figcaption></figure>
+<figure><a href="images/portal/contacts-detail.webp"><img alt="User portal Contact detail" decoding="async" loading="lazy" src="images/portal/contacts-detail.webp"/></a><figcaption>Contact detail — one contact's numbers, organization and email, editable in place.</figcaption></figure>
+<figure><a href="images/portal/billing.webp"><img alt="User portal Billing" decoding="async" loading="lazy" src="images/portal/billing.webp"/></a><figcaption>Billing — your plan and this month's usage, plus the plans on offer (Subscribe pays via Stripe).</figcaption></figure>
+<figure><a href="images/portal/settings.webp"><img alt="User portal Settings" decoding="async" loading="lazy" src="images/portal/settings.webp"/></a><figcaption>Settings — call handling (do not disturb, forwarding, ring time, ring-my-cell, push-to-talk), recording and email notifications, texts and blocking, phone setup, password.</figcaption></figure>
+<figure><a href="images/portal/app.webp"><img alt="User portal App page" decoding="async" loading="lazy" src="images/portal/app.webp"/></a><figcaption>App — pair the Android app with a code or QR, and see (and sign out) every signed-in phone.</figcaption></figure>
+</div>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="admin.html"><span class="label">← Previous</span>Admin panel</a><a class="next" href="android.html"><span class="label">Next →</span>Android app</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#faxes">Faxes</a></li><li><a class="lvl2" href="#call-filtering">Call filtering</a></li><li><a class="lvl2" href="#contacts">Contacts, names and notes</a></li><li><a class="lvl2" href="#ring-cell">Ring my cell too</a></li><li><a class="lvl2" href="#texting-from-my-phone">Texting from My Phone</a></li><li><a class="lvl2" href="#blocking-and-reporting">Blocking and reporting</a></li><li><a class="lvl2" href="#recording-your-own-calls">Recording your own calls</a></li><li><a class="lvl2" href="#push-to-talk">Push-to-talk</a></li><li><a class="lvl2" href="#portal-gallery">The user portal in pictures</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/myphone by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:11 GMT -->
+</html>

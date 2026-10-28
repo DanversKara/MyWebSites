@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/advanced by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>911 / E911 · own-pbx docs</title>
+<meta name="description" content="E911 setup, call-recording consent rules, Stripe billing, and publishing My Phone to the internet.">
+<link rel="canonical" href="advanced.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="911 / E911">
+<meta property="og:description" content="E911 setup, call-recording consent rules, Stripe billing, and publishing My Phone to the internet.">
+<meta property="og:url" content="advanced.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html" class="active" aria-current="page">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Running it</div>
+
+<h1 id="e911">911 / E911</h1>
+<div class="callout danger">
+<strong>NOT TESTED</strong>
+<p>The 911/E911 features below have <strong>not</strong> been tested end to end. Do not rely on own-pbx for emergency calls. Keep a mobile phone or landline available. If you use these features, test them yourself (e.g. your provider's 933 test line) and confirm the address with your provider.</p>
+</div>
+<p class="lead">911 always connects — by design. US 911 rules (Kari's Law and RAY BAUM's Act) don't allow a phone system to block 911. Every phone can dial 911: users without E911, users with no plan, phones on DND, phones outside the office, even while the safety lock is on. The one exception is a <a href="admin.html#guest-extensions">guest extension</a> whose admin explicitly turned its 911 routing off — an admin decision for guest phones that aren't E911-provisioned; the E911 page lists every guest and its state.</p>
+<ul>
+<li><strong>The address 911 gets comes from your provider, not this panel.</strong> It's the address registered there for the caller-ID number the call is sent with: a user with E911 on sends their own 911 number; everyone else uses the <strong>office fallback</strong> (your provider's E911 on the trunk's default caller ID, or an office 911 number you set).</li>
+<li><strong>The E911 page is locked</strong> with a separate 6–12 digit code. Unlock it for 10 minutes to make changes. Wrong codes are limited and alerted; every change is logged and emailed.</li>
+<li><strong>Every 911 call</strong> shows on the dashboard and is emailed immediately — who called, which address was used, whether the phone was outside the office.</li>
+<li><strong>Users are warned in My Phone</strong> which address 911 will send help to, and that it doesn't follow the phone.</li>
+<li><strong>Test every phone by dialing 933</strong> if your provider offers it.</li>
+</ul>
+<p>Lost E911 code: <code>sqlite3 /var/lib/pbx/pbx.db "DELETE FROM kv_settings WHERE key='e911_code_hash'"</code>, then set a new one.</p>
+<p><em>This system helps you route 911 correctly, but you are responsible for registering accurate addresses with your provider and meeting the 911 rules that apply to you. This is not legal advice.</em></p>
+<hr/>
+<h1 id="recording">Call recording and the law</h1>
+<p class="lead">Recording calls without everyone's consent is <strong>illegal in some places</strong> — "two-party"/all-party consent states such as California, and other countries — and can break workplace or union rules.</p>
+<ul>
+<li><strong>Admin call recording is off for the whole system by default.</strong> Turning it on (Recordings → Recording settings) requires the admin to tick a legal acknowledgement, which is logged. When on, only extensions with <em>Admin call recording</em> ticked on the Logins page are recorded. These recordings are silent to callers unless the announcement is on.</li>
+<li><strong>"Record my calls"</strong> (My Phone → Settings) needs recording in the user's plan, plus the user's own legal acknowledgement. An admin can disable a user's recording but <strong>never force it on</strong>.</li>
+<li><strong>Both directions:</strong> calls you make and calls you receive (from outside, another extension or a ring group) are recorded. Each user who records their calls gets their own copy; on a call between two of them, each gets one.</li>
+<li><strong>"This call may be recorded" announcement:</strong> plays to both parties when a recorded call starts. Upload your own message, or a beep plays instead.</li>
+</ul>
+<hr/>
+<h1 id="billing">Plans and billing (Stripe)</h1>
+<div class="callout warn">
+<strong>Optional, untested with real payments</strong>
+<p>Only use Stripe's test mode unless you have tested it yourself. Most home users don't need billing at all — just give people access under Billing → User access.</p>
+</div>
+<p><strong>What a plan sets:</strong> monthly outside minutes, voicemail, texts per month, recording, the number of IVR menus, <strong>Fax</strong> with faxes per month, and the <strong>star codes included</strong>. <strong>No plan:</strong> users can only call other extensions and have no star codes (unless you set “no plan” defaults). Admins are never limited.</p>
+<p><strong>Setting it up:</strong></p>
+<ol>
+<li>In Stripe (start in <strong>test mode</strong>), copy the secret key and create a webhook to <code>https://&lt;your-public-panel&gt;/stripe/webhook</code>. Copy the signing secret.</li>
+<li>Admin → <strong>Billing</strong>: paste the keys, set the <strong>public URL</strong>, create plans (name, price, limits). Then <strong>Publish</strong> each plan to Stripe.</li>
+<li>Users subscribe, switch and cancel in <strong>My Phone → Billing</strong>. Stripe's own page handles payment details.</li>
+<li>New customers can sign themselves up through the <a href="admin.html#store">Store</a>: they enter a card, you approve, and only then are they charged and their account created.</li>
+</ol>
+<p><strong>Overriding plans:</strong> Billing → <strong>User access</strong> sets defaults for users without a plan, and per-user exceptions such as <code>unlimited</code> minutes for a lobby phone. <strong>Without Stripe:</strong> just use User access to give people what they need.</p>
+<hr/>
+<h1>Opening My Phone to the internet (optional)</h1>
+<p>To let users reach My Phone from anywhere, publish the panel through <strong>Cloudflare Tunnel</strong> (optionally behind Nginx Proxy Manager), e.g. <code>https://myphone.example.com</code> → <code>http://&lt;PBX-IP&gt;:8001</code>. Then:</p>
+<ul>
+<li>Anything through the tunnel/proxy is treated as <strong>internet</strong>: users get My Phone, admin pages answer "office network only" with the admin menu hidden. Admins keep using <code>http://&lt;PBX-IP&gt;:8001</code> at the office.</li>
+<li>Sign-in lockouts and logs use each visitor's real IP.</li>
+<li>Turn on Cloudflare's <strong>Always Use HTTPS</strong>.</li>
+<li>Never forward port 8001 (or NPM's 80/443) directly from the router.</li>
+<li>Use a different name from the SIP domain: <code>sip.example.com</code> stays a grey-cloud A record.</li>
+<li>The <a href="android.html">Android app</a> uses this same address (it only reaches My Phone features, never admin pages). Its Instant notifications hold one request per phone open for up to 55 seconds, under Cloudflare's 100-second limit.</li>
+</ul>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="security.html"><span class="label">← Previous</span>Security</a><a class="next" href="reference.html"><span class="label">Next →</span>Updating &amp; maintenance</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/advanced by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:07:19 GMT -->
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<!-- Mirrored from https://docs.ownpbx.org/install by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:06:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installation · own-pbx docs</title>
+<meta name="description" content="Install own-pbx: the PBX server, the optional Kamailio edge box, router/DNS, and first-time setup.">
+<link rel="canonical" href="install.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="own-pbx docs">
+<meta property="og:title" content="Installation">
+<meta property="og:description" content="Install own-pbx: the PBX server, the optional Kamailio edge box, router/DNS, and first-time setup.">
+<meta property="og:url" content="install.html">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121114" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{var t=localStorage.getItem('ownpbx-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/docs.css">
+</head>
+<body id="top">
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="brand-name">own-pbx<span>docs</span></span></a>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ph">Search docs</span><kbd>/</kbd></button>
+  <nav class="header-links" aria-label="Site">
+    <a class="hide-sm" href="https://ownpbx.org/">ownpbx.org</a>
+    <a class="hide-sm" href="demo/index.html">Live demo</a>
+    <a href="https://github.com/DanversKara/MyPersonalPBX" aria-label="GitHub repository"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </nav>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Documentation">
+<div class="nav-group"><h4>Start here</h4>
+<a href="index.html">Overview</a>
+<a href="install.html" class="active" aria-current="page">Installation</a>
+<a href="edge.html">Edge server</a>
+</div>
+<div class="nav-group"><h4>Using it</h4>
+<a href="phones.html">Phones &amp; feature codes</a>
+<a href="admin.html">Admin panel</a>
+<a href="myphone.html">My Phone</a>
+<a href="android.html">Android app <span class="nav-tag">new</span></a>
+<a class="sub" href="android/privacy-policy/index.html">Privacy policy</a>
+<a class="sub" href="android/terms-of-service/index.html">Terms of Service</a>
+<a href="sms.html">SMS &amp; MMS</a>
+</div>
+<div class="nav-group"><h4>Running it</h4>
+<a href="security.html">Security</a>
+<a href="advanced.html">911 · Recording · Billing</a>
+</div>
+<div class="nav-group"><h4>Reference</h4>
+<a href="reference.html">Updating &amp; maintenance</a>
+<a href="api.html">API reference</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+<div class="nav-group"><h4>Project</h4><a href="https://ownpbx.org/">ownpbx.org <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="demo/index.html">Live demo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX">GitHub repo <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a><a href="https://github.com/DanversKara/MyPersonalPBX/releases/latest">Android releases <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+<div class="sidebar-foot">own-pbx is a home/hobby PBX, published as-is under GPL-2.0-or-later. <a href="index.html#hobby">Read the warning</a>.</div>
+</nav>
+<div class="main">
+<main class="content" id="content">
+<div class="crumbs"><a href="index.html">Docs</a><span>/</span>Start here</div>
+
+<h1>Installation</h1>
+<p class="lead">Two small Linux machines (or VMs/containers), a SIP trunk, and about half an hour — most of it Asterisk compiling.</p>
+<h2 id="what-you-need"><a aria-hidden="true" class="anchor" href="#what-you-need" tabindex="-1">#</a>What you need</h2>
+<ul>
+<li><strong>Two machines running Debian 12 or 13</strong> — one for the PBX, one for the edge. Proxmox LXC containers work well (1–2 CPU cores, 1–2 GB RAM, 8–16 GB disk each). The edge is only needed for phones outside your network.
+    <ul><li>In Proxmox, LXC containers need <code>nesting=1</code>: <code>pct set &lt;ID&gt; --features nesting=1</code>.</li></ul>
+</li>
+<li><strong>A SIP trunk.</strong> VoIP.ms is the only provider tested. You need the server, username, password and at least one phone number (DID).</li>
+<li><strong>For phones away from home:</strong> a domain name (e.g. <code>sip.example.com</code>), ideally on Cloudflare for automatic DNS updates and certificates, plus a router where you can forward ports.</li>
+<li><strong>Optional:</strong> an SMTP account (voicemail/text/security-alert emails), a Stripe account (paid plans), Cloudflare Tunnel (to publish My Phone).</li>
+</ul>
+<h2 id="install-the-pbx-server"><a aria-hidden="true" class="anchor" href="#install-the-pbx-server" tabindex="-1">#</a>Install the PBX server</h2>
+<p>On the PBX machine, as root:</p>
+<pre><code>apt-get update &amp;&amp; apt-get install -y unzip git
+# copy the project here (git clone, or upload the zip and unzip it), then:
+cd /root/own-pbx
+
+# 1. One-time install: builds Asterisk 22 from source (10-20 minutes),
+#    creates the pbx service user, folders and Python environments.
+./scripts/install.sh
+
+# 2. Deploy: database, Asterisk configs, services.
+./scripts/deploy.sh</code></pre>
+<p>At the end of the first deploy you create the <strong>admin login</strong> (at least 12 characters). Then open the panel from a computer on your network:</p>
+<pre><code>http://&lt;PBX-IP&gt;:8001</code></pre>
+<p>Check that everything runs:</p>
+<pre><code>systemctl status asterisk pbx-brain pbx-api pbx-agi --no-pager
+asterisk -rx "pjsip show endpoints"
+./scripts/security-check.sh</code></pre>
+<div class="callout">
+<strong>Lost the admin password?</strong>
+<p>On the PBX run <code>/opt/pbx/api-venv/bin/python /root/own-pbx/scripts/create-admin.py</code>. It resets the password of an existing login, or creates a new admin.</p>
+</div>
+<h2 id="install-the-edge-server"><a aria-hidden="true" class="anchor" href="#install-the-edge-server" tabindex="-1">#</a>Install the edge server</h2>
+<p>Skip this if all your phones are on your own network.</p>
+<p><strong>1. Create the machine.</strong> For example, a Proxmox LXC:</p>
+<pre><code>pct create 200 local:vztmpl/&lt;debian-13-standard template&gt;.tar.zst \
+  --hostname kamailio-edge --cores 1 --memory 1024 --rootfs local-lvm:8 \
+  --net0 name=eth0,bridge=vmbr0,ip=192.168.1.11/24,gw=192.168.1.1 \
+  --features nesting=1 --unprivileged 1
+pct start 200
+pct enter 200      # then: passwd   (set a root password)</code></pre>
+<p><strong>2. Copy the <code>kamailio/</code> folder</strong> to the edge box (e.g. <code>/root/kamailio</code>) and install:</p>
+<pre><code>cd /root/kamailio
+chmod +x *.sh pbx-edge-notify
+PUBLIC_HOST=sip.example.com ASTERISK_IP=192.168.1.10 ./install.sh</code></pre>
+<p>This installs Kamailio (TLS-only on 5061, with flood limit), rtpengine (SRTP audio relay), fail2ban, an nftables firewall (default deny), and an IP-follow timer. Allow about 10–15 minutes — rtpengine builds from source.</p>
+<p><strong>3. Get a real certificate</strong> (domain on Cloudflare):</p>
+<pre><code>CF_Token=&lt;Cloudflare API token with Zone → DNS → Edit&gt; \
+  ./get-cert-cloudflare.sh sip.example.com <a href="cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="f28b9d87b2978a939f829e97dc919d9f">[email&#160;protected]</a></code></pre>
+<p>The certificate renews itself.</p>
+<p><strong>4. Connect security alerts to the PBX.</strong> In the admin panel go to <strong>API Keys</strong>, create a key called <code>edge</code>, then on the edge box:</p>
+<pre><code>pbx-edge-notify --setup http://192.168.1.10:8001 &lt;the API key&gt;</code></pre>
+<p><strong>5. Verify:</strong></p>
+<pre><code>./verify-edge.sh
+./security-check.sh</code></pre>
+<p>All checks should pass.</p>
+<p><strong>6. One step back on the PBX:</strong> incoming calls find remote phones through a <code>Path</code> header, which needs <code>support_path=yes</code> on the phone accounts. It's in the PBX's config template — re-run <code>./scripts/deploy.sh</code> on the PBX once so <code>pjsip.conf</code> is re-rendered with it. Phones re-register on their own.</p>
+<p>How the edge works, certificates (including replacing the self-signed one), dynamic-IP behaviour, updating and its files: <a href="edge.html">Edge server</a>.</p>
+<h2 id="router-dns-and-certificate"><a aria-hidden="true" class="anchor" href="#router-dns-and-certificate" tabindex="-1">#</a>Router, DNS and certificate</h2>
+<p><strong>Router port forwards go to the edge server, never to the PBX:</strong></p>
+<div class="table-wrap"><table>
+<tr><th>Protocol</th><th>External port</th><th>Internal IP</th><th>Internal port</th></tr>
+<tr><td>TCP</td><td>5061</td><td>192.168.1.11 (edge)</td><td>5061</td></tr>
+<tr><td>UDP</td><td>20000–20099</td><td>192.168.1.11 (edge)</td><td>20000–20099</td></tr>
+</table></div>
+<p>Don't forward 5060, 8001 or 22.</p>
+<p><strong>DNS:</strong> <code>sip.example.com</code> → your public IP, as a plain A record. On Cloudflare it must be <strong>DNS only (grey cloud)</strong> — the proxy can't carry phone calls.</p>
+<p><strong>Changing public IP?</strong> Admin → <strong>Network</strong>: add the domain and a Cloudflare API token and turn on automatic updates. The PBX updates the DNS record; the edge's timer updates itself.</p>
+<h2 id="first-time-setup-in-the-panel"><a aria-hidden="true" class="anchor" href="#first-time-setup-in-the-panel" tabindex="-1">#</a>First-time setup in the panel</h2>
+<p>Do these in order:</p>
+<ol>
+<li><strong>Trunks</strong> → add your provider (server, username, password, codecs <code>ulaw,alaw,g722</code>). Check with <code>asterisk -rx "pjsip show registrations"</code> — it should say <em>Registered</em>.</li>
+<li><strong>Routes → Outbound</strong>: an outbound route for your trunk with patterns <code>1NXXNXXXXXX</code>, <code>NXXNXXXXXX</code> and <code>011.</code>.</li>
+<li><strong>Logins</strong> → one per person/phone: panel username and password, extension number (e.g. 8800), SIP username (usually the extension) and a <strong>SIP secret</strong> — make it long. Users can regenerate their own SIP password in My Phone.</li>
+<li><strong>Billing → User access</strong>: give users outside minutes, texts, voicemail, etc. (or set defaults). <strong>Without this, users can only call other extensions</strong>, and incoming trunk calls skip them.</li>
+<li><strong>Ring groups</strong> (optional) → e.g. "Front office".</li>
+<li><strong>Routes → Inbound</strong> → your phone number → <em>Send callers to</em> a ring group, IVR menu or extensions. Numbers work with or without the leading 1.</li>
+<li><strong>Email</strong> → SMTP server (voicemails, texts, alerts). Set the <strong>panel address for links in emails</strong>.</li>
+<li><strong>Email → Security alerts</strong> → your address.</li>
+<li><strong>E911</strong> → set the E911 code, then the office fallback or per-user addresses. Test each phone by dialing <strong>933</strong>.</li>
+<li><strong>Network</strong> → domain and Cloudflare dynamic DNS, if you use the edge.</li>
+</ol>
+
+
+
+<nav class="pagenav" aria-label="Pages"><a class="prev" href="index.html"><span class="label">← Previous</span>Overview</a><a class="next" href="edge.html"><span class="label">Next →</span>Edge server</a></nav>
+<footer class="site-footer">
+  <span class="grow">own-pbx docs · GPL-2.0-or-later</span>
+  <a href="https://ownpbx.org/">ownpbx.org</a>
+  <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+  <a href="demo/index.html">Live demo</a>
+  <a href="android/privacy-policy/index.html">Privacy</a>
+  <a href="android/terms-of-service/index.html">Terms</a>
+</footer>
+</main>
+<aside class="toc" aria-label="On this page"><h4>On this page</h4><ol><li><a class="lvl2" href="#what-you-need">What you need</a></li><li><a class="lvl2" href="#install-the-pbx-server">Install the PBX server</a></li><li><a class="lvl2" href="#install-the-edge-server">Install the edge server</a></li><li><a class="lvl2" href="#router-dns-and-certificate">Router, DNS and certificate</a></li><li><a class="lvl2" href="#first-time-setup-in-the-panel">First-time setup in the panel</a></li></ol><a class="top-link" href="#top">↑ Back to top</a></aside>
+</div>
+</div>
+<div class="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-panel">
+    <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the own-pbx docs…" autocomplete="off" spellcheck="false" aria-label="Search"><kbd>Esc</kbd></label>
+    <div class="search-results" role="listbox"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></div>
+  </div>
+</div>
+<script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/docs.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"98943b4f618a4f73864b0b668feab1ae","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+<!-- Mirrored from https://docs.ownpbx.org/install by HTTrack Website Copier/3.x [XR&CO], Wed, 28 Oct 2026 08:06:57 GMT -->
+</html>
