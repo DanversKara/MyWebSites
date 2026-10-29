@@ -111,3 +111,10 @@ footer.site nav { display: flex; gap: 16px; flex-wrap: wrap; }
   header.site img.logo { height: 40px; }
   nav.main { margin-left: 0; }
 }
+
+/* Free vs needs-a-provider panels */
+.card.free { border-color: #2f6b45; }
+.card.free h3 { color: #6fd39a; }
+.card.need h3 { color: var(--orange2); }
+.card ul { margin-bottom: 0; }
+.fineprint { font-size: 13px; color: var(--muted); margin-top: 10px; }

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OwnPBX.org — Your own PBX. Your phone. Your data.</title>
-<meta name="description" content="OwnPBX is free, open-source software that turns a server you control into a complete phone system: calls, texts, voicemail, and push-to-talk. No carrier, no monthly bill, no tracking.">
+<meta name="description" content="OwnPBX is free, open-source software that turns a server you control into a private phone system: calls, messages, voicemail and push-to-talk between your own users, free. Add a VoIP provider for real phone numbers, SMS/MMS, 911 and fax.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="images/logo.png">
 </head>
@@ -18,7 +18,7 @@
       <a href="privacy-policy/index.html">Privacy</a>
       <a href="terms-of-service/index.html">Terms</a>
       <a href="https://docs.ownpbx.org/">Docs</a>
-      <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+      <a href="https://github.com/DanversKara/OwnPBX.org">GitHub</a>
     </nav>
   </div>
 </header>
@@ -26,65 +26,77 @@
 <main class="wrap">
   <div class="hero">
     <h1>Your own PBX.<br>Your phone. <span class="accent">Your data.</span></h1>
-    <p class="lead">OwnPBX is free, open-source software that turns a server you control into a complete phone system: calls, texts, voicemail, and push-to-talk. No carrier, no monthly bill, no tracking, no lock-in.</p>
+    <p class="lead">OwnPBX is free, open-source software that turns a server you control into a private phone system: calls, messages, voicemail and push-to-talk between the people you invite. No monthly bill, no tracking, no lock-in.</p>
     <div class="buttons">
       <a class="btn btn-primary" href="download/index.html">Download the app</a>
-      <a class="btn btn-ghost" href="https://github.com/DanversKara/MyPersonalPBX">View the source on GitHub</a>
+      <a class="btn btn-ghost" href="https://docs.ownpbx.org/">Read the docs</a>
       <span class="btn-play soon" title="Google Play listing coming soon">
         <span class="triangle" aria-hidden="true"></span>
         <span><small>COMING SOON ON</small><strong>Google Play</strong></span>
       </span>
     </div>
-    <p class="muted" style="margin-top:14px">The app connects to a PBX server you run or administer. It is not a public phone service, and there is no signup in the app: if you are not authorized on a PBX, you cannot log in.</p>
-    <div class="note"><p><span class="label">Not a service — a homelab project:</span> this is a hobby-run homelab PBX, not a public service and not a business. We do not offer, sell, or provide telephone service of any kind: no push-to-talk, phone, SMS, MMS, internal or external calling, E911, or fax services. Nothing on this site is an offer to provide those services to you. What we share is open-source software — this website, the Android app, and the PBX server software — so you can run a phone system yourself, on your own server, for your own use. Everything you see here — the features, the screenshots, the descriptions — is a demonstration that the software works when you run it. It is not a service you can sign up for, and it is not for commercial business use.</p></div>
+    <div class="note" style="margin-top:22px"><p><span class="label">Not a service — a homelab project:</span> OwnPBX is hobby software, not a phone company and not a business. We don't sell or provide telephone service of any kind (calling, SMS/MMS, push-to-talk, 911 or fax). We share the software so you can run a phone system yourself, on your own server, for your own use. The features and screenshots here show what the software does when you run it; nothing on this site is an offer of service, and it isn't meant for commercial use. The app only connects to a PBX you run or have been invited to, and there's no signup in the app.</p></div>
   </div>
+
+  <section>
+    <h2>Free on its own. Real phone numbers with a VoIP provider.</h2>
+    <p>Out of the box, OwnPBX connects the people on your PBX to each other. Reaching the regular phone network takes a VoIP provider, the same way a website needs an internet connection.</p>
+    <div class="grid">
+      <div class="card free">
+        <h3>Free, no provider needed</h3>
+        <ul>
+          <li>Calls between everyone on your PBX</li>
+          <li>Messages between extensions</li>
+          <li>Voicemail</li>
+          <li>Push-to-talk</li>
+        </ul>
+        <p class="fineprint" style="margin-bottom:0">Invite a friend across the street, family across the country, or someone across the world. All they need is the My Phone app (or any SIP app) and an internet connection to reach your PBX. Calls and messages stay free and private, on your server.</p>
+      </div>
+      <div class="card need">
+        <h3>Needs a VoIP provider</h3>
+        <ul>
+          <li>Calls to and from regular phone numbers</li>
+          <li>SMS and MMS to regular phone numbers</li>
+          <li>911 / E911</li>
+          <li>Sending and receiving faxes</li>
+        </ul>
+        <p class="fineprint" style="margin-bottom:0">Without a provider, OwnPBX is internal only: these features stay off.</p>
+      </div>
+    </div>
+    <div class="note" style="margin-top:14px"><p><span class="label">Tested with voip.ms.</span> OwnPBX was built and tested with <a href="https://voip.ms/en/invite/MjM2MjQ4" rel="sponsored noopener">voip.ms</a>. OwnPBX itself is free; voip.ms is a paid service you top up with credit. To try it, sign up with our <a href="https://voip.ms/en/invite/MjM2MjQ4" rel="sponsored noopener">voip.ms referral link</a>: voip.ms adds a bonus credit when you make a deposit of $15 or more (see voip.ms for the current offer). Other SIP providers may work but haven't been tested.</p>
+    <p class="fineprint" style="margin-bottom:0">Disclosure: it's a referral link, so we may also get a credit from voip.ms if you sign up with it. OwnPBX isn't affiliated with voip.ms.</p></div>
+  </section>
 
   <section>
     <h2>Everything a phone system should do</h2>
     <div class="grid">
-      <div class="card"><h3>Calls</h3><p>Make and receive calls over your PBX, with encrypted audio, from any extension.</p></div>
-      <div class="card"><h3>Texts</h3><p>Send and receive SMS and MMS through your own numbers, in a single inbox.</p></div>
-      <div class="card"><h3>Voicemail</h3><p>Listen to voicemail, read transcriptions where available, and manage greetings.</p></div>
-      <div class="card"><h3>Push-to-talk</h3><p>Instant voice with the extensions you trust, walkie-talkie style.</p></div>
-      <div class="card"><h3>Contacts &amp; history</h3><p>Contacts, call history, and call detail records, all in one app.</p></div>
-      <div class="card"><h3>Recordings &amp; faxes</h3><p>Call recordings and fax sending and receiving, where your PBX provides them.</p></div>
+      <div class="card"><h3>Calls</h3><p>Encrypted calls between everyone on your PBX; regular phone numbers through your VoIP provider.</p></div>
+      <div class="card"><h3>Messages</h3><p>Free messages between extensions, plus SMS and MMS on your own numbers through your VoIP provider.</p></div>
+      <div class="card"><h3>Voicemail</h3><p>Listen to voicemail, get it by email, and record your own greeting.</p></div>
+      <div class="card"><h3>Push-to-talk</h3><p>Instant voice with the people you trust, walkie-talkie style.</p></div>
+      <div class="card"><h3>Contacts &amp; history</h3><p>Contacts, notes and call history in one app.</p></div>
+      <div class="card"><h3>Recordings &amp; faxes</h3><p>Call recordings, and faxing on your numbers through your VoIP provider.</p></div>
     </div>
   </section>
 
   <section>
-    <h2>Open source, for real</h2>
-    <p>OwnPBX is free software, released under the GNU General Public License (GPL-2.0-or-later). You can inspect the code, run it on your own hardware, change it, and share it. There is no vendor account holding your phone system hostage: your server, your numbers, your data.</p>
-    <div class="buttons">
-      <a class="btn btn-ghost" href="https://github.com/DanversKara/MyPersonalPBX">My Phone app source (GPL-2.0)</a>
-      <a class="btn btn-ghost" href="https://github.com/DanversKara/MyPersonalPBX/releases">App releases &amp; downloads</a>
-      <a class="btn btn-ghost" href="https://docs.ownpbx.org/">Documentation</a>
-    </div>
-  </section>
-
-  <section>
-    <h2>Your server, your data</h2>
-    <p>The app communicates only with the PBX server you sign into. Your calls, texts, voicemail, and contacts live on that server — not on a central OwnPBX cloud, because there isn't one. There are no ads, no tracking SDKs, no analytics, and no Google services in the app. Read the full details in the <a href="privacy-policy/index.html">Privacy Policy</a>, including your rights to request deletion of your account and a download of your data.</p>
-    <div class="note"><p><span class="label">Your rights, in one line:</span> you can ask your PBX administrator to delete your account and your data, or to send you a download of everything on your account — voicemails, SMS, MMS, messages, and call records — and the request must be completed within 90 days. Details: <a href="privacy-policy/index.html#delete">Privacy Policy — deletion and download</a>.</p></div>
+    <h2>Open source, your server, your data</h2>
+    <p>OwnPBX is free software under the GNU General Public License (GPL-2.0-or-later): inspect it, run it, change it, share it. The app talks only to the PBX you sign into. Your calls, messages, voicemail and contacts live on that server, not on an OwnPBX cloud (there isn't one). No ads, no analytics, no tracking, no Google services in the app.</p>
+    <p>You can ask for a copy of your data or for your account to be deleted at any time; deletion is done within 90 days. See the <a href="privacy-policy/index.html">Privacy Policy</a>.</p>
   </section>
 
   <section>
     <h2>Not affiliated with anyone</h2>
-    <p class="muted">OwnPBX is an independent open-source project. It is not affiliated with, endorsed by, or sponsored by Google LLC, any mobile carrier, or any phone manufacturer. Google Play and Android are trademarks of Google LLC. This site, the app, and the PBX software are community work, not a product of those companies.</p>
+    <p class="muted">OwnPBX is an independent open-source project, not affiliated with, endorsed by or sponsored by Google LLC, voip.ms, any carrier or any phone maker. Google Play and Android are trademarks of Google LLC.</p>
   </section>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <div>
-      <strong style="color:var(--text)">OwnPBX.org</strong> — free, open-source PBX software.<br>
-      Contact: <a href="mailto:support@bearermail.com">support@bearermail.com</a> · PO Box 1357, Lindsay, CA 93247
-    </div>
+    <div><strong style="color:var(--text)">OwnPBX.org</strong> — free, open-source PBX software. <a href="mailto:support@bearermail.com">support@bearermail.com</a></div>
     <nav>
-      <a href="privacy-policy/index.html">Privacy Policy</a>
-      <a href="terms-of-service/index.html">Terms of Service</a>
-      <a href="https://myaccount.ownpbx.org/ucp">MyAccount</a>
-      <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
-      <a href="https://docs.ownpbx.org/">Docs</a>
+      <a href="privacy-policy/index.html">Privacy</a>
+      <a href="terms-of-service/index.html">Terms</a>
     </nav>
   </div>
 </footer>

@@ -18,7 +18,7 @@
       <a href="index.html">Privacy</a>
       <a href="../terms-of-service/index.html">Terms</a>
       <a href="https://docs.ownpbx.org/">Docs</a>
-      <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+      <a href="https://github.com/DanversKara/OwnPBX.org">GitHub</a>
     </nav>
   </div>
 </header>
@@ -26,110 +26,89 @@
 <main class="wrap legal">
   <h1>Privacy Policy</h1>
   <p class="updated">Last updated: October 28, 2026</p>
-  <p>This policy covers three things: this website (OwnPBX.org), the My Phone Android app, and accounts on a PBX server. Each section starts with a short <strong>plain-language</strong> note, then the full detail. If the plain note and the detail ever disagree, the detail wins — but they are written to say the same thing.</p>
+  <p>This policy covers this website (OwnPBX.org), the My Phone Android app, and accounts on the PBX at myaccount.ownpbx.org. Each section starts with a short <strong>in plain language</strong> note, then the detail.</p>
 
   <div class="toc">
     <strong>Contents</strong>
     <ul>
       <li><a href="#collect">1. What we collect</a></li>
-      <li><a href="#never">2. What we never collect</a></li>
-      <li><a href="#where">3. Where your data lives</a></li>
-      <li><a href="#california">4. California privacy rights (CCPA/CPRA)</a></li>
-      <li><a href="#delete">5. Request deletion of your account</a></li>
-      <li><a href="#download">6. Request a download of your data</a></li>
-      <li><a href="#security">7. Security and retention</a></li>
+      <li><a href="#provider">2. Calls, texts, 911 and fax through a VoIP provider</a></li>
+      <li><a href="#never">3. What we never collect</a></li>
+      <li><a href="#where">4. Where your data lives</a></li>
+      <li><a href="#requests">5. Get a copy of your data, or delete your account</a></li>
+      <li><a href="#california">6. California privacy rights</a></li>
+      <li><a href="#security">7. Security and how long data is kept</a></li>
       <li><a href="#children">8. Children</a></li>
       <li><a href="#changes">9. Changes to this policy</a></li>
       <li><a href="#contact">10. Contact</a></li>
-      <li><a href="#affiliation">11. Non-affiliation</a></li>
     </ul>
   </div>
 
   <h2 id="collect">1. What we collect</h2>
-  <div class="note"><p><span class="label">In plain language:</span> this website collects almost nothing. The app collects nothing for us — it talks to your PBX server, and whatever is on that server is the account data described below.</p></div>
+  <div class="note"><p><span class="label">In plain language:</span> the website collects almost nothing, the app sends nothing to us, and your PBX account holds what a phone line needs to work.</p></div>
   <h3>This website</h3>
-  <p>OwnPBX.org is a static site. It sets no tracking cookies, runs no analytics, and loads no advertising or third-party trackers. When you visit, the hosting provider necessarily sees the usual connection details (your IP address and the page you asked for) in its server logs, the same as any website. We do not use those logs to identify or profile visitors.</p>
+  <p>OwnPBX.org is a static site: no tracking cookies, no analytics, no ads, no third-party trackers. The web host sees the usual connection details (IP address, page requested) in its logs, like any website; we don't use them to identify or profile anyone.</p>
   <h3>The My Phone app</h3>
-  <p>The app communicates only with the PBX server you sign into. It does not send your calls, texts, voicemail, contacts, or recordings to OwnPBX.org, to Google, or to any analytics or advertising company. The app reads no data from your phone's address book, call log, or message store: the contacts, history, and messages it shows come from your PBX server. The microphone is used only while you are on a call, using push-to-talk, or recording a voicemail greeting. The camera is used only to scan a pairing QR code.</p>
+  <p>The app talks only to the PBX you sign into. It doesn't send your calls, messages, voicemail, contacts or recordings to OwnPBX.org, Google or anyone else. It doesn't read your phone's address book, call log or messages. The microphone is used only during calls, push-to-talk and recording a greeting; the camera only to scan a sign-in QR code. A crash report, if the app crashes, stays on your phone unless you choose to send it.</p>
   <h3>Your PBX account</h3>
-  <p>When a PBX administrator creates an account for you, the server stores what that account needs to work: your extension number, your name and contact details as entered by the administrator, your messages (SMS and MMS), voicemail messages and greetings, call detail records (CDR — who called whom, when, and for how long), call recordings (where recording is enabled), faxes, contacts, and your settings. Sign-in lasts 60 days after last use; after that you sign in again.</p>
+  <p>An account holds what it needs to work: your name, extension and email address, your messages (including SMS/MMS), voicemails and greeting, call history (who called whom, when and for how long), call recordings if you turn recording on, faxes, contacts and notes, and your settings. If 911 is set up for your account, it also holds the street address registered for 911. The server keeps a log of sign-ins (time and IP address) to protect your account.</p>
 
-  <h2 id="never">2. What we never collect</h2>
-  <div class="note"><p><span class="label">In plain language:</span> if it could be used to advertise to you or track you across the internet, we don't have it.</p></div>
+  <h2 id="provider">2. Calls, texts, 911 and fax through a VoIP provider</h2>
+  <div class="note"><p><span class="label">In plain language:</span> calls and messages between people on the PBX stay on the PBX. Anything that reaches a regular phone number goes through a VoIP provider (we use voip.ms), which sees what it needs to deliver it.</p></div>
+  <p>Calls, messages, voicemail and push-to-talk between extensions are handled entirely by the PBX and are never sent to a provider.</p>
+  <p>Calls to and from regular phone numbers, SMS and MMS, 911 and faxes are carried by the VoIP provider the PBX administrator connects. To deliver them, the provider receives the phone numbers involved, the times, the call audio, the text of SMS/MMS messages and their pictures, the fax pages, and for 911 the registered street address. The provider handles that data under its own privacy policy. Passing a call or message to a provider to complete it is how phone service works; it isn't a sale of your data.</p>
+
+  <h2 id="never">3. What we never collect</h2>
   <ul>
-    <li>No advertising, no advertising ID, and no advertising SDKs of any kind.</li>
-    <li>No analytics, tracking pixels, or cross-site tracking.</li>
-    <li>No precise or approximate location collection (the app has no GPS use; a server log may contain an IP address, which is not treated as location data).</li>
-    <li>No Google services inside the app, and no data shared with Google, Meta, or any data broker.</li>
-    <li>We do not sell personal information, and we do not share it for cross-context behavioral advertising.</li>
+    <li>No advertising, advertising ID or advertising SDKs.</li>
+    <li>No analytics, tracking pixels or cross-site tracking.</li>
+    <li>No location tracking. The app doesn't use GPS. The only address we hold is the 911 address, if one is set up, and it's used only for 911.</li>
+    <li>No Google services in the app, and nothing shared with Google, Meta or data brokers.</li>
+    <li>We don't sell personal information or share it for advertising.</li>
   </ul>
-  <p>Your calls and texts necessarily pass through your telephone carrier to reach the other party — that is how telephone calls work. Passing a call to a carrier to complete it is service delivery, not a sale of your data.</p>
 
-  <h2 id="where">3. Where your data lives</h2>
-  <div class="note"><p><span class="label">In plain language:</span> there is no central OwnPBX cloud holding your calls and texts. Your data lives on the PBX server you use, and whoever runs that server is the one responsible for it.</p></div>
-  <p>OwnPBX is software you (or your administrator) run on a server you control. If you use a PBX run by the OwnPBX project operator, that operator is responsible for the data on that server, and the request processes in sections 5 and 6 apply to it. If you run your own PBX, or use someone else's, that server's administrator is responsible — this policy still describes what the software does, but deletion and download requests go to that administrator, not to OwnPBX.org.</p>
+  <h2 id="where">4. Where your data lives</h2>
+  <div class="note"><p><span class="label">In plain language:</span> there's no OwnPBX cloud. Your data lives on the PBX you use, and whoever runs that PBX is responsible for it.</p></div>
+  <p>OwnPBX is software that runs on a server someone controls. For accounts on myaccount.ownpbx.org, the OwnPBX project operator runs the server and this policy applies. If you use a PBX that you or someone else runs, that server's administrator is responsible for your data, and requests go to them; this policy still describes what the software does.</p>
 
-  <h2 id="california">4. California privacy rights (CCPA/CPRA)</h2>
-  <div class="note"><p><span class="label">In plain language:</span> California law gives you the right to know what we have about you, to have it deleted, to have it corrected, and to be treated the same whether or not you exercise those rights.</p></div>
-  <p>Under the California Consumer Privacy Act as amended by the California Privacy Rights Act (CCPA/CPRA), California residents have the right to:</p>
+  <h2 id="requests"><span id="delete"></span><span id="download"></span>5. Get a copy of your data, or delete your account</h2>
+  <div class="note"><p><span class="label">In plain language:</span> sign in at myaccount.ownpbx.org/ucp/delete. A copy of your data is emailed to you as a download link. A deleted account is gone within 90 days.</p></div>
+  <h3>How to ask</h3>
   <ul>
-    <li><strong>Know</strong> what personal information is collected about them and why;</li>
-    <li><strong>Delete</strong> personal information held about them (see section 5);</li>
-    <li><strong>Correct</strong> inaccurate personal information;</li>
-    <li><strong>Opt out</strong> of the sale or sharing of personal information — there is nothing to opt out of here, because we do not sell or share personal information for advertising;</li>
-    <li><strong>Non-discrimination</strong> — exercising these rights will not change your price, service, or treatment.</li>
+    <li><strong>Online (fastest):</strong> sign in at <a href="https://myaccount.ownpbx.org/ucp/delete">myaccount.ownpbx.org/ucp/delete</a>. It's also in My Phone under Settings, and in the app under Settings → Account.</li>
+    <li><strong>Can't sign in?</strong> Email us from the address on your account, with your extension and "Delete my account" or "Copy of my data" in the subject, or write to us (<a href="#contact">section 10</a>).</li>
   </ul>
-  <p>We will confirm a verifiable request within 10 business days and complete it within 45 days. If a request is complex, we may take up to 45 additional days, but never more than <strong>90 days</strong> in total — and we will tell you if we need the extra time. A request is "verifiable" when it comes from the account's email address or otherwise proves you control the account; this is to stop someone else deleting or downloading your data.</p>
+  <h3>A copy of your data</h3>
+  <p>You get an email with a download link to a zip file. It holds your account details and settings, call history, messages (SMS, MMS and internal), voicemails and your greeting, call recordings, faxes, contacts and notes. Passwords and security keys aren't included. The link works for 7 days and doesn't need a sign-in, so keep it private. Requests are answered within 30 days, normally much sooner.</p>
+  <h3>Deleting your account</h3>
+  <p>You get an email confirming the request and the date it will be done, which is within 90 days. You can cancel until then by signing in again. Once deleted, your login, extension, call history, messages, voicemails, recordings, faxes, contacts and settings are removed from the server, and you get a confirmation email. Your extension and phone number may later be given to someone else.</p>
+  <p>Some things are kept: a record that your request was made and completed (your username, email address and dates), and billing records the law requires us to keep. Messages, recordings or faxes already delivered to other people stay with them, and your VoIP provider keeps its own records under its own policy.</p>
 
-  <h2 id="delete">5. Request deletion of your account</h2>
-  <div class="note"><p><span class="label">In plain language:</span> you can ask for your account and everything on it to be deleted, and it will be done within 90 days. Here is exactly how to ask.</p></div>
-  <p>To request deletion of your account and the personal information on it, use any of these channels:</p>
-  <ul>
-    <li><strong>Account portal:</strong> sign in and go to <a href="https://myaccount.ownpbx.org/ucp/delete">myaccount.ownpbx.org/ucp/delete</a> to submit a deletion request. This portal option is rolling out with the next app and web portal update; until it is live for you, use email or post below.</li>
-    <li><strong>Email:</strong> write to <a href="mailto:support@bearermail.com">support@bearermail.com</a> from the email address on your account, with the subject "Delete my account", and include your extension number.</li>
-    <li><strong>Post:</strong> write to PO Box 1357, Lindsay, CA 93247, including your name, extension number, and the email address on your account.</li>
-  </ul>
-  <p>What happens next: the administrator verifies the request, then deletes the account and its personal information — messages, voicemail, recordings, faxes, contacts, and call records — within 90 days of the verified request. The only exceptions are items that must be kept for legal, security, or billing reasons (for example, an invoice already issued); if anything is kept for such a reason, we will tell you what and why. Deleting your account does not delete messages or recordings already delivered to other people.</p>
+  <h2 id="california">6. California privacy rights</h2>
+  <p>Under the California Consumer Privacy Act as amended by the CPRA, California residents can ask to know what personal information we hold and why, to have it deleted or corrected, and to opt out of its sale or sharing (we don't sell or share it, so there's nothing to opt out of). Using these rights won't change how you're treated. We confirm a request within 10 business days and complete it within 45 days, or tell you if we need up to 45 more days (never more than 90 in total). To protect you, a request must come from your signed-in account or your account's email address.</p>
 
-  <h2 id="download">6. Request a download of your data</h2>
-  <div class="note"><p><span class="label">In plain language:</span> you can ask for a copy of everything on your account, and it will be emailed to you so you can download it.</p></div>
-  <p>To request a copy of the data on your account, use the same channels as deletion: the account portal at <a href="https://myaccount.ownpbx.org/ucp/delete">myaccount.ownpbx.org/ucp/delete</a> (once live), email to <a href="mailto:support@bearermail.com">support@bearermail.com</a> from your account's email address with the subject "Download my data", or post to PO Box 1357, Lindsay, CA 93247.</p>
-  <p>Your export includes whatever is currently on the account: voicemails, SMS and MMS messages, other messages, call detail records (CDR), contacts, call recordings, and faxes. The export is prepared and <strong>emailed to the email address on your account</strong> for download, within 90 days of the verified request (and normally much sooner). Keep that email address current — it is the only way the export can reach you. If a file is too large to email, the administrator will arrange another secure delivery and tell you how.</p>
-
-  <h2 id="security">7. Security and retention</h2>
-  <p>PBX accounts are protected by password sign-in with an optional second factor, and app sign-in uses a pairing code plus a PIN you choose. Server access is restricted to the administrator. No system is perfectly secure; if you believe your account has been compromised, contact the administrator immediately so the account can be locked and its credentials rotated.</p>
-  <p>We keep account data only while the account exists and is needed to provide the service, plus any legally required retention described in section 5. Deleted data is removed from the live server; backups, if any, age out on their normal cycle and are not used to restore deleted accounts.</p>
+  <h2 id="security">7. Security and how long data is kept</h2>
+  <p>The web panel is protected by your password (or single sign-on), and the app by a one-time sign-in plus a PIN you choose. Calls from outside your home network are encrypted (TLS and SRTP). Only the administrator can reach the server. No system is perfectly secure: if you think your account has been misused, tell us right away and we'll lock it and change its keys.</p>
+  <p>Data is kept while your account exists, and you can delete voicemails, recordings and messages yourself at any time. Deleted data is removed from the live server; backups, if any, age out on their normal cycle and are never used to bring back a deleted account.</p>
 
   <h2 id="children">8. Children</h2>
-  <p>OwnPBX accounts are created by an administrator for authorized users only. The service is not directed at children under 13, and we do not knowingly collect personal information from children under 13. If you believe a child's information has been provided, contact us and it will be deleted.</p>
+  <p>Accounts are created only for invited users. OwnPBX isn't directed at children under 13, and we don't knowingly collect their information. If you think a child's information has been provided, contact us and it will be deleted.</p>
 
   <h2 id="changes">9. Changes to this policy</h2>
-  <p>If this policy changes in a way that affects your rights, the new version will be posted here with a new "Last updated" date, and account holders will be told through the account portal or by email. Continued use of the service after a change means you accept the new policy.</p>
+  <p>If this policy changes in a way that affects your rights, the new version will be posted here with a new date, and account holders will be told by email or in My Phone.</p>
 
   <h2 id="contact">10. Contact</h2>
-  <p>For privacy questions, deletion requests, or data download requests:</p>
-  <ul>
-    <li>Email: <a href="mailto:support@bearermail.com">support@bearermail.com</a></li>
-    <li>Post: PO Box 1357, Lindsay, CA 93247</li>
-    <li>Account portal: <a href="https://myaccount.ownpbx.org/ucp/delete">myaccount.ownpbx.org/ucp/delete</a></li>
-  </ul>
-
-  <h2 id="affiliation">11. Non-affiliation</h2>
-  <p>OwnPBX is an independent open-source project. It is not affiliated with, endorsed by, or sponsored by Google LLC, any mobile carrier, or any phone manufacturer. Google Play and Android are trademarks of Google LLC. Nothing on this site or in the app implies an affiliation with those companies.</p>
+  <p>Email: <a href="mailto:support@bearermail.com">support@bearermail.com</a><br>
+  Post: PO Box 1357, Lindsay, CA 93247</p>
+  <p class="muted">OwnPBX is an independent open-source project, not affiliated with, endorsed by or sponsored by Google LLC, voip.ms, any carrier or any phone maker. Google Play and Android are trademarks of Google LLC.</p>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <div>
-      <strong style="color:var(--text)">OwnPBX.org</strong> — free, open-source PBX software.<br>
-      Contact: <a href="mailto:support@bearermail.com">support@bearermail.com</a> · PO Box 1357, Lindsay, CA 93247
-    </div>
+    <div><strong style="color:var(--text)">OwnPBX.org</strong> — free, open-source PBX software. <a href="mailto:support@bearermail.com">support@bearermail.com</a></div>
     <nav>
-      <a href="index.html">Privacy Policy</a>
-      <a href="../terms-of-service/index.html">Terms of Service</a>
-      <a href="../download/index.html">Download</a>
-      <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
-      <a href="https://docs.ownpbx.org/">Docs</a>
+      <a href="index.html">Privacy</a>
+      <a href="../terms-of-service/index.html">Terms</a>
     </nav>
   </div>
 </footer>

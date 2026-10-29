@@ -18,7 +18,7 @@
       <a href="../privacy-policy/index.html">Privacy</a>
       <a href="index.html">Terms</a>
       <a href="https://docs.ownpbx.org/">Docs</a>
-      <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
+      <a href="https://github.com/DanversKara/OwnPBX.org">GitHub</a>
     </nav>
   </div>
 </header>
@@ -26,59 +26,49 @@
 <main class="wrap legal">
   <h1>Terms of Service</h1>
   <p class="updated">Last updated: October 28, 2026</p>
-  <p>These terms govern your use of the OwnPBX.org website, the My Phone app, and any PBX service run by the OwnPBX project operator. If you run your own PBX, your own terms with your users apply instead — but the software itself is still provided under the terms below.</p>
+  <p>These terms cover the OwnPBX.org website, the My Phone app, and accounts on the PBX at myaccount.ownpbx.org. If you use a PBX that you or someone else runs, that server's own rules apply to your account there, but the software is still provided under these terms.</p>
 
-  <h2>1. Acceptance</h2>
-  <p>By using this site, the app, or a project-operated PBX account, you agree to these terms and to the <a href="../privacy-policy/index.html">Privacy Policy</a>. If you do not agree, do not use them.</p>
+  <h2 id="accept">1. Accepting these terms</h2>
+  <p>By using this site, the app or an account on myaccount.ownpbx.org, you agree to these terms and to the <a href="../privacy-policy/index.html">Privacy Policy</a>. If you don't agree, please don't use them.</p>
 
-  <h2>2. What OwnPBX is</h2>
-  <div class="note"><p><span class="label">In plain language:</span> OwnPBX is software, not a phone company. It does not provide phone service by itself — it connects to a PBX server you run or administer.</p></div>
-  <p>OwnPBX is free, open-source software (GPL-2.0-or-later) for running your own private branch exchange: calls, texts, voicemail, and push-to-talk between extensions, plus PSTN connectivity where the server's administrator has configured telephone trunks. The My Phone app is a client for that server. OwnPBX is not a carrier, does not assign public phone numbers by itself, and does not guarantee connectivity to any public network — that depends on the server's trunks and carriers.</p>
+  <h2 id="what">2. What OwnPBX is</h2>
+  <div class="note"><p><span class="label">In plain language:</span> OwnPBX is free software, not a phone company. On its own it connects the people on a PBX to each other. Regular phone numbers need a VoIP provider.</p></div>
+  <p>OwnPBX is free, open-source software (GPL-2.0-or-later) for running your own phone system. By itself it provides calls, messages, voicemail and push-to-talk between users of the same PBX, over the internet, at no cost. OwnPBX is not a carrier and doesn't provide phone numbers.</p>
+  <p>Calls to and from regular phone numbers, SMS/MMS, 911 and fax only work when the PBX administrator connects a third-party VoIP provider. OwnPBX is tested with voip.ms; other providers may work but aren't tested. The provider's own terms, prices and rules apply to that service, and OwnPBX doesn't guarantee it.</p>
 
-  <h2>3. Accounts: authorized users only</h2>
-  <p>There is no signup. Accounts are created by a PBX administrator, and only authorized users may use the app or a project-operated account. You are responsible for keeping your password, pairing codes, and app PIN private, and for anything done with your account while it is signed in. If you believe your account is compromised, tell the administrator immediately. The administrator may suspend or delete an account that is misused, inactive, or no longer authorized.</p>
+  <h2 id="accounts">3. Accounts are by invitation</h2>
+  <p>There's no public signup. Accounts are created by the PBX administrator for invited users only. Keep your password, sign-in codes and app PIN private; you're responsible for what's done with your account while it's signed in. If you think it's been misused, tell the administrator right away. The administrator may suspend or delete an account that's misused, inactive or no longer authorized.</p>
 
-  <h2>4. Acceptable use</h2>
-  <p>Do not use the service to break the law, to harass or threaten anyone, to send spam or robocalls, to impersonate someone else, or to interfere with the service or other users. The administrator may suspend or terminate an account for misuse, with or without notice where safety or legality requires it. Termination does not remove your right to request deletion or a download of your data under the <a href="../privacy-policy/index.html">Privacy Policy</a>.</p>
+  <h2 id="use">4. Acceptable use</h2>
+  <p>Don't use OwnPBX to break the law, harass or threaten anyone, send spam or robocalls, impersonate someone, or interfere with the system or other users. If you record calls, follow the call-recording laws where you and the other person are. Accounts may be suspended or closed for misuse, without notice where safety or the law requires. You can still get a copy of your data or have it deleted under the <a href="../privacy-policy/index.html#requests">Privacy Policy</a>.</p>
 
-  <h2>5. Emergency calling (911 / E911) — read this</h2>
-  <div class="note"><p><span class="label">In plain language:</span> do not count on this app for 911. Use a regular phone for emergencies.</p></div>
-  <p>Emergency calling (911 / E911) over a PBX app has <strong>not been tested end to end</strong> and must not be relied on for emergency calls. Location information may not be transmitted correctly, calls may fail if the server, network, or power is unavailable, and emergency services may not receive your location. Always use a traditional telephone or mobile phone for emergency calls. By using the app you accept this limitation.</p>
+  <h2 id="e911">5. Emergency calling (911 / E911): read this</h2>
+  <div class="note"><p><span class="label">In plain language:</span> don't count on OwnPBX for 911. Keep a regular mobile phone or landline for emergencies.</p></div>
+  <p>911 only works if the PBX has a VoIP provider with 911 service and a correct street address registered for the number used. It has <strong>not been tested end to end</strong> and must not be relied on. A 911 call can fail, or reach emergency services without your correct location, if the server, the internet connection, the provider or the power is down, or if the registered address is out of date. A PBX with no VoIP provider has no 911 at all. By using OwnPBX you accept these limits.</p>
 
-  <h2>6. As-is software, no warranty</h2>
-  <p>OwnPBX software and the app are provided "as is", without warranty of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, and non-infringement — to the fullest extent permitted by law, consistent with the GPL-2.0-or-later license under which the software is distributed. The project does not warrant that the service will be uninterrupted, error-free, or secure, or that any data will never be lost. You are responsible for backing up anything important.</p>
+  <h2 id="warranty">6. No warranty</h2>
+  <p>The software, the app and any account are provided "as is", without warranty of any kind, express or implied, including merchantability, fitness for a particular purpose and non-infringement, to the fullest extent the law allows and consistent with the GPL-2.0-or-later license. We don't promise the service will be uninterrupted, error-free or secure, or that data will never be lost. Back up anything important.</p>
 
-  <h2>7. Limitation of liability</h2>
-  <p>To the fullest extent permitted by law, the OwnPBX project, its contributors, and the project operator will not be liable for any indirect, incidental, special, consequential, or punitive damages, or for loss of profits, data, or goodwill, arising from your use of (or inability to use) the site, the app, or a PBX account — even if advised of the possibility. Nothing here limits liability that cannot be limited by law.</p>
+  <h2 id="liability">7. Limitation of liability</h2>
+  <p>To the fullest extent the law allows, the OwnPBX project, its contributors and the project operator aren't liable for indirect, incidental, special, consequential or punitive damages, or for lost profits, data or goodwill, from using or not being able to use the site, the app, an account or a VoIP provider's service, even if told it could happen. Nothing here limits liability that can't be limited by law.</p>
 
-  <h2>8. Changes</h2>
-  <p>These terms may change. Material changes will be posted here with a new "Last updated" date, and account holders will be told through the account portal or by email. Continued use after a change means you accept the new terms.</p>
+  <h2 id="changes">8. Changes</h2>
+  <p>These terms may change. Important changes will be posted here with a new date, and account holders will be told by email or in My Phone. Using OwnPBX after a change means you accept the new terms.</p>
 
-  <h2>9. Governing law</h2>
-  <p>These terms are governed by the laws of the State of California, without regard to conflict-of-laws rules. Nothing here affects rights you cannot waive under the law that applies to you, including California privacy rights described in the Privacy Policy.</p>
+  <h2 id="law">9. Governing law</h2>
+  <p>These terms are governed by the laws of the State of California, without regard to conflict-of-laws rules. Nothing here takes away rights you can't waive under the law that applies to you.</p>
 
-  <h2>10. Contact and non-affiliation</h2>
-  <p>Questions about these terms, or about an account:</p>
-  <ul>
-    <li>Email: <a href="mailto:support@bearermail.com">support@bearermail.com</a></li>
-    <li>Post: PO Box 1357, Lindsay, CA 93247</li>
-    <li>Account portal: <a href="https://myaccount.ownpbx.org/ucp/delete">myaccount.ownpbx.org/ucp/delete</a> (for deletion and download requests)</li>
-  </ul>
-  <p>OwnPBX is an independent open-source project. It is not affiliated with, endorsed by, or sponsored by Google LLC, any mobile carrier, or any phone manufacturer. Google Play and Android are trademarks of Google LLC.</p>
+  <h2 id="contact">10. Contact</h2>
+  <p>Questions about these terms or an account: <a href="mailto:support@bearermail.com">support@bearermail.com</a> (postal address in the <a href="../privacy-policy/index.html#contact">Privacy Policy</a>).</p>
+  <p class="muted">OwnPBX is an independent open-source project, not affiliated with, endorsed by or sponsored by Google LLC, voip.ms, any carrier or any phone maker. Google Play and Android are trademarks of Google LLC.</p>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <div>
-      <strong style="color:var(--text)">OwnPBX.org</strong> — free, open-source PBX software.<br>
-      Contact: <a href="mailto:support@bearermail.com">support@bearermail.com</a> · PO Box 1357, Lindsay, CA 93247
-    </div>
+    <div><strong style="color:var(--text)">OwnPBX.org</strong> — free, open-source PBX software. <a href="mailto:support@bearermail.com">support@bearermail.com</a></div>
     <nav>
-      <a href="../privacy-policy/index.html">Privacy Policy</a>
-      <a href="index.html">Terms of Service</a>
-      <a href="../download/index.html">Download</a>
-      <a href="https://github.com/DanversKara/MyPersonalPBX">GitHub</a>
-      <a href="https://docs.ownpbx.org/">Docs</a>
+      <a href="../privacy-policy/index.html">Privacy</a>
+      <a href="index.html">Terms</a>
     </nav>
   </div>
 </footer>
