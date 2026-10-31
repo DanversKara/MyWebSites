@@ -75,10 +75,20 @@
 </div>
 <h2 id="how-it-works"><a aria-hidden="true" class="anchor" href="#how-it-works" tabindex="-1">#</a>How it works</h2>
 <h3 id="inbound-two-paths-no-lost-messages"><a aria-hidden="true" class="anchor" href="#inbound-two-paths-no-lost-messages" tabindex="-1">#</a>Inbound — two paths, no lost messages</h3>
+<p>The PBX gets incoming texts two ways, and you can use <strong>either one or both</strong>:</p>
 <ul>
 <li><strong>URL callback (instant):</strong> voip.ms fires a GET/POST to <code>https://&lt;your-panel&gt;/hooks/voipms-sms</code> with <code>to, from, message, id, date</code>. The PBX checks the token, dedupes by message ID, looks up the DID route, stores the message, and pushes it to Zoiper via SIP MESSAGE.</li>
-<li><strong>Poller (safety net, every 60s):</strong> callbacks can misfire (tunnel hiccup, timeout). A background thread polls voip.ms <code>getSMS</code>/<code>getMMS</code> per routed DID (last 2 days) and ingests anything the webhook missed. Same dedupe table — nothing is ever delivered twice. Webhook = instant, poll = source of truth. On its first run the poller backfills up to 2 days of unseen messages; anything it recovers is logged as <code>voip.ms poll: recovered missed SMS id=…</code>.</li>
+<li><strong>Poller (every 60s, always on):</strong> works with or without the callback. Callbacks can misfire (tunnel hiccup, timeout). A background thread polls voip.ms <code>getSMS</code>/<code>getMMS</code> per routed DID (last 2 days) and ingests anything the webhook missed. Same dedupe table — nothing is ever delivered twice. Webhook = instant, poll = source of truth. On its first run the poller backfills up to 2 days of unseen messages; anything it recovers is logged as <code>voip.ms poll: recovered missed SMS id=…</code>.</li>
 </ul>
+<div class="callout">
+<strong>Callback, SIP account link, or both: all work</strong>
+<p>In voip.ms each DID's <em>Message Service (SMS/MMS)</em> section offers <strong>SMS/MMS URL Callback</strong> and <strong>Link the SMS received to this DID to a SIP Account</strong>. Use either or both, as long as the PBX's SMS page has your voip.ms API username and password and a route for the DID:</p>
+<ul>
+<li><strong>URL Callback only:</strong> texts arrive instantly. Needs the PBX reachable from the internet (step 3 below).</li>
+<li><strong>SIP account link only</strong> (pick the sub-account your PBX trunk signs in with, e.g. <code>236248_yourpbx</code>): texts arrive within about a minute, picked up by the poller. No public webhook needed.</li>
+<li><strong>Both:</strong> instant, with the poller as backup. Nothing is delivered twice.</li>
+</ul>
+</div>
 <h3 id="outbound"><a aria-hidden="true" class="anchor" href="#outbound" tabindex="-1">#</a>Outbound</h3>
 <ul>
 <li><strong>Zoiper:</strong> text <code>+15550192837</code> as a SIP MESSAGE destination. The AGI detects the external number and sends it via the voip.ms API from the DID mapped to your extension — in a background thread, so Zoiper gets its reply immediately even if voip.ms is slow.</li>
@@ -88,12 +98,22 @@
 <h3 id="mms"><a aria-hidden="true" class="anchor" href="#mms" tabindex="-1">#</a>MMS</h3>
 <p>voip.ms callbacks carry no media, so inbound MMS is enriched via the <code>getMMS</code> API. Pictures arrive as <code>[MMS: &lt;link&gt;]</code> entries — tappable in Zoiper, My Phone and ESP.</p>
 <h3 id="sender-did-selection"><a aria-hidden="true" class="anchor" href="#sender-did-selection" tabindex="-1">#</a>Sender DID selection</h3>
-<p>Replies go out from the DID the conversation is already on (each message records its DID), so a thread stays on one number even when several DIDs route to the same extension. For a brand-new conversation: the DID whose route points at your extension, else the configured default DID, else the first route.</p>
+<ul>
+<li><strong>Replies</strong> go out from the number the contact texted (each message records its DID), so a thread stays on one number, whether you reply from Zoiper, My Phone or the app.</li>
+<li><strong>New texts</strong> go out from the number set for the sender's extension under <strong>SMS → Texts go out from</strong>.</li>
+<li><strong>Automatic</strong> (no number set): the DID routed to that extension, else the <em>Default DID</em>, else the first route.</li>
+<li><strong>Users with more than one number</strong> also get a <strong>From</strong> choice when texting a phone number: a chip above the message box in the app, and a dropdown in My Phone's message form. It starts on the number picked above, so they rarely need to touch it. They can only pick their own numbers (the DIDs routed to them, plus the one set for them here), and a conversation keeps the number they last used.</li>
+</ul>
 <h2 id="setup"><a aria-hidden="true" class="anchor" href="#setup" tabindex="-1">#</a>Setup</h2>
 <h3 id="1-voipms-portal"><a aria-hidden="true" class="anchor" href="#1-voipms-portal" tabindex="-1">#</a>1. voip.ms portal</h3>
 <ol>
 <li><strong>Main Menu → SOAP and REST/JSON API:</strong> enable the API and set an <strong>API password</strong> (separate from your portal login; shown once, save it). The API username is your <strong>portal login email</strong> — not the account number.</li>
-<li><strong>DID Numbers → Manage DIDs → edit each DID → Message Service (SMS/MMS):</strong> enable it, paste the webhook URL from the PBX's SMS page, choose <strong>E.164</strong> number format, turn on callback retry, Apply.
+<li><strong>DID Numbers → Manage DIDs → edit each DID → Message Service (SMS/MMS):</strong> enable it and choose <strong>E.164</strong> for <em>Dialing Mode for SMS</em>. Then tick one or both (see <a href="#inbound-two-paths-no-lost-messages">above</a>):
+    <ul>
+    <li><strong>SMS/MMS URL Callback</strong> (instant): paste the webhook URL from the PBX's SMS page and turn on <em>URL Callback and Webhook URL Retrying</em>.</li>
+    <li><strong>Link the SMS received to this DID to a SIP Account</strong>: choose your PBX's sub-account.</li>
+    </ul>
+    Click <em>Apply changes</em>. The callback URL looks like this:
     <pre><code>https://&lt;panel&gt;/hooks/voipms-sms?token=...&amp;to={TO}&amp;from={FROM}&amp;message={MESSAGE}&amp;id={ID}&amp;date={TIMESTAMP}</code></pre>
 </li>
 </ol>
@@ -105,12 +125,12 @@
 <ol>
 <li>Admin panel → <strong>SMS routes</strong> (or <code>/sms-routes</code>): fill in the API username/password, webhook token (auto-generated if blank), default DID.</li>
 <li>Add one route per DID: DID (digits, e.g. <code>15550192837</code>) → destination extension (e.g. <code>8801</code>). The page shows the exact webhook URL to paste into voip.ms.</li>
-<li>Make the webhook reachable from the internet — via Cloudflare Tunnel / Nginx Proxy Manager to <code>http://&lt;pbx-ip&gt;:8001</code>. <code>/hooks/voipms-sms</code> is allow-listed for remote access, so it works through the tunnel even when admin pages are LAN-only.</li>
+<li><strong>Only if you use the URL Callback:</strong> make the webhook reachable from the internet — via Cloudflare Tunnel / Nginx Proxy Manager to <code>http://&lt;pbx-ip&gt;:8001</code>. <code>/hooks/voipms-sms</code> is allow-listed for remote access, so it works through the tunnel even when admin pages are LAN-only.</li>
 </ol>
 <h3 id="3-test"><a aria-hidden="true" class="anchor" href="#3-test" tabindex="-1">#</a>3. Test</h3>
-<p>First check the webhook answers at all:</p>
+<p>If you use the URL Callback, first check the webhook answers at all:</p>
 <pre><code>curl "https://&lt;panel&gt;/hooks/voipms-sms?token=&lt;token&gt;"   # should return: ok</code></pre>
-<p>Then text the DID from your mobile → Zoiper should pop within seconds. Reply from Zoiper → your mobile gets it from the DID. Then check the logs:</p>
+<p>Then text the DID from your mobile → Zoiper should pop within seconds (within about a minute with the SIP account link only). Reply from Zoiper → your mobile gets it from the DID. Then check the logs:</p>
 <pre><code>journalctl -u pbx-api -f    # webhook hits
 journalctl -u pbx-brain -f  # "msg external:" lines
 journalctl -u pbx-agi -f    # "msg-route external:" lines</code></pre>
