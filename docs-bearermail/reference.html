@@ -107,6 +107,8 @@
 # Mailboxes on the built-in server (see Mail server → Managing mailboxes):
 docker compose exec php php bin/console app:mail:mailbox list
 docker compose exec php php bin/console app:mail:mailbox from-accounts
+docker compose exec php php bin/console app:mail:mailbox rotate --all     # random passwords nobody knows
+docker compose exec php php bin/console app:mail:mailbox password anna    # one you choose, for Thunderbird &amp; co.
 
 # Send note reminders that are due now (runs on its own every minute):
 docker compose exec php php bin/console app:notes:reminders

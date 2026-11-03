@@ -186,11 +186,11 @@
 
 <h2>Mail-server admin</h2>
 <ul>
-  <li><strong>Mailboxes for new people</strong> <span class="badge new">new</span> — <strong>Admin → Users → New user</strong> has a <em>Mailbox</em> field: fill it in and that person gets a mailbox on your domain with their starting password, already added as their mail account — they can send and receive the first time they sign in, with no container restart. From the shell: <code>app:mail:mailbox</code> (see <a href="mail-server.html#managing-mailboxes">Managing mailboxes</a>).</li>
+  <li><strong>Mailboxes for new people</strong> <span class="badge new">new</span> — <strong>Admin → Users → New user</strong> has a <em>Mailbox</em> field: fill it in and that person gets a mailbox on your domain with a random password only BearerMail knows, already added as their mail account — they can send and receive the first time they sign in, with no container restart. From the shell: <code>app:mail:mailbox</code> (see <a href="mail-server.html#managing-mailboxes">Managing mailboxes</a>).</li>
   <li><strong>Admin → Mail server</strong> — configure the outbound SMTP relay (host, username, secret) from the UI; the MTA picks it up within seconds, no rebuild. Clearing the host returns to direct delivery.</li>
   <li><strong>DNS checker</strong> — verifies your MX/SPF/DKIM/DMARC records from the admin area.</li>
   <li><strong>DMARC report parsing</strong> — aggregate reports land in a readable view instead of raw XML.</li>
-  <li><strong>Public IMAP</strong> — port 993 with TLS, so any mail app can connect directly to your domain mailboxes.</li>
+  <li><strong>Public IMAP</strong> — port 993 with TLS, for anyone you give a mailbox password to (<code>app:mail:mailbox password</code>), so they can also use another mail app.</li>
 </ul>
 
 <h2>Security extras</h2>
@@ -214,8 +214,16 @@
 </ul>
 <p>To turn it off entirely, put <code>MAIL_LOGIN_GUARD=off</code> in <code>.env.mail.local</code> and restart the mail containers.</p>
 
-<h2>From upstream plMail v0.3.5 <span class="badge new">merged</span></h2>
-<p>BearerMail keeps up with karatektus's plMail. The latest merge brought in, among 60 changes:</p>
+<h2>From upstream plMail v0.4.1 <span class="badge new">merged</span></h2>
+<p>BearerMail keeps up with karatektus's plMail. The November 2026 merge brought in:</p>
+<ul>
+  <li><strong>End-to-end encryption</strong> — OpenPGP and S/MIME, with keys made and kept in your browser and handed to the phone when you pair it. Mail to someone whose key BearerMail can find is encrypted; encrypted mail shows a green <em>End-to-end encrypted</em> banner.</li>
+  <li><strong>Filters</strong> — create a filter from a message, test your filters on a message, and <em>File in category</em> now works on IMAP accounts. Filters leave Spam alone unless asked.</li>
+  <li><strong>Writing mail</strong> — paste a whole list of addresses at once, drag recipients between To, Cc and Bcc, double-click one to correct it, and a warning when the text mentions an attachment that isn't there.</li>
+  <li><strong>JMAP accounts</strong> — connect Fastmail, Stalwart and other JMAP servers, with push.</li>
+  <li><strong>Lighter background work</strong> — one small process watches every IMAP folder for new mail instead of one per folder.</li>
+</ul>
+<p>Before that, plMail v0.3.5 brought, among 60 changes:</p>
 <ul>
   <li><strong>Single sign-on</strong> through OpenID Connect (Authentik, Keycloak…) — BearerMail adds two switches on top, see <a href="sso.html">Single sign-on</a>.</li>
   <li><strong>Replies from the right address</strong> — answering a mail sends from the address it came in for, catch-all addresses included, under that address's name. Signatures can be formatted.</li>

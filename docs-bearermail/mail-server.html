@@ -73,14 +73,21 @@ plMail   --SMTP 587--> mta                      (sending, DKIM-signed)</code></p
 <h2 id="managing-mailboxes">Managing mailboxes</h2>
 <p>There are two ways to have a mailbox, and both work side by side.</p>
 <h3>From the admin area <span class="badge new">new</span></h3>
-<p><strong>Admin → Users → New user</strong> has a <strong>Mailbox</strong> field. Type a name (<code>anna</code>, or the full <code>anna@yourdomain.com</code>) and the person gets that mailbox with the starting password from the same form, already added as their mail account. They can send and receive the first time they sign in — no <code>MAIL_ACCOUNTS</code> edit and no container restart. Leave it empty for someone who brings their own mail.</p>
+<p><strong>Admin → Users → New user</strong> has a <strong>Mailbox</strong> field. Type a name (<code>anna</code>, or the full <code>anna@yourdomain.com</code>) and the person gets that mailbox, already added as their mail account. The mailbox itself gets a <strong>random password only BearerMail knows</strong> — not the starting password from the form, which you as the admin know. They can send and receive the first time they sign in — no <code>MAIL_ACCOUNTS</code> edit and no container restart. Leave it empty for someone who brings their own mail.</p>
 <p>The same from the shell:</p>
 <pre><code>docker compose exec php php bin/console app:mail:mailbox list
 docker compose exec php php bin/console app:mail:mailbox create anna      # asks for the password
-docker compose exec php php bin/console app:mail:mailbox password anna    # new password
+docker compose exec php php bin/console app:mail:mailbox password anna    # a password you choose, for Thunderbird &amp; co.
+docker compose exec php php bin/console app:mail:mailbox rotate anna      # back to a random password nobody knows
+docker compose exec php php bin/console app:mail:mailbox rotate --all     # the same for every mailbox BearerMail manages
 docker compose exec php php bin/console app:mail:mailbox remove anna      # stops logins and delivery; the mail stays on disk
 docker compose exec php php bin/console app:mail:mailbox from-accounts    # repair: see below</code></pre>
 <p><strong><code>from-accounts</code></strong> fixes people who were added before mailboxes could be created from the admin area and get <em>AUTHENTICATIONFAILED</em>: every mail account that signs in to the built-in server with an address on your domain but has no mailbox gets one, with the password already saved in that account. Add <code>--dry-run</code> to see what it would do first.</p>
+<p><strong><code>password</code></strong> and <strong><code>rotate</code></strong> both save the new password into the person's BearerMail mail account as well, so the web app and phone app keep syncing without anyone re-entering anything.</p>
+<div class="callout">
+  <strong>Mailboxes made before November 2026</strong>
+  <p>Older mailboxes were given the starting password the admin typed, and kept it after the person chose their own. Run <code>app:mail:mailbox rotate --all</code> once to give them random passwords. Nobody signs in any differently afterwards.</p>
+</div>
 <h3>From the environment</h3>
 <p><code>MAIL_ACCOUNTS</code> still works — <code>localpart:password</code> pairs, comma-separated:</p>
 <pre><code>export MAIL_ACCOUNTS="you:STRONG-PASSWORD,info:ANOTHER-STRONG-PASSWORD"
@@ -110,12 +117,13 @@ docker compose --profile mail up -d --force-recreate mta mailstore</code></pre>
 </div>
 
 <h2>Reading mail from other apps</h2>
-<p>Dovecot serves public IMAP on port 993 (TLS), so Thunderbird, Apple Mail, or any phone mail app can connect directly:</p>
+<p>Most people never need this: the website and the BearerMail apps read mail through BearerMail itself. For someone who also wants Thunderbird, Apple Mail or another phone mail app, Dovecot serves IMAP on port 993 (TLS).</p>
+<p>That needs a mailbox password the person knows, and by default nobody knows one. Set it for them with <code>app:mail:mailbox password anna</code> and give it to them. <strong>App passwords from Settings → App passwords do not work here</strong> — they are for the BearerMail apps only.</p>
 <table>
   <tr><th>Field</th><th>Value</th></tr>
   <tr><td>Host / port</td><td><code>mail.yourdomain.com</code> / <code>993</code>, SSL/TLS</td></tr>
   <tr><td>Username</td><td>your full address</td></tr>
-  <tr><td>Password</td><td>the one from <code>MAIL_ACCOUNTS</code></td></tr>
+  <tr><td>Password</td><td>the one set with <code>app:mail:mailbox password</code>, or from <code>MAIL_ACCOUNTS</code></td></tr>
 </table>
 <p>For a valid certificate, mount your Let's Encrypt certs so Dovecot uses them:</p>
 <pre><code>export MAIL_CERTS_PATH="/etc/letsencrypt/live/mail.yourdomain.com"  # fullchain.pem + privkey.pem

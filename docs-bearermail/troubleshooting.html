@@ -146,6 +146,14 @@
 docker compose exec php php bin/console app:mail:mailbox from-accounts</code></pre>
 <p>Each missing mailbox is created with the password already saved in that person's mail account. For new people, fill in <strong>Mailbox</strong> on Admin → Users → New user.</p>
 
+<h2>Thunderbird or another mail app stopped signing in</h2>
+<p>Mailboxes have random passwords nobody knows (after <code>app:mail:mailbox rotate</code>, and for every mailbox made from the admin area). The website and the BearerMail apps are not affected. For a mail app on port 993, set a password the person can use:</p>
+<pre><code>docker compose exec php php bin/console app:mail:mailbox password anna</code></pre>
+<p>BearerMail's own sync follows the new password by itself. An app password from Settings → App passwords will not work in a mail app — those are for the BearerMail apps only.</p>
+
+<h2>Warnings "ImapIdleListener: the connection failed, retrying later"</h2>
+<p>A burst of these at one moment, saying <em>mailstore:143 closed the connection</em>, is the mail server restarting: every open connection drops and comes back within seconds. Only worry if they keep repeating, or say the sign-in failed — then run <code>app:mail:mailbox rotate</code> for that mailbox, which puts a fresh password into the mailbox and BearerMail's account together.</p>
+
 <h2>A shared note won't open after the password</h2>
 <p>Update the server (<code>./update.sh</code>): on older builds the right password looked like it did nothing. A wrong password shows "That password is not right"; after ten wrong tries in fifteen minutes the link waits a while.</p>
 
