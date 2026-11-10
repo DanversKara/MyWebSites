@@ -96,7 +96,8 @@
 <li><strong>ESP/HA:</strong> <code>POST http://&lt;pbx&gt;:8099/messages/send</code> with <code>{"to": "+1555…", "from": "8801", "body": "…"}</code> — external numbers route out through voip.ms automatically.</li>
 </ul>
 <h3 id="mms"><a aria-hidden="true" class="anchor" href="#mms" tabindex="-1">#</a>MMS</h3>
-<p>voip.ms callbacks carry no media, so inbound MMS is enriched via the <code>getMMS</code> API. Pictures arrive as <code>[MMS: &lt;link&gt;]</code> entries — tappable in Zoiper, My Phone and ESP.</p>
+<p>voip.ms callbacks carry no media, so inbound MMS is enriched via the <code>getMMS</code> API. Pictures arrive as <code>[MMS: &lt;link&gt;]</code> entries — tappable in Zoiper, My Phone and ESP. The PBX saves its own copy of each picture or video the moment it arrives, so it stays visible when voip.ms's servers are down (if they're down at that moment, it keeps retrying for up to 14 days) and goes into the user's data download.</p>
+<p><strong>Sending pictures and videos:</strong> in My Phone (web or app), attach up to 3 photos, GIFs or videos to a text to a phone number and it goes out as an MMS, about 1.2 MB per file (photos are shrunk to fit; larger GIFs and videos are refused with a note). voip.ms fetches each file from a private link on your PBX, <code>https://&lt;your-panel&gt;/mms/&lt;random&gt;</code>, so the panel address (Email page) must be reachable from the internet; with the SIP-account-link-only setup and no public address, sending pictures to phone numbers won't work, while texts and pictures between extensions still do.</p>
 <h3 id="sender-did-selection"><a aria-hidden="true" class="anchor" href="#sender-did-selection" tabindex="-1">#</a>Sender DID selection</h3>
 <ul>
 <li><strong>Replies</strong> go out from the number the contact texted (each message records its DID), so a thread stays on one number, whether you reply from Zoiper, My Phone or the app.</li>

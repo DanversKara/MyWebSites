@@ -90,9 +90,9 @@
 <li><strong>Logs deleted on the server itself</strong> (change log, security events, sign-ins), even with <code>sqlite3</code> over SSH: the database copies each deleted row and the panel emails it within a minute, subject <em>"Security alert: logs deleted on the server"</em>. Call history and messages deleted that way are copied too.</li>
 <li><strong>Clear selected / all from view</strong> on the sign-in list.</li>
 <li><strong>Call history and texts deleted in the admin panel.</strong></li>
-<li><strong>A user deleting texts or calls from their own view</strong> in My Phone (they're told the admin gets a copy).</li>
+
 </ul>
-<p>Not copied: rows the normal 90-day (2-year for privacy records) retention removes, and an account deleted on request or an extension reassigned, where keeping a copy would undo the deletion. If email isn't set up or the mail server is down, copies wait and are retried; the Email page shows how many wait. Once emailed, the copy's contents are dropped from the server.</p>
+<p>A user deleting texts or calls from their own view in My Phone isn't a deletion: the records stay in the database (the other person keeps theirs) and only the change log notes the hide, so no copy is emailed. Also not copied: rows the normal 90-day (2-year for privacy records) retention removes, and an account deleted on request or an extension reassigned, where keeping a copy would undo the deletion. If email isn't set up or the mail server is down, copies wait and are retried; the Email page shows how many wait. Once emailed, the copy's contents are dropped from the server.</p>
 <p>There is deliberately <strong>no button to delete logs</strong> in the panel. From an SSH session on the PBX, <code>sudo pbx-clear-logs</code> emails the copy first and deletes only after the email has gone out (it refuses if email isn't working). Options: <code>--last-24h</code>, <code>--only audit|security_events|signins</code>, <code>--dry-run</code>. It leaves a "logs.cleared" note in the change log.</p>
 <h2 id="logins"><a aria-hidden="true" class="anchor" href="#logins" tabindex="-1">#</a>Logins</h2>
 <p>Users are extensions: username, panel password, extension number, SIP username and password, display name, notification email, recording flags, and enabled. The list also shows each account's <strong>Type</strong> — normal or <a href="#guest-extensions">guest</a>. <strong>Disabling a login signs it out everywhere at once.</strong></p>
@@ -208,12 +208,11 @@
 <h2 id="billing"><a aria-hidden="true" class="anchor" href="#billing" tabindex="-1">#</a>Billing</h2>
 <p>Stripe keys, plans and <strong>User access</strong> (defaults for users without a plan, including their star codes, plus per-user exceptions). Each plan also lists the <strong>star codes included</strong> and whether it includes <a href="#fax-plan">Fax</a> (with faxes per month). See <a href="advanced.html#billing">Billing</a>.</p>
 <h3 id="app-store-mode"><a aria-hidden="true" class="anchor" href="#app-store-mode" tabindex="-1">#</a>App store mode <span class="badge new">new</span></h3>
-<p>For people using the My Phone app from Google Play, so the app never looks like it sells or upgrades anything. <strong>Billing → App store mode</strong>: tick <strong>All users</strong> or individual users (also on each login's edit page: <em>Hide plans &amp; billing in the My Phone app</em>), and enter where to send them for account details (e.g. your My Phone address).</p>
+<p>So the app never looks like it sells or upgrades anything. <strong>Billing → App store mode</strong>: tick <strong>All users</strong> or individual users (also on each login's edit page: <em>Hide plans &amp; billing in the My Phone app</em>), and enter where to send them for account details (e.g. your My Phone address).</p>
 <ul>
 <li>Their app shows no plan, usage, texts or minutes left, prices or “not in your plan”. Settings shows <em>Account: For account details, visit …</em> as plain text, and anything unavailable says “This isn't available on your account.”</li>
-<li>A copy installed from Google Play gets this automatically, whatever the setting.</li>
 <li>The PBX enforces it (usage data isn't sent). Plans and limits still apply.</li>
-<li><strong>Hide in web portal</strong> (second column, or <strong>All users: also hide in the web portal</strong>; also on each login's edit page): the web My Phone portal drops the <strong>Billing</strong> tab and <strong>Your plan this month</strong>, and every page swaps plan wording for “isn't available on your account”. <code>/ucp/billing</code> sends them back to the Overview and billing actions are refused. Use it for the test account you give a Google Play reviewer, so the whole account looks like a plain phone / push-to-talk service with nothing for sale. Guests are listed too; admin pages are unaffected.</li>
+<li><strong>Hide in web portal</strong> (second column, or <strong>All users: also hide in the web portal</strong>; also on each login's edit page): the web My Phone portal drops the <strong>Billing</strong> tab and <strong>Your plan this month</strong>, and every page swaps plan wording for “isn't available on your account”. <code>/ucp/billing</code> sends them back to the Overview and billing actions are refused. Guests are listed too; admin pages are unaffected.</li>
 </ul>
 <h2 id="store"><a aria-hidden="true" class="anchor" href="#store" tabindex="-1">#</a>Store <span class="badge new">new</span></h2>
 <p>A public sign-up page at <code>https://&lt;your panel&gt;/store</code>. New customers pick a plan (and, optionally, a phone number you list for sale), then enter their card on <strong>Stripe's own checkout page</strong>. <strong>Nobody is charged and nothing is created until you approve.</strong></p>
@@ -248,7 +247,7 @@
 <h2 id="reports"><a aria-hidden="true" class="anchor" href="#reports" tabindex="-1">#</a>Reports</h2>
 <p>Calls and texts users reported from My Phone. Mark resolved, reopen or delete. To stop someone, disable their login.</p>
 <h2 id="privacy"><a aria-hidden="true" class="anchor" href="#privacy" tabindex="-1">#</a>Privacy</h2>
-<p>Users ask for a copy of their data or for their account to be deleted at <code>/ucp/delete</code> (linked from My Phone → Settings and the app's Settings → Account; it's also the account-deletion link for app store listings). Visitors who aren't signed in see what can be requested and a sign-in button.</p>
+<p>Users ask for a copy of their data or for their account to be deleted at <code>/ucp/delete</code> (linked from My Phone → Settings and the app's Settings → Account). Visitors who aren't signed in see what can be requested and a sign-in button.</p>
 <ul>
 <li><strong>Open requests</strong> with their deadline: data copies within 30 days, deletions within 90, shown as days left or <em>Overdue</em>.</li>
 <li><strong>Build &amp; email download:</strong> a zip of the account details and settings, call history, texts (SMS, MMS and internal), voicemail and greeting, recordings, faxes, contacts and notes, sign-ins and activity, emailed as a link that works for 7 days without signing in (so it still works after the account is deleted).</li>
