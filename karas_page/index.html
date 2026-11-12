@@ -28,8 +28,8 @@
       --shadow:        rgba(0,0,0,0.55);
       --glass:         blur(16px) saturate(140%);
 
-      --r-sm:          10px;
-      --r-md:          14px;
+      --r-sm:          12px;
+      --r-md:          16px;
       --r-full:        9999px;
       --t-fast:        0.15s ease;
       --t:             0.27s ease;
@@ -504,9 +504,9 @@
 
     main {
       position: relative;
-      max-width: 780px; margin: 0 auto;
-      padding: 4.2rem 0.7rem 1.4rem;
-      display: flex; flex-direction: column; gap: 0.55rem;
+      max-width: 860px; margin: 0 auto;
+      padding: 4.2rem 1rem 1.6rem;
+      display: flex; flex-direction: column; gap: 0.9rem;
     }
 
     /* ─── Tech Animation Layer (kept — JS builds into it) ─── */
@@ -612,7 +612,7 @@
       -webkit-backdrop-filter: var(--glass);
       border: 1px solid var(--border);
       border-radius: var(--r-md);
-      padding: 0.9rem 0.9rem 0.8rem;
+      padding: 1.35rem 1.2rem 1.15rem;
       text-align: center;
       box-shadow: 0 10px 44px var(--shadow);
       animation: slideUp 0.65s ease-out;
@@ -627,8 +627,8 @@
     .hero-content { position: relative; z-index: 2; }
 
     .avatar-wrap {
-      position: relative; width: 68px; height: 68px;
-      margin: 0 auto 0.55rem; display: inline-block;
+      position: relative; width: 80px; height: 80px;
+      margin: 0 auto 0.7rem; display: inline-block;
     }
     .avatar-ring {
       position: absolute; inset: -5px; border-radius: 50%; opacity: 0.75;
@@ -641,7 +641,7 @@
       50%      { opacity: 0.85; transform: scale(1.07); }
     }
     .avatar {
-      position: relative; width: 68px; height: 68px;
+      position: relative; width: 80px; height: 80px;
       border-radius: 50%; object-fit: cover;
       border: 3px solid var(--bg); z-index: 1; display: block;
     }
@@ -653,7 +653,7 @@
     }
 
     .hero h1 {
-      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-size: clamp(1.5rem, 5vw, 2.25rem);
       font-weight: 700; margin-bottom: 0.18rem; letter-spacing: -0.01em;
       background: linear-gradient(135deg, var(--text) 40%, var(--primary));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -662,7 +662,7 @@
       text-shadow: 0 2px 18px rgba(0,0,0,0.35);
     }
     .tagline {
-      color: var(--text-muted); font-size: 0.78rem; margin-bottom: 0.65rem;
+      color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.8rem;
       transition: color var(--t-slow);
       text-shadow: 0 1px 10px rgba(0,0,0,0.5);
     }
@@ -673,12 +673,12 @@
     }
     .s-link {
       display: flex; align-items: center; justify-content: center;
-      width: 34px; height: 34px;
+      width: 38px; height: 38px;
       background: rgba(255,255,255,0.07);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: var(--r-sm);
-      color: var(--text-muted); font-size: 0.9rem;
+      color: var(--text-muted); font-size: 1rem;
       text-decoration: none;
       transition: all var(--t);
     }
@@ -699,29 +699,31 @@
       -webkit-backdrop-filter: var(--glass);
       border: 1px solid var(--border);
       border-radius: var(--r-md);
-      padding: 0.75rem 0.85rem;
-      box-shadow: 0 6px 30px var(--shadow);
+      padding: 1.05rem 1.15rem;
+      box-shadow: 0 8px 32px var(--shadow);
       transition: background var(--t-slow), border-color var(--t-slow);
     }
 
     .sec-title {
-      display: flex; align-items: center; gap: 0.45rem;
-      font-size: 0.92rem; font-weight: 600; margin-bottom: 0.25rem;
-      color: var(--text); letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; font-weight: 700; margin-bottom: 0.55rem;
+      color: var(--text); letter-spacing: 0.12em; text-transform: uppercase;
       text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
     }
     .sec-title i { color: var(--primary); transition: color var(--t-slow); font-size: 0.95rem; }
 
     /* ─── Platform Cards ─── */
-    .card-list { display: flex; flex-direction: column; gap: 0.32rem; margin-top: 0.35rem; }
+    .card-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.55rem; }
 
     .p-card {
-      display: flex; align-items: center; gap: 0.55rem;
-      padding: 0.55rem 0.7rem;
-      background: rgba(255,255,255,0.055);
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.7rem 0.85rem;
+      background: rgba(255,255,255,0.07);
       backdrop-filter: blur(6px);
       border: 1px solid var(--border);
-      border-radius: var(--r-sm);
+      border-radius: 14px;
       text-decoration: none; color: var(--text);
       transition: all var(--t);
       position: relative; overflow: hidden;
@@ -737,7 +739,7 @@
       background: rgba(255,255,255,0.12);
       transform: translateX(5px);
       border-color: rgba(255,255,255,0.22);
-      box-shadow: 0 8px 26px rgba(0,0,0,0.35);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.42);
     }
     .p-card:hover::before { opacity: 1; }
     .p-card .arr { margin-left: auto; color: var(--text-muted); font-size: 0.78rem; transition: transform var(--t-fast), color var(--t-fast); }
@@ -754,13 +756,31 @@
     .p-card.is-disabled:hover::before { opacity: 0; }
 
     .p-icon {
-      width: 34px; height: 34px; flex-shrink: 0;
+      width: 40px; height: 40px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 8px; font-size: 1rem;
+      border-radius: 10px; font-size: 1.1rem;
     }
     .p-info { display: flex; flex-direction: column; gap: 0.05rem; }
-    .p-name { font-weight: 600; font-size: 0.83rem; color: var(--text); line-height: 1.2; }
-    .p-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.3; }
+    .p-name { font-weight: 600; font-size: 0.88rem; color: var(--text); line-height: 1.2; }
+    .p-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.35; }
+
+    /* ─── Widget card (OwnPBX call widget) ─── */
+    .p-card.widget-card {
+      flex: 1 1 100%;
+      flex-direction: column;
+      align-items: stretch;
+      text-align: left;
+      padding: 0.9rem 1rem;
+      cursor: default;
+    }
+    .p-card.widget-card:hover { transform: none; }
+    .widget-card-head {
+      display: flex; align-items: center; gap: 0.65rem;
+      margin-bottom: 0.65rem;
+    }
+    .widget-card-head .p-info { align-items: flex-start; }
+    .widget-card-body { min-height: 140px; }
+    .widget-card-body > div { width: 100%; }
 
     /* ─── Notice Boxes ─── */
     .notice-warn {
@@ -880,11 +900,11 @@
     @media (min-width: 580px) {
       main { padding: 4.4rem 1.4rem 1.4rem; gap: 0.55rem; }
 
-      .card-list { flex-direction: row; flex-wrap: wrap; gap: 0.34rem; }
+      .card-list { flex-direction: row; flex-wrap: wrap; gap: 0.5rem; }
       .p-card {
-        flex: 1 1 calc(50% - 0.17rem);
+        flex: 1 1 calc(50% - 0.25rem);
         flex-direction: column; text-align: center;
-        padding: 0.6rem 0.5rem;
+        padding: 0.8rem 0.6rem;
       }
       .p-card::before { width: 100%; height: 3px; top: auto; bottom: 0; left: 0; }
       .p-card:hover { transform: translateY(-4px) translateX(0); }
@@ -894,7 +914,7 @@
     }
     @media (min-width: 768px) {
       main { padding: 4.4rem 2rem 1.4rem; }
-      .p-card { flex: 1 1 calc(33.33% - 0.23rem); }
+      .p-card { flex: 1 1 calc(33.33% - 0.34rem); }
     }
 
     /* ── Mobile: bring the sun back to center ── */
@@ -1587,6 +1607,16 @@
           <div class="p-info"><span class="p-name">Signal.org</span><span class="p-desc">Video calling, chats, groups &amp; more</span></div>
           <i aria-hidden="true" class="fas fa-arrow-right arr"></i>
         </a>
+        <div class="p-card widget-card">
+          <div class="widget-card-head">
+            <div class="p-icon" style="background:rgba(46,204,113,.18);color:#5fe39a"><i aria-hidden="true" class="fas fa-phone"></i></div>
+            <div class="p-info"><span class="p-name">Call Me</span><span class="p-desc">Call me right from this page — no app needed</span></div>
+          </div>
+          <div class="widget-card-body">
+            <div id="ownpbx-call-w_b36b996a8078"></div>
+            <script src="https://pbx.ownpbx.org/widget.js" data-widget="w_b36b996a8078" data-target="#ownpbx-call-w_b36b996a8078" async></script>
+          </div>
+        </div>
       </div>
       <div class="notice-urgent">
         <div class="notice-head" style="color:#ffd447"><i aria-hidden="true" class="fas fa-exclamation-circle"></i> Note on Unsolicited Email</div>
@@ -1656,7 +1686,7 @@
  <!-- ═══ FOOTER ═══ -->
     <footer class="footer">
       <div class="tech-layer footer-layer" id="footerLayer"></div>
-      <p>© 2026 Kara Danvers ·</a></p>
+      <p>© 2026 Kara Danvers</p>
       <p style="margin-top:4px;font-size:12px;opacity:0.75" id="dateDisplay"></p>
     </footer>
   </main>
@@ -2362,6 +2392,6 @@
     </script>
 
 <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3e816d14d70a99e',t:'MTc4OTk4MzQyNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"d74bfe30601d4a0f97b6069334621f23","r":1,"spa":2}' crossorigin="anonymous"></script>
-<a href="https://bots.dox.box/maze" rel="nofollow" tabindex="-1" aria-hidden="true" style="display:none">archive</a> </body> </html>
+<a href="https://bots.dox.box/maze" rel="nofollow" tabindex="-1" aria-hidden="true" style="display:none">archive</a>
 </body>
 </html>
