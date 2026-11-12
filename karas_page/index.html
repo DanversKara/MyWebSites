@@ -766,7 +766,10 @@
 
     /* ─── Widget card (OwnPBX call widget) ─── */
     .p-card.widget-card {
-      flex: 1 1 100%;
+      flex: none;
+      align-self: flex-start;
+      width: 100%;
+      max-width: 400px;
       flex-direction: column;
       align-items: stretch;
       text-align: left;
@@ -775,10 +778,11 @@
     }
     .p-card.widget-card:hover { transform: none; }
     .widget-card-head {
-      display: flex; align-items: center; gap: 0.65rem;
+      display: flex; align-items: center; justify-content: flex-start; gap: 0.65rem;
       margin-bottom: 0.65rem;
+      width: 100%;
     }
-    .widget-card-head .p-info { align-items: flex-start; }
+    .widget-card-head .p-info { align-items: flex-start; text-align: left; }
     .widget-card-body { min-height: 140px; }
     .widget-card-body > div { width: 100%; }
 
